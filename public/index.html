@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GOOD Growth — Двери 1–2 · Мозг и Руки</title>
+  <meta name="description" content="GOOD Growth: система, которая управляет ростом. Введи цель — получи стратегию, а из неё — готовые посты с картинками." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='5' fill='%23d9a24b'/%3E%3C/svg%3E" />
+  <script id="auto-designer-preview-contract" type="application/json">
+    {
+      "artifactRole": "web-page",
+      "authoringViewport": { "width": 1440, "height": 900 },
+      "deviceAdaptation": {
+        "enabled": true,
+        "strategy": "responsive",
+        "supportedDevices": ["desktop", "tablet", "mobile"]
+      },
+      "breakpoints": { "mobileMax": 767, "tabletMin": 768, "tabletMax": 1023, "desktopMin": 1024 },
+      "defaultDevice": "canvas"
+    }
+  </script>
+  <style>
+    /* ============ GOOD Growth — tokens (единственное место для палитры) ============ */
+    :root {
+      --bg:        #12100c;
+      --bg-2:      #16130e;
+      --surface:   #1a1711;
+      --surface-2: #201c15;
+      --ink:       #ece4d2;
+      --muted:     #b1a58b;
+      --faint:     #877c67;
+      --hair:      rgba(236, 228, 210, 0.14);
+      --hair-soft: rgba(236, 228, 210, 0.07);
+      --accent:        #d9a24b;
+      --accent-bright: #e9b862;
+      --accent-ink:    #191510;
+      --accent-soft:   rgba(217, 162, 75, 0.13);
+      --danger:  #d9846f;
+      --ok:      #8fb586;
+
+      --font-display: Georgia, 'Times New Roman', serif;
+      --font-body: 'Segoe UI', Tahoma, Arial, sans-serif;
+      --font-mono: Consolas, 'Courier New', monospace;
+
+      --w: 1000px;
+      --radius: 3px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: var(--accent-soft); }
+    a { color: inherit; }
+
+    .wrap { max-width: var(--w); margin-inline: auto; padding-inline: 24px; }
+
+    /* ============ верхняя лента ============ */
+    .topbar { border-bottom: 1px solid var(--hair); background: var(--bg); }
+    .topbar-inner {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+      padding-block: 16px;
+    }
+    .brand { font-family: var(--font-display); font-size: 20px; letter-spacing: -0.01em; }
+    .brand .brand-sub {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.09em;
+      text-transform: uppercase; color: var(--faint); margin-left: 10px;
+    }
+    .mode-chip {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.09em;
+      text-transform: uppercase; color: var(--muted);
+      display: inline-flex; align-items: center; gap: 7px;
+      border: 1px solid var(--hair); padding: 4px 10px; border-radius: 999px;
+      background: transparent;
+    }
+    .mode-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--faint); }
+    .mode-chip[data-mode="demo"] .dot { background: var(--accent); }
+    .mode-chip[data-mode="live"] .dot { background: var(--ok); }
+
+    /* ============ герой: цель ============ */
+    .hero { padding-block: clamp(44px, 7vw, 76px) 36px; }
+    .kicker {
+      font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent); margin: 0 0 18px;
+    }
+    h1 {
+      font-family: var(--font-display); font-weight: 400;
+      font-size: clamp(30px, 4.6vw, 48px); line-height: 1.08; letter-spacing: -0.02em;
+      margin: 0 0 16px; text-wrap: balance; max-width: 22ch;
+    }
+    .lede { color: var(--muted); font-size: 17px; max-width: 62ch; margin: 0 0 30px; }
+
+    .ask { border-top: 1px solid var(--hair); padding-top: 26px; }
+    .ask label {
+      display: block; font-family: var(--font-mono); font-size: 11px;
+      letter-spacing: 0.09em; text-transform: uppercase; color: var(--faint);
+      margin-bottom: 10px;
+    }
+    textarea#goal {
+      width: 100%; min-height: 100px; resize: vertical;
+      background: var(--surface); color: var(--ink);
+      border: 1px solid var(--hair); border-radius: var(--radius);
+      padding: 14px 16px; font: inherit; line-height: 1.55;
+    }
+    textarea#goal::placeholder { color: var(--faint); }
+    textarea#goal:focus-visible {
+      outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent);
+    }
+    .ask-row { display: flex; align-items: center; gap: 18px; margin-top: 16px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 9px;
+      font: inherit; font-weight: 600; font-size: 15px; letter-spacing: 0.01em;
+      padding: 11px 20px; border-radius: var(--radius); cursor: pointer;
+      border: 1px solid transparent; transition: background .15s ease, transform .05s ease;
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .btn-primary { background: var(--accent); color: var(--accent-ink); }
+    .btn-primary:hover { background: var(--accent-bright); }
+    .btn-primary:disabled { opacity: .55; cursor: wait; }
+    .btn-quiet { background: transparent; color: var(--muted); border-color: var(--hair); }
+    .btn-quiet:hover { color: var(--ink); border-color: var(--muted); }
+    .btn-quiet:disabled { opacity: .5; cursor: wait; }
+    .btn-mini {
+      font-size: 13px; padding: 7px 12px; font-weight: 500;
+      background: transparent; color: var(--muted); border: 1px solid var(--hair);
+    }
+    .btn-mini:hover { color: var(--ink); border-color: var(--muted); }
+    .btn-mini:disabled { opacity: .5; cursor: wait; }
+    .btn-mini.danger:hover { color: var(--danger); border-color: var(--danger); }
+    .btn-mini.publish { background: var(--accent-soft); color: var(--accent-bright); border-color: var(--accent); }
+    .btn-mini.publish:hover:not(:disabled) { background: var(--accent); color: var(--accent-ink); }
+    .btn-mini.publish:disabled { opacity: .8; cursor: default; }
+    .hint { color: var(--faint); font-size: 13.5px; max-width: 52ch; margin: 0; }
+
+    .status-line {
+      margin-top: 14px; min-height: 22px; color: var(--muted); font-size: 14px;
+      font-family: var(--font-mono); letter-spacing: 0.02em; margin-bottom: 0;
+    }
+
+    /* ============ разбор (Дверь 1) ============ */
+    .result { padding-block: 10px 8px; }
+    .panel-empty {
+      border: 1px dashed var(--hair); border-radius: var(--radius);
+      padding: 28px 26px; color: var(--faint); font-size: 15px;
+      max-width: 72ch; margin: 0;
+    }
+    .error-box {
+      border: 1px solid var(--danger); border-radius: var(--radius);
+      padding: 18px 20px; margin: 6px 0 0; max-width: 72ch; color: var(--ink);
+    }
+
+    .result-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--hair); padding-top: 24px;
+    }
+    .result-head h2 {
+      font-family: var(--font-display); font-weight: 400; font-size: 25px;
+      letter-spacing: -0.01em; margin: 0;
+    }
+    .result-meta {
+      font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--faint);
+    }
+    .summary {
+      font-family: var(--font-display); font-size: 19px; line-height: 1.55;
+      max-width: 66ch; margin: 16px 0 6px; color: var(--ink);
+    }
+    .goal-echo { color: var(--faint); font-size: 14px; margin: 8px 0 0; max-width: 66ch; }
+
+    .block { border-top: 1px solid var(--hair); margin-top: 30px; padding-top: 18px; }
+    .block-kicker {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--faint); margin: 0 0 12px;
+    }
+    .block h3 {
+      font-family: var(--font-display); font-weight: 400; font-size: 20px;
+      margin: 0 0 8px; letter-spacing: -0.005em;
+    }
+    ul.plain { margin: 12px 0 0; padding-left: 18px; color: var(--muted); }
+    ul.plain li { margin-bottom: 7px; max-width: 66ch; }
+
+    .duo { display: grid; grid-template-columns: 1.6fr 1fr; gap: 40px; align-items: start; }
+    @media (max-width: 860px) { .duo { grid-template-columns: 1fr; gap: 24px; } }
+
+    .rhythm-num {
+      font-family: var(--font-display); font-size: clamp(40px, 5.5vw, 58px);
+      line-height: 1; letter-spacing: -0.03em; margin: 4px 0 2px;
+    }
+    .rhythm-num .unit { font-size: 0.42em; color: var(--muted); letter-spacing: 0; }
+    .rhythm-label { color: var(--faint); font-size: 13.5px; margin: 6px 0 12px; }
+    .rhythm-plan { color: var(--muted); max-width: 40ch; margin: 0; }
+
+    .topic { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 14px 0; border-top: 1px solid var(--hair-soft); }
+    .topic:first-of-type { border-top: 0; padding-top: 4px; }
+    .topic-no { font-family: var(--font-mono); font-size: 13px; color: var(--faint); padding-top: 3px; }
+    .topic h4 { font-family: var(--font-display); font-weight: 400; font-size: 17.5px; margin: 0 0 4px; }
+    .topic .angle { color: var(--muted); font-size: 14px; margin: 0 0 8px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.03em;
+      color: var(--muted); border: 1px solid var(--hair); border-radius: 999px;
+      padding: 3px 10px;
+    }
+
+    .channel { display: grid; grid-template-columns: 170px 1fr; gap: 20px; padding: 13px 0; border-top: 1px solid var(--hair-soft); }
+    .channel:first-of-type { border-top: 0; padding-top: 4px; }
+    .channel .cname { font-weight: 600; letter-spacing: 0.01em; }
+    .channel .crole { color: var(--muted); font-size: 14px; margin: 0 0 8px; }
+    @media (max-width: 700px) { .channel { grid-template-columns: 1fr; gap: 6px; } }
+
+    .step { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 12px 0; border-top: 1px solid var(--hair-soft); }
+    .step:first-of-type { border-top: 0; padding-top: 4px; }
+    .step-marker {
+      font-family: var(--font-mono); font-size: 12px; color: var(--accent);
+      padding-top: 3px; letter-spacing: 0.06em;
+    }
+    .step .stitle { font-weight: 600; margin: 0 0 3px; }
+    .step .sdetail { color: var(--muted); font-size: 14.5px; margin: 0; max-width: 64ch; }
+
+    /* ============ Дверь 2: мастерская ============ */
+    .workshop { margin-top: 8px; }
+    .workshop-bar {
+      border-top: 1px solid var(--hair); margin-top: 34px; padding-top: 22px;
+      display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+    }
+    .count-group { display: inline-flex; border: 1px solid var(--hair); border-radius: var(--radius); overflow: hidden; }
+    .count-btn {
+      font: inherit; font-size: 14px; font-weight: 500; letter-spacing: 0.02em;
+      background: transparent; color: var(--muted); border: 0; cursor: pointer;
+      padding: 9px 16px; border-right: 1px solid var(--hair);
+    }
+    .count-btn:last-child { border-right: 0; }
+    .count-btn[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-bright); }
+    .count-btn:hover { color: var(--ink); }
+    .count-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+
+    .posts { display: grid; grid-template-columns: 1fr; gap: 26px; margin-top: 26px; }
+    @media (min-width: 900px) { .posts { grid-template-columns: 1fr 1fr; } }
+
+    .post-card {
+      border: 1px solid var(--hair); border-radius: var(--radius);
+      background: var(--surface); display: flex; flex-direction: column;
+    }
+    .post-img {
+      width: 100%; aspect-ratio: 16 / 9; display: block; object-fit: cover;
+      border-bottom: 1px solid var(--hair-soft); background: var(--surface-2);
+    }
+    .post-img-ph {
+      width: 100%; aspect-ratio: 16 / 9;
+      border-bottom: 1px solid var(--hair-soft); background: var(--surface-2);
+      display: grid; place-items: center; color: var(--faint);
+      font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em;
+    }
+    .post-img-ph.pending::after {
+      content: ""; width: 14px; height: 14px; margin-left: 10px;
+      border: 2px solid var(--hair); border-top-color: var(--accent);
+      border-radius: 50%; animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .post-body { padding: 18px 20px 14px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .post-title-input, .post-body-textarea, .post-cta-input {
+      width: 100%; background: transparent; color: var(--ink);
+      border: 1px solid transparent; border-radius: var(--radius);
+      font: inherit; padding: 6px 8px; margin: -6px -8px; width: calc(100% + 16px);
+    }
+    .post-title-input {
+      font-family: var(--font-display); font-size: 18.5px; line-height: 1.3;
+      letter-spacing: -0.005em; font-weight: 400;
+    }
+    .post-body-textarea { font-size: 14.8px; line-height: 1.55; resize: vertical; min-height: 120px; color: var(--muted); }
+    .post-cta-input { font-size: 13.5px; color: var(--accent-bright); }
+    .post-title-input:hover, .post-body-textarea:hover, .post-cta-input:hover { border-color: var(--hair-soft); }
+    .post-title-input:focus-visible, .post-body-textarea:focus-visible, .post-cta-input:focus-visible {
+      outline: none; border-color: var(--hair); background: var(--surface-2);
+    }
+    .post-tools {
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+      border-top: 1px solid var(--hair-soft); padding: 12px 16px 14px; margin-top: auto;
+    }
+    .post-tools .spacer { flex: 1; }
+    .post-no {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--faint);
+    }
+    .img-status {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.05em; color: var(--faint);
+    }
+    .img-status.done { color: var(--ok); }
+    .img-status.error { color: var(--danger); }
+    .img-status.pending { color: var(--accent); }
+
+    /* ============ журнал целей ============ */
+    .journal { margin-top: 60px; border-top: 1px solid var(--hair); padding-top: 22px; }
+    .journal h2 { font-family: var(--font-display); font-weight: 400; font-size: 22px; margin: 0 0 6px; }
+    .journal .jsub { color: var(--faint); font-size: 13.5px; margin: 0 0 14px; }
+    .jrow {
+      display: grid; grid-template-columns: 150px 1fr; gap: 16px;
+      padding: 12px 0; border-top: 1px solid var(--hair-soft);
+      cursor: pointer; text-align: left; background: none; border-left: 0; border-right: 0; border-bottom: 0;
+      width: 100%; color: inherit; font: inherit;
+    }
+    .jrow:hover .jtext { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    .jrow:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .jdate { font-family: var(--font-mono); font-size: 12px; color: var(--faint); letter-spacing: 0.04em; padding-top: 2px; }
+    .jtext { color: var(--muted); font-size: 15px; }
+    .jrow .jsrc { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+
+    /* ============ подвал ============ */
+    .pagefoot { border-top: 1px solid var(--hair); margin-top: 68px; padding-block: 22px 40px; }
+    .pagefoot-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: baseline; }
+    .pagefoot, .pagefoot .meta { color: var(--faint); font-size: 12.5px; }
+    .linkish {
+      background: none; border: 0; padding: 0; cursor: pointer; font: inherit;
+      color: var(--muted); text-decoration: underline; text-underline-offset: 3px;
+    }
+    .linkish:hover { color: var(--ink); }
+    .linkish:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .key-box { margin-top: 10px; text-align: left; border: 1px solid var(--hair); border-radius: var(--radius); padding: 14px 16px; max-width: 560px; }
+    .key-label { display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
+    .key-row { display: flex; gap: 10px; }
+    .key-input { flex: 1; background: var(--surface); color: var(--ink); border: 1px solid var(--hair); border-radius: var(--radius); padding: 10px 12px; font-family: var(--font-mono); font-size: 14px; }
+    .key-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .key-note { color: var(--faint); font-size: 12.5px; margin: 8px 0 0; }
+    .key-error { color: var(--danger); font-size: 13px; margin: 8px 0 0; }
+
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="brand">GOOD Growth<span class="brand-sub">Дверь 2 · Руки творца</span></div>
+      <span class="mode-chip" id="modeChip" data-mode="unknown" title="Режим разбора">
+        <span class="dot" aria-hidden="true"></span><span id="modeText">проверяю…</span>
+      </span>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <p class="kicker">Система, которая управляет ростом</p>
+      <h1>Какую цель ты хочешь достичь?</h1>
+      <p class="lede">Напиши цель — GOOD Growth разложит её на стратегию, а из стратегии создаст готовые посты с картинками. Публикаций пока нет: это Двери 1–2, только мышление и творчество.</p>
+
+      <form class="ask" id="askForm" novalidate>
+        <label for="goal">Твоя цель</label>
+        <textarea id="goal" name="goal" rows="4"
+          placeholder="Например: «Хочу, чтобы о нашей юридической помощи узнали в Telegram»"
+          aria-describedby="goal-hint goal-error" maxlength="2000"></textarea>
+        <span id="goal-hint" class="visually-hidden">Опиши цель в одном-двух предложениях. Система разберёт её на стратегию и создаст посты.</span>
+        <div class="ask-row">
+          <button class="btn btn-primary" id="goBtn" type="submit">Разобрать цель</button>
+          <p class="hint">Разбор появится ниже. Затем можно создать посты с картинками.</p>
+        </div>
+        <p class="status-line" id="statusLine" role="status" aria-live="polite"></p>
+        <p id="goal-error" class="error-box" role="alert" hidden></p>
+      </form>
+    </section>
+
+    <section class="result" id="resultSection" aria-label="Разбор цели">
+      <div id="emptyState" class="panel-empty">Пока пусто. Впиши цель и нажми «Разобрать цель».</div>
+      <div id="resultRoot" hidden></div>
+    </section>
+
+    <section class="workshop" id="workshopSection" aria-label="Мастерская постов" hidden>
+      <div class="workshop-bar">
+        <span class="block-kicker" style="margin:0;">Сколько постов создать</span>
+        <div class="count-group" role="group" aria-label="Количество постов">
+          <button type="button" class="count-btn" data-count="3" aria-pressed="true">3</button>
+          <button type="button" class="count-btn" data-count="5" aria-pressed="false">5</button>
+          <button type="button" class="count-btn" data-count="10" aria-pressed="false">10</button>
+        </div>
+        <button class="btn btn-primary" id="makeBtn" type="button">Создать контент</button>
+        <p class="hint" id="workshopHint">Тексты напишет разум, картинки — золотой свет Pollinations (без ключей).</p>
+      </div>
+      <div id="postsStatus" class="status-line" role="status" aria-live="polite"></div>
+      <div id="postsRoot" class="posts"></div>
+    </section>
+
+    <section class="journal" id="journalSection" aria-label="Журнал целей">
+      <h2>Журнал целей</h2>
+      <p class="jsub">Каждый разбор сохраняется локально. Нажми на строку, чтобы открыть разбор и посты.</p>
+      <div id="journalList"><p class="jsub" id="journalEmpty">Журнал пока пуст.</p></div>
+    </section>
+  </main>
+
+  <footer class="pagefoot">
+    <div class="wrap pagefoot-inner">
+      <span>GOOD Growth · локальный прототип · данные хранятся только на этом компьютере</span>
+      <span class="meta">
+        <span id="footMeta">Режим: <span id="footMode">—</span> ·
+        <button class="linkish" id="demoToggle" type="button">переключить демо</button></span>
+      </span>
+    </div>
+  </footer>
+
+  <script src="/public/app.js"></script>
+</body>
+</html>

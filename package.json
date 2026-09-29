@@ -1,0 +1,11 @@
+{
+  "name": "good-growth",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GOOD Growth - Door 1: The Brain. Local prototype.",
+  "type": "commonjs",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
