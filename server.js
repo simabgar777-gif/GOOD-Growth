@@ -60,8 +60,6 @@ fs.mkdirSync(GENERATED, { recursive: true });
 /* ---- DeepSeek key: .env next to server.js ------------------------ */
 const state = { key: null, model: 'deepseek-chat', port: 3000, pollenKey: null };
 
-const PAID_MODEL = 'community/MarcosFRG/flux-1-schnell:paid'; /* модель, разрешённая ключу */
-
 (function loadEnv() {
   const envPath = path.join(__dirname, '.env');
   if (!fs.existsSync(envPath)) return;
@@ -74,6 +72,23 @@ const PAID_MODEL = 'community/MarcosFRG/flux-1-schnell:paid'; /* модель, �
     if (m[1] === 'POLLINATIONS_API_KEY' && m[2].trim()) state.pollenKey = m[2].trim();
   }
 })();
+
+function composeGoalText(body) {
+  /* Дверь 3.1: тёплый вход — собираем цель из деталей дела */
+  const d = body.details && typeof body.details === 'object' ? body.details : null;
+  if (!d) return String(body.goal || '').trim();
+  const what = String(d.what || '').trim();
+  const where = String(d.where || '').trim();
+  const who = String(d.who || '').trim();
+  const want = String(d.want || '').trim();
+  const parts = [];
+  if (what) parts.push('Моё дело: ' + what);
+  if (where) parts.push('Место: ' + where);
+  if (who) parts.push('Мои клиенты: ' + who);
+  if (want) parts.push('Чего хочу: ' + want);
+  if (parts.length) return parts.join('. ');
+  return String(body.goal || '').trim();
+}
 
 const SYSTEM_PROMPT = [
   'Ты - стратегический мозг GOOD Growth: системы, которая управляет ростом, а не просто публикациями.',
@@ -421,9 +436,7 @@ async function drawOnce(job, attempt) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 90000);
   try {
-    const drawUrl = pollinationsUrl(prompt, (postId * 265443 + attempt * 7 + Date.now() % 100000) & 0x7fffffff);
-    console.log('DRAW_URL post=' + postId + ' len=' + drawUrl.length + ' head=' + drawUrl.slice(0, 90));
-    const res = await fetch(drawUrl, {
+    const res = await fetch(pollinationsUrl(prompt, (postId * 265443 + attempt * 7 + Date.now() % 100000) & 0x7fffffff), {
       signal: controller.signal
     });
     if (!res.ok) {
@@ -503,7 +516,7 @@ async function route(req, res) {
 
   if (req.method === 'POST' && u.pathname === '/api/analyze') {
     const body = await readBody(req);
-    const goal = String(body.goal || '').trim();
+    const goal = composeGoalText(body);
     if (goal.length < 5) {
       return sendJson(res, 400, { error: 'Опиши цель хотя бы в нескольких словах - одного предложения достаточно.' });
     }

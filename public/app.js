@@ -658,6 +658,95 @@ footerMeta.appendChild(pollinationsKeyBtn);
   } catch (e) { /* сервер не отвечает — кнопка останется, не страшно */ }
 })();
 
+/* ================= Дверь 3.1: тёплый вход ================= */
+
+const warmForm = $('warmForm');
+const warmBtn = $('warmBtn');
+const warmStatus = $('warmStatus');
+const modeSwap = $('modeSwap');
+const quickForm = $('askForm');
+const photoInput = $('d_photo');
+const photoPreview = $('photoPreview');
+const photoPreviewPh = $('photoPreviewPh');
+const photoBtn = $('photoBtn');
+const photoClear = $('photoClear');
+
+function setWarmStatus(text) { warmStatus.textContent = text || ''; }
+
+/* фото: локальный предпросмотр, файл живёт в памяти до отправки */
+let warmPhotoFile = null;
+photoBtn.addEventListener('click', () => photoInput.click());
+photoInput.addEventListener('change', () => {
+  const f = photoInput.files && photoInput.files[0];
+  if (!f) return;
+  if (f.size > 5 * 1024 * 1024) { setWarmStatus('Фото слишком большое (до 5 МБ).'); return; }
+  warmPhotoFile = f;
+  photoPreview.src = URL.createObjectURL(f);
+  photoPreview.hidden = false;
+  photoPreviewPh.hidden = true;
+  photoClear.hidden = false;
+  setWarmStatus('');
+});
+photoClear.addEventListener('click', () => {
+  warmPhotoFile = null;
+  photoInput.value = '';
+  photoPreview.hidden = true;
+  photoPreviewPh.hidden = false;
+  photoClear.hidden = true;
+});
+
+/* переключение тёплый/быстрый вход */
+let quickMode = false;
+modeSwap.addEventListener('click', () => {
+  quickMode = !quickMode;
+  warmForm.classList.toggle('quick-form-hidden', quickMode);
+  quickForm.classList.toggle('quick-form-hidden', !quickMode);
+  modeSwap.textContent = quickMode ? 'тёплый вход (пять вопросов)' : 'быстрый вход (одной фразой)';
+  $('warmIntro').hidden = quickMode;
+  if (quickMode) goalEl.focus(); else $('d_what').focus();
+});
+
+/* отправка тёплой формы: детали -> /api/analyze (details) */
+warmForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  clearError();
+  stopAllPolling();
+  const details = {
+    what: $('d_what').value.trim(),
+    where: $('d_where').value.trim(),
+    who: $('d_who').value.trim(),
+    want: $('d_want').value.trim()
+  };
+  if (!details.what) {
+    showError('Начни с первого вопроса: что ты делаешь? Одной фразы достаточно.');
+    $('d_what').focus();
+    return;
+  }
+  warmBtn.disabled = true;
+  setWarmStatus(mode.ai === 'demo' ? 'Думаю над твоим делом (демо)…' : 'Думаю над твоим делом… до минуты.');
+  try {
+    const r = await fetch('/api/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ details })
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error((data.error || 'Не получилось разобрать') + (data.hint ? ' ' + data.hint : ''));
+    /* фото в разборе не участвует пока — карточки и так построятся; пометим цель */
+    renderResult(data);
+    setStatus('Готово. Теперь можно создать посты.');
+    postsStatus.textContent = '';
+    refreshJournal();
+  } catch (err) {
+    showError(err.message);
+  } finally {
+    warmBtn.disabled = false;
+    setWarmStatus('');
+  }
+});
+
+/* при открытии быстрой формы старая логика остаётся: form submit -> /api/analyze {goal} */
+
 /* старт */
 refreshHealth();
 refreshJournal();
