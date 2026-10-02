@@ -113,6 +113,18 @@ function renderResult(data) {
     when.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) + ' · № ' + (data.id ?? '—')));
   resultRoot.appendChild(head);
 
+  /* Дверь 3.2: озвучка разбора */
+  const btnListen = el('button', 'btn btn-mini btn-listen', 'Прослушать');
+  btnListen.type = 'button';
+  btnListen.addEventListener('click', () => {
+    const parts = [];
+    if (s.summary) parts.push(s.summary);
+    if (s.audience && s.audience.text) parts.push('Аудитория: ' + s.audience.text);
+    if (s.rhythm && s.rhythm.plan) parts.push('Ритм: ' + s.rhythm.plan);
+    speakText(parts.join('. '), btnListen);
+  });
+  head.appendChild(btnListen);
+
   if (s.summary) resultRoot.appendChild(el('p', 'summary', s.summary));
   if (data.goal) resultRoot.appendChild(el('p', 'goal-echo', 'Цель: «' + data.goal + '»'));
 
@@ -286,6 +298,11 @@ function renderPostCard(p) {
 
   btnImg.addEventListener('click', () => startImage(p.id));
 
+  const btnSay = el('button', 'btn btn-mini btn-listen', 'Прослушать'); btnSay.type = 'button';
+  btnSay.addEventListener('click', () => {
+    speakText((p.title ? p.title + '. ' : '') + p.body, btnSay);
+  });
+
   btnPub.addEventListener('click', async () => {
     if (btnPub.disabled) return;
     btnPub.disabled = true;
@@ -332,7 +349,7 @@ function renderPostCard(p) {
     }
   });
 
-  tools.appendChild(btnSave); tools.appendChild(btnRegen); tools.appendChild(btnImg); tools.appendChild(btnPub); tools.appendChild(btnDel);
+  tools.appendChild(btnSave); tools.appendChild(btnRegen); tools.appendChild(btnImg); tools.appendChild(btnSay); tools.appendChild(btnPub); tools.appendChild(btnDel);
 
   card.appendChild(imgWrap);
   card.appendChild(body);
@@ -721,6 +738,92 @@ function buildDial(totalSec) {
   }, 1000);
   return wrap;
 }
+
+/* ================= Дверь 3.2: голос ================= */
+
+const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+const synth = window.speechSynthesis || null;
+
+function voiceSupported() { return !!SpeechRec; }
+function ttsSupported() { return !!synth; }
+
+/* Микрофон: нажал — говоришь, текст льётся в поле. Только по кнопке. */
+function setupMic(btn, target, hintEl) {
+  if (!voiceSupported()) {
+    btn.hidden = true;
+    if (hintEl) hintEl.textContent = 'Голос не поддерживается этим браузером — используй Chrome или Edge.';
+    return;
+  }
+  let rec = null;
+  let listening = false;
+
+  btn.addEventListener('click', () => {
+    if (listening) { rec && rec.stop(); return; }
+    if (synth && synth.speaking) synth.cancel();
+    rec = new SpeechRec();
+    rec.lang = 'ru-RU';
+    rec.interimResults = true;
+    rec.continuous = false;
+    const base = target.value ? target.value.trim() + ' ' : '';
+
+    rec.onstart = () => {
+      listening = true;
+      btn.setAttribute('aria-pressed', 'true');
+      btn.textContent = '⏹';
+      if (hintEl) hintEl.textContent = 'Слушаю… говорите, я записываю. Нажмите ещё раз, чтобы закончить.';
+    };
+    rec.onresult = (ev) => {
+      let finalText = '';
+      let interim = '';
+      for (let i = ev.resultIndex; i < ev.results.length; i++) {
+        const t = ev.results[i][0].transcript;
+        if (ev.results[i].isFinal) finalText += t + ' ';
+        else interim += t;
+      }
+      target.value = (base + finalText + interim).trim().slice(0, target.maxLength || 2000);
+    };
+    rec.onerror = (ev) => {
+      listening = false;
+      btn.setAttribute('aria-pressed', 'false');
+      btn.textContent = '🎙';
+      if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') {
+        if (hintEl) hintEl.textContent = 'Микрофон запрещён. Разреши доступ к микрофону в браузере и попробуй снова.';
+      } else if (ev.error === 'no-speech') {
+        if (hintEl) hintEl.textContent = 'Не услышал тебя. Нажми микрофон и скажи ещё раз.';
+      } else {
+        if (hintEl) hintEl.textContent = 'Голос не сработал (' + ev.error + '). Попробуй ещё раз или напиши.';
+      }
+    };
+    rec.onend = () => {
+      listening = false;
+      btn.setAttribute('aria-pressed', 'false');
+      btn.textContent = '🎙';
+      if (hintEl && target.value.trim()) hintEl.textContent = 'Готово — проверь текст и нажми основную кнопку.';
+    };
+    try { rec.start(); }
+    catch (e) { if (hintEl) hintEl.textContent = 'Голос занят другим процессом — подожди секунду и нажми снова.'; }
+  });
+}
+
+/* Озвучка: Прослушать / Остановить */
+function speakText(text, btn) {
+  if (!ttsSupported()) { btn.hidden = true; return; }
+  if (synth.speaking) { synth.cancel(); btn.setAttribute('aria-pressed', 'false'); btn.textContent = 'Прослушать'; return; }
+  const clean = String(text).replace(/\s+/g, ' ').trim().slice(0, 1200);
+  if (!clean) return;
+  const u = new SpeechSynthesisUtterance(clean);
+  u.lang = 'ru-RU';
+  const ru = synth.getVoices().find((v) => (v.lang || '').toLowerCase().startsWith('ru'));
+  if (ru) u.voice = ru;
+  u.rate = 1; u.pitch = 1;
+  u.onend = () => { btn.setAttribute('aria-pressed', 'false'); btn.textContent = 'Прослушать'; };
+  btn.setAttribute('aria-pressed', 'true');
+  btn.textContent = 'Остановить';
+  synth.speak(u);
+}
+
+setupMic($('micQuick'), goalEl, $('micQuickHint'));
+setupMic($('micWarm'), $('d_what'), $('micWarmHint'));
 
 /* ================= Дверь 3.1: тёплый вход ================= */
 

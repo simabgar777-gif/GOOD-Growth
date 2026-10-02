@@ -398,6 +398,28 @@
       font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.05em; color: var(--faint);
     }
 
+    /* ===== Дверь 3.2: голос ===== */
+    .btn-mic {
+      width: 46px; height: 46px; padding: 0; justify-content: center;
+      border-radius: 50%; flex: 0 0 auto;
+      background: var(--accent-soft); border: 1px solid var(--accent); color: var(--accent-bright);
+      font-size: 19px; line-height: 1;
+      transition: background .2s ease, box-shadow .2s ease;
+    }
+    .btn-mic:hover { background: var(--accent); color: var(--accent-ink); }
+    .btn-mic[aria-pressed="true"] {
+      background: var(--accent); color: var(--accent-ink);
+      animation: micPulse 1.4s ease-in-out infinite;
+    }
+    @keyframes micPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(217, 162, 75, 0.45); }
+      50% { box-shadow: 0 0 0 12px rgba(217, 162, 75, 0); }
+    }
+    .mic-row { display: flex; gap: 10px; align-items: flex-start; }
+    .mic-row .field-side { flex: 1; }
+    .voice-note { color: var(--faint); font-size: 12.5px; margin: 6px 0 0; }
+    .btn-listen[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
     .visually-hidden {
       position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
       overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
@@ -429,8 +451,11 @@
         <div class="warm-grid">
           <div class="warm-field wide">
             <label for="d_what">Что ты делаешь?</label>
-            <input type="text" id="d_what" maxlength="120" placeholder="Например: «Мастерская ремонта велосипедов»" autocomplete="off">
-            <p class="warm-hint">Напиши в двух словах — как ты сам это называешь.</p>
+            <div class="mic-row">
+              <input type="text" id="d_what" class="field-side" maxlength="120" placeholder="Например: «Мастерская ремонта велосипедов»" autocomplete="off">
+              <button class="btn btn-mic" id="micWarm" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом">🎙</button>
+            </div>
+            <p class="warm-hint" id="micWarmHint">Напиши в двух словах — как ты сам это называешь. Или нажми микрофон и скажи.</p>
           </div>
           <div class="warm-field">
             <label for="d_where">Где ты находишься?</label>
@@ -476,7 +501,8 @@
         <span id="goal-hint" class="visually-hidden">Опиши цель в одном-двух предложениях. Система разберёт её на стратегию и создаст посты.</span>
         <div class="ask-row">
           <button class="btn btn-primary" id="goBtn" type="submit">Разобрать цель</button>
-          <p class="hint">Просто напиши цель — для тех, кто торопится.</p>
+          <button class="btn btn-mic" id="micQuick" type="button" aria-pressed="false" title="Сказать цель голосом" aria-label="Сказать цель голосом">🎙</button>
+          <p class="hint" id="micQuickHint">Просто напиши цель — для тех, кто торопится.</p>
         </div>
         <p id="goal-error" class="error-box" role="alert" hidden></p>
       </form>
