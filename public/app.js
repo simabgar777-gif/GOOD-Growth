@@ -27,6 +27,39 @@ let postCount = 3;
 const pollTimers = new Map(); /* postId -> interval */
 
 function setStatus(text) { statusLine.textContent = text || ''; }
+
+/* Честный прогресс: примерное время + плавный бар. Работает в statusLine. */
+let progressTimer = null;
+function startHonestProgress(totalSec, whatText) {
+  stopHonestProgress();
+  const t0 = Date.now();
+  const total = Math.max(5, totalSec) * 1000;
+  const bar = whatText + ' ';
+  progressTimer = setInterval(() => {
+    const passed = Date.now() - t0;
+    const p = Math.min(96, Math.round(passed / total * 100));
+    const left = Math.max(1, Math.ceil((total - passed) / 1000));
+    statusLine.textContent = bar + ' '.repeat(0) + p + '% · осталось ~' + left + ' с';
+    let wrap = document.querySelector('.progress-wrap');
+    if (!wrap) {
+      wrap = document.createElement('div');
+      wrap.className = 'progress-wrap';
+      wrap.innerHTML = '<div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>' +
+        '<span class="progress-label"></span>';
+      statusLine.appendChild(wrap);
+    }
+    wrap.querySelector('.progress-fill').style.width = p + '%';
+    wrap.querySelector('.progress-label').textContent = '~' + left + ' с';
+  }, 500);
+}
+function stopHonestProgress() {
+  if (progressTimer) { clearInterval(progressTimer); progressTimer = null; }
+  const wrap = document.querySelector('.progress-wrap');
+  if (wrap) {
+    wrap.querySelector('.progress-fill').style.width = '100%';
+    setTimeout(() => wrap.remove(), 700);
+  }
+}
 function showError(text) { goalError.textContent = text; goalError.hidden = !text; }
 function clearError() { showError(''); }
 
@@ -351,8 +384,8 @@ async function startImage(postId) {
       if (chip) { chip.className = 'img-status pending'; chip.textContent = 'рисую…'; }
     }
     pollImage(postId);
-    const ahead = data.queueAhead ? ' (в очереди: ' + data.queueAhead + ')' : '';
-    postsStatus.textContent = 'Картинка для поста № ' + postId + ' рисуется…' + ahead;
+    const ahead = data.queueAhead > 1 ? ' · в очереди ещё ' + (data.queueAhead - 1) : '';
+    postsStatus.textContent = 'Картинка для поста № ' + postId + ': ~15 секунд' + ahead;
   } catch (e) { postsStatus.textContent = e.message; }
 }
 
@@ -415,9 +448,8 @@ function stopAllPollingIfDone() {
 makeBtn.addEventListener('click', async () => {
   if (!currentGoalId) return;
   makeBtn.disabled = true;
-  postsStatus.textContent = mode.ai === 'demo'
-    ? 'Пишу ' + postCount + ' постов (демо)…'
-    : 'Разум пишет ' + postCount + ' постов… это может занять до минуты.';
+  if (mode.ai === 'demo') postsStatus.textContent = 'Пишу ' + postCount + ' постов (демо)…';
+  else startHonestProgress(Math.max(20, postCount * 8), 'Разум пишет ' + postCount + ' постов…');
   try {
     const r = await fetch('/api/goals/' + currentGoalId + '/posts', {
       method: 'POST',
@@ -428,7 +460,8 @@ makeBtn.addEventListener('click', async () => {
     if (!r.ok) throw new Error(data.error || 'Не получилось создать посты');
     const fresh = data.posts;
     fresh.forEach((p) => postsRoot.appendChild(renderPostCard(p)));
-    postsStatus.textContent = 'Готово: ' + fresh.length + ' постов. Рисую картинки по одной — спокойно, без спешки…';
+    postsStatus.textContent = 'Готово: ' + fresh.length + ' постов.';
+    stopHonestProgress();
     for (const p of fresh) {
       await startImage(p.id);
     }
@@ -500,9 +533,8 @@ form.addEventListener('submit', async (e) => {
     return;
   }
   goBtn.disabled = true;
-  setStatus(mode.ai === 'demo'
-    ? 'Собираю разбор (демо-режим, локально)…'
-    : 'Разум думает… обычно это занимает до минуты.');
+  if (mode.ai === 'demo') setStatus('Собираю разбор (демо-режим, локально)…');
+  else startHonestProgress(30, 'Разум думает…');
   try {
     const r = await fetch('/api/analyze', {
       method: 'POST',
@@ -512,6 +544,7 @@ form.addEventListener('submit', async (e) => {
     const data = await r.json();
     if (!r.ok) throw new Error((data.error || 'Не получилось разобрать цель') + (data.hint ? ' ' + data.hint : ''));
     renderResult(data);
+    stopHonestProgress();
     setStatus('Готово. Теперь можно создать посты.');
     postsStatus.textContent = '';
     refreshJournal();
@@ -723,7 +756,8 @@ warmForm.addEventListener('submit', async (e) => {
     return;
   }
   warmBtn.disabled = true;
-  setWarmStatus(mode.ai === 'demo' ? 'Думаю над твоим делом (демо)…' : 'Думаю над твоим делом… до минуты.');
+  if (mode.ai === 'demo') setWarmStatus('Думаю над твоим делом (демо)…');
+  else startHonestProgress(30, 'Думаю над твоим делом…');
   try {
     const r = await fetch('/api/analyze', {
       method: 'POST',
@@ -734,10 +768,12 @@ warmForm.addEventListener('submit', async (e) => {
     if (!r.ok) throw new Error((data.error || 'Не получилось разобрать') + (data.hint ? ' ' + data.hint : ''));
     /* фото в разборе не участвует пока — карточки и так построятся; пометим цель */
     renderResult(data);
+    stopHonestProgress();
     setStatus('Готово. Теперь можно создать посты.');
     postsStatus.textContent = '';
     refreshJournal();
   } catch (err) {
+    stopHonestProgress();
     showError(err.message);
   } finally {
     warmBtn.disabled = false;

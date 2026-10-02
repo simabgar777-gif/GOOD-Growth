@@ -358,6 +358,26 @@
     .quick-toggle { margin-top: 14px; }
     .quick-form-hidden { display: none; }
 
+    /* ===== прогресс-бар (честный отсчёт) ===== */
+    .progress-wrap {
+      display: flex; align-items: center; gap: 12px;
+      margin-top: 6px; max-width: 460px;
+    }
+    .progress-track {
+      flex: 1; height: 8px; border-radius: 999px;
+      background: var(--surface-2); border: 1px solid var(--hair-soft);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--accent) 0%, var(--accent-bright) 100%);
+      border-radius: 999px; transition: width .6s ease;
+    }
+    .progress-label {
+      font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em;
+      color: var(--muted); white-space: nowrap; min-width: 88px; text-align: right;
+    }
+
     .visually-hidden {
       position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
       overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
@@ -382,7 +402,7 @@
 
       <div class="quick-toggle">
         <span class="hint" id="warmIntro">Ответь на пять коротких вопросов — чем больше расскажешь, тем точнее будет стратегия.</span>
-        <button class="linkish" id="modeSwap" type="button" style="margin-left:12px;">быстрый вход (одной фразой)</button>
+        <button class="linkish" id="modeSwap" type="button" style="margin-left:12px;">Написать цель одной фразой</button>
       </div>
 
       <form class="warm-form" id="warmForm" novalidate>
