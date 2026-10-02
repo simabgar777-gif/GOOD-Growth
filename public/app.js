@@ -415,30 +415,31 @@ function pollImage(postId) {
 
 async function refreshPostCard(postId) {
   try {
-    const r = await fetch('/api/posts/' + postId);
+    /* Дверь 8: используем /image-эндпоинт (он реально существует и отдаёт статус) */
+    const r = await fetch('/api/posts/' + postId + '/image');
     if (!r.ok) return;
     const data = await r.json();
-    const post = data.post;
-    if (!post) return;
+    const st = data.status;
     const card = postsRoot.querySelector('[data-post-id="' + postId + '"]');
     if (!card) return;
     const oldImg = card.querySelector('.post-img, .post-img-ph');
-    if (oldImg && post.image_status === 'done' && post.image_path) {
+    if (oldImg && st === 'done' && data.imagePath) {
       const img = el('img', 'post-img');
-      img.src = post.image_path;
-      img.alt = 'Картинка к посту: ' + post.title;
+      img.src = data.imagePath;
+      img.alt = 'Картинка к посту № ' + postId;
       oldImg.replaceWith(img);
-    } else if (oldImg && post.image_status === 'error') {
+    } else if (oldImg && st === 'error') {
       const ph = el('div', 'post-img-ph');
       ph.appendChild(el('span', null, 'Картинка не получилась — нажми «Картинка»'));
       oldImg.replaceWith(ph);
     }
     const chip = card.querySelector('.img-status');
     if (chip) {
-      chip.className = 'img-status ' + post.image_status;
+      chip.className = 'img-status ' + st;
       const map = { pending: 'рисую…', done: 'картинка готова', error: 'не получилась', none: 'без картинки' };
-      chip.textContent = map[post.image_status] || post.image_status;
+      chip.textContent = map[st] || st;
     }
+    if (st === 'done' || st === 'error') stopPolling(postId);
   } catch (e) { /* не критично */ }
 }
 
