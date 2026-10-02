@@ -763,7 +763,7 @@ function setupMic(btn, target, hintEl) {
     rec = new SpeechRec();
     rec.lang = 'ru-RU';
     rec.interimResults = true;
-    rec.continuous = false;
+    rec.continuous = true; /* слушает, пока сам не остановишь */
     const base = target.value ? target.value.trim() + ' ' : '';
 
     rec.onstart = () => {
