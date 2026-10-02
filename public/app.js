@@ -756,22 +756,15 @@ function setupMic(btn, target, hintEl) {
   }
   let rec = null;
   let listening = false;
+  let wantStop = false;
+  let accumulated = ''; /* всё, что уже сказано — копилка, не теряется */
 
-  btn.addEventListener('click', () => {
-    if (listening) { rec && rec.stop(); return; }
-    if (synth && synth.speaking) synth.cancel();
+  function startSession() {
     rec = new SpeechRec();
     rec.lang = 'ru-RU';
     rec.interimResults = true;
-    rec.continuous = true; /* слушает, пока сам не остановишь */
-    const base = target.value ? target.value.trim() + ' ' : '';
+    rec.continuous = true; /* слушает через паузы, пока сам не остановишь */
 
-    rec.onstart = () => {
-      listening = true;
-      btn.setAttribute('aria-pressed', 'true');
-      btn.textContent = '⏹';
-      if (hintEl) hintEl.textContent = 'Слушаю… говорите, я записываю. Нажмите ещё раз, чтобы закончить.';
-    };
     rec.onresult = (ev) => {
       let finalText = '';
       let interim = '';
@@ -780,28 +773,52 @@ function setupMic(btn, target, hintEl) {
         if (ev.results[i].isFinal) finalText += t + ' ';
         else interim += t;
       }
-      target.value = (base + finalText + interim).trim().slice(0, target.maxLength || 2000);
+      if (finalText) accumulated = (accumulated + ' ' + finalText).trim();
+      const combined = (accumulated + ' ' + interim).trim();
+      if (combined) target.value = combined.slice(0, target.maxLength || 2000);
     };
-    rec.onerror = (ev) => {
-      listening = false;
-      btn.setAttribute('aria-pressed', 'false');
-      btn.textContent = '🎙';
-      if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') {
-        if (hintEl) hintEl.textContent = 'Микрофон запрещён. Разреши доступ к микрофону в браузере и попробуй снова.';
-      } else if (ev.error === 'no-speech') {
-        if (hintEl) hintEl.textContent = 'Не услышал тебя. Нажми микрофон и скажи ещё раз.';
-      } else {
-        if (hintEl) hintEl.textContent = 'Голос не сработал (' + ev.error + '). Попробуй ещё раз или напиши.';
+
+    /* Chrome сам останавливается после длинных пауз — тихо продолжаем сессию,
+       копилка текста при этом НЕ сбрасывается */
+    rec.onend = () => {
+      if (wantStop) {
+        listening = false;
+        btn.setAttribute('aria-pressed', 'false');
+        btn.textContent = '🎙';
+        if (hintEl && accumulated.trim()) hintEl.textContent = 'Готово — всё сказанное осталось в поле. Проверь и нажми основную кнопку.';
+      } else if (listening) {
+        try { rec.start(); } catch (e) { /* мгновенный рестарт иногда бросает — не страшно */ }
       }
     };
-    rec.onend = () => {
-      listening = false;
-      btn.setAttribute('aria-pressed', 'false');
-      btn.textContent = '🎙';
-      if (hintEl && target.value.trim()) hintEl.textContent = 'Готово — проверь текст и нажми основную кнопку.';
+
+    rec.onerror = (ev) => {
+      if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') {
+        wantStop = true; listening = false;
+        btn.setAttribute('aria-pressed', 'false');
+        btn.textContent = '🎙';
+        if (hintEl) hintEl.textContent = 'Микрофон запрещён. Разреши доступ к микрофону в браузере и попробуй снова.';
+      } else if (ev.error === 'no-speech') {
+        /* тишина — это нормально; сессия перезапустится через onend, текст на месте */
+      } else {
+        if (hintEl) hintEl.textContent = 'Голос сбоит (' + ev.error + '), продолжаю. Твои слова сохранены.';
+      }
     };
-    try { rec.start(); }
-    catch (e) { if (hintEl) hintEl.textContent = 'Голос занят другим процессом — подожди секунду и нажми снова.'; }
+
+    rec.start();
+  }
+
+  btn.addEventListener('click', () => {
+    if (listening) { wantStop = true; rec && rec.stop(); return; }
+    if (synth && synth.speaking) synth.cancel();
+    wantStop = false;
+    listening = true;
+    accumulated = ''; /* новая диктовка — новая копилка (старый текст в поле добавим ниже) */
+    const existing = target.value.trim();
+    if (existing) accumulated = existing; /* накапливаем и на уже написанном */
+    btn.setAttribute('aria-pressed', 'true');
+    btn.textContent = '⏹';
+    if (hintEl) hintEl.textContent = 'Слушаю… говори, делай паузы, пей кофе. Останов — той же кнопкой.';
+    startSession();
   });
 }
 
