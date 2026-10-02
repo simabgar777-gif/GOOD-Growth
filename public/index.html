@@ -378,6 +378,26 @@
       color: var(--muted); white-space: nowrap; min-width: 88px; text-align: right;
     }
 
+    /* ===== золотой циферблат на превью картинки ===== */
+    .dial { position: relative; width: 132px; height: 132px; }
+    .dial svg { width: 132px; height: 132px; transform: rotate(-90deg); display: block; }
+    .dial-bg { fill: none; stroke: var(--hair); stroke-width: 6; }
+    .dial-arc {
+      fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round;
+      stroke-dasharray: 283; stroke-dashoffset: 283;
+      transition: stroke-dashoffset 1s linear;
+      filter: drop-shadow(0 0 7px rgba(217, 162, 75, 0.55));
+    }
+    .dial-num {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      font-family: var(--font-mono); font-size: 22px; letter-spacing: 0.02em;
+      color: var(--accent-bright);
+    }
+    .dial-cap {
+      position: absolute; left: 0; right: 0; bottom: -26px; text-align: center;
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.05em; color: var(--faint);
+    }
+
     .visually-hidden {
       position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
       overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
@@ -448,7 +468,7 @@
 
       <p class="status-line" id="statusLine" role="status" aria-live="polite"></p>
 
-      <form class="ask quick-form-hidden" id="askForm" novalidate aria-label="Быстрый вход">
+      <form class="ask quick-form-hidden" id="askForm" novalidate aria-label="Написать цель одной фразой">
         <label for="goal">Твоя цель</label>
         <textarea id="goal" name="goal" rows="4"
           placeholder="Например: «Хочу, чтобы о нашей юридической помощи узнали в Telegram»"
@@ -456,7 +476,7 @@
         <span id="goal-hint" class="visually-hidden">Опиши цель в одном-двух предложениях. Система разберёт её на стратегию и создаст посты.</span>
         <div class="ask-row">
           <button class="btn btn-primary" id="goBtn" type="submit">Разобрать цель</button>
-          <p class="hint">Быстрый вход для тех, кто торопится.</p>
+          <p class="hint">Просто напиши цель — для тех, кто торопится.</p>
         </div>
         <p id="goal-error" class="error-box" role="alert" hidden></p>
       </form>
@@ -471,12 +491,13 @@
       <div class="workshop-bar">
         <span class="block-kicker" style="margin:0;">Сколько постов создать</span>
         <div class="count-group" role="group" aria-label="Количество постов">
-          <button type="button" class="count-btn" data-count="3" aria-pressed="true">3</button>
+          <button type="button" class="count-btn" data-count="1" aria-pressed="true">1</button>
+          <button type="button" class="count-btn" data-count="3" aria-pressed="false">3</button>
           <button type="button" class="count-btn" data-count="5" aria-pressed="false">5</button>
           <button type="button" class="count-btn" data-count="10" aria-pressed="false">10</button>
         </div>
         <button class="btn btn-primary" id="makeBtn" type="button">Создать контент</button>
-        <p class="hint" id="workshopHint">Тексты напишет разум, картинки — золотой свет Pollinations (без ключей).</p>
+        <p class="hint" id="workshopHint">Тексты напишет разум, картинки — за секунды.</p>
       </div>
       <div id="postsStatus" class="status-line" role="status" aria-live="polite"></div>
       <div id="postsRoot" class="posts"></div>

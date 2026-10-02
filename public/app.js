@@ -23,7 +23,7 @@ const footerMeta = $('footMeta');
 
 let mode = { ai: 'unknown' };
 let currentGoalId = null;
-let postCount = 3;
+let postCount = 1;
 const pollTimers = new Map(); /* postId -> interval */
 
 function setStatus(text) { statusLine.textContent = text || ''; }
@@ -215,11 +215,15 @@ function renderPostCard(p) {
     imgWrap.alt = 'Картинка к посту: ' + p.title;
     imgWrap.loading = 'lazy';
   } else {
-    imgWrap = el('div', 'post-img-ph' + (p.image_status === 'pending' ? ' pending' : ''));
-    imgWrap.appendChild(el('span', null,
-      p.image_status === 'pending' ? 'Рисую картинку…' :
-      p.image_status === 'error' ? 'Картинка не получилась — нажми «Картинка»' :
-      'Картинку можно нарисовать кнопкой ниже'));
+    if (p.image_status === 'pending') {
+      imgWrap = el('div', 'post-img-ph pending');
+      imgWrap.appendChild(buildDial(15));
+    } else {
+      imgWrap = el('div', 'post-img-ph');
+      imgWrap.appendChild(el('span', null,
+        p.image_status === 'error' ? 'Картинка не получилась — нажми «Картинка»' :
+        'Картинку можно нарисовать кнопкой ниже'));
+    }
     if (p.image_status === 'none') {
       const hint = el('span', 'visually-hidden', ' ');
       imgWrap.appendChild(hint);
@@ -377,7 +381,7 @@ async function startImage(postId) {
       const oldImg = card.querySelector('.post-img, .post-img-ph');
       if (oldImg) {
         const ph = el('div', 'post-img-ph pending');
-        ph.appendChild(el('span', null, 'Рисую картинку…'));
+        ph.appendChild(buildDial(15));
         oldImg.replaceWith(ph);
       }
       const chip = card.querySelector('.img-status');
@@ -691,6 +695,32 @@ footerMeta.appendChild(pollinationsKeyBtn);
   } catch (e) { /* сервер не отвечает — кнопка останется, не страшно */ }
 })();
 
+/* Золотой циферблат: дуга заполняется за ~15 с, в центре — остаток секунд */
+function buildDial(totalSec) {
+  const total = totalSec || 15;
+  const wrap = document.createElement('div');
+  wrap.className = 'dial';
+  wrap.innerHTML =
+    '<svg viewBox="0 0 100 100" aria-hidden="true">' +
+    '<circle class="dial-bg" cx="50" cy="50" r="45"></circle>' +
+    '<circle class="dial-arc" cx="50" cy="50" r="45"></circle></svg>' +
+    '<div class="dial-num">' + total + '</div>' +
+    '<div class="dial-cap">рисую…</div>';
+  const arc = wrap.querySelector('.dial-arc');
+  const num = wrap.querySelector('.dial-num');
+  const C = 283;
+  let passed = 0;
+  const timer = setInterval(() => {
+    if (!wrap.isConnected) { clearInterval(timer); return; }
+    passed++;
+    const p = Math.min(0.96, passed / total);
+    arc.style.strokeDashoffset = String(C * (1 - p));
+    const left = Math.max(1, Math.ceil(total - passed));
+    num.textContent = left <= 3 ? '···' : left;
+  }, 1000);
+  return wrap;
+}
+
 /* ================= Дверь 3.1: тёплый вход ================= */
 
 const warmForm = $('warmForm');
@@ -734,7 +764,7 @@ modeSwap.addEventListener('click', () => {
   quickMode = !quickMode;
   warmForm.classList.toggle('quick-form-hidden', quickMode);
   quickForm.classList.toggle('quick-form-hidden', !quickMode);
-  modeSwap.textContent = quickMode ? 'тёплый вход (пять вопросов)' : 'быстрый вход (одной фразой)';
+  modeSwap.textContent = quickMode ? 'Рассказать о деле (пять вопросов)' : 'Написать цель одной фразой';
   $('warmIntro').hidden = quickMode;
   if (quickMode) goalEl.focus(); else $('d_what').focus();
 });
