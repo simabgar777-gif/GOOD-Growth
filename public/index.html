@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GOOD Growth — от цели до готовых постов</title>
+  <title>GOOD Growth — Двери 1–2 · Мозг и Руки</title>
   <meta name="description" content="Синяя ночь для твоего дела: сформулируй цель — получи готовые посты с картинками для Telegram." />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="GOOD Growth" />
@@ -37,28 +37,39 @@
   <style>
     /* ============ GOOD Growth — tokens (единственное место для палитры) ============ */
     :root {
-      --bg:        #12100c;
-      --bg-2:      #16130e;
-      --surface:   #1a1711;
-      --surface-2: #201c15;
-      --ink:       #ece4d2;
-      --muted:     #b1a58b;
-      --faint:     #877c67;
-      --hair:      rgba(236, 228, 210, 0.14);
-      --hair-soft: rgba(236, 228, 210, 0.07);
-      --accent:        #d9a24b;
-      --accent-bright: #e9b862;
-      --accent-ink:    #191510;
-      --accent-soft:   rgba(217, 162, 75, 0.13);
-      --danger:  #d9846f;
-      --ok:      #8fb586;
+      /* == GOOD Growth · Blue Night (Door: Design, 3 Oct 2026) ==
+         Фон — ночное небо, не чёрный. Свет — дышащее золото.
+         Цвет-настроение разделов: цель(синий) / создание(зелёный) / публикация(коралл). */
+      --bg:        #0c1120;
+      --bg-2:      #0f1526;
+      --surface:   #131a2e;
+      --surface-2: #182036;
+      --ink:       #e9e7f2;
+      --muted:     #a5a8c4;
+      --faint:     #72789a;
+      --hair:      rgba(233, 231, 242, 0.15);
+      --hair-soft: rgba(233, 231, 242, 0.07);
+      --accent:        #e0aa55;
+      --accent-bright: #efc47c;
+      --accent-ink:    #17140c;
+      --accent-soft:   rgba(224, 170, 85, 0.14);
+      --danger:  #e08b76;
+      --ok:      #93c48a;
+
+      /* цвет-настроение разделов */
+      --mood-goal:   #6b8fc9;
+      --mood-goal-soft:  rgba(107, 143, 201, 0.16);
+      --mood-make:   #8fb586;
+      --mood-make-soft:  rgba(143, 181, 134, 0.14);
+      --mood-publish:#e29880;
+      --mood-publish-soft: rgba(226, 152, 128, 0.15);
 
       --font-display: Georgia, 'Times New Roman', serif;
       --font-body: 'Segoe UI', Tahoma, Arial, sans-serif;
       --font-mono: Consolas, 'Courier New', monospace;
 
       --w: 1000px;
-      --radius: 3px;
+      --radius: 6px;   /* чуть мягче прежнего, но не «пузырь» */
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -434,6 +445,37 @@
     .mic-row .field-side { flex: 1; }
     .voice-note { color: var(--faint); font-size: 12.5px; margin: 6px 0 0; }
     .btn-listen[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+    /* ===== Door: Design — воздух и дыхание ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .post-card, .result-head, .block, .jrow { animation: fadeUp .45s ease both; }
+    .block, .result-head { animation-delay: .05s; }
+    .post-card:nth-child(2) { animation-delay: .07s; }
+    .post-card:nth-child(3) { animation-delay: .14s; }
+    .post-card:nth-child(4) { animation-delay: .21s; }
+    .post-card:nth-child(5) { animation-delay: .28s; }
+
+    /* воздух: больше пространства между секциями */
+    .hero { padding-block: clamp(56px, 9vw, 100px) 44px; }
+    .result { padding-top: 6px; }
+    .journal { margin-top: 76px; }
+    .workshop-bar { margin-top: 40px; padding-top: 26px; }
+
+    /* настроение разделов: мягкие маркеры */
+    .kicker { color: var(--mood-goal); }
+    .workshop .block-kicker, .workshop-bar .block-kicker { color: var(--mood-make); }
+    .btn-mini.publish { background: var(--mood-publish-soft); color: var(--mood-publish); border-color: var(--mood-publish); }
+    .btn-mini.publish:hover:not(:disabled) { background: var(--mood-publish); color: var(--accent-ink); }
+
+    /* плавный переход состояний везде */
+    .btn, .btn-mini, .count-btn, .chip, .jrow, .mode-chip { transition: background .18s ease, color .18s ease, border-color .18s ease; }
+    textarea#goal, .post-title-input, .post-body-textarea, .post-cta-input { transition: border-color .18s ease, background .18s ease; }
+
+    /* крупнее основная кнопка — удобно нажимать */
+    .btn-primary { padding: 13px 26px; font-size: 16px; }
 
     .visually-hidden {
       position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
