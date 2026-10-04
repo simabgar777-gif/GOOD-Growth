@@ -841,6 +841,9 @@ function speakText(text, btn) {
 
 setupMic($('micQuick'), goalEl, $('micQuickHint'));
 setupMic($('micWarm'), $('d_what'), $('micWarmHint'));
+setupMic($('micWhere'), $('d_where'), null);
+setupMic($('micWho'), $('d_who'), null);
+setupMic($('micWant'), $('d_want'), null);
 
 /* ================= Дверь 3.1: тёплый вход ================= */
 

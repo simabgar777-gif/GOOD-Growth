@@ -516,17 +516,26 @@
           </div>
           <div class="warm-field">
             <label for="d_where">Где ты находишься?</label>
-            <input type="text" id="d_where" maxlength="120" placeholder="«Москва, район Хамовники» или «Онлайн по России»" autocomplete="off">
+            <div class="mic-row">
+              <input type="text" id="d_where" maxlength="120" placeholder="«Москва, район Хамовники» или «Онлайн по России»" autocomplete="off">
+              <button class="btn btn-mic" id="micWhere" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: где ты находишься">🎙</button>
+            </div>
             <p class="warm-hint">Чем точнее место — тем легче найти твоих людей.</p>
           </div>
           <div class="warm-field">
             <label for="d_who">Кто твой клиент?</label>
-            <input type="text" id="d_who" maxlength="120" placeholder="«Взрослые, которые хотят научиться играть»" autocomplete="off">
+            <div class="mic-row">
+              <input type="text" id="d_who" maxlength="120" placeholder="«Взрослые, которые хотят научиться играть»" autocomplete="off">
+              <button class="btn btn-mic" id="micWho" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: кто твой клиент">🎙</button>
+            </div>
             <p class="warm-hint">Опиши одного человека, которому ты помогаешь.</p>
           </div>
           <div class="warm-field wide">
             <label for="d_want">Чего ты хочешь?</label>
-            <input type="text" id="d_want" maxlength="120" placeholder="«Чтобы узнали», «Чтобы записались», «Чтобы пришли в мастерскую»" autocomplete="off">
+            <div class="mic-row">
+              <input type="text" id="d_want" maxlength="120" placeholder="«Чтобы узнали», «Чтобы записались», «Чтобы пришли в мастерскую»" autocomplete="off">
+              <button class="btn btn-mic" id="micWant" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: чего ты хочешь">🎙</button>
+            </div>
             <p class="warm-hint">Что должно случиться, чтобы ты сказал: «Да, это сработало»?</p>
           </div>
           <div class="warm-field wide">
@@ -538,7 +547,7 @@
               <button type="button" class="btn btn-mini" id="photoBtn">Загрузить фото</button>
               <button type="button" class="btn btn-mini danger" id="photoClear" hidden>Убрать</button>
             </div>
-            <p class="warm-hint">Фото помогает понять твоё дело — и его можно будет использовать в постах.</p>
+            <p class="warm-hint">Фото помогает понять твоё дело — и его можно будет использовать в постах. Голос здесь не нужен: фото выбирается кнопкой, слов его не расскажешь.</p>
           </div>
         </div>
         <div class="warm-actions">
