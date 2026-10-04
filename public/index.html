@@ -37,39 +37,39 @@
   <style>
     /* ============ GOOD Growth — tokens (единственное место для палитры) ============ */
     :root {
-      /* == GOOD Growth · Blue Night (Door: Design, 3 Oct 2026) ==
-         Фон — ночное небо, не чёрный. Свет — дышащее золото.
-         Цвет-настроение разделов: цель(синий) / создание(зелёный) / публикация(коралл). */
-      --bg:        #0c1120;
-      --bg-2:      #0f1526;
-      --surface:   #131a2e;
-      --surface-2: #182036;
-      --ink:       #e9e7f2;
-      --muted:     #a5a8c4;
-      --faint:     #72789a;
-      --hair:      rgba(233, 231, 242, 0.15);
-      --hair-soft: rgba(233, 231, 242, 0.07);
-      --accent:        #e0aa55;
-      --accent-bright: #efc47c;
-      --accent-ink:    #17140c;
-      --accent-soft:   rgba(224, 170, 85, 0.14);
+      /* == GOOD Growth · «Северное сияние» (Приказ №15, 4 окт 2026) ==
+         Синяя ночь остаётся ДНК. Свет — холодная мята, маяк в ночи.
+         Настроения: цель(ледяной голубой) / создание(мятный) / публикация(тёплый коралл). */
+      --bg:        #0b0f1e;
+      --bg-2:      #0e1326;
+      --surface:   #121830;
+      --surface-2: #171e38;
+      --ink:       #eceaf4;
+      --muted:     #a7abc8;
+      --faint:     #737aa0;
+      --hair:      rgba(236, 234, 244, 0.15);
+      --hair-soft: rgba(236, 234, 244, 0.07);
+      --accent:        #52d6c4;
+      --accent-bright: #7ce6d6;
+      --accent-ink:    #052420;
+      --accent-soft:   rgba(82, 214, 196, 0.13);
       --danger:  #e08b76;
-      --ok:      #93c48a;
+      --ok:      #7fd6a8;
 
       /* цвет-настроение разделов */
-      --mood-goal:   #6b8fc9;
-      --mood-goal-soft:  rgba(107, 143, 201, 0.16);
-      --mood-make:   #8fb586;
-      --mood-make-soft:  rgba(143, 181, 134, 0.14);
-      --mood-publish:#e29880;
-      --mood-publish-soft: rgba(226, 152, 128, 0.15);
+      --mood-goal:   #8bb4f2;
+      --mood-goal-soft:  rgba(139, 180, 242, 0.15);
+      --mood-make:   #52d6c4;
+      --mood-make-soft:  rgba(82, 214, 196, 0.12);
+      --mood-publish:#ff9a7a;
+      --mood-publish-soft: rgba(255, 154, 122, 0.14);
 
       --font-display: Georgia, 'Times New Roman', serif;
       --font-body: 'Segoe UI', Tahoma, Arial, sans-serif;
       --font-mono: Consolas, 'Courier New', monospace;
 
       --w: 1000px;
-      --radius: 6px;   /* чуть мягче прежнего, но не «пузырь» */
+      --radius: 10px;  /* современная мягкость, не «пузырь» */
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -404,7 +404,7 @@
       color: var(--muted); white-space: nowrap; min-width: 88px; text-align: right;
     }
 
-    /* ===== золотой циферблат на превью картинки ===== */
+    /* ===== акцентный циферблат на превью картинки ===== */
     .dial { position: relative; width: 132px; height: 132px; }
     .dial svg { width: 132px; height: 132px; transform: rotate(-90deg); display: block; }
     .dial-bg { fill: none; stroke: var(--hair); stroke-width: 6; }
@@ -412,7 +412,7 @@
       fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round;
       stroke-dasharray: 283; stroke-dashoffset: 283;
       transition: stroke-dashoffset 1s linear;
-      filter: drop-shadow(0 0 7px rgba(217, 162, 75, 0.55));
+      filter: drop-shadow(0 0 7px rgba(82, 214, 196, 0.5));
     }
     .dial-num {
       position: absolute; inset: 0; display: grid; place-items: center;
@@ -438,8 +438,8 @@
       animation: micPulse 1.4s ease-in-out infinite;
     }
     @keyframes micPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(217, 162, 75, 0.45); }
-      50% { box-shadow: 0 0 0 12px rgba(217, 162, 75, 0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(82, 214, 196, 0.4); }
+      50% { box-shadow: 0 0 0 12px rgba(82, 214, 196, 0); }
     }
     .mic-row { display: flex; gap: 10px; align-items: flex-start; }
     .mic-row .field-side { flex: 1; }
