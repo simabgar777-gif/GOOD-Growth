@@ -104,7 +104,64 @@
 
     /* ============ лендинг ============ */
     .landing { padding-block: 20px 10px; }
-    .land-hero { padding-block: clamp(48px, 8vw, 92px) 30px; }
+    .land-hero {
+      padding-block: clamp(48px, 8vw, 92px) 40px;
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center;
+    }
+    @media (max-width: 960px) { .land-hero { grid-template-columns: 1fr; gap: 40px; } }
+    .hero-copy { min-width: 0; }
+    .hero-visual { position: relative; min-width: 0; }
+    .hero-visual::before {
+      content: ""; position: absolute; right: -6%; top: -10%; width: 72%; height: 84%;
+      background: radial-gradient(closest-side, rgba(91, 91, 214, 0.13), transparent 72%);
+      filter: blur(6px); pointer-events: none;
+    }
+    .mock-post {
+      margin: 0; background: var(--surface); border: 1px solid var(--hair-soft);
+      border-radius: 14px; box-shadow: 0 18px 44px rgba(31, 30, 28, 0.12);
+      padding: 12px; position: relative; z-index: 1;
+    }
+    .mock-post svg { width: 100%; display: block; border-radius: 8px; }
+    .mock-title { font-family: var(--font-display); font-size: 16.5px; margin: 12px 4px 9px; }
+    .mock-line { height: 8px; border-radius: 4px; background: var(--surface-2); margin: 0 4px 7px; }
+    .mock-line.short { width: 62%; }
+    .mock-actions { display: flex; gap: 8px; margin: 12px 4px 4px; }
+    .mock-pill { font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 999px; }
+    .mock-pill.dark { background: var(--pill); color: var(--pill-ink); }
+    .mock-pill.coral { background: var(--mood-publish); color: #fff; }
+    .mock-float {
+      position: absolute; right: -10px; top: -20px; z-index: 2;
+      background: var(--surface); border: 1px solid var(--hair-soft); border-radius: 12px;
+      box-shadow: 0 14px 30px rgba(31, 30, 28, 0.12); padding: 12px 14px; width: 190px;
+      animation: floaty 7s ease-in-out infinite;
+    }
+    @keyframes floaty { 0%, 100% { transform: rotate(2.5deg) translateY(0); } 50% { transform: rotate(2.5deg) translateY(-7px); } }
+    .mf-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .mf-dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
+    .mf-dot.iris { background: var(--accent); }
+    .mf-dot.green { background: var(--mood-make); }
+    .mf-dot.coral { background: var(--mood-publish); }
+    .mf-line { height: 7px; border-radius: 4px; background: var(--surface-2); flex: 1; }
+    .mf-line.w40 { flex-basis: 40%; } .mf-line.w60 { flex-basis: 60%; } .mf-line.w80 { flex-basis: 80%; }
+    .mf-cap { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); margin-top: 2px; }
+    @media (max-width: 960px) { .mock-float { right: 4px; top: -14px; } }
+    @media (max-width: 620px) { .mock-float { display: none; } }
+    .land-card, .land-step { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+    .land-card:hover, .land-step:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(31, 30, 28, 0.09); border-color: var(--hair); }
+    .card-ico {
+      width: 36px; height: 36px; border-radius: 11px; background: var(--accent-soft);
+      color: var(--accent); display: inline-grid; place-items: center; margin-bottom: 12px;
+    }
+    .card-ico svg { width: 19px; height: 19px; }
+    .card-ico.green { background: var(--mood-make-soft); color: var(--mood-make); }
+    .card-ico.coral { background: var(--mood-publish-soft); color: var(--mood-publish); }
+    .js-rv .rv { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+    .js-rv .rv.on { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .js-rv .rv { opacity: 1; transform: none; transition: none; }
+      .mock-float { animation: none !important; }
+      .btn-mic[aria-pressed="true"] { animation: none !important; }
+    }
     .land-kicker {
       font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em;
       text-transform: uppercase; color: var(--accent); margin: 0 0 18px;
@@ -536,14 +593,46 @@
     <!-- ======== ЛЕНДИНГ (Приказ №17) ======== -->
     <section class="landing" id="landing" aria-label="О GOOD Growth">
       <div class="land-hero" id="land-hero">
-        <p class="land-kicker">GOOD GROWTH · МАСТЕРСКАЯ РОСТА</p>
-        <h1>От цели — до готовых постов. За один вечер.</h1>
-        <p class="land-lede">GOOD Growth — тихий инструмент для небольших дел и мастеров. Опиши, чем ты занимаешься, — он разложит цель на стратегию, напишет посты и нарисует к ним картинки. Останется нажать «Опубликовать».</p>
-        <div class="land-cta-row">
-          <button class="btn btn-primary" id="ctaStart" type="button">Попробовать бесплатно</button>
-          <button class="btn btn-quiet" id="ctaEnter" type="button">Сразу в мастерскую</button>
+        <div class="hero-copy">
+          <p class="land-kicker">GOOD GROWTH · МАСТЕРСКАЯ РОСТА</p>
+          <h1>От цели — до готовых постов. За один вечер.</h1>
+          <p class="land-lede">GOOD Growth — тихий инструмент для небольших дел и мастеров. Опиши, чем ты занимаешься, — он разложит цель на стратегию, напишет посты и нарисует к ним картинки. Останется нажать «Опубликовать».</p>
+          <div class="land-cta-row">
+            <button class="btn btn-primary" id="ctaStart" type="button">Попробовать бесплатно</button>
+            <button class="btn btn-quiet" id="ctaEnter" type="button">Сразу в мастерскую</button>
+          </div>
+          <p class="land-note">Без регистрации. Данные остаются на твоём компьютере.</p>
         </div>
-        <p class="land-note">Без регистрации. Данные остаются на твоём компьютере.</p>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="mock-float">
+            <div class="mf-row"><span class="mf-dot iris"></span><span class="mf-line w80"></span></div>
+            <div class="mf-row"><span class="mf-dot green"></span><span class="mf-line w60"></span></div>
+            <div class="mf-row"><span class="mf-dot coral"></span><span class="mf-line w40"></span></div>
+            <div class="mf-cap">стратегия готова</div>
+          </div>
+          <figure class="mock-post">
+            <svg viewBox="0 0 320 180" role="img" aria-label="Иллюстрация: пост с картинкой">
+              <defs>
+                <linearGradient id="ggSky" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#5b5bd6"/><stop offset="1" stop-color="#9a5bd6"/>
+                </linearGradient>
+              </defs>
+              <rect width="320" height="180" fill="url(#ggSky)"/>
+              <circle cx="252" cy="52" r="26" fill="#faf9f5" opacity="0.92"/>
+              <path d="M0 132 Q80 98 160 128 T320 122 V180 H0 Z" fill="#1f1e1c" opacity="0.85"/>
+              <path d="M0 152 Q90 128 180 148 T320 144 V180 H0 Z" fill="#3f8f6b" opacity="0.35"/>
+            </svg>
+            <figcaption>
+              <div class="mock-title">Мастерская «Велодело»</div>
+              <div class="mock-line"></div>
+              <div class="mock-line short"></div>
+              <div class="mock-actions">
+                <span class="mock-pill dark">Создать</span>
+                <span class="mock-pill coral">Опубликовать</span>
+              </div>
+            </figcaption>
+          </figure>
+        </div>
       </div>
 
       <div class="land-section" id="land-problem">
@@ -556,14 +645,17 @@
         <p>Один экран вместо пяти сервисов. Ты отвечаешь на пять коротких вопросов о своём деле — дальше система работает сама.</p>
         <div class="land-grid">
           <div class="land-card">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2"/></svg></span>
             <h3>Стратегия из цели</h3>
             <p>Разбирает «что, где, для кого» на аудиторию, темы и каналы — понятный план вместо пустого листа.</p>
           </div>
           <div class="land-card">
+            <span class="card-ico green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M3.5 17.5l5-5 4 4 3-3 5 4.5"/></svg></span>
             <h3>Посты с картинками</h3>
             <p>Готовые тексты с заголовками и иллюстрациями за секунды. Правь как хочешь — это черновик, не клетка.</p>
           </div>
           <div class="land-card">
+            <span class="card-ico coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.5L11 13"/><path d="M21.5 2.5L14.5 21.5l-3.5-8.5-8.5-3.5 19-7z"/></svg></span>
             <h3>Публикация в Telegram</h3>
             <p>Кнопка «Опубликовать» отправляет пост в твой канал. Без копирования, без лишних окон.</p>
           </div>
@@ -584,14 +676,17 @@
         <h2>Почему это работает</h2>
         <div class="land-grid">
           <div class="land-card">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.2c0 4.9-3.2 8.4-7.5 10.3-4.3-1.9-7.5-5.4-7.5-10.3V6L12 3z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg></span>
             <h3>Твои данные — твои</h3>
             <p>Всё хранится локально, ключи шифрования не покидают компьютер. Никаких облачных досье.</p>
           </div>
           <div class="land-card">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2.5L4.5 13.5h5.5l-1 8 8.5-11h-5.5l1-8z"/></svg></span>
             <h3>Скорость как свойство</h3>
             <p>Картинка рисуется за ~15 секунд, стратегия собирается за полминуты. Идея не успевает остыть.</p>
           </div>
           <div class="land-card">
+            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6.5" width="19" height="11" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/></svg></span>
             <h3>Без ловушек подписки</h3>
             <p>Никаких «первый месяц бесплатно, потом списание». Платишь только за то, что реально рисуешь.</p>
           </div>
@@ -753,6 +848,19 @@
       let seen = null;
       try { seen = sessionStorage.getItem('gg_entered'); } catch (e) {}
       if (seen === '1') enterApp(null);
+
+      /* появление секций при прокрутке */
+      document.body.classList.add('js-rv');
+      const rvNodes = document.querySelectorAll('.land-section, .land-cta-band, .land-hero');
+      rvNodes.forEach((n) => n.classList.add('rv'));
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((es) => {
+          es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('on'); io.unobserve(en.target); } });
+        }, { threshold: 0.12 });
+        rvNodes.forEach((n) => io.observe(n));
+      } else {
+        rvNodes.forEach((n) => n.classList.add('on'));
+      }
     })();
   </script>
 </body>
