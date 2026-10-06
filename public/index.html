@@ -1,14 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GOOD Growth — Двери 1–2 · Мозг и Руки</title>
-  <meta name="description" content="Синяя ночь для твоего дела: сформулируй цель — получи готовые посты с картинками для Telegram." />
+  <title>GOOD Growth — от цели до готовых постов</title>
+  <meta name="description" content="Опиши своё дело — получи стратегию и готовые посты с картинками для Telegram. Локально, быстро, без подписок." />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="GOOD Growth" />
   <meta property="og:title" content="GOOD Growth — от цели до готовых постов" />
-  <meta property="og:description" content="Сформулируй цель — получи готовые посты с картинками для Telegram-канала. Тихо, тёпло, по-корабельному." />
+  <meta property="og:description" content="Опиши своё дело — получи стратегию и готовые посты с картинками для Telegram. Локально, быстро, без подписок." />
   <meta property="og:url" content="https://growth.go-ood.com/" />
   <meta property="og:image" content="https://growth.go-ood.com/public/og-cover.png" />
   <meta property="og:image:width" content="1200" />
@@ -17,59 +17,44 @@
   <meta property="og:locale" content="ru_RU" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="GOOD Growth — от цели до готовых постов" />
-  <meta name="twitter:description" content="Сформулируй цель — получи готовые посты с картинками для Telegram-канала." />
+  <meta name="twitter:description" content="Опиши своё дело — получи стратегию и готовые посты с картинками для Telegram." />
   <meta name="twitter:image" content="https://growth.go-ood.com/public/og-cover.png" />
-  <meta name="description" content="GOOD Growth: система, которая управляет ростом. Введи цель — получи стратегию, а из неё — готовые посты с картинками." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='5' fill='%23d9a24b'/%3E%3C/svg%3E" />
-  <script id="auto-designer-preview-contract" type="application/json">
-    {
-      "artifactRole": "web-page",
-      "authoringViewport": { "width": 1440, "height": 900 },
-      "deviceAdaptation": {
-        "enabled": true,
-        "strategy": "responsive",
-        "supportedDevices": ["desktop", "tablet", "mobile"]
-      },
-      "breakpoints": { "mobileMax": 767, "tabletMin": 768, "tabletMax": 1023, "desktopMin": 1024 },
-      "defaultDevice": "canvas"
-    }
-  </script>
   <style>
-    /* ============ GOOD Growth — tokens (единственное место для палитры) ============ */
     :root {
-      /* == GOOD Growth · «Северное сияние» (Приказ №15, 4 окт 2026) ==
-         Синяя ночь остаётся ДНК. Свет — холодная мята, маяк в ночи.
-         Настроения: цель(ледяной голубой) / создание(мятный) / публикация(тёплый коралл). */
-      --bg:        #0b0f1e;
-      --bg-2:      #0e1326;
-      --surface:   #121830;
-      --surface-2: #171e38;
-      --ink:       #eceaf4;
-      --muted:     #a7abc8;
-      --faint:     #737aa0;
-      --hair:      rgba(236, 234, 244, 0.15);
-      --hair-soft: rgba(236, 234, 244, 0.07);
-      --accent:        #52d6c4;
-      --accent-bright: #7ce6d6;
-      --accent-ink:    #052420;
-      --accent-soft:   rgba(82, 214, 196, 0.13);
-      --danger:  #e08b76;
-      --ok:      #7fd6a8;
+      /* == GOOD Growth · «Светлая мастерская» (Приказ №17, 6 окт 2026) ==
+         Тёплый крем + чернильный текст + чёрные пилюли + один ирис-акцент.
+         Настроения: цель(глубокий синий) / создание(зелёный) / публикация(коралл). */
+      --bg:        #faf9f5;
+      --bg-2:      #f4f2ec;
+      --surface:   #ffffff;
+      --surface-2: #f4f2ec;
+      --ink:       #1f1e1c;
+      --muted:     #5f5d57;
+      --faint:     #8a877e;
+      --hair:      rgba(31, 30, 28, 0.13);
+      --hair-soft: rgba(31, 30, 28, 0.06);
+      --accent:        #5b5bd6;
+      --accent-bright: #6e6ee0;
+      --accent-ink:    #ffffff;
+      --accent-soft:   rgba(91, 91, 214, 0.10);
+      --pill:      #161513;
+      --pill-ink:  #ffffff;
+      --danger:  #c74a3c;
+      --ok:      #3f9d63;
 
-      /* цвет-настроение разделов */
-      --mood-goal:   #8bb4f2;
-      --mood-goal-soft:  rgba(139, 180, 242, 0.15);
-      --mood-make:   #52d6c4;
-      --mood-make-soft:  rgba(82, 214, 196, 0.12);
-      --mood-publish:#ff9a7a;
-      --mood-publish-soft: rgba(255, 154, 122, 0.14);
+      --mood-goal:   #4a63b8;
+      --mood-goal-soft:  rgba(74, 99, 184, 0.10);
+      --mood-make:   #3f8f6b;
+      --mood-make-soft:  rgba(63, 143, 107, 0.10);
+      --mood-publish:#d97757;
+      --mood-publish-soft: rgba(217, 119, 87, 0.12);
 
       --font-display: Georgia, 'Times New Roman', serif;
       --font-body: 'Segoe UI', Tahoma, Arial, sans-serif;
       --font-mono: Consolas, 'Courier New', monospace;
 
       --w: 1000px;
-      --radius: 10px;  /* современная мягкость, не «пузырь» */
+      --radius: 10px;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -91,39 +76,96 @@
     /* ============ верхняя лента ============ */
     .topbar { border-bottom: 1px solid var(--hair); background: var(--bg); }
     .topbar-inner {
-      display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
-      padding-block: 16px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding-block: 14px;
     }
-    .brand { font-family: var(--font-display); font-size: 20px; letter-spacing: -0.01em; }
+    .brand { font-family: var(--font-display); font-size: 20px; letter-spacing: -0.01em; display: inline-flex; align-items: center; gap: 10px; }
+    .brand-mark {
+      width: 24px; height: 24px; border-radius: 8px; flex: 0 0 auto;
+      background: linear-gradient(135deg, #5b5bd6 0%, #9a5bd6 100%);
+      display: inline-grid; place-items: center;
+      color: #fff; font-family: var(--font-body); font-weight: 700; font-size: 13px;
+      letter-spacing: 0;
+    }
     .brand .brand-sub {
       font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.09em;
-      text-transform: uppercase; color: var(--faint); margin-left: 10px;
+      text-transform: uppercase; color: var(--faint); margin-left: 2px;
     }
     .mode-chip {
       font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.09em;
       text-transform: uppercase; color: var(--muted);
       display: inline-flex; align-items: center; gap: 7px;
       border: 1px solid var(--hair); padding: 4px 10px; border-radius: 999px;
-      background: transparent;
+      background: var(--surface);
     }
     .mode-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--faint); }
     .mode-chip[data-mode="demo"] .dot { background: var(--accent); }
     .mode-chip[data-mode="live"] .dot { background: var(--ok); }
 
+    /* ============ лендинг ============ */
+    .landing { padding-block: 20px 10px; }
+    .land-hero { padding-block: clamp(48px, 8vw, 92px) 30px; }
+    .land-kicker {
+      font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent); margin: 0 0 18px;
+    }
+    .land-hero h1 {
+      font-family: var(--font-display); font-weight: 400;
+      font-size: clamp(32px, 5vw, 54px); line-height: 1.06; letter-spacing: -0.02em;
+      margin: 0 0 18px; text-wrap: balance; max-width: 24ch;
+    }
+    .land-lede { color: var(--muted); font-size: 17.5px; max-width: 62ch; margin: 0 0 30px; }
+    .land-cta-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+    .land-note { color: var(--faint); font-size: 13px; margin: 10px 0 0; }
+
+    .land-section { border-top: 1px solid var(--hair-soft); padding-block: 34px; }
+    .land-section > h2 {
+      font-family: var(--font-display); font-weight: 400; font-size: 26px;
+      letter-spacing: -0.01em; margin: 0 0 14px;
+    }
+    .land-section > p { color: var(--muted); max-width: 70ch; margin: 0 0 10px; }
+
+    .land-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px; }
+    @media (max-width: 860px) { .land-grid { grid-template-columns: 1fr; } }
+    .land-card {
+      background: var(--surface); border: 1px solid var(--hair-soft); border-radius: var(--radius);
+      padding: 18px 18px 16px;
+    }
+    .land-card h3 { font-family: var(--font-display); font-weight: 400; font-size: 18px; margin: 0 0 6px; }
+    .land-card p { color: var(--muted); font-size: 14.5px; margin: 0; }
+
+    .land-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 18px; }
+    @media (max-width: 960px) { .land-steps { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 620px) { .land-steps { grid-template-columns: 1fr; } }
+    .land-step { background: var(--surface); border: 1px solid var(--hair-soft); border-radius: var(--radius); padding: 16px; }
+    .land-step .no {
+      font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent);
+      display: block; margin-bottom: 6px;
+    }
+    .land-step h3 { font-family: var(--font-display); font-weight: 400; font-size: 17.5px; margin: 0 0 5px; }
+    .land-step p { color: var(--muted); font-size: 14px; margin: 0; }
+
+    .land-cta-band {
+      border-top: 1px solid var(--hair-soft); padding-block: 44px; text-align: center;
+    }
+    .land-cta-band h2 { font-family: var(--font-display); font-weight: 400; font-size: 30px; margin: 0 0 10px; letter-spacing: -0.01em; }
+    .land-cta-band p { color: var(--muted); max-width: 60ch; margin: 0 auto 24px; }
+    .land-cta-band .land-cta-row { justify-content: center; }
+
     /* ============ герой: цель ============ */
-    .hero { padding-block: clamp(44px, 7vw, 76px) 36px; }
+    .hero { padding-block: clamp(40px, 6vw, 64px) 36px; }
     .kicker {
       font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em;
       text-transform: uppercase; color: var(--accent); margin: 0 0 18px;
     }
     h1 {
       font-family: var(--font-display); font-weight: 400;
-      font-size: clamp(30px, 4.6vw, 48px); line-height: 1.08; letter-spacing: -0.02em;
+      font-size: clamp(28px, 4.2vw, 44px); line-height: 1.08; letter-spacing: -0.02em;
       margin: 0 0 16px; text-wrap: balance; max-width: 22ch;
     }
     .lede { color: var(--muted); font-size: 17px; max-width: 62ch; margin: 0 0 30px; }
 
-    .ask { border-top: 1px solid var(--hair); padding-top: 26px; }
+    .ask { border-top: 1px solid var(--hair-soft); padding-top: 26px; }
     .ask label {
       display: block; font-family: var(--font-mono); font-size: 11px;
       letter-spacing: 0.09em; text-transform: uppercase; color: var(--faint);
@@ -140,29 +182,32 @@
       outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent);
     }
     .ask-row { display: flex; align-items: center; gap: 18px; margin-top: 16px; flex-wrap: wrap; }
+
+    /* ---- кнопки: чёрная пилюля + прозрачная обводка ---- */
     .btn {
       display: inline-flex; align-items: center; gap: 9px;
       font: inherit; font-weight: 600; font-size: 15px; letter-spacing: 0.01em;
-      padding: 11px 20px; border-radius: var(--radius); cursor: pointer;
-      border: 1px solid transparent; transition: background .15s ease, transform .05s ease;
+      padding: 11px 22px; border-radius: 999px; cursor: pointer;
+      border: 1px solid transparent; transition: background .15s ease, transform .05s ease, border-color .15s ease, color .15s ease;
     }
     .btn:active { transform: translateY(1px); }
     .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .btn-primary { background: var(--accent); color: var(--accent-ink); }
-    .btn-primary:hover { background: var(--accent-bright); }
+    .btn-primary { background: var(--pill); color: var(--pill-ink); }
+    .btn-primary:hover { background: #2a2926; }
     .btn-primary:disabled { opacity: .55; cursor: wait; }
     .btn-quiet { background: transparent; color: var(--muted); border-color: var(--hair); }
     .btn-quiet:hover { color: var(--ink); border-color: var(--muted); }
     .btn-quiet:disabled { opacity: .5; cursor: wait; }
     .btn-mini {
-      font-size: 13px; padding: 7px 12px; font-weight: 500;
+      font-size: 13px; padding: 7px 14px; font-weight: 500;
       background: transparent; color: var(--muted); border: 1px solid var(--hair);
+      border-radius: 999px; cursor: pointer;
     }
     .btn-mini:hover { color: var(--ink); border-color: var(--muted); }
     .btn-mini:disabled { opacity: .5; cursor: wait; }
     .btn-mini.danger:hover { color: var(--danger); border-color: var(--danger); }
-    .btn-mini.publish { background: var(--accent-soft); color: var(--accent-bright); border-color: var(--accent); }
-    .btn-mini.publish:hover:not(:disabled) { background: var(--accent); color: var(--accent-ink); }
+    .btn-mini.publish { background: var(--mood-publish-soft); color: var(--mood-publish); border-color: var(--mood-publish); }
+    .btn-mini.publish:hover:not(:disabled) { background: var(--mood-publish); color: #fff; }
     .btn-mini.publish:disabled { opacity: .8; cursor: default; }
     .hint { color: var(--faint); font-size: 13.5px; max-width: 52ch; margin: 0; }
 
@@ -181,6 +226,7 @@
     .error-box {
       border: 1px solid var(--danger); border-radius: var(--radius);
       padding: 18px 20px; margin: 6px 0 0; max-width: 72ch; color: var(--ink);
+      background: #fdf3f1;
     }
 
     .result-head {
@@ -201,7 +247,7 @@
     }
     .goal-echo { color: var(--faint); font-size: 14px; margin: 8px 0 0; max-width: 66ch; }
 
-    .block { border-top: 1px solid var(--hair); margin-top: 30px; padding-top: 18px; }
+    .block { border-top: 1px solid var(--hair-soft); margin-top: 30px; padding-top: 18px; }
     .block-kicker {
       font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em;
       text-transform: uppercase; color: var(--faint); margin: 0 0 12px;
@@ -233,7 +279,7 @@
     .chip {
       font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.03em;
       color: var(--muted); border: 1px solid var(--hair); border-radius: 999px;
-      padding: 3px 10px;
+      padding: 3px 10px; background: var(--surface);
     }
 
     .channel { display: grid; grid-template-columns: 170px 1fr; gap: 20px; padding: 13px 0; border-top: 1px solid var(--hair-soft); }
@@ -257,14 +303,14 @@
       border-top: 1px solid var(--hair); margin-top: 34px; padding-top: 22px;
       display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
     }
-    .count-group { display: inline-flex; border: 1px solid var(--hair); border-radius: var(--radius); overflow: hidden; }
+    .count-group { display: inline-flex; border: 1px solid var(--hair); border-radius: 999px; overflow: hidden; background: var(--surface); }
     .count-btn {
       font: inherit; font-size: 14px; font-weight: 500; letter-spacing: 0.02em;
       background: transparent; color: var(--muted); border: 0; cursor: pointer;
-      padding: 9px 16px; border-right: 1px solid var(--hair);
+      padding: 9px 16px; border-right: 1px solid var(--hair-soft);
     }
     .count-btn:last-child { border-right: 0; }
-    .count-btn[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-bright); }
+    .count-btn[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
     .count-btn:hover { color: var(--ink); }
     .count-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
 
@@ -272,8 +318,9 @@
     @media (min-width: 900px) { .posts { grid-template-columns: 1fr 1fr; } }
 
     .post-card {
-      border: 1px solid var(--hair); border-radius: var(--radius);
+      border: 1px solid var(--hair-soft); border-radius: var(--radius);
       background: var(--surface); display: flex; flex-direction: column;
+      overflow: hidden;
     }
     .post-img {
       width: 100%; aspect-ratio: 16 / 9; display: block; object-fit: cover;
@@ -302,7 +349,7 @@
       letter-spacing: -0.005em; font-weight: 400;
     }
     .post-body-textarea { font-size: 14.8px; line-height: 1.55; resize: vertical; min-height: 120px; color: var(--muted); }
-    .post-cta-input { font-size: 13.5px; color: var(--accent-bright); }
+    .post-cta-input { font-size: 13.5px; color: var(--accent); }
     .post-title-input:hover, .post-body-textarea:hover, .post-cta-input:hover { border-color: var(--hair-soft); }
     .post-title-input:focus-visible, .post-body-textarea:focus-visible, .post-cta-input:focus-visible {
       outline: none; border-color: var(--hair); background: var(--surface-2);
@@ -350,7 +397,7 @@
     .linkish:hover { color: var(--ink); }
     .linkish:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-    .key-box { margin-top: 10px; text-align: left; border: 1px solid var(--hair); border-radius: var(--radius); padding: 14px 16px; max-width: 560px; }
+    .key-box { margin-top: 10px; text-align: left; border: 1px solid var(--hair); border-radius: var(--radius); padding: 14px 16px; max-width: 560px; background: var(--surface); }
     .key-label { display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
     .key-row { display: flex; gap: 10px; }
     .key-input { flex: 1; background: var(--surface); color: var(--ink); border: 1px solid var(--hair); border-radius: var(--radius); padding: 10px 12px; font-family: var(--font-mono); font-size: 14px; }
@@ -359,7 +406,7 @@
     .key-error { color: var(--danger); font-size: 13px; margin: 8px 0 0; }
 
     /* ===== тёплый вход (Дверь 3.1) ===== */
-    .warm-form { border-top: 1px solid var(--hair); padding-top: 26px; }
+    .warm-form { border-top: 1px solid var(--hair-soft); padding-top: 26px; }
     .warm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 22px; }
     @media (max-width: 760px) { .warm-grid { grid-template-columns: 1fr; } }
     .warm-field { display: flex; flex-direction: column; gap: 7px; }
@@ -407,17 +454,17 @@
     /* ===== акцентный циферблат на превью картинки ===== */
     .dial { position: relative; width: 132px; height: 132px; }
     .dial svg { width: 132px; height: 132px; transform: rotate(-90deg); display: block; }
-    .dial-bg { fill: none; stroke: var(--hair); stroke-width: 6; }
+    .dial-bg { fill: none; stroke: var(--hair-soft); stroke-width: 6; }
     .dial-arc {
       fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round;
       stroke-dasharray: 283; stroke-dashoffset: 283;
       transition: stroke-dashoffset 1s linear;
-      filter: drop-shadow(0 0 7px rgba(82, 214, 196, 0.5));
+      filter: drop-shadow(0 0 6px rgba(91, 91, 214, 0.35));
     }
     .dial-num {
       position: absolute; inset: 0; display: grid; place-items: center;
       font-family: var(--font-mono); font-size: 22px; letter-spacing: 0.02em;
-      color: var(--accent-bright);
+      color: var(--accent);
     }
     .dial-cap {
       position: absolute; left: 0; right: 0; bottom: -26px; text-align: center;
@@ -428,25 +475,25 @@
     .btn-mic {
       width: 46px; height: 46px; padding: 0; justify-content: center;
       border-radius: 50%; flex: 0 0 auto;
-      background: var(--accent-soft); border: 1px solid var(--accent); color: var(--accent-bright);
-      font-size: 19px; line-height: 1;
+      background: var(--pill); border: 1px solid var(--pill); color: var(--pill-ink);
+      font-size: 18px; line-height: 1;
       transition: background .2s ease, box-shadow .2s ease;
     }
-    .btn-mic:hover { background: var(--accent); color: var(--accent-ink); }
+    .btn-mic:hover { background: #2a2926; }
     .btn-mic[aria-pressed="true"] {
-      background: var(--accent); color: var(--accent-ink);
+      background: var(--accent); border-color: var(--accent); color: var(--accent-ink);
       animation: micPulse 1.4s ease-in-out infinite;
     }
     @keyframes micPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(82, 214, 196, 0.4); }
-      50% { box-shadow: 0 0 0 12px rgba(82, 214, 196, 0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(91, 91, 214, 0.35); }
+      50% { box-shadow: 0 0 0 12px rgba(91, 91, 214, 0); }
     }
-    .mic-row { display: flex; gap: 10px; align-items: flex-start; }
+    .mic-row { display: flex; gap: 10px; align-items: center; }
     .mic-row .field-side { flex: 1; }
     .voice-note { color: var(--faint); font-size: 12.5px; margin: 6px 0 0; }
     .btn-listen[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 
-    /* ===== Door: Design — воздух и дыхание ===== */
+    /* ===== плавные появления и воздух ===== */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -458,24 +505,16 @@
     .post-card:nth-child(4) { animation-delay: .21s; }
     .post-card:nth-child(5) { animation-delay: .28s; }
 
-    /* воздух: больше пространства между секциями */
-    .hero { padding-block: clamp(56px, 9vw, 100px) 44px; }
-    .result { padding-top: 6px; }
     .journal { margin-top: 76px; }
     .workshop-bar { margin-top: 40px; padding-top: 26px; }
 
-    /* настроение разделов: мягкие маркеры */
     .kicker { color: var(--mood-goal); }
     .workshop .block-kicker, .workshop-bar .block-kicker { color: var(--mood-make); }
-    .btn-mini.publish { background: var(--mood-publish-soft); color: var(--mood-publish); border-color: var(--mood-publish); }
-    .btn-mini.publish:hover:not(:disabled) { background: var(--mood-publish); color: var(--accent-ink); }
 
-    /* плавный переход состояний везде */
     .btn, .btn-mini, .count-btn, .chip, .jrow, .mode-chip { transition: background .18s ease, color .18s ease, border-color .18s ease; }
     textarea#goal, .post-title-input, .post-body-textarea, .post-cta-input { transition: border-color .18s ease, background .18s ease; }
 
-    /* крупнее основная кнопка — удобно нажимать */
-    .btn-primary { padding: 13px 26px; font-size: 16px; }
+    .btn-primary { padding: 13px 28px; font-size: 16px; }
 
     .visually-hidden {
       position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
@@ -486,7 +525,7 @@
 <body>
   <header class="topbar">
     <div class="wrap topbar-inner">
-      <div class="brand">GOOD Growth<span class="brand-sub">Дверь 2 · Руки творца</span></div>
+      <div class="brand"><span class="brand-mark" aria-hidden="true">G</span>GOOD Growth<span class="brand-sub">мастерская роста</span></div>
       <span class="mode-chip" id="modeChip" data-mode="unknown" title="Режим разбора">
         <span class="dot" aria-hidden="true"></span><span id="modeText">проверяю…</span>
       </span>
@@ -494,117 +533,195 @@
   </header>
 
   <main class="wrap">
-    <section class="hero">
-      <p class="kicker">Система, которая управляет ростом</p>
-      <h1>Какую цель ты хочешь достичь?</h1>
-      <p class="lede">Напиши цель — GOOD Growth разложит её на стратегию, а из стратегии создаст готовые посты с картинками. Публикаций пока нет: это Двери 1–2, только мышление и творчество.</p>
-
-      <div class="quick-toggle">
-        <span class="hint" id="warmIntro">Ответь на пять коротких вопросов — чем больше расскажешь, тем точнее будет стратегия.</span>
-        <button class="linkish" id="modeSwap" type="button" style="margin-left:12px;">Написать цель одной фразой</button>
+    <!-- ======== ЛЕНДИНГ (Приказ №17) ======== -->
+    <section class="landing" id="landing" aria-label="О GOOD Growth">
+      <div class="land-hero" id="land-hero">
+        <p class="land-kicker">GOOD GROWTH · МАСТЕРСКАЯ РОСТА</p>
+        <h1>От цели — до готовых постов. За один вечер.</h1>
+        <p class="land-lede">GOOD Growth — тихий инструмент для небольших дел и мастеров. Опиши, чем ты занимаешься, — он разложит цель на стратегию, напишет посты и нарисует к ним картинки. Останется нажать «Опубликовать».</p>
+        <div class="land-cta-row">
+          <button class="btn btn-primary" id="ctaStart" type="button">Попробовать бесплатно</button>
+          <button class="btn btn-quiet" id="ctaEnter" type="button">Сразу в мастерскую</button>
+        </div>
+        <p class="land-note">Без регистрации. Данные остаются на твоём компьютере.</p>
       </div>
 
-      <form class="warm-form" id="warmForm" novalidate>
-        <div class="warm-grid">
-          <div class="warm-field wide">
-            <label for="d_what">Что ты делаешь?</label>
-            <div class="mic-row">
-              <input type="text" id="d_what" class="field-side" maxlength="120" placeholder="Например: «Мастерская ремонта велосипедов»" autocomplete="off">
-              <button class="btn btn-mic" id="micWarm" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом">🎙</button>
-            </div>
-            <p class="warm-hint" id="micWarmHint">Напиши в двух словах — как ты сам это называешь. Или нажми микрофон и скажи.</p>
-          </div>
-          <div class="warm-field">
-            <label for="d_where">Где ты находишься?</label>
-            <div class="mic-row">
-              <input type="text" id="d_where" maxlength="120" placeholder="«Москва, район Хамовники» или «Онлайн по России»" autocomplete="off">
-              <button class="btn btn-mic" id="micWhere" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: где ты находишься">🎙</button>
-            </div>
-            <p class="warm-hint">Чем точнее место — тем легче найти твоих людей.</p>
-          </div>
-          <div class="warm-field">
-            <label for="d_who">Кто твой клиент?</label>
-            <div class="mic-row">
-              <input type="text" id="d_who" maxlength="120" placeholder="«Взрослые, которые хотят научиться играть»" autocomplete="off">
-              <button class="btn btn-mic" id="micWho" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: кто твой клиент">🎙</button>
-            </div>
-            <p class="warm-hint">Опиши одного человека, которому ты помогаешь.</p>
-          </div>
-          <div class="warm-field wide">
-            <label for="d_want">Чего ты хочешь?</label>
-            <div class="mic-row">
-              <input type="text" id="d_want" maxlength="120" placeholder="«Чтобы узнали», «Чтобы записались», «Чтобы пришли в мастерскую»" autocomplete="off">
-              <button class="btn btn-mic" id="micWant" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: чего ты хочешь">🎙</button>
-            </div>
-            <p class="warm-hint">Что должно случиться, чтобы ты сказал: «Да, это сработало»?</p>
-          </div>
-          <div class="warm-field wide">
-            <label for="d_photo">Фото твоего дела (по желанию)</label>
-            <div class="warm-photo-row">
-              <img id="photoPreview" class="warm-preview" alt="Предпросмотр фото" hidden>
-              <div id="photoPreviewPh" class="warm-preview-ph">нет фото</div>
-              <input type="file" id="d_photo" accept="image/*" capture="environment" hidden>
-              <button type="button" class="btn btn-mini" id="photoBtn">Загрузить фото</button>
-              <button type="button" class="btn btn-mini danger" id="photoClear" hidden>Убрать</button>
-            </div>
-            <p class="warm-hint">Фото помогает понять твоё дело — и его можно будет использовать в постах. Голос здесь не нужен: фото выбирается кнопкой, слов его не расскажешь.</p>
-          </div>
-        </div>
-        <div class="warm-actions">
-          <button class="btn btn-primary" id="warmBtn" type="submit">Рассказать о деле</button>
-          <p class="hint">Разбор появится ниже и сохранится в журнале.</p>
-        </div>
-        <p class="status-line" id="warmStatus" role="status" aria-live="polite"></p>
-      </form>
-
-      <p class="status-line" id="statusLine" role="status" aria-live="polite"></p>
-
-      <form class="ask quick-form-hidden" id="askForm" novalidate aria-label="Написать цель одной фразой">
-        <label for="goal">Твоя цель</label>
-        <textarea id="goal" name="goal" rows="4"
-          placeholder="Например: «Хочу, чтобы о нашей юридической помощи узнали в Telegram»"
-          aria-describedby="goal-hint goal-error" maxlength="2000"></textarea>
-        <span id="goal-hint" class="visually-hidden">Опиши цель в одном-двух предложениях. Система разберёт её на стратегию и создаст посты.</span>
-        <div class="ask-row">
-          <button class="btn btn-primary" id="goBtn" type="submit">Разобрать цель</button>
-          <button class="btn btn-mic" id="micQuick" type="button" aria-pressed="false" title="Сказать цель голосом" aria-label="Сказать цель голосом">🎙</button>
-          <p class="hint" id="micQuickHint">Просто напиши цель — для тех, кто торопится.</p>
-        </div>
-        <p id="goal-error" class="error-box" role="alert" hidden></p>
-      </form>
-    </section>
-
-    <section class="result" id="resultSection" aria-label="Разбор цели">
-      <div id="emptyState" class="panel-empty">Пока пусто. Впиши цель и нажми «Разобрать цель».</div>
-      <div id="resultRoot" hidden></div>
-    </section>
-
-    <section class="workshop" id="workshopSection" aria-label="Мастерская постов" hidden>
-      <div class="workshop-bar">
-        <span class="block-kicker" style="margin:0;">Сколько постов создать</span>
-        <div class="count-group" role="group" aria-label="Количество постов">
-          <button type="button" class="count-btn" data-count="1" aria-pressed="true">1</button>
-          <button type="button" class="count-btn" data-count="3" aria-pressed="false">3</button>
-          <button type="button" class="count-btn" data-count="5" aria-pressed="false">5</button>
-          <button type="button" class="count-btn" data-count="10" aria-pressed="false">10</button>
-        </div>
-        <button class="btn btn-primary" id="makeBtn" type="button">Создать контент</button>
-        <p class="hint" id="workshopHint">Тексты напишет разум, картинки — за секунды.</p>
+      <div class="land-section" id="land-problem">
+        <h2>Знакомая боль</h2>
+        <p>Делом занимаешься вечером, а на тексты и картинки сил не остаётся. Пустой канал не приводит клиентов, а копирайтер и дизайнер — это бюджет и объяснения. В итоге страница молчит, дело живёт только сарафаном.</p>
       </div>
-      <div id="postsStatus" class="status-line" role="status" aria-live="polite"></div>
-      <div id="postsRoot" class="posts"></div>
+
+      <div class="land-section" id="land-solution">
+        <h2>Что делает GOOD Growth</h2>
+        <p>Один экран вместо пяти сервисов. Ты отвечаешь на пять коротких вопросов о своём деле — дальше система работает сама.</p>
+        <div class="land-grid">
+          <div class="land-card">
+            <h3>Стратегия из цели</h3>
+            <p>Разбирает «что, где, для кого» на аудиторию, темы и каналы — понятный план вместо пустого листа.</p>
+          </div>
+          <div class="land-card">
+            <h3>Посты с картинками</h3>
+            <p>Готовые тексты с заголовками и иллюстрациями за секунды. Правь как хочешь — это черновик, не клетка.</p>
+          </div>
+          <div class="land-card">
+            <h3>Публикация в Telegram</h3>
+            <p>Кнопка «Опубликовать» отправляет пост в твой канал. Без копирования, без лишних окон.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="land-section" id="land-how">
+        <h2>Как это работает</h2>
+        <div class="land-steps">
+          <div class="land-step"><span class="no">01</span><h3>Опиши дело</h3><p>Пять вопросов или одна фраза — как удобнее. Можно голосом.</p></div>
+          <div class="land-step"><span class="no">02</span><h3>Получи стратегию</h3><p>Аудитория, темы, каналы и ритм публикаций — сразу на экране.</p></div>
+          <div class="land-step"><span class="no">03</span><h3>Создай посты</h3><p>Один, три, пять или десять — с картинками под каждый.</p></div>
+          <div class="land-step"><span class="no">04</span><h3>Опубликуй</h3><p>Проверил заголовок — нажал кнопку — пост в канале.</p></div>
+        </div>
+      </div>
+
+      <div class="land-section" id="land-benefits">
+        <h2>Почему это работает</h2>
+        <div class="land-grid">
+          <div class="land-card">
+            <h3>Твои данные — твои</h3>
+            <p>Всё хранится локально, ключи шифрования не покидают компьютер. Никаких облачных досье.</p>
+          </div>
+          <div class="land-card">
+            <h3>Скорость как свойство</h3>
+            <p>Картинка рисуется за ~15 секунд, стратегия собирается за полминуты. Идея не успевает остыть.</p>
+          </div>
+          <div class="land-card">
+            <h3>Без ловушек подписки</h3>
+            <p>Никаких «первый месяц бесплатно, потом списание». Платишь только за то, что реально рисуешь.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="land-cta-band" id="land-cta">
+        <h2>Готовы рассказать о своём деле?</h2>
+        <p>Первый разбор — бесплатный и без регистрации. Дальше решишь сам.</p>
+        <div class="land-cta-row">
+          <button class="btn btn-primary" id="ctaStart2" type="button">Начать сейчас</button>
+        </div>
+      </div>
     </section>
 
-    <section class="journal" id="journalSection" aria-label="Журнал целей">
-      <h2>Журнал целей</h2>
-      <p class="jsub">Каждый разбор сохраняется локально. Нажми на строку, чтобы открыть разбор и посты.</p>
-      <div id="journalList"><p class="jsub" id="journalEmpty">Журнал пока пуст.</p></div>
-    </section>
+    <!-- ======== МАСТЕРСКАЯ ======== -->
+    <div id="appRoot" hidden>
+      <section class="hero">
+        <p class="kicker">Система, которая управляет ростом</p>
+        <h1>Какую цель ты хочешь достичь?</h1>
+
+        <p class="lede">Напиши цель — GOOD Growth разложит её на стратегию, а из стратегии создаст готовые посты с картинками.</p>
+
+        <div class="quick-toggle">
+          <span class="hint" id="warmIntro">Ответь на пять коротких вопросов — чем больше расскажешь, тем точнее будет стратегия.</span>
+          <button class="linkish" id="modeSwap" type="button" style="margin-left:12px;">Написать цель одной фразой</button>
+        </div>
+
+        <form class="warm-form" id="warmForm" novalidate>
+          <div class="warm-grid">
+            <div class="warm-field wide">
+              <label for="d_what">Что ты делаешь?</label>
+              <div class="mic-row">
+                <input type="text" id="d_what" class="field-side" maxlength="120" placeholder="Например: «Мастерская ремонта велосипедов»" autocomplete="off">
+                <button class="btn btn-mic" id="micWarm" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом">🎙</button>
+              </div>
+              <p class="warm-hint" id="micWarmHint">Напиши в двух словах — как ты сам это называешь. Или нажми микрофон и скажи.</p>
+            </div>
+            <div class="warm-field">
+              <label for="d_where">Где ты находишься?</label>
+              <div class="mic-row">
+                <input type="text" id="d_where" class="field-side" maxlength="120" placeholder="«Москва, район Хамовники» или «Онлайн по России»" autocomplete="off">
+                <button class="btn btn-mic" id="micWhere" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: где ты находишься">🎙</button>
+              </div>
+              <p class="warm-hint">Чем точнее место — тем легче найти твоих людей.</p>
+            </div>
+            <div class="warm-field">
+              <label for="d_who">Кто твой клиент?</label>
+              <div class="mic-row">
+                <input type="text" id="d_who" class="field-side" maxlength="120" placeholder="«Взрослые, которые хотят научиться играть»" autocomplete="off">
+                <button class="btn btn-mic" id="micWho" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: кто твой клиент">🎙</button>
+              </div>
+              <p class="warm-hint">Опиши одного человека, которому ты помогаешь.</p>
+            </div>
+            <div class="warm-field wide">
+              <label for="d_want">Чего ты хочешь?</label>
+              <div class="mic-row">
+                <input type="text" id="d_want" class="field-side" maxlength="120" placeholder="«Чтобы узнали», «Чтобы записались», «Чтобы пришли в мастерскую»" autocomplete="off">
+                <button class="btn btn-mic" id="micWant" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: чего ты хочешь">🎙</button>
+              </div>
+              <p class="warm-hint">Что должно случиться, чтобы ты сказал: «Да, это сработало»?</p>
+            </div>
+            <div class="warm-field wide">
+              <label for="d_photo">Фото твоего дела (по желанию)</label>
+              <div class="warm-photo-row">
+                <img id="photoPreview" class="warm-preview" alt="Предпросмотр фото" hidden>
+                <div id="photoPreviewPh" class="warm-preview-ph">нет фото</div>
+                <input type="file" id="d_photo" accept="image/*" capture="environment" hidden>
+                <button type="button" class="btn btn-mini" id="photoBtn">Загрузить фото</button>
+                <button type="button" class="btn btn-mini danger" id="photoClear" hidden>Убрать</button>
+              </div>
+              <p class="warm-hint">Фото помогает понять твоё дело — и его можно будет использовать в постах. Голос здесь не нужен: фото выбирается кнопкой, слов его не расскажешь.</p>
+            </div>
+          </div>
+          <div class="warm-actions">
+            <button class="btn btn-primary" id="warmBtn" type="submit">Рассказать о деле</button>
+            <p class="hint">Разбор появится ниже и сохранится в журнале.</p>
+          </div>
+          <p class="status-line" id="warmStatus" role="status" aria-live="polite"></p>
+        </form>
+
+        <p class="status-line" id="statusLine" role="status" aria-live="polite"></p>
+
+        <form class="ask quick-form-hidden" id="askForm" novalidate aria-label="Написать цель одной фразой">
+          <label for="goal">Твоя цель</label>
+          <textarea id="goal" name="goal" rows="4"
+            placeholder="Например: «Хочу, чтобы о нашей юридической помощи узнали в Telegram»"
+            aria-describedby="goal-hint goal-error" maxlength="2000"></textarea>
+          <span id="goal-hint" class="visually-hidden">Опиши цель в одном-двух предложениях. Система разберёт её на стратегию и создаст посты.</span>
+          <div class="ask-row">
+            <button class="btn btn-primary" id="goBtn" type="submit">Разобрать цель</button>
+            <button class="btn btn-mic" id="micQuick" type="button" aria-pressed="false" title="Сказать цель голосом" aria-label="Сказать цель голосом">🎙</button>
+            <p class="hint" id="micQuickHint">Просто напиши цель — для тех, кто торопится.</p>
+          </div>
+          <p id="goal-error" class="error-box" role="alert" hidden></p>
+        </form>
+      </section>
+
+      <section class="result" id="resultSection" aria-label="Разбор цели">
+        <div id="emptyState" class="panel-empty">Пока пусто. Впиши цель и нажми «Разобрать цель».</div>
+        <div id="resultRoot" hidden></div>
+      </section>
+
+      <section class="workshop" id="workshopSection" aria-label="Мастерская постов" hidden>
+        <div class="workshop-bar">
+          <span class="block-kicker" style="margin:0;">Сколько постов создать</span>
+          <div class="count-group" role="group" aria-label="Количество постов">
+            <button type="button" class="count-btn" data-count="1" aria-pressed="true">1</button>
+            <button type="button" class="count-btn" data-count="3" aria-pressed="false">3</button>
+            <button type="button" class="count-btn" data-count="5" aria-pressed="false">5</button>
+            <button type="button" class="count-btn" data-count="10" aria-pressed="false">10</button>
+          </div>
+          <button class="btn btn-primary" id="makeBtn" type="button">Создать контент</button>
+          <p class="hint" id="workshopHint">Тексты напишет разум, картинки — за секунды.</p>
+        </div>
+        <div id="postsStatus" class="status-line" role="status" aria-live="polite"></div>
+        <div id="postsRoot" class="posts"></div>
+      </section>
+
+      <section class="journal" id="journalSection" aria-label="Журнал целей">
+        <h2>Журнал целей</h2>
+        <p class="jsub">Каждый разбор сохраняется локально. Нажми на строку, чтобы открыть разбор и посты.</p>
+        <div id="journalList"><p class="jsub" id="journalEmpty">Журнал пока пуст.</p></div>
+      </section>
+    </div>
   </main>
 
   <footer class="pagefoot">
     <div class="wrap pagefoot-inner">
-      <span>GOOD Growth · локальный прототип · данные хранятся только на этом компьютере</span>
+      <span>GOOD Growth · локальный инструмент · данные хранятся только на этом компьютере</span>
       <span class="meta">
         <span id="footMeta">Режим: <span id="footMode">—</span> ·
         <button class="linkish" id="demoToggle" type="button">переключить демо</button></span>
@@ -613,5 +730,30 @@
   </footer>
 
   <script src="/public/app.js"></script>
+  <script>
+    /* Лендинг: вход в мастерскую (Приказ №17). Логика приложения — в app.js. */
+    (function () {
+      const landing = document.getElementById('landing');
+      const appRoot = document.getElementById('appRoot');
+      function enterApp(focusId) {
+        landing.style.display = 'none';
+        appRoot.hidden = false;
+        window.scrollTo({ top: 0, behavior: 'instant' in document.documentElement.style ? 'instant' : 'auto' });
+        const t = focusId ? document.getElementById(focusId) : null;
+        if (t) { try { t.focus({ preventScroll: true }); } catch (e) {} }
+        try { sessionStorage.setItem('gg_entered', '1'); } catch (e) {}
+      }
+      ['ctaStart', 'ctaStart2'].forEach((id) => {
+        const b = document.getElementById(id);
+        if (b) b.addEventListener('click', () => enterApp('d_what'));
+      });
+      const ce = document.getElementById('ctaEnter');
+      if (ce) ce.addEventListener('click', () => enterApp('d_what'));
+      /* вернувшийся в этой сессии — сразу в мастерскую */
+      let seen = null;
+      try { seen = sessionStorage.getItem('gg_entered'); } catch (e) {}
+      if (seen === '1') enterApp(null);
+    })();
+  </script>
 </body>
 </html>
