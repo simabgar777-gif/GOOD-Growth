@@ -210,7 +210,9 @@
     .land-cta-band .land-cta-row { justify-content: center; }
 
     /* ============ герой: цель ============ */
-    .hero { padding-block: clamp(40px, 6vw, 64px) 36px; }
+    .backline { margin: 18px 0 -8px; }
+    .backline .linkish { font-size: 14px; }
+    .hero { padding-block: clamp(28px, 4vw, 44px) 36px; }
     .kicker {
       font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em;
       text-transform: uppercase; color: var(--accent); margin: 0 0 18px;
@@ -704,6 +706,7 @@
 
     <!-- ======== МАСТЕРСКАЯ ======== -->
     <div id="appRoot" hidden>
+      <p class="backline"><button class="linkish" id="backToLanding" type="button">← О сервисе</button></p>
       <section class="hero">
         <p class="kicker">Система, которая управляет ростом</p>
         <h1>Какую цель ты хочешь достичь?</h1>
@@ -848,6 +851,15 @@
       let seen = null;
       try { seen = sessionStorage.getItem('gg_entered'); } catch (e) {}
       if (seen === '1') enterApp(null);
+
+      /* возврат на лендинг */
+      const backBtn = document.getElementById('backToLanding');
+      if (backBtn) backBtn.addEventListener('click', () => {
+        appRoot.hidden = true;
+        landing.style.display = '';
+        try { sessionStorage.removeItem('gg_entered'); } catch (e) {}
+        window.scrollTo(0, 0);
+      });
 
       /* появление секций при прокрутке */
       document.body.classList.add('js-rv');
