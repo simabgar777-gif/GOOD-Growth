@@ -506,6 +506,29 @@ async function route(req, res) {
     return serveFile(res, full);
   }
 
+  /* ---- brands API (Приказ 21) ---- */
+  if (req.method === 'GET' && u.pathname === '/api/brands') {
+    return sendJson(res, 200, db.listBrands());
+  }
+  if (req.method === 'POST' && u.pathname === '/api/brands') {
+    const body = await readBody(req);
+    const name = String(body.name || '').trim();
+    if (name.length < 2) return sendJson(res, 400, { error: 'Название бренда — хотя бы два символа.' });
+    const brand = db.addBrand(name.slice(0, 80), String(body.description || '').slice(0, 300));
+    return sendJson(res, 200, { id: brand.id, name: brand.name });
+  }
+  const bm = u.pathname.match(/^\/api\/brands\/(\d+)$/);
+  if (bm && req.method === 'PATCH') {
+    const body = await readBody(req);
+    if (body.name) db.renameBrand(Number(bm[1]), String(body.name).slice(0, 80));
+    if (body.status) db.setBrandStatus(Number(bm[1]), String(body.status));
+    return sendJson(res, 200, { ok: true });
+  }
+  if (bm && req.method === 'DELETE') {
+    db.deleteBrand(Number(bm[1]));
+    return sendJson(res, 200, { ok: true });
+  }
+
   if (req.method === 'GET' && u.pathname === '/api/health') {
     const demo = isDemo();
     return sendJson(res, 200, {
@@ -529,7 +552,7 @@ async function route(req, res) {
 
     if (demo) {
       const strategy = normalizeStrategy(demoStrategy(goal));
-      const saved = db.addGoal(goal, JSON.stringify(strategy), 'demo', null);
+      const saved = db.addGoal(goal, JSON.stringify(strategy), 'demo', null, body.brand_id || null);
       return sendJson(res, 200, { id: saved.id, createdAt: saved.created_at, source: 'demo', goal, strategy });
     }
 
@@ -545,7 +568,7 @@ async function route(req, res) {
         { role: 'user', content: 'Цель: ' + goal }
       ]);
       const strategy = normalizeStrategy(parseJsonLoose(raw));
-      const saved = db.addGoal(goal, JSON.stringify(strategy), 'live', state.model);
+      const saved = db.addGoal(goal, JSON.stringify(strategy), 'live', state.model, body.brand_id || null);
       return sendJson(res, 200, { id: saved.id, createdAt: saved.created_at, source: 'live', goal, strategy });
     } catch (e) {
       return sendJson(res, 502, {
@@ -556,7 +579,8 @@ async function route(req, res) {
   }
 
   if (req.method === 'GET' && u.pathname === '/api/goals') {
-    return sendJson(res, 200, { goals: db.listGoals(50) });
+    const brandQ = u.searchParams.get('brand');
+    return sendJson(res, 200, { goals: brandQ ? db.listGoals(50, Number(brandQ)) : db.listGoals() });
   }
 
   /* ---------- Door 2: posts ---------- */

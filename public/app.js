@@ -63,6 +63,64 @@ function stopHonestProgress() {
 function showError(text) { goalError.textContent = text; goalError.hidden = !text; }
 function clearError() { showError(''); }
 
+/* ================= Партнёрский режим: бренды (Приказ 22) ================= */
+let brandState = { id: null, name: null, list: [] };
+
+async function loadBrands() {
+  try {
+    const r = await fetch('/api/brands');
+    brandState.list = await r.json();
+  } catch (e) { brandState.list = []; }
+  const saved = sessionStorage.getItem('gg_brand');
+  if (saved) {
+    const b = brandState.list.find((x) => String(x.id) === saved);
+    if (b) { brandState.id = b.id; brandState.name = b.name; }
+  }
+  paintBrand();
+}
+
+function paintBrand() {
+  const pill = document.getElementById('brandPill');
+  if (!pill) return;
+  if (!brandState.list.length) { pill.style.display = 'none'; return; }
+  pill.style.display = '';
+  const label = document.getElementById('brandLabel');
+  label.textContent = brandState.id ? 'Бренд: ' + brandState.name : 'Все бренды';
+  const dd = document.getElementById('brandMenu');
+  dd.innerHTML = '<button type="button" data-bid="" class="bmenu-item">— Все бренды —</button>' +
+    brandState.list.map((b) =>
+      '<button type="button" data-bid="' + b.id + '" class="bmenu-item' + (String(b.id) === String(brandState.id) ? ' cur' : '') + '">' +
+      escBrand(b.name) + '</button>').join('');
+}
+
+function escBrand(s) { return String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function selectBrand(id) {
+  id = id === null || id === '' ? null : Number(id);
+  const b = id ? brandState.list.find((x) => x.id === id) : null;
+  brandState.id = b ? b.id : null;
+  brandState.name = b ? b.name : null;
+  if (brandState.id) sessionStorage.setItem('gg_brand', String(brandState.id));
+  else sessionStorage.removeItem('gg_brand');
+  paintBrand();
+  refreshJournal();
+}
+
+document.addEventListener('click', (e) => {
+  const pill = e.target.closest('#brandPill');
+  const item = e.target.closest('.bmenu-item');
+  if (item) {
+    e.stopPropagation();
+    document.getElementById('brandMenu').classList.remove('open');
+    selectBrand(item.dataset.bid);
+  } else if (pill) {
+    document.getElementById('brandMenu').classList.toggle('open');
+  } else {
+    const menu = document.getElementById('brandMenu');
+    if (menu) menu.classList.remove('open');
+  }
+});
+
 function paintMode() {
   const label = mode.ai === 'live' ? 'живой' : mode.ai === 'demo' ? 'демо' : 'без ключа';
   modeText.textContent = label;
@@ -507,7 +565,7 @@ document.querySelectorAll('.count-btn').forEach((b) => {
 
 async function refreshJournal() {
   try {
-    const r = await fetch('/api/goals');
+    const r = await fetch('/api/goals' + (brandState.id ? '?brand=' + brandState.id : ''));
     const data = await r.json();
     const items = data.goals || [];
     journalList.querySelectorAll('.jrow').forEach((n) => n.remove());
@@ -561,7 +619,7 @@ form.addEventListener('submit', async (e) => {
     const r = await fetch('/api/analyze', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ goal })
+      body: JSON.stringify({ goal, brand_id: brandState.id })
     });
     const data = await r.json();
     if (!r.ok) throw new Error((data.error || 'Не получилось разобрать цель') + (data.hint ? ' ' + data.hint : ''));
@@ -916,7 +974,7 @@ warmForm.addEventListener('submit', async (e) => {
     const r = await fetch('/api/analyze', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ details })
+      body: JSON.stringify({ details, brand_id: brandState.id })
     });
     const data = await r.json();
     if (!r.ok) throw new Error((data.error || 'Не получилось разобрать') + (data.hint ? ' ' + data.hint : ''));
@@ -939,4 +997,8 @@ warmForm.addEventListener('submit', async (e) => {
 
 /* старт */
 refreshHealth();
+loadBrands().then(() => {
+  const qp = new URLSearchParams(location.search).get("brand");
+  if (qp) selectBrand(qp);
+});
 refreshJournal();

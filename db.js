@@ -13,7 +13,14 @@ fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
 const db = new DatabaseSync(DB_PATH);
 
 db.exec(`
-  CREATE TABLE IF NOT EXISTS goals (
+  CREATE TABLE IF NOT EXISTS brands (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  description TEXT DEFAULT '',
+  status TEXT DEFAULT 'active',
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+    CREATE TABLE IF NOT EXISTS goals (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     goal_text TEXT NOT NULL,
     strategy_json TEXT NOT NULL,
@@ -53,16 +60,21 @@ for (const sql of MIGRATIONS) {
 
 /* ---------- goals ---------- */
 
-function addGoal(goalText, strategyJson, source, model) {
+function addGoal(goalText, strategyJson, source, model, brandId) {
   const info = db
-    .prepare('INSERT INTO goals (goal_text, strategy_json, source, model) VALUES (?, ?, ?, ?)')
-    .run(goalText, strategyJson, source, model || null);
+    .prepare('INSERT INTO goals (goal_text, strategy_json, source, model, brand_id) VALUES (?, ?, ?, ?, ?)')
+    .run(goalText, strategyJson, source, model || null, brandId ? Number(brandId) : null);
   return getGoal(Number(info.lastInsertRowid));
 }
 
-function listGoals(limit = 50) {
+function listGoals(limit = 50, brandId) {
+  if (brandId) {
+    return db
+      .prepare('SELECT id, goal_text, source, created_at, brand_id FROM goals WHERE brand_id = ? ORDER BY id DESC LIMIT ?')
+      .all(Number(brandId), limit);
+  }
   return db
-    .prepare('SELECT id, goal_text, source, created_at FROM goals ORDER BY id DESC LIMIT ?')
+    .prepare('SELECT id, goal_text, source, created_at, brand_id FROM goals ORDER BY id DESC LIMIT ?')
     .all(limit);
 }
 
@@ -136,7 +148,41 @@ function setSetting(key, value) {
   ).run(key, String(value));
 }
 
+
+
+
+
+/* ---- brands (партнёрский режим, Приказ 21) ---- */
+function listBrands() {
+  return db
+    .prepare(
+      "SELECT b.*, (SELECT COUNT(*) FROM posts p JOIN goals g ON p.goal_id = g.id WHERE g.brand_id = b.id) AS posts_count FROM brands b ORDER BY b.created_at DESC"
+    )
+    .all();
+}
+function getBrand(id) {
+  return db.prepare('SELECT * FROM brands WHERE id = ?').get(id);
+}
+function addBrand(name, description) {
+  const info = db.prepare('INSERT INTO brands (name, description) VALUES (?, ?)').run(name, description || '');
+  return getBrand(Number(info.lastInsertRowid));
+}
+function renameBrand(id, name) {
+  db.prepare('UPDATE brands SET name = ? WHERE id = ?').run(name, id);
+  return getBrand(id);
+}
+function setBrandStatus(id, status) {
+  db.prepare('UPDATE brands SET status = ? WHERE id = ?').run(status, id);
+  return getBrand(id);
+}
+function deleteBrand(id) {
+  db.prepare('UPDATE goals SET brand_id = NULL WHERE brand_id = ?').run(id);
+  db.prepare('DELETE FROM brands WHERE id = ?').run(id);
+  return { ok: true };
+}
+
 module.exports = {
+  listBrands, getBrand, addBrand, renameBrand, setBrandStatus, deleteBrand,
   addGoal, listGoals, getGoal,
   addPost, listPostsByGoal, getPost, updatePost, deletePost, countPostsByGoal, listAllPosts,
   listPublications,
