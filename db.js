@@ -13,7 +13,14 @@ fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
 const db = new DatabaseSync(DB_PATH);
 
 db.exec(`
-  CREATE TABLE IF NOT EXISTS brands (
+  CREATE TABLE IF NOT EXISTS channels (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  brand_id INTEGER NOT NULL,
+  chat_id TEXT NOT NULL,
+  title TEXT DEFAULT '',
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS brands (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   description TEXT DEFAULT '',
@@ -181,7 +188,22 @@ function deleteBrand(id) {
   return { ok: true };
 }
 
+
+/* ---- channels (каналы брендов, Приказ 23) ---- */
+function listChannels(brandId) {
+  return db.prepare('SELECT * FROM channels WHERE brand_id = ? ORDER BY id').all(brandId);
+}
+function addChannel(brandId, chatId, title) {
+  const info = db.prepare('INSERT INTO channels (brand_id, chat_id, title) VALUES (?, ?, ?)').run(brandId, chatId, title || '');
+  return db.prepare('SELECT * FROM channels WHERE id = ?').get(Number(info.lastInsertRowid));
+}
+function deleteChannel(id) {
+  db.prepare('DELETE FROM channels WHERE id = ?').run(id);
+  return { ok: true };
+}
+
 module.exports = {
+  listChannels, addChannel, deleteChannel,
   listBrands, getBrand, addBrand, renameBrand, setBrandStatus, deleteBrand,
   addGoal, listGoals, getGoal,
   addPost, listPostsByGoal, getPost, updatePost, deletePost, countPostsByGoal, listAllPosts,

@@ -27,7 +27,8 @@ const TG = {
   }
 })();
 
-async function tgSend(post) {
+async function tgSend(post, targetChat) {
+  const chatTarget = targetChat || TG.chatId;
   const api = 'https://api.telegram.org/bot' + TG.token;
   const parts = [post.title, '', post.body];
   if (post.cta) { parts.push('', post.cta); }
@@ -36,7 +37,7 @@ async function tgSend(post) {
   if (post.image_path && post.image_status === 'done') {
     const imgFile = path.join(PUBLIC, post.image_path.replace('/public/', ''));
     const fd = new FormData();
-    fd.append('chat_id', TG.chatId);
+    fd.append('chat_id', chatTarget || TG.chatId);
     fd.append('caption', text.slice(0, 1024));
     const buf = fs.readFileSync(imgFile);
     const blob = new Blob([buf], { type: 'image/jpeg' });
@@ -529,6 +530,24 @@ async function route(req, res) {
     return sendJson(res, 200, { ok: true });
   }
 
+  
+  /* ---- channels API (Приказ 23) ---- */
+  const cm = u.pathname.match(/^\/api\/brands\/(\d+)\/channels$/);
+  if (cm && req.method === 'GET') {
+    return sendJson(res, 200, db.listChannels(Number(cm[1])));
+  }
+  if (cm && req.method === 'POST') {
+    const body = await readBody(req);
+    const chat = String(body.chat_id || '').trim();
+    if (!chat) return sendJson(res, 400, { error: 'Укажи chat_id канала (@имя или -100...). ' });
+    const ch = db.addChannel(Number(cm[1]), chat, String(body.title || '').slice(0, 80));
+    return sendJson(res, 200, ch);
+  }
+  const chd = u.pathname.match(/^\/api\/channels\/(\d+)$/);
+  if (chd && req.method === 'DELETE') {
+    return sendJson(res, 200, db.deleteChannel(Number(chd[1])));
+  }
+
   if (req.method === 'GET' && u.pathname === '/api/health') {
     const demo = isDemo();
     return sendJson(res, 200, {
@@ -666,7 +685,11 @@ async function route(req, res) {
       return sendJson(res, 409, { error: 'Telegram не настроен: нужны TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в .env.' });
     }
     try {
-      const result = await tgSend(post);
+      /* Приказ 23: канал бренда, если у цели есть brand_id */
+      const goalRow = db.getGoal(post.goal_id);
+      const brandChannels = goalRow && goalRow.brand_id ? db.listChannels(goalRow.brand_id) : [];
+      const target = brandChannels.length ? brandChannels[0].chat_id : null;
+      const result = await tgSend(post, target);
       if (!result.ok) {
         const desc = result.description || ('HTTP-ошибка Telegram');
         return sendJson(res, 502, { error: 'Telegram отказал: ' + desc });
