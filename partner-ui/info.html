@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Партнёрам — GOOD Growth</title>
+  <meta name="description" content="Зарабатывайте с GOOD Growth: подписка, комиссия или white-label. Для агентств, фрилансеров и бренд-менеджеров." />
+  <style>
+    :root { --bg:#0b0f1e; --surface:#121830; --surface2:#171e38; --ink:#eceaf4; --muted:#a7abc8;
+      --faint:#737aa0; --hair:rgba(236,234,244,.14); --mint:#52d6c4; --coral:#ff9a7a; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.65 'Segoe UI',Tahoma,sans-serif; }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 28px 22px 70px; }
+    .back { color: var(--faint); text-decoration: none; font-size: 14px; }
+    .back:hover { color: var(--ink); }
+    h1 { font: 400 36px/1.15 Georgia, serif; margin: 14px 0 10px; letter-spacing: -.01em; }
+    h2 { font: 400 26px/1.2 Georgia, serif; margin: 44px 0 12px; }
+    h3 { font: 600 17px/1.3 inherit; margin: 0 0 6px; }
+    .lead { color: var(--muted); font-size: 17px; max-width: 60ch; margin: 0 0 10px; }
+    .kicker { font: 500 12px/1 'Consolas',monospace; letter-spacing: .24em; text-transform: uppercase; color: var(--mint); margin: 0 0 14px; }
+    .models { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin: 24px 0 8px; }
+    .model { background: var(--surface); border: 1px solid var(--hair); border-radius: 14px; padding: 22px 20px; position: relative; transition: transform .18s ease, border-color .18s ease; }
+    .model:hover { transform: translateY(-3px); border-color: var(--mint); }
+    .model .tag { font: 600 11px/1 'Consolas',monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--mint); margin-bottom: 10px; }
+    .model h3 { font-size: 20px; font-family: Georgia, serif; font-weight: 400; }
+    .model .price { font: 600 15px/1.3 inherit; color: var(--coral); margin: 8px 0 10px; }
+    .model p { margin: 0; color: var(--muted); font-size: 14px; }
+    .model .fit { margin-top: 12px; font-size: 13px; color: var(--faint); }
+    .model .fit b { color: var(--ink); font-weight: 600; }
+    .steps { counter-reset: st; margin: 20px 0 0; padding: 0; list-style: none; }
+    .steps li { counter-increment: st; display: grid; grid-template-columns: 52px 1fr; gap: 16px; padding: 16px 0; border-top: 1px solid var(--hair); }
+    .steps li::before { content: "0" counter(st); font: 500 13px/1.6 'Consolas',monospace; letter-spacing: .1em; color: var(--mint); }
+    .steps b { display: block; margin-bottom: 2px; }
+    .steps span { color: var(--muted); font-size: 14.5px; }
+    .compare { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--hair); border-radius: 12px; overflow: hidden; margin-top: 20px; font-size: 14px; }
+    .compare th, .compare td { text-align: left; padding: 11px 13px; border-bottom: 1px solid var(--hair); }
+    .compare th { font: 500 11.5px/1 'Consolas',monospace; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); background: var(--surface2); }
+    .compare tr:last-child td { border-bottom: 0; }
+    .cta-band { margin-top: 50px; background: linear-gradient(135deg, rgba(82,214,196,.10), rgba(91,91,214,.10)); border: 1px solid var(--hair); border-radius: 16px; padding: 30px 28px; }
+    .cta-band h2 { margin-top: 0; }
+    .cta-band .mail { display: inline-block; margin-top: 6px; background: var(--mint); color: #052420; padding: 12px 26px; border-radius: 999px; font-weight: 600; text-decoration: none; }
+    .note { color: var(--faint); font-size: 13px; }
+    .faq { margin-top: 12px; }
+    .faq details { border-top: 1px solid var(--hair); padding: 14px 0; }
+    .faq summary { cursor: pointer; font-weight: 600; }
+    .faq p { color: var(--muted); margin: 10px 0 0; }
+    @media (max-width: 640px) { .models { grid-template-columns: 1fr; } h1 { font-size: 30px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/partner">← К брендам</a> · <a class="back" href="/">← На лендинг</a>
+    <p class="kicker">GOOD GROWTH · Партнёрская программа</p>
+    <h1>Зарабатывайте, управляя ростом чужих брендов</h1>
+    <p class="lead">Агентства, фрилансеры и бренд-менеджеры ведут по 5–20 клиентов. GOOD Growth забирает рутину: стратегия, посты, картинки, публикация. Вы — растёте и зарабатываете. Три модели — выбирайте свою.</p>
+
+    <h2>Три модели дохода</h2>
+    <div class="models">
+      <div class="model">
+        <div class="tag">Модель 01 · Подписка</div>
+        <h3>Аренда системы</h3>
+        <div class="price">2 000 – 5 000 ₽/мес</div>
+        <p>Платите фиксированную подписку — ведите сколько угодно брендов. Клиентам выставляете свою цену, разница — ваша.</p>
+        <div class="fit">Подходит: <b>фрилансерам</b>, которые уже ведут 3+ клиентов.</div>
+      </div>
+      <div class="model">
+        <div class="tag">Модель 02 · Комиссия</div>
+        <h3>Процент с клиентов</h3>
+        <div class="price">20% с каждого</div>
+        <p>Инструмент — бесплатно. Мы берём долю с каждого приведённого клиента, пока он пользуется. Вы ничего не платите вперёд.</p>
+        <div class="fit">Подходит: <b>тем, кто только начинает</b> и не хочет риска.</div>
+      </div>
+      <div class="model">
+        <div class="tag">Модель 03 · White-label</div>
+        <h3>Под своим брендом</h3>
+        <div class="price">Обсуждается</div>
+        <p>Ваш логотип, ваш домен, ваш интерфейс — клиенты не знают о нас. Разделение дохода по договору.</p>
+        <div class="fit">Подходит: <b>агентствам</b> с собственной маркой и 10+ клиентами.</div>
+      </div>
+    </div>
+
+    <h2>Как стать партнёром</h2>
+    <ol class="steps">
+      <li><div><b>Напишите нам</b><span>Одно письмо на hello@go-ood.com: кто вы, сколько клиентов, какая модель интересна.</span></div></li>
+      <li><div><b>Получите доступ</b><span>Мы открываем партнёрский режим и помогаем перенести первых клиентов — за один вечер.</span></div></li>
+      <li><div><b>Растите вместе</b><span>Аналитика по каждому бренду, команда с ролями, публикация в их каналы. Ваш заработок — ваш темп.</span></div></li>
+    </ol>
+
+    <h2>Модели рядом</h2>
+    <table class="compare">
+      <thead><tr><th></th><th>Старт</th><th>Риск</th><th>Потолок</th></tr></thead>
+      <tbody>
+        <tr><td><b>Подписка</b></td><td>мгновенный</td><td>фиксированный платёж</td><td>высокий</td></tr>
+        <tr><td><b>Комиссия</b></td><td>нулевой</td><td>нет</td><td>зависит от клиентов</td></tr>
+        <tr><td><b>White-label</b></td><td>индивидуальный</td><td>договор</td><td>максимальный</td></tr>
+      </tbody>
+    </table>
+
+    <div class="cta-band">
+      <h2>Готовы обсудить?</h2>
+      <p class="lead" style="margin-bottom:16px">Программа партнёров запускается — первые места обсуждаем индивидуально, под ваш состав клиентов.</p>
+      <a class="mail" href="mailto:hello@go-ood.com?subject=Партнёрская%20программа">hello@go-ood.com</a>
+      <p class="note" style="margin-top:14px">А мастерская уже работает — можно показать клиентам прямо сейчас.</p>
+      <a class="mail" href="/app" style="background:transparent;color:var(--mint);border:1px solid var(--mint);margin-left:8px">Открыть мастерскую</a>
+    </div>
+
+    <h2>Частые вопросы</h2>
+    <div class="faq">
+      <details><summary>Партнёрский режим уже работает?</summary><p>Технически — да: список брендов, переключение, отдельные каналы и аналитика функционируют. Роли команды и white-label — в финальной стадии. Коммерческие условия обсуждаем индивидуально с первыми партнёрами.</p></details>
+      <details><summary>Что видят мои клиенты?</summary><p>Клиенты видят только результат: посты в их канале. Интерфейс, бренд GOOD Growth и цены — остаются вашими (в white-label — полностью вашими).</p></details>
+      <details><summary>Данные клиентов в безопасности?</summary><p>Всё хранится на нашем сервере, изолированно по брендам. Ключи и база не покидают инфраструктуру GOOD Growth, резервные копии делаются регулярно.</p></details>
+      <details><summary>Можно начать с комиссии и перейти на подписку?</summary><p>Да, модель меняется в любой момент по договорённости — накопленная статистика клиентов сохраняется.</p></details>
+    </div>
+  </div>
+</body>
+</html>
