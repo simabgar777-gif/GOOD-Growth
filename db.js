@@ -202,7 +202,37 @@ function deleteChannel(id) {
   return { ok: true };
 }
 
+
+/* ---- analytics (аналитика, Приказ 24) ---- */
+function brandAnalytics() {
+  const brands = db.prepare('SELECT id, name, status, created_at FROM brands ORDER BY created_at DESC').all();
+  return brands.map((b) => {
+    const goals = db.prepare('SELECT COUNT(*) n FROM goals WHERE brand_id = ?').get(b.id).n;
+    const posts = db
+      .prepare('SELECT COUNT(*) n FROM posts p JOIN goals g ON p.goal_id = g.id WHERE g.brand_id = ?')
+      .get(b.id).n;
+    const published = db
+      .prepare("SELECT COUNT(*) n FROM posts p JOIN goals g ON p.goal_id = g.id WHERE g.brand_id = ? AND p.published_at IS NOT NULL")
+      .get(b.id).n;
+    const lastPub = db
+      .prepare("SELECT p.published_at FROM posts p JOIN goals g ON p.goal_id = g.id WHERE g.brand_id = ? AND p.published_at IS NOT NULL ORDER BY p.published_at DESC LIMIT 1")
+      .get(b.id);
+    const channels = db.prepare('SELECT COUNT(*) n FROM channels WHERE brand_id = ?').get(b.id).n;
+    return { id: b.id, name: b.name, status: b.status, goals, posts, published, channels, last_published_at: lastPub ? lastPub.published_at : null };
+  });
+}
+function totalsAnalytics() {
+  const goals = db.prepare('SELECT COUNT(*) n FROM goals').get().n;
+  const posts = db.prepare('SELECT COUNT(*) n FROM posts').get().n;
+  const published = db.prepare('SELECT COUNT(*) n FROM posts WHERE published_at IS NOT NULL').get().n;
+  const brands = db.prepare('SELECT COUNT(*) n FROM brands').get().n;
+  const channels = db.prepare('SELECT COUNT(*) n FROM channels').get().n;
+  const unbound = db.prepare('SELECT COUNT(*) n FROM goals WHERE brand_id IS NULL').get().n;
+  return { goals, posts, published, brands, channels, unbound };
+}
+
 module.exports = {
+  brandAnalytics, totalsAnalytics,
   listChannels, addChannel, deleteChannel,
   listBrands, getBrand, addBrand, renameBrand, setBrandStatus, deleteBrand,
   addGoal, listGoals, getGoal,

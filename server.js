@@ -508,6 +508,11 @@ async function route(req, res) {
   }
 
   /* ---- brands API (Приказ 21) ---- */
+  /* ---- analytics API (Приказ 24) ---- */
+  if (req.method === 'GET' && u.pathname === '/api/analytics') {
+    return sendJson(res, 200, { totals: db.totalsAnalytics(), brands: db.brandAnalytics() });
+  }
+
   if (req.method === 'GET' && u.pathname === '/api/brands') {
     return sendJson(res, 200, db.listBrands());
   }
