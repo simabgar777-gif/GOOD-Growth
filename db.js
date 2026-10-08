@@ -20,6 +20,13 @@ db.exec(`
   title TEXT DEFAULT '',
   created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
+CREATE TABLE IF NOT EXISTS team_members (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  email TEXT DEFAULT '',
+  role TEXT DEFAULT 'creator',
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
 CREATE TABLE IF NOT EXISTS brands (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
@@ -231,7 +238,26 @@ function totalsAnalytics() {
   return { goals, posts, published, brands, channels, unbound };
 }
 
+
+/* ---- team (команда, Приказ 25) ---- */
+function listTeam() {
+  return db.prepare('SELECT * FROM team_members ORDER BY created_at DESC').all();
+}
+function addTeamMember(name, email, role) {
+  const info = db.prepare('INSERT INTO team_members (name, email, role) VALUES (?, ?, ?)').run(name, email || '', role || 'creator');
+  return db.prepare('SELECT * FROM team_members WHERE id = ?').get(Number(info.lastInsertRowid));
+}
+function setTeamRole(id, role) {
+  db.prepare('UPDATE team_members SET role = ? WHERE id = ?').run(role, id);
+  return db.prepare('SELECT * FROM team_members WHERE id = ?').get(id);
+}
+function deleteTeamMember(id) {
+  db.prepare('DELETE FROM team_members WHERE id = ?').run(id);
+  return { ok: true };
+}
+
 module.exports = {
+  listTeam, addTeamMember, setTeamRole, deleteTeamMember,
   brandAnalytics, totalsAnalytics,
   listChannels, addChannel, deleteChannel,
   listBrands, getBrand, addBrand, renameBrand, setBrandStatus, deleteBrand,

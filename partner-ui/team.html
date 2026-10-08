@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Команда — GOOD Growth</title>
+  <style>
+    :root { --bg:#0b0f1e; --surface:#121830; --surface2:#171e38; --ink:#eceaf4; --muted:#a7abc8;
+      --faint:#737aa0; --hair:rgba(236,234,244,.14); --mint:#52d6c4; --danger:#e08b76; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 'Segoe UI',Tahoma,sans-serif; }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 28px 22px 60px; }
+    .back { color: var(--faint); text-decoration: none; font-size: 14px; }
+    .back:hover { color: var(--ink); }
+    h1 { font: 400 32px/1.15 Georgia, serif; margin: 14px 0 8px; }
+    .sub { color: var(--muted); margin: 0 0 26px; max-width: 56ch; }
+    .roles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 30px; }
+    .role { background: var(--surface); border: 1px solid var(--hair); border-radius: 12px; padding: 14px 16px; }
+    .role h3 { font: 600 15px/1.3 inherit; margin: 0 0 4px; color: var(--mint); }
+    .role p { margin: 0; color: var(--muted); font-size: 13.5px; }
+    .form { background: var(--surface); border: 1px solid var(--hair); border-radius: 12px; padding: 18px; margin-bottom: 26px; }
+    .form label { display: block; font: 500 12px/1 'Consolas',monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); margin: 0 0 8px; }
+    .form input, .form select { width: 100%; background: var(--surface2); color: var(--ink); border: 1px solid var(--hair); border-radius: 10px; padding: 12px 14px; font: inherit; margin-bottom: 14px; }
+    .form input:focus, .form select:focus { outline: 2px solid var(--mint); border-color: var(--mint); }
+    .btn { padding: 12px 22px; border-radius: 999px; font: 600 14px/1 inherit; cursor: pointer; border: 0; background: var(--mint); color: #052420; }
+    .btn:disabled { opacity: .55; }
+    .status { min-height: 22px; font: 13px/1.4 'Consolas',monospace; color: var(--muted); margin: 10px 0 0; }
+    .err { color: var(--danger); }
+    table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--hair); border-radius: 12px; overflow: hidden; }
+    th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--hair); font-size: 14.5px; }
+    th { font: 500 11.5px/1 'Consolas',monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); background: var(--surface2); }
+    tr:last-child td { border-bottom: 0; }
+    .role-select { background: var(--surface2); color: var(--ink); border: 1px solid var(--hair); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 13.5px; }
+    .del { background: none; border: 0; color: var(--danger); cursor: pointer; font-size: 16px; padding: 4px 8px; }
+    .empty { border: 1px dashed var(--hair); border-radius: 12px; padding: 30px; text-align: center; color: var(--faint); }
+    .note { color: var(--faint); font-size: 13px; margin-top: 16px; }
+    @media (max-width: 640px) { th, td { padding: 9px 8px; font-size: 13px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/partner">← К брендам</a> · <a class="back" href="/partner/analytics">Аналитика</a>
+    <h1>Команда</h1>
+    <p class="sub">Помощники с ролями. Каждый видит бренды, но может делать только то, что разрешено его ролью.</p>
+
+    <div class="roles">
+      <div class="role"><h3>Создатель</h3><p>Готовит цели, посты и картинки. Не публикует.</p></div>
+      <div class="role"><h3>Утверждающий</h3><p>Проверяет черновики перед публикацией. Правит и возвращает.</p></div>
+      <div class="role"><h3>Публикатор</h3><p>Нажимает «Опубликовать». Отвечает за канал.</p></div>
+    </div>
+
+    <form class="form" id="teamForm" novalidate>
+      <label for="mname">Имя помощника</label>
+      <input id="mname" type="text" maxlength="80" placeholder="Например: Анна" autocomplete="off" />
+      <label for="memail">Email (для будущих приглашений, по желанию)</label>
+      <input id="memail" type="email" maxlength="120" placeholder="anna@example.com" autocomplete="off" />
+      <label for="mrole">Роль</label>
+      <select id="mrole">
+        <option value="creator">Создатель</option>
+        <option value="approver">Утверждающий</option>
+        <option value="publisher">Публикатор</option>
+      </select>
+      <button class="btn" id="save" type="submit">Добавить в команду</button>
+      <p class="status" id="formStatus" role="status" aria-live="polite"></p>
+    </form>
+
+    <div id="tableWrap"></div>
+    <p class="note">Роли сейчас фиксируются в списке — включение ограничений по кнопкам (создатель не видит «Опубликовать» и т.п.) — следующий шаг Двери 6.</p>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const roleNames = { creator: 'Создатель', approver: 'Утверждающий', publisher: 'Публикатор' };
+    const statusText = (t, isErr) => { const el = $('formStatus'); el.textContent = t || ''; el.className = 'status' + (isErr ? ' err' : ''); };
+
+    async function load() {
+      try {
+        const list = await (await fetch('/api/team')).json();
+        const w = $('tableWrap');
+        if (!list.length) { w.innerHTML = '<div class="empty">Пока один в команде. Добавь помощника — делегируй рутину.</div>'; return; }
+        w.innerHTML = '<table><thead><tr><th>Имя</th><th>Email</th><th>Роль</th><th></th></tr></thead><tbody>' +
+          list.map((m) =>
+            '<tr><td>' + esc(m.name) + '</td><td class="muted">' + (m.email ? esc(m.email) : '—') + '</td>' +
+            '<td><select class="role-select" data-id="' + m.id + '">' +
+            Object.entries(roleNames).map(([k, v]) => '<option value="' + k + '"' + (k === m.role ? ' selected' : '') + '>' + v + '</option>').join('') +
+            '</select></td>' +
+            '<td><button class="del" data-del="' + m.id + '" data-name="' + esc(m.name) + '" title="Убрать из команды">×</button></td></tr>'
+          ).join('') + '</tbody></table>';
+      } catch (e) { $('tableWrap').innerHTML = '<div class="empty">Ошибка загрузки: ' + esc(e.message) + '</div>'; }
+    }
+
+    $('teamForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = $('mname').value.trim();
+      if (name.length < 2) { statusText('Имя — хотя бы два символа.', true); return; }
+      $('save').disabled = true;
+      try {
+        const r = await fetch('/api/team', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email: $('memail').value.trim(), role: $('mrole').value }) });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.error || 'Ошибка');
+        statusText(name + ' добавлен(а) в команду.');
+        $('mname').value = ''; $('memail').value = '';
+        load();
+      } catch (err) { statusText(err.message, true); }
+      finally { $('save').disabled = false; }
+    });
+
+    document.addEventListener('change', async (e) => {
+      const sel = e.target.closest('.role-select');
+      if (sel) { await fetch('/api/team/' + sel.dataset.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ role: sel.value }) }); }
+    });
+    document.addEventListener('click', async (e) => {
+      const del = e.target.closest('[data-del]');
+      if (del) {
+        if (!confirm('Убрать «' + del.dataset.name + '» из команды?')) return;
+        await fetch('/api/team/' + del.dataset.del, { method: 'DELETE' });
+        load();
+      }
+    });
+
+    load();
+  </script>
+</body>
+</html>

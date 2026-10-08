@@ -509,6 +509,29 @@ async function route(req, res) {
 
   /* ---- brands API (Приказ 21) ---- */
   /* ---- analytics API (Приказ 24) ---- */
+  /* ---- team API (Приказ 25) ---- */
+  if (req.method === 'GET' && u.pathname === '/api/team') {
+    return sendJson(res, 200, db.listTeam());
+  }
+  if (req.method === 'POST' && u.pathname === '/api/team') {
+    const body = await readBody(req);
+    const name = String(body.name || '').trim();
+    if (name.length < 2) return sendJson(res, 400, { error: 'Имя помощника — хотя бы два символа.' });
+    const role = ['creator', 'approver', 'publisher'].includes(body.role) ? body.role : 'creator';
+    const email = String(body.email || '').trim().slice(0, 120);
+    return sendJson(res, 200, db.addTeamMember(name.slice(0, 80), email, role));
+  }
+  const tm = u.pathname.match(/^\/api\/team\/(\d+)$/);
+  if (tm && req.method === 'PATCH') {
+    const body = await readBody(req);
+    const role = ['creator', 'approver', 'publisher'].includes(body.role) ? body.role : null;
+    if (!role) return sendJson(res, 400, { error: 'Неизвестная роль.' });
+    return sendJson(res, 200, db.setTeamRole(Number(tm[1]), role));
+  }
+  if (tm && req.method === 'DELETE') {
+    return sendJson(res, 200, db.deleteTeamMember(Number(tm[1])));
+  }
+
   if (req.method === 'GET' && u.pathname === '/api/analytics') {
     return sendJson(res, 200, { totals: db.totalsAnalytics(), brands: db.brandAnalytics() });
   }
