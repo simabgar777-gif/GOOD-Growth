@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дизайн-система GOOD Growth — UI-kit (Астра)</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+<style>
+:root{
+  --green-deep:#0B3D2E; --green-main:#1E7A56; --green-light:#7CCB7A;
+  --sun:#FFD166; --lemon:#F8F66F;
+  --ink:#122b21; --paper:#f6faf7; --surface:#ffffff;
+  --hair:rgba(18,43,33,.13); --hair-soft:rgba(18,43,33,.06);
+  --radius:12px; --radius-pill:999px;
+  --font-body:'Segoe UI',Tahoma,sans-serif; --font-display:Georgia,serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--font-body)}
+.wrap{max-width:980px;margin:0 auto;padding:30px 22px 80px}
+.kicker{font:500 12px/1 Consolas,monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--green-main);margin:0 0 12px}
+h1{font:400 34px/1.15 var(--font-display);margin:0 0 8px}
+.sub{color:#4c6b5c;max-width:60ch;margin:0 0 34px}
+h2{font:400 24px/1.2 var(--font-display);margin:46px 0 14px;padding-top:22px;border-top:1px solid var(--hair)}
+/* palette */
+.pal{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.sw{border-radius:var(--radius);overflow:hidden;border:1px solid var(--hair-soft)}
+.sw .c{height:64px}
+.sw .t{padding:9px 12px;font:500 12.5px/1.4 Consolas,monospace}
+.sw .t small{color:#6b8a7b;display:block}
+/* buttons */
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{font:600 15px/1 inherit;padding:12px 24px;border-radius:var(--radius-pill);cursor:pointer;border:1px solid transparent;transition:filter .15s,transform .05s}
+.btn:active{transform:translateY(1px)}
+.b-primary{background:var(--green-main);color:#fff}
+.b-primary:hover{filter:brightness(1.1)}
+.b-sun{background:var(--sun);color:#3d2f00}
+.b-ghost{background:transparent;color:var(--green-deep);border-color:var(--hair)}
+.b-ghost:hover{border-color:var(--green-main);color:var(--green-main)}
+.b-danger{background:#fff;color:#c0392b;border-color:#c0392b33}
+.b-danger:hover{border-color:#c0392b}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--hair-soft);border-radius:var(--radius);padding:20px;box-shadow:0 2px 10px rgba(11,61,46,.05)}
+.card h3{font:400 19px/1.25 var(--font-display);margin:0 0 8px}
+.card p{margin:0;color:#4c6b5c;font-size:14.5px}
+.card .badge{display:inline-block;font:600 11px/1 Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:10px}
+.badge-active{background:rgba(30,122,86,.12);color:var(--green-main)}
+.badge-draft{background:rgba(255,209,102,.2);color:#8a6d00}
+.badge-paused{background:rgba(18,43,33,.08);color:#6b8a7b}
+/* inputs */
+.field{max-width:420px;margin-bottom:16px}
+.field label{display:block;font:500 12px/1 Consolas,monospace;letter-spacing:.07em;text-transform:uppercase;color:#6b8a7b;margin-bottom:8px}
+.field input,.field textarea,.field select{width:100%;background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:12px 14px;font:inherit;color:var(--ink)}
+.field input:focus,.field textarea:focus,.field select:focus{outline:2px solid var(--green-main);border-color:var(--green-main)}
+/* modal preview */
+.modal-demo{background:var(--surface);border:1px solid var(--hair);border-radius:16px;box-shadow:0 18px 44px rgba(11,61,46,.14);max-width:420px;padding:26px}
+/* table */
+table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--hair-soft);border-radius:var(--radius);overflow:hidden}
+th,td{text-align:left;padding:11px 14px;font-size:14.5px;border-bottom:1px solid var(--hair-soft)}
+th{font:500 11.5px/1 Consolas,monospace;letter-spacing:.07em;text-transform:uppercase;color:#6b8a7b;background:var(--paper)}
+tr:last-child td{border-bottom:0}
+/* icons row */
+.icons{display:flex;gap:14px;flex-wrap:wrap}
+.ic{width:40px;height:40px;border-radius:11px;background:rgba(30,122,86,.1);display:inline-grid;place-items:center;color:var(--green-main)}
+.ic svg{width:20px;height:20px}
+/* dark section preview */
+.dark{background:var(--green-deep);border-radius:16px;padding:26px;margin-top:14px}
+.dark .btn-ghost{color:#e8f5ee;border-color:rgba(232,245,238,.3)}
+.dark .card{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)}
+.dark .card p{color:#b9d6c7}
+.dark .card h3{color:#fff}
+.note{color:#6b8a7b;font-size:13.5px;margin-top:10px}
+</style>
+</head>
+<body><div class="wrap">
+<p class="kicker">GOOD GROWTH · UI-KIT · БРЕНД «АСТРА»</p>
+<h1>Дизайн-система v1</h1>
+<p class="sub">Единые компоненты на палитре Астры: глубокая зелень + светлая мята + солнечный акцент. База для рестайла лендинга, мастерской и партнёрки.</p>
+
+<h2>Палитра</h2>
+<div class="pal">
+  <div class="sw"><div class="c" style="background:#0B3D2E"></div><div class="t">#0B3D2E<small>глубокая зелень · фон тёмных блоков</small></div></div>
+  <div class="sw"><div class="c" style="background:#1E7A56"></div><div class="t">#1E7A56<small>главная зелень · кнопки, акценты</small></div></div>
+  <div class="sw"><div class="c" style="background:#7CCB7A"></div><div class="t">#7CCB7A<small>светлая мята · успех, детали</small></div></div>
+  <div class="sw"><div class="c" style="background:#FFD166"></div><div class="t">#FFD166<small>солнечный · главный акцент</small></div></div>
+  <div class="sw"><div class="c" style="background:#F8F66F"></div><div class="t">#F8F66F<small>лимон · подсветка</small></div></div>
+</div>
+
+<h2>Кнопки</h2>
+<div class="row">
+  <button class="btn b-primary">Главная (Рассказать о деле)</button>
+  <button class="btn b-sun">Акцент (Создать)</button>
+  <button class="btn b-ghost">Второстепенная</button>
+  <button class="btn b-danger">Удалить</button>
+</div>
+
+<h2>Карточки</h2>
+<div class="cards">
+  <div class="card"><span class="badge badge-active">Активен</span><h3>Кофейня «Зерно»</h3><p>12 постов · 4 публикации · последний канал @zerno</p></div>
+  <div class="card"><span class="badge badge-draft">Черновик</span><h3>Студия «Свет»</h3><p>3 поста · публикаций нет</p></div>
+  <div class="card"><span class="badge badge-paused">На паузе</span><h3>Мастерская «Колесо»</h3><p>7 постов · 1 публикация</p></div>
+</div>
+
+<h2>Поля ввода</h2>
+<div class="field"><label for="f1">Твоя цель</label><input id="f1" placeholder="Например: «Хочу, чтобы о нас узнали в Telegram»"></div>
+<div class="field"><label for="f2">Описание бренда</label><textarea id="f2" rows="2" placeholder="Одной фразой"></textarea></div>
+
+<h2>Таблица (журнал)</h2>
+<table><thead><tr><th>Бренд</th><th>Цели</th><th>Посты</th><th>Публикации</th></tr></thead>
+<tbody><tr><td>Кофейня «Зерно»</td><td>5</td><td>12</td><td>4</td></tr>
+<tr><td>Студия «Свет»</td><td>2</td><td>3</td><td>0</td></tr>
+<tr><td>Мастерская «Колесо»</td><td>3</td><td>7</td><td>1</td></tr></tbody></table>
+
+<h2>Иконки (монохром, 1.7px)</h2>
+<div class="icons">
+  <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2"/></svg></span>
+  <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M3.5 17.5l5-5 4 4 3-3 5 4.5"/></svg></span>
+  <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2.5L11 13"/><path d="M21.5 2.5L14.5 21.5l-3.5-8.5-8.5-3.5 19-7z"/></svg></span>
+  <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5L4.5 13.5h5.5l-1 8 8.5-11h-5.5l1-8z"/></svg></span>
+</div>
+
+<h2>Модальное окно</h2>
+<div class="modal-demo">
+  <p style="margin:0 0 6px;font:600 11px/1 Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--green-main)">ПАРТНЁРСКИЙ ПУТЬ</p>
+  <h3 style="font:400 22px/1.2 var(--font-display);margin:0 0 10px">Скоро откроется</h3>
+  <p style="margin:0 0 16px;color:#4c6b5c;font-size:14.5px">Режим для агентств в разработке: несколько брендов, переключение в один клик.</p>
+  <div class="row"><button class="btn b-primary">Понятно</button><button class="btn b-ghost">Закрыть</button></div>
+</div>
+
+<h2>Тёмный блок (обложки, герои)</h2>
+<div class="dark">
+  <p style="margin:0 0 8px;font:500 11px/1 Consolas,monospace;letter-spacing:.2em;text-transform:uppercase;color:#7CCB7A">GOOD GROWTH</p>
+  <h3 style="font:400 28px/1.15 var(--font-display);color:#fff;margin:0 0 10px">От цели — до готовых постов</h3>
+  <p style="margin:0 0 18px;color:#b9d6c7;max-width:52ch">Тёмная зелень — фон обложек соцсетей и тёмных блоков лендинга. Кнопки поверх — солнечные.</p>
+  <div class="row"><button class="btn b-sun">Попробовать</button><button class="btn b-ghost">Подробнее</button></div>
+  <div class="cards" style="margin-top:22px">
+    <div class="card"><h3>Карточка на тёмном</h3><p>Полупрозрачная поверхность, светлая мята для цифр.</p></div>
+  </div>
+</div>
+
+<p class="note">Это живой справочник: все компоненты уже совместимы с разметкой мастерской и партнёрки. Следующий шаг — перенести токены в :root всех страниц (одна правка на страницу).</p>
+</div></body></html>
