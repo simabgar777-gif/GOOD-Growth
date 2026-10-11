@@ -623,6 +623,12 @@ async function route(req, res) {
     }
   }
 
+  /* ---- Order 26: current plan for badge ---- */
+  if (req.method === 'GET' && u.pathname === '/api/plan') {
+    const p = db.getUserPlan(getUserKey());
+    return sendJson(res, 200, { plan: p ? p.code : 'start' });
+  }
+
   if (req.method === 'GET' && u.pathname === '/api/health') {
     const demo = isDemo();
     return sendJson(res, 200, {

@@ -662,6 +662,24 @@ demoToggle.addEventListener('click', async () => {
     });
     if (!r.ok) throw new Error('Не получилось переключить режим');
     await refreshHealth();
+/* Order 26: plan badge in topbar */
+(async () => {
+  try {
+    const r = await fetch('/api/plan');
+    if (!r.ok) return;
+    const d = await r.json();
+    const names = { start: 'Старт', growth: 'Рост', pro: 'Про', agency: 'Агентство', unlimited: 'Безлимит' };
+    const pill = document.getElementById('brandPill');
+    if (!pill) return;
+    const span = document.createElement('a');
+    span.id = 'planBadge';
+    span.href = '/pricing';
+    span.title = 'Тарифы';
+    span.style.cssText = 'font:600 12px/1 inherit;letter-spacing:.02em;padding:8px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--hair);color:var(--muted);text-decoration:none;white-space:nowrap';
+    span.textContent = 'Ваш тариф: ' + (names[d.plan] || 'Старт');
+    pill.parentNode.insertBefore(span, pill);
+  } catch (e) {}
+})();
     setStatus(enable ? 'Демо-режим включён: разбор и посты собираются локально, без DeepSeek.' : 'Демо-режим выключен.');
   } catch (e) { showError(e.message); }
 });
