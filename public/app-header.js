@@ -93,6 +93,7 @@
   if (!host) { host = document.createElement('div'); host.id = 'gg-header'; }
   host.appendChild(el(html));
   document.body.insertBefore(host, document.body.firstChild);
+  if (window.console && console.warn) { var __ggLinks = host.querySelectorAll('a'); var __ggBad = []; __ggLinks.forEach(function(a){ var h = a.getAttribute('href') || ''; if (h && h.charAt(0) === '/' && !h.startsWith('/gg-header') && !a.textContent.trim().match(/^(Лендинг|Как работает|Тарифы|Партнёрам|Мастерская|Войти|Начать бесплатно|Профиль|Каналы|Выход)$/)) __ggBad.push(h); }); if (__ggBad.length) console.warn('[gg-header] unusual links:', __ggBad.join(', ')); if (!document.getElementById('gg-header')) console.warn('[gg-header] host missing after init'); }
   var b = document.getElementById('gg-burger');
   if (b) b.addEventListener('click', function () {
     var n = host.querySelector('nav');

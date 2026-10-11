@@ -118,5 +118,37 @@
     </div>
   </div>
 <script src="/gg-header.js" defer></script>
+
+<section style="max-width:640px;margin:56px auto 0;padding:0 20px 64px">
+  <div style="background:#101510;border:1px solid #2a332a;border-radius:18px;padding:28px 26px">
+    <div style="font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#ffd166;margin-bottom:8px">Ранний доступ</div>
+    <h3 style="margin:0 0 10px;font-size:22px;font-weight:600">Оставить email — сообщим о запуске</h3>
+    <p style="margin:0 0 18px;color:#b8c4b8;line-height:1.55">Никакого спама. Одно письмо, когда партнёрский режим откроется.</p>
+    <form id="ggWaitlistForm" style="display:flex;gap:10px;flex-wrap:wrap">
+      <input id="ggWaitlistEmail" type="email" required placeholder="you@example.com"
+        style="flex:1;min-width:220px;background:#0b0f0b;border:1px solid #2a332a;border-radius:10px;padding:12px 14px;color:#f2f5f2;font-size:15px">
+      <button type="submit" style="background:#ffd166;color:#191400;border:0;border-radius:10px;padding:12px 22px;font-weight:600;cursor:pointer;font-size:15px">Оставить email</button>
+    </form>
+    <div id="ggWaitlistMsg" style="margin-top:12px;font-size:14px;color:#8bd98b;min-height:20px"></div>
+  </div>
+</section>
+<script>
+(function(){
+  var f=document.getElementById('ggWaitlistForm');
+  if(!f)return;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var em=document.getElementById('ggWaitlistEmail').value.trim();
+    var msg=document.getElementById('ggWaitlistMsg');
+    fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})})
+      .then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j};});})
+      .then(function(res){
+        if(res.ok){msg.style.color='#8bd98b';msg.textContent='Готово! Записали. Одно письмо — когда откроем.';f.reset();}
+        else{msg.style.color='#ff9d9d';msg.textContent=(res.j&&res.j.error)?('Ошибка: '+res.j.error):'Проверьте email и попробуйте ещё раз.';}
+      })
+      .catch(function(){msg.style.color='#ff9d9d';msg.textContent='Сеть недоступна. Попробуйте позже.';});
+  });
+})();
+</script>
 </body>
 </html>
