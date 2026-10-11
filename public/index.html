@@ -29,30 +29,30 @@
       /* == GOOD Growth · «Светлая мастерская» (Приказ №17, 6 окт 2026) ==
          Тёплый крем + чернильный текст + чёрные пилюли + один ирис-акцент.
          Настроения: цель(глубокий синий) / создание(зелёный) / публикация(коралл). */
-      --bg:        #faf9f5;
+      --bg:        #f6faf7;
       --bg-2:      #f4f2ec;
       --surface:   #ffffff;
-      --surface-2: #f4f2ec;
-      --ink:       #1f1e1c;
-      --muted:     #5f5d57;
-      --faint:     #8a877e;
-      --hair:      rgba(31, 30, 28, 0.13);
-      --hair-soft: rgba(31, 30, 28, 0.06);
-      --accent:        #5b5bd6;
-      --accent-bright: #6e6ee0;
+      --surface-2: #eef5f0;
+      --ink:       #122b21;
+      --muted:     #4c6b5c;
+      --faint:     #6b8a7b;
+      --hair:      rgba(18, 43, 33, 0.13);
+      --hair-soft: rgba(18, 43, 33, 0.06);
+      --accent:        #1e7a56;
+      --accent-bright: #2e8f68;
       --accent-ink:    #ffffff;
-      --accent-soft:   rgba(91, 91, 214, 0.10);
-      --pill:      #161513;
+      --accent-soft:   rgba(30, 122, 86, 0.10);
+      --pill:      #1e7a56;
       --pill-ink:  #ffffff;
       --danger:  #c74a3c;
       --ok:      #3f9d63;
 
-      --mood-goal:   #4a63b8;
-      --mood-goal-soft:  rgba(74, 99, 184, 0.10);
-      --mood-make:   #3f8f6b;
-      --mood-make-soft:  rgba(63, 143, 107, 0.10);
-      --mood-publish:#d97757;
-      --mood-publish-soft: rgba(217, 119, 87, 0.12);
+      --mood-goal:   #0b3d2e;
+      --mood-goal-soft:  rgba(11, 61, 46, 0.10);
+      --mood-make:   #1e7a56;
+      --mood-make-soft:  rgba(30, 122, 86, 0.10);
+      --mood-publish:#f0b429;
+      --mood-publish-soft: rgba(240, 180, 41, 0.14);
 
       --font-display: Georgia, 'Times New Roman', serif;
       --font-body: 'Segoe UI', Tahoma, Arial, sans-serif;
@@ -87,7 +87,7 @@
     .brand { font-family: var(--font-display); font-size: 20px; letter-spacing: -0.01em; display: inline-flex; align-items: center; gap: 10px; }
     .brand-mark {
       width: 24px; height: 24px; border-radius: 8px; flex: 0 0 auto;
-      background: linear-gradient(135deg, #5b5bd6 0%, #9a5bd6 100%);
+      background: linear-gradient(135deg, #1e7a56 0%, #7ccb7a 100%);
       display: inline-grid; place-items: center;
       color: #fff; font-family: var(--font-body); font-weight: 700; font-size: 13px;
       letter-spacing: 0;
@@ -257,7 +257,7 @@
     .btn:active { transform: translateY(1px); }
     .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     .btn-primary { background: var(--pill); color: var(--pill-ink); }
-    .btn-primary:hover { background: #2a2926; }
+    .btn-primary:hover { background: #17603f; }
     .btn-primary:disabled { opacity: .55; cursor: wait; }
     .btn-quiet { background: transparent; color: var(--muted); border-color: var(--hair); }
     .btn-quiet:hover { color: var(--ink); border-color: var(--muted); }
@@ -271,7 +271,7 @@
     .btn-mini:disabled { opacity: .5; cursor: wait; }
     .btn-mini.danger:hover { color: var(--danger); border-color: var(--danger); }
     .btn-mini.publish { background: var(--mood-publish-soft); color: var(--mood-publish); border-color: var(--mood-publish); }
-    .btn-mini.publish:hover:not(:disabled) { background: var(--mood-publish); color: #fff; }
+    .btn-mini.publish:hover:not(:disabled) { background: var(--mood-publish); color: #3d2f00; }
     .btn-mini.publish:disabled { opacity: .8; cursor: default; }
     .hint { color: var(--faint); font-size: 13.5px; max-width: 52ch; margin: 0; }
 
@@ -523,7 +523,7 @@
       fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round;
       stroke-dasharray: 283; stroke-dashoffset: 283;
       transition: stroke-dashoffset 1s linear;
-      filter: drop-shadow(0 0 6px rgba(91, 91, 214, 0.35));
+      filter: drop-shadow(0 0 6px rgba(30, 122, 86, 0.35));
     }
     .dial-num {
       position: absolute; inset: 0; display: grid; place-items: center;
@@ -543,14 +543,14 @@
       font-size: 18px; line-height: 1;
       transition: background .2s ease, box-shadow .2s ease;
     }
-    .btn-mic:hover { background: #2a2926; }
+    .btn-mic:hover { background: #17603f; }
     .btn-mic[aria-pressed="true"] {
       background: var(--accent); border-color: var(--accent); color: var(--accent-ink);
       animation: micPulse 1.4s ease-in-out infinite;
     }
     @keyframes micPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(91, 91, 214, 0.35); }
-      50% { box-shadow: 0 0 0 12px rgba(91, 91, 214, 0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(30, 122, 86, 0.35); }
+      50% { box-shadow: 0 0 0 12px rgba(30, 122, 86, 0); }
     }
     .mic-row { display: flex; gap: 10px; align-items: center; }
     .mic-row .field-side { flex: 1; }
@@ -633,11 +633,11 @@
             <svg viewBox="0 0 320 180" role="img" aria-label="Иллюстрация: пост с картинкой">
               <defs>
                 <linearGradient id="ggSky" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#5b5bd6"/><stop offset="1" stop-color="#9a5bd6"/>
+                  <stop offset="0" stop-color="#1e7a56"/><stop offset="1" stop-color="#7ccb7a"/>
                 </linearGradient>
               </defs>
               <rect width="320" height="180" fill="url(#ggSky)"/>
-              <circle cx="252" cy="52" r="26" fill="#faf9f5" opacity="0.92"/>
+              <circle cx="252" cy="52" r="26" fill="#f8f66f" opacity="0.94"/>
               <path d="M0 132 Q80 98 160 128 T320 122 V180 H0 Z" fill="#1f1e1c" opacity="0.85"/>
               <path d="M0 152 Q90 128 180 148 T320 144 V180 H0 Z" fill="#3f8f6b" opacity="0.35"/>
             </svg>
