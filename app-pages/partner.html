@@ -138,6 +138,7 @@
             '<div class="chans" id="chans-' + b.id + '" style="margin-top:10px"></div>' +
             '<div class="actions">' +
             '<a class="mini open-link" href="/app?brand=' + b.id + '" style="text-decoration:none">Открыть</a>' +
+            '<button class="mini" data-channels="' + b.id + '" data-bname="' + esc(b.name) + '">Каналы</button>' +
             '<button class="mini" data-rename="' + b.id + '" data-name="' + esc(b.name) + '">Переименовать</button>' +
             '<button class="mini" data-status="' + b.id + '" data-cur="' + esc(b.status) + '">' + (b.status === 'paused' ? 'Включить' : 'Пауза') + '</button>' +
             '<button class="mini danger" data-del="' + b.id + '" data-name="' + esc(b.name) + '">Удалить</button>' +
@@ -193,5 +194,97 @@
 
     load();
   </script>
+
+<div id="ch-modal" style="display:none;position:fixed;inset:0;background:rgba(8,10,14,.72);z-index:90;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)closeChModal()">
+  <div style="background:var(--surface,#12151b);border:1px solid var(--hair,#2a2f3a);border-radius:16px;max-width:640px;width:100%;max-height:86vh;overflow:auto;padding:26px">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <h3 id="ch-title" style="margin:0;font-size:19px">Каналы бренда</h3>
+      <button onclick="closeChModal()" style="background:none;border:0;color:var(--faint,#8b93a3);font-size:22px;cursor:pointer;line-height:1">×</button>
+    </div>
+    <div id="ch-connected" style="margin-top:18px"></div>
+    <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+      <button id="ch-add" class="mini" style="border-color:var(--mint);color:var(--mint)">+ Добавить Telegram-канал</button>
+    </div>
+    <div style="margin-top:22px;font:600 12px/1 Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint,#8b93a3)">Все соцсети GOOD Growth</div>
+    <div id="ch-grid" style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px"></div>
+    <p style="margin-top:16px;font-size:12.5px;color:var(--faint,#8b93a3)">Серые — в разработке: OAuth-подключение откроем в ближайших спринтах. Почти все соцсети будут в GOOD Growth.</p>
+  </div>
+</div>
+<script>
+(function(){
+  var NETS = [
+    {n:'Telegram', s:'ok', i:'✈'},
+    {n:'VK', s:'soon', i:'🅥'},
+    {n:'Pinterest', s:'soon', i:'P'},
+    {n:'Facebook', s:'soon', i:'f'},
+    {n:'Instagram', s:'soon', i:'◙'},
+    {n:'X (Twitter)', s:'soon', i:'𝕏'},
+    {n:'LinkedIn', s:'soon', i:'in'},
+    {n:'YouTube', s:'soon', i:'▶'},
+    {n:'TikTok', s:'soon', i:'♪'},
+    {n:'Одноклассники', s:'soon', i:'ок'}
+  ];
+  var curBrand = null;
+  function esc(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  window.openChModal = function(id, name){
+    curBrand = id;
+    document.getElementById('ch-title').textContent = 'Каналы — ' + name;
+    document.getElementById('ch-modal').style.display = 'flex';
+    loadCh();
+  };
+  window.closeChModal = function(){
+    document.getElementById('ch-modal').style.display = 'none';
+  };
+  async function loadCh(){
+    var box = document.getElementById('ch-connected');
+    box.innerHTML = '<span style="color:var(--faint,#8b93a3);font-size:13px">Загружаю…</span>';
+    try {
+      var r = await fetch('/api/brands/' + curBrand + '/channels');
+      var list = await r.json();
+      var arr = Array.isArray(list) ? list : (list.channels || []);
+      box.innerHTML = arr.length
+        ? '<div style="font:600 12px/1 Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint,#8b93a3);margin-bottom:8px">Подключённые</div>' +
+          arr.map(function(c){
+            return '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--surface2,#171b22);border:1px solid var(--hair,#2a2f3a);border-radius:10px;padding:10px 14px;margin-bottom:8px">' +
+              '<span style="display:inline-flex;align-items:center;gap:8px"><span style="color:#4ade80">✅</span> <b>' + esc(c.title || c.chat_id) + '</b> <span style="color:var(--faint,#8b93a3);font-size:12px">' + esc(c.chat_id) + '</span></span>' +
+              '<button class="mini danger" data-delch="' + c.id + '" style="color:var(--danger,#f87171)">Отключить</button></div>';
+          }).join('')
+        : '<span style="color:var(--faint,#8b93a3);font-size:13px">Пока нет подключённых каналов — добавь Telegram-канал бренда.</span>';
+      document.getElementById('ch-grid').innerHTML = NETS.map(function(nt){
+        var ok = nt.s === 'ok';
+        return '<div style="display:flex;align-items:center;gap:10px;border:1px solid ' + (ok ? 'rgba(74,222,128,.45)' : 'var(--hair,#2a2f3a)') + ';border-radius:10px;padding:10px 12px;' + (ok ? '' : 'opacity:.55') + '">' +
+          '<span style="width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;background:var(--surface2,#171b22);border:1px solid var(--hair,#2a2f3a);font-size:13px;font-weight:700">' + nt.i + '</span>' +
+          '<span style="flex:1;font-size:13.5px;font-weight:600">' + nt.n + '</span>' +
+          (ok ? '<span style="font-size:11.5px;color:#4ade80;font-weight:700">Подключён</span>' : '<span style="font-size:11.5px;color:var(--faint,#8b93a3)">Скоро 🔧</span>') +
+          '</div>';
+      }).join('');
+    } catch(e) {
+      box.innerHTML = '<span class="err">Ошибка загрузки каналов</span>';
+    }
+  }
+  document.addEventListener('click', async function(e){
+    var t = e.target.closest ? e.target.closest('[data-channels]') : null;
+    if (t) { openChModal(t.getAttribute('data-channels'), t.getAttribute('data-bname')); return; }
+    var del = e.target.closest ? e.target.closest('[data-delch]') : null;
+    if (del) {
+      if (!confirm('Отключить этот канал?')) return;
+      del.disabled = true;
+      await fetch('/api/channels/' + del.getAttribute('data-delch'), { method: 'DELETE' });
+      loadCh();
+      return;
+    }
+    if (e.target.id === 'ch-add' && curBrand) {
+      var chat = prompt('chat_id канала в Telegram (@имя или -100...):');
+      if (!chat) return;
+      await fetch('/api/brands/' + curBrand + '/channels', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: chat.trim() })
+      });
+      loadCh();
+    }
+  });
+})();
+</script>
+
 </body>
 </html>

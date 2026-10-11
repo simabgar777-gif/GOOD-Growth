@@ -1012,7 +1012,10 @@ warmForm.addEventListener('submit', async (e) => {
 /* старт */
 refreshHealth();
 loadBrands().then(() => {
-  const gq = new URLSearchParams(location.search).get('goal');
+  const qp0 = new URLSearchParams(location.search);
+  const gq = qp0.get('goal');
   if (gq) { loadGoalFromQuery(gq); }
+  const bq = qp0.get('brand');
+  if (bq) selectBrand(bq);
 });
 refreshJournal();
