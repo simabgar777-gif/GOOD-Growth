@@ -98,7 +98,7 @@
         const d = await r.json();
         if (!r.ok) throw new Error(d.error || 'Не получилось. Попробуй ещё раз.');
         sessionStorage.removeItem('gg_onboard');
-        location.href = '/app/strategy?goal=' + d.id;
+        location.href = '/app?goal=' + d.id;
       } catch (err) {
         status(err.message, true);
         $('go').disabled = false;
@@ -127,5 +127,6 @@
       document.querySelectorAll('.mic-btn').forEach((b) => b.style.display = 'none');
     }
   </script>
+<script src="/gg-header.js" defer></script>
 </body>
 </html>

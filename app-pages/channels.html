@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Каналы бренда — GOOD Growth</title>
+<link rel="icon" href="/favicon-32x32.png" type="image/png">
+<style>
+:root{--bg:#f6f8f4;--surface:#fff;--ink:#1c2419;--muted:#5c6b57;--hair:#e3e9de;--green:#3f9d63;--deep:#2f7a4c;--danger:#dc6b5f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+.wrap{max-width:760px;margin:0 auto;padding:34px 20px 60px}
+h1{font-size:26px;letter-spacing:-.01em;margin-bottom:6px}
+.sub{color:var(--muted);font-size:14.5px;margin-bottom:24px}
+.panel{background:var(--surface);border:1px solid var(--hair);border-radius:16px;padding:20px 22px;margin-bottom:18px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--hair);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.row b{font-size:14.5px}
+.row .cid{color:var(--muted);font-size:12.5px;font-family:ui-monospace,Consolas,monospace}
+button{cursor:pointer;font:inherit}
+.del{background:none;border:1px solid var(--hair);color:var(--danger);border-radius:10px;padding:6px 12px;font-size:13px;font-weight:600}
+.del:hover{border-color:var(--danger)}
+.add{display:flex;gap:10px;margin-top:6px}
+input{flex:1;font:inherit;font-size:14.5px;padding:10px 14px;border:1px solid var(--hair);border-radius:11px;background:#fff;color:var(--ink)}
+input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
+.go{background:var(--green);color:#fff;border:0;border-radius:11px;padding:10px 18px;font-weight:700;font-size:14px}
+.go:hover{background:var(--deep)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.net{display:flex;align-items:center;gap:10px;border:1px solid var(--hair);border-radius:12px;padding:10px 12px;background:var(--surface)}
+.net.ok{border-color:#bcd9c4}
+.net .ic{width:28px;height:28px;border-radius:9px;background:var(--bg);border:1px solid var(--hair);display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:800}
+.net span.n{flex:1;font-size:13.5px;font-weight:600}
+.ok .st{color:var(--deep);font-size:11.5px;font-weight:800}
+.soon{opacity:.55}
+.soon .st{color:var(--muted);font-size:11.5px;font-weight:600}
+.mut{color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Каналы бренда</h1>
+  <p class="sub" id="sub">Загрузка…</p>
+  <div class="panel">
+    <div id="list"><span class="mut">Загружаю…</span></div>
+    <div class="add">
+      <input id="chat" placeholder="@имя_канала или -100...">
+      <button class="go" id="go">+ Подключить</button>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="grid" id="nets"></div>
+    <p class="mut" style="margin-top:12px">Серые — в разработке: OAuth-подключение откроем в ближайших спринтах.</p>
+  </div>
+</div>
+<script src="/gg-header.js" defer></script>
+<script>
+(function(){
+  var brand = new URLSearchParams(location.search).get('brand') || sessionStorage.getItem('gg_brand') || '';
+  if (!brand) { document.getElementById('sub').textContent = 'Бренд не выбран — открой список брендов.'; document.getElementById('list').innerHTML=''; }
+  else document.getElementById('sub').textContent = 'Бренд #' + brand + ' — подключённые каналы и соцсети.';
+  function esc(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  var NETS = [['Telegram','ok','✈'],['VK','soon','V'],['Pinterest','soon','P'],['Facebook','soon','f'],['Instagram','soon','IG'],['X (Twitter)','soon','X'],['LinkedIn','soon','in'],['YouTube','soon','▶'],['TikTok','soon','♪'],['Одноклассники','soon','ок']];
+  document.getElementById('nets').innerHTML = NETS.map(function(n){
+    return '<div class="net ' + n[1] + '"><span class="ic">' + n[2] + '</span><span class="n">' + n[0] + '</span>' +
+      (n[1]==='ok' ? '<span class="st">Подключён</span>' : '<span class="st">Скоро</span>') + '</div>';
+  }).join('');
+  async function load(){
+    if (!brand) return;
+    try {
+      var r = await fetch('/api/brands/' + brand + '/channels');
+      var arr = await r.json();
+      if (!Array.isArray(arr)) arr = arr.channels || [];
+      document.getElementById('list').innerHTML = arr.length
+        ? arr.map(function(c){ return '<div class="row"><span><b>' + esc(c.title || '') + '</b> <span class="cid">' + esc(c.chat_id) + '</span></span><button class="del" data-id="' + c.id + '">Отключить</button></div>'; }).join('')
+        : '<span class="mut">Пока пусто — подключи первый Telegram-канал ниже.</span>';
+    } catch(e){ document.getElementById('list').innerHTML = '<span class="mut">Ошибка загрузки</span>'; }
+  }
+  load();
+  document.getElementById('go').addEventListener('click', async function(){
+    var v = document.getElementById('chat').value.trim();
+    if (!v || !brand) return;
+    await fetch('/api/brands/' + brand + '/channels', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ chat_id: v }) });
+    document.getElementById('chat').value = '';
+    load();
+  });
+  document.getElementById('list').addEventListener('click', async function(e){
+    var d = e.target.closest('[data-id]');
+    if (!d) return;
+    if (!confirm('Отключить канал?')) return;
+    await fetch('/api/channels/' + d.getAttribute('data-id'), { method: 'DELETE' });
+    load();
+  });
+})();
+</script>
+</body>
+</html>
