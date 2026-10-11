@@ -61,7 +61,7 @@ fs.mkdirSync(GENERATED, { recursive: true });
 /* ---- DeepSeek key: .env next to server.js ------------------------ */
 const state = { key: null, model: 'deepseek-chat', port: 3000, pollenKey: null };
 
-const PAID_MODEL = 'community/MarcosFRG/flux-1-schnell:paid'; /* модель, разрешённая ключу Капитана */
+const PAID_MODEL = 'community/MarcosFRG/flux-schnell:paid'; /* переименован Pollinations 10 окт: flux-1-schnell -> flux-schnell */ /* модель, разрешённая ключу Капитана */
 
 (function loadEnv() {
   const envPath = path.join(__dirname, '.env');
