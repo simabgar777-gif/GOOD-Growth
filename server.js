@@ -6,6 +6,27 @@
 const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
+/* ---- Sprint1: rate-limit + helpers ---- */
+const RATE_LIMIT_MAP = new Map();
+function rateLimit(ip, maxPerMin) {
+  const now = Date.now();
+  let e = RATE_LIMIT_MAP.get(ip);
+  if (!e || now > e.resetAt) { e = { count: 0, resetAt: now + 60000 }; RATE_LIMIT_MAP.set(ip, e); }
+  e.count++;
+  if (RATE_LIMIT_MAP.size > 5000) { for (const [k, v] of RATE_LIMIT_MAP) if (now > v.resetAt) RATE_LIMIT_MAP.delete(k); }
+  return e.count <= maxPerMin;
+}
+function clientIp(req) {
+  return (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket.remoteAddress || 'unknown';
+}
+function validEmail(raw) {
+  const email = String(raw || '').trim().toLowerCase();
+  if (email.length < 6 || email.length > 254) return null;
+  return EMAIL_RE.test(email) ? email : null;
+}
+const EMAIL_RE = /^[A-Za-z0-9_'+\-\.]+@[A-Za-z0-9][A-Za-z0-9\-]*(\.[A-Za-z0-9\-]+)+$/;
+function getUserKey() { return 'owner'; /* MVP: один владелец до /auth */ }
+
 const db = require('./db');
 
 /* Door 3: Telegram connector lives here inline (loaded before routes) */
@@ -123,7 +144,13 @@ const CONTENT_PROMPT = [
 const BEARER = () => "Bearer "; /* собирается из кодов, не пишется литералом */
 
 /* ---- helpers ------------------------------------------------------ */
+function securityHeaders(res) {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Referrer-Policy', 'no-referrer');
+}
 function sendJson(res, code, obj) {
+  securityHeaders(res);
   const body = JSON.stringify(obj);
   res.writeHead(code, {
     'Content-Type': 'application/json; charset=utf-8',
@@ -518,7 +545,7 @@ async function route(req, res) {
     const name = String(body.name || '').trim();
     if (name.length < 2) return sendJson(res, 400, { error: 'Имя помощника — хотя бы два символа.' });
     const role = ['creator', 'approver', 'publisher'].includes(body.role) ? body.role : 'creator';
-    const email = String(body.email || '').trim().slice(0, 120);
+    const email = validEmail(body.email) || '';
     return sendJson(res, 200, db.addTeamMember(name.slice(0, 80), email, role));
   }
   const tm = u.pathname.match(/^\/api\/team\/(\d+)$/);
@@ -540,6 +567,11 @@ async function route(req, res) {
     return sendJson(res, 200, db.listBrands());
   }
   if (req.method === 'POST' && u.pathname === '/api/brands') {
+    const _pl = db.getUserPlan(getUserKey());
+    if (!rateLimit(clientIp(req), 20)) return sendJson(res, 429, { error: 'Слишком часто. Подожди минуту.' });
+    if (db.countBrands() >= _pl.brands_max) {
+      return sendJson(res, 402, { error: 'Лимит тарифа «' + _pl.code + '»: максимум ' + _pl.brands_max + ' бренд(ов).', upgrade: 'growth' });
+    }
     const body = await readBody(req);
     const name = String(body.name || '').trim();
     if (name.length < 2) return sendJson(res, 400, { error: 'Название бренда — хотя бы два символа.' });
@@ -576,6 +608,21 @@ async function route(req, res) {
     return sendJson(res, 200, db.deleteChannel(Number(chd[1])));
   }
 
+  /* ---- Sprint1: waitlist ---- */
+  if (req.method === 'POST' && u.pathname === '/api/waitlist') {
+    if (!rateLimit(clientIp(req), 5)) return sendJson(res, 429, { error: 'Слишком часто. Подожди минуту.' });
+    const body = await readBody(req);
+    const email = String(body.email || '').trim().toLowerCase().slice(0, 120);
+    if (!EMAIL_RE.test(email)) return sendJson(res, 400, { error: 'Проверь email — адрес выглядит неверным.' });
+    try {
+      const w = db.waitlistAdd(email, String(body.name || '').trim().slice(0, 80));
+      return sendJson(res, 200, { ok: true, id: w.id });
+    } catch (e) {
+      if (String(e.message || '').includes('UNIQUE')) return sendJson(res, 200, { ok: true, id: 0 });
+      throw e;
+    }
+  }
+
   if (req.method === 'GET' && u.pathname === '/api/health') {
     const demo = isDemo();
     return sendJson(res, 200, {
@@ -587,6 +634,7 @@ async function route(req, res) {
   }
 
   if (req.method === 'POST' && u.pathname === '/api/analyze') {
+    if (!rateLimit(clientIp(req), 10)) return sendJson(res, 429, { error: 'Лимит разборов: 10 в час. Подожди немного.' });
     const body = await readBody(req);
     const goal = composeGoalText(body);
     if (goal.length < 5) {
@@ -634,6 +682,10 @@ async function route(req, res) {
 
   let m = u.pathname.match(/^\/api\/goals\/(\d+)\/posts$/);
   if (req.method === 'POST' && m) {
+    const _plP = db.getUserPlan(getUserKey());
+    if (db.postsToday(getUserKey()) >= _plP.posts_daily_max) {
+      return sendJson(res, 402, { error: 'Дневной лимит постов тарифа «' + _plP.code + '» исчерпан (' + _plP.posts_daily_max + '/день).', upgrade: _plP.code === 'start' ? 'growth' : 'pro' });
+    }
     const goalId = Number(m[1]);
     const g = db.getGoal(goalId);
     if (!g) return sendJson(res, 404, { error: 'Разбор не найден' });
@@ -728,6 +780,7 @@ async function route(req, res) {
         published_message_id: result.result.message_id,
         published_channel: TG.chatId
       });
+      db.bumpPostsToday(getUserKey());
       return sendJson(res, 200, { post: updated, messageId: result.result.message_id });
     } catch (e) {
       return sendJson(res, 502, { error: 'Связь с Telegram оборвалась: ' + e.message });
@@ -812,6 +865,7 @@ async function route(req, res) {
 
   /* ключ DeepSeek: сохранить в .env прямо с экрана */
   if (req.method === 'POST' && u.pathname === '/api/keys/deepseek') {
+    if (!rateLimit(clientIp(req), 3)) return sendJson(res, 429, { error: 'Слишком часто.' });
     const body = await readBody(req);
     const key = String(body.key || '').trim();
     if (!/^sk-[A-Za-z0-9]{20,}$/.test(key)) {
@@ -837,6 +891,7 @@ async function route(req, res) {
 
   /* ключ Pollinations: сохранить в .env прямо с экрана (Дверь 4, скорость картинок) */
   if (req.method === 'POST' && u.pathname === '/api/keys/pollinations') {
+    if (!rateLimit(clientIp(req), 3)) return sendJson(res, 429, { error: 'Слишком часто.' });
     const body = await readBody(req);
     const key = String(body.key || '').trim();
     if (key.length < 10 || /[^A-Za-z0-9_.\-]/.test(key)) {
@@ -876,6 +931,7 @@ async function route(req, res) {
   }
 
   if (req.method === 'POST' && u.pathname === '/api/demo-mode') {
+    if (!rateLimit(clientIp(req), 5)) return sendJson(res, 429, { error: 'Слишком часто.' });
     const body = await readBody(req);
     db.setSetting('demo_mode', body.enabled ? '1' : '0');
     return sendJson(res, 200, { ok: true, demo: !!body.enabled });
@@ -926,7 +982,8 @@ const server = http.createServer((req, res) => {
 
 server.listen(state.port, () => {
   const demo = isDemo();
-  console.log('GOOD Growth - Door 1 "Brain" + Door 2 "Hands"');
+  db.seedPlans();
+console.log('GOOD Growth - Door 1 "Brain" + Door 2 "Hands"');
   console.log('Open:  http://localhost:' + state.port);
   console.log('AI:    ' + (demo ? 'DEMO mode (no DeepSeek calls)' : state.key ? 'live (' + state.model + ')' : 'NO KEY - put DEEPSEEK_API_KEY into .env'));
   console.log('Data:  ' + path.join(__dirname, 'data', 'goodgrowth.db'));

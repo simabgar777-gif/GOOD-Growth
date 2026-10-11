@@ -27,6 +27,34 @@ CREATE TABLE IF NOT EXISTS team_members (
   role TEXT DEFAULT 'creator',
   created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
+CREATE TABLE IF NOT EXISTS plans (
+  code TEXT PRIMARY KEY,
+  price_int INTEGER NOT NULL,
+  brands_max INTEGER NOT NULL,
+  channels_max INTEGER NOT NULL,
+  posts_daily_max INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS subscriptions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_key TEXT NOT NULL,
+  plan_code TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'active',
+  provider TEXT DEFAULT 'manual',
+  period_end TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS posts_today (
+  user_key TEXT NOT NULL,
+  day TEXT NOT NULL,
+  count INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (user_key, day)
+);
+CREATE TABLE IF NOT EXISTS waitlist (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email TEXT NOT NULL UNIQUE,
+  name TEXT DEFAULT '',
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
 CREATE TABLE IF NOT EXISTS brands (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
@@ -256,7 +284,47 @@ function deleteTeamMember(id) {
   return { ok: true };
 }
 
+
+/* ---- тарифы, лимиты, waitlist (Спринт 1) ---- */
+function getPlan(code) {
+  return db.prepare('SELECT * FROM plans WHERE code = ?').get(code);
+}
+function seedPlans() {
+  const ins = db.prepare('INSERT OR IGNORE INTO plans (code, price_int, brands_max, channels_max, posts_daily_max) VALUES (?,?,?,?,?)');
+  ins.run('start', 0, 1, 2, 1);
+  ins.run('growth', 490, 1, 5, 4);
+  ins.run('pro', 990, 3, 9999, 10);
+  ins.run('agency', 2990, 10, 9999, 9999);
+  ins.run('unlimited', 5990, 9999, 9999, 9999);
+}
+function getUserPlan(userKey) {
+  const sub = db.prepare("SELECT plan_code FROM subscriptions WHERE user_key = ? AND status = 'active' ORDER BY id DESC LIMIT 1").get(userKey);
+  return getPlan(sub ? sub.plan_code : 'start') || getPlan('start');
+}
+function countBrands(userKey) {
+  return db.prepare('SELECT COUNT(*) n FROM brands').get().n; /* MVP: один владелец */
+}
+function countChannels() {
+  return db.prepare('SELECT COUNT(*) n FROM channels').get().n;
+}
+function mskDay() {
+  const now = new Date(Date.now() + 3 * 3600 * 1000); /* UTC+3 МСК */
+  return now.toISOString().slice(0, 10);
+}
+function postsToday(userKey) {
+  const row = db.prepare('SELECT count FROM posts_today WHERE user_key = ? AND day = ?').get(userKey, mskDay());
+  return row ? row.count : 0;
+}
+function bumpPostsToday(userKey) {
+  db.prepare('INSERT INTO posts_today (user_key, day, count) VALUES (?, ?, 1) ON CONFLICT (user_key, day) DO UPDATE SET count = count + 1').run(userKey, mskDay());
+}
+function waitlistAdd(email, name) {
+  const info = db.prepare('INSERT INTO waitlist (email, name) VALUES (?, ?)').run(email, name || '');
+  return db.prepare('SELECT id, email FROM waitlist WHERE id = ?').get(Number(info.lastInsertRowid));
+}
+
 module.exports = {
+  getPlan, seedPlans, getUserPlan, countBrands, countChannels, postsToday, bumpPostsToday, mskDay, waitlistAdd,
   listTeam, addTeamMember, setTeamRole, deleteTeamMember,
   brandAnalytics, totalsAnalytics,
   listChannels, addChannel, deleteChannel,

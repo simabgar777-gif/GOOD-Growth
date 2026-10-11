@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <title>Тарифы — GOOD Growth</title>
+  <style>
+    :root { --bg:#f6faf7; --surface:#ffffff; --surface2:#eef5f0; --ink:#122b21; --muted:#4c6b5c;
+      --faint:#6b8a7b; --hair:rgba(18,43,33,.13); --hair-soft:rgba(18,43,33,.06);
+      --green:#1e7a56; --green-deep:#0b3d2e; --sun:#f0b429; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 'Segoe UI',Tahoma,sans-serif; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 34px 22px 70px; }
+    .back { color: var(--faint); text-decoration: none; font-size: 14px; }
+    .back:hover { color: var(--ink); }
+    h1 { font: 400 32px/1.15 Georgia, serif; margin: 14px 0 8px; }
+    .sub { color: var(--muted); margin: 0 0 28px; max-width: 60ch; }
+    .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+    .plan { background: var(--surface); border: 1px solid var(--hair-soft); border-radius: 14px; padding: 22px 20px; position: relative; }
+    .plan.hot { border: 2px solid var(--green); }
+    .plan .hot-tag { position: absolute; top: -12px; left: 20px; background: var(--green); color: #fff; font: 600 11px/1 'Consolas',monospace; letter-spacing: .1em; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; }
+    .plan h2 { font: 400 22px/1.2 Georgia, serif; margin: 0 0 4px; }
+    .plan .price { font: 600 30px/1 Georgia, serif; margin: 8px 0 2px; }
+    .plan .price small { font: 400 13px/1 inherit; color: var(--faint); }
+    .plan ul { margin: 14px 0 18px; padding-left: 18px; color: var(--muted); font-size: 14px; }
+    .plan li { margin-bottom: 5px; }
+    .plan .cta { display: block; width: 100%; text-align: center; padding: 12px; border-radius: 999px; background: var(--green); color: #fff; font: 600 15px/1 inherit; text-decoration: none; border: 0; cursor: pointer; }
+    .plan .cta.ghost { background: transparent; color: var(--green); border: 1px solid var(--green); }
+    .plan .cta.soon { background: var(--surface2); color: var(--muted); cursor: default; }
+    .honest { margin-top: 26px; background: var(--surface); border: 1px solid var(--hair-soft); border-radius: 14px; padding: 18px 20px; color: var(--muted); font-size: 14.5px; }
+    .honest b { color: var(--ink); }
+    @media (max-width: 640px) { .plans { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/app">← В мастерскую</a>
+    <h1>Тарифы</h1>
+    <p class="sub">Старт — навсегда бесплатный. Платные — когда захочешь больше брендов, каналов и постов в день.</p>
+
+    <div class="plans">
+      <div class="plan">
+        <h2>Старт</h2>
+        <div class="price">0 ₽<small> /мес</small></div>
+        <ul>
+          <li>1 бренд</li><li>2 канала</li><li>1 пост в день</li><li>Стратегия + картинки</li>
+        </ul>
+        <span class="cta soon">Текущий тариф</span>
+      </div>
+      <div class="plan hot">
+        <span class="hot-tag">Выбор большинства</span>
+        <h2>Рост</h2>
+        <div class="price">490 ₽<small> /мес</small></div>
+        <ul>
+          <li>1 бренд</li><li>5 каналов</li><li>4 поста в день</li><li>Приоритет картинок</li>
+        </ul>
+        <button class="cta" data-plan="growth" disabled>Оплата скоро откроется</button>
+      </div>
+      <div class="plan">
+        <h2>Про</h2>
+        <div class="price">990 ₽<small> /мес</small></div>
+        <ul>
+          <li>3 бренда</li><li>Каналы без лимита</li><li>10 постов в день</li>
+        </ul>
+        <button class="cta ghost" data-plan="pro" disabled>Оплата скоро откроется</button>
+      </div>
+      <div class="plan">
+        <h2>Агентство / Безлимит</h2>
+        <div class="price">2 990 – 5 990 ₽<small> /мес</small></div>
+        <ul>
+          <li>10 брендов или без лимита</li><li>Команда с ролями</li><li>White-label (обсуждается)</li>
+        </ul>
+        <a class="cta ghost" href="/partner/info">Обсудить лично</a>
+      </div>
+    </div>
+
+    <div class="honest">
+      <b>Честно про оплату:</b> приём платежей включаем в ближайшее обновление — сейчас идёт финальная настройка. Тариф «Старт» полностью бесплатен и им можно пользоваться прямо сейчас. Хочешь платный тариф раньше — напиши на <a href="mailto:hello@go-ood.com">hello@go-ood.com</a>, подключим вручную за один день.
+    </div>
+  </div>
+</body>
+</html>
