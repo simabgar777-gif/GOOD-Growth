@@ -7,7 +7,7 @@
   function esc(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   var CSS = '#gg-header{font:15px/1.5 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif}' +
     '#gg-header .ggw{max-width:1120px;margin:0 auto;padding:0 18px;display:flex;align-items:center;gap:18px;height:58px}' +
-    '#gg-header{background:#f7f9f5;border-bottom:1px solid #e3e9de;position:relative;z-index:70}' +
+    '#gg-header{position:sticky;top:0;background:#f7f9f5;border-bottom:1px solid #e3e9de;position:relative;z-index:70}' +
     '#gg-header a.ggb{display:flex;align-items:center;gap:9px;font-weight:800;font-size:16.5px;color:#1c2419;text-decoration:none;letter-spacing:.01em}' +
     '#gg-header .ggmark{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#3f9d63,#52d6c4);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:900}' +
     '#gg-header nav{display:flex;align-items:center;gap:4px;margin-left:6px;flex:1}' +
@@ -90,8 +90,9 @@
     '</div>';
 
   var host = document.getElementById('gg-header');
-  if (!host) { host = document.createElement('div'); host.id = 'gg-header'; document.body.insertBefore(host, document.body.firstChild); }
+  if (!host) { host = document.createElement('div'); host.id = 'gg-header'; }
   host.appendChild(el(html));
+  document.body.insertBefore(host, document.body.firstChild);
   var b = document.getElementById('gg-burger');
   if (b) b.addEventListener('click', function () {
     var n = host.querySelector('nav');
