@@ -121,6 +121,20 @@ document.addEventListener('click', (e) => {
   }
 });
 
+async function loadGoalFromQuery(id) {
+  try {
+    const r = await fetch('/api/goals/' + id);
+    if (!r.ok) return;
+    const d = await r.json();
+    if (d && d.goal_text !== undefined) {
+      try { const el = document.getElementById('goal'); if (el) el.value = d.goal_text; } catch (e) {}
+      try { showStrategy(d); } catch (e) {}
+      try { sessionStorage.setItem('gg_last_goal', String(d.id)); } catch (e) {}
+      try { location.replace('/app'); } catch (e) { location.hash = ''; }
+    }
+  } catch (e) {}
+}
+
 function paintMode() {
   const label = mode.ai === 'live' ? 'живой' : mode.ai === 'demo' ? 'демо' : 'без ключа';
   modeText.textContent = label;
@@ -998,7 +1012,7 @@ warmForm.addEventListener('submit', async (e) => {
 /* старт */
 refreshHealth();
 loadBrands().then(() => {
-  const qp = new URLSearchParams(location.search).get("brand");
-  if (qp) selectBrand(qp);
+  const gq = new URLSearchParams(location.search).get('goal');
+  if (gq) { loadGoalFromQuery(gq); }
 });
 refreshJournal();
