@@ -1,15 +1,41 @@
 'use strict';
 const { DatabaseSync } = require('node:sqlite');
 const db = new DatabaseSync('data/goodgrowth.db');
-db.exec(`CREATE TABLE IF NOT EXISTS plans (code TEXT PRIMARY KEY, price_int INTEGER NOT NULL, brands_max INTEGER NOT NULL, channels_max INTEGER NOT NULL, posts_daily_max INTEGER NOT NULL);
-CREATE TABLE IF NOT EXISTS subscriptions (id INTEGER PRIMARY KEY AUTOINCREMENT, user_key TEXT NOT NULL, plan_code TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'active', provider TEXT DEFAULT 'manual', period_end TEXT, created_at TEXT DEFAULT CURRENT_TIMESTAMP);
-CREATE TABLE IF NOT EXISTS posts_today (user_key TEXT NOT NULL, day TEXT NOT NULL, count INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (user_key, day));
-CREATE TABLE IF NOT EXISTS waitlist (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL UNIQUE, name TEXT DEFAULT '', created_at TEXT DEFAULT CURRENT_TIMESTAMP);`);
+db.exec(`
+CREATE TABLE IF NOT EXISTS plans (
+  code TEXT PRIMARY KEY,
+  price_int INTEGER NOT NULL,
+  brands_max INTEGER NOT NULL,
+  channels_max INTEGER NOT NULL,
+  posts_daily_max INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS subscriptions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_key TEXT NOT NULL,
+  plan_code TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'active',
+  provider TEXT DEFAULT 'manual',
+  period_end TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS posts_today (
+  user_key TEXT NOT NULL,
+  day TEXT NOT NULL,
+  count INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (user_key, day)
+);
+CREATE TABLE IF NOT EXISTS waitlist (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email TEXT NOT NULL UNIQUE,
+  name TEXT DEFAULT '',
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+`);
 const ins = db.prepare('INSERT OR IGNORE INTO plans (code, price_int, brands_max, channels_max, posts_daily_max) VALUES (?,?,?,?,?)');
 ins.run('start', 0, 1, 2, 1);
 ins.run('growth', 490, 1, 5, 4);
 ins.run('pro', 990, 3, 9999, 10);
 ins.run('agency', 2990, 10, 9999, 9999);
 ins.run('unlimited', 5990, 9999, 9999, 9999);
-console.log('MIGRATE_OK');
+console.log('MIGRATE_OK plans=' + db.prepare('SELECT COUNT(*) n FROM plans').get().n);
 db.close();

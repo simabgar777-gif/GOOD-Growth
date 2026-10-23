@@ -4,8 +4,25 @@
   "private": true,
   "description": "GOOD Growth - Door 1: The Brain. Local prototype.",
   "type": "commonjs",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "start": "node server.js"
+  },
+  "main": "db.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simabgar777-gif/GOOD-Growth.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/simabgar777-gif/GOOD-Growth/issues"
+  },
+  "homepage": "https://github.com/simabgar777-gif/GOOD-Growth#readme",
+  "dependencies": {
+    "nodemailer": "^10.1.7"
   }
 }

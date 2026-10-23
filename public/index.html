@@ -52,6 +52,7 @@
       --mood-make:   #1e7a56;
       --mood-make-soft:  rgba(30, 122, 86, 0.10);
       --mood-publish:#f0b429;
+  --mint:#3f9d63;
       --mood-publish-soft: rgba(240, 180, 41, 0.14);
 
       --font-display: Georgia, 'Times New Roman', serif;
@@ -270,7 +271,11 @@
     .btn-mini:hover { color: var(--ink); border-color: var(--muted); }
     .btn-mini:disabled { opacity: .5; cursor: wait; }
     .btn-mini.danger:hover { color: var(--danger); border-color: var(--danger); }
-    .btn-mini.publish { background: var(--mood-publish-soft); color: var(--mood-publish); border-color: var(--mood-publish); }
+    .btn-mini.approve { background: var(--accent-soft, rgba(63,157,99,.12)); color: var(--mint, #3f9d63); border-color: var(--mint, #3f9d63); }
+  .btn-mini.approve:hover:not(:disabled) { background: var(--mint, #3f9d63); color: #fff; }
+  .approve-status { font-family: ui-monospace,Consolas,monospace; font-size: 11px; letter-spacing: .05em; color: var(--mint,#3f9d63); font-weight: 700; align-self: center; }
+  @media (max-width: 480px) { .post-tools { gap: 6px; } .btn-mini { padding: 6px 11px; font-size: 12.5px; } }
+  .btn-mini.publish { background: var(--mood-publish-soft); color: var(--mood-publish); border-color: var(--mood-publish); }
     .btn-mini.publish:hover:not(:disabled) { background: var(--mood-publish); color: #3d2f00; }
     .btn-mini.publish:disabled { opacity: .8; cursor: default; }
     .hint { color: var(--faint); font-size: 13.5px; max-width: 52ch; margin: 0; }
@@ -545,12 +550,12 @@
     }
     .btn-mic:hover { background: #17603f; }
     .btn-mic[aria-pressed="true"] {
-      background: var(--accent); border-color: var(--accent); color: var(--accent-ink);
+      background: #c0392b; border-color: #c0392b; color: #fff;
       animation: micPulse 1.4s ease-in-out infinite;
     }
     @keyframes micPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(30, 122, 86, 0.35); }
-      50% { box-shadow: 0 0 0 12px rgba(30, 122, 86, 0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(192, 57, 43, 0.35); }
+      50% { box-shadow: 0 0 0 12px rgba(192, 57, 43, 0); }
     }
     .mic-row { display: flex; gap: 10px; align-items: center; }
     .mic-row .field-side { flex: 1; }
@@ -594,10 +599,14 @@
   </style>
 </head>
 <body>
+    <script>
+(function(){var b=document.getElementById("wsLogout");if(b)b.addEventListener("click",function(){b.disabled=true;fetch("/api/logout",{method:"POST"}).catch(function(){}).then(function(){try{sessionStorage.removeItem("gg_user")}catch(e){}location.href="/"})});})();
+(function(){var p=location.pathname;var prot=(p==="/app"||p.indexOf("/app/")===0)&&p!=="/app/onboard";var u=null;try{u=JSON.parse(sessionStorage.getItem("gg_user")||"null")}catch(e){}if(prot&&!u){try{sessionStorage.setItem("gg_after_login",p+location.search)}catch(e){}location.replace("/login?next="+encodeURIComponent(p+location.search))}})();</script>
   <header class="topbar">
     <div class="wrap topbar-inner">
       <div class="brand"><span class="brand-mark" aria-hidden="true">G</span>GOOD Growth<span class="brand-sub">мастерская роста</span></div>
-      <a href="/pricing" style="font:500 13px/1 inherit;letter-spacing:.02em;padding:8px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--hair);color:var(--muted);text-decoration:none;white-space:nowrap">Тарифы</a>
+      <a href="/pricing" style="font:500 13px/1 inherit;letter-spacing:.02em;padding:8px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--hair);color:var(--muted);text-decoration:none;white-space:nowrap">
+      <button id="wsLogout" type="button" style="font:500 13px/1 inherit;letter-spacing:.02em;padding:8px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--hair);color:var(--muted);cursor:pointer;white-space:nowrap">Выход</button>Тарифы</a>
       <div id="brandPill" style="display:none;position:relative;">
           <button id="brandLabel" type="button" style="font:500 13px/1 inherit;letter-spacing:.02em;padding:8px 16px;border-radius:999px;background:var(--surface);border:1px solid var(--hair);color:var(--muted);cursor:pointer">—</button>
           <div id="brandMenu" style="display:none;position:absolute;top:110%;right:0;min-width:220px;background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:6px;z-index:50;box-shadow:0 12px 30px rgba(0,0,0,.35)">
@@ -621,7 +630,7 @@
             <button class="btn btn-primary" id="ctaStart" type="button">Попробовать бесплатно</button>
             <button class="btn btn-quiet" id="ctaEnter" type="button">Сразу в мастерскую</button>
           </div>
-          <p class="land-note">Без регистрации. Данные остаются на твоём компьютере.</p>
+          <p class="land-note">Бесплатно. Регистрация за 30 секунд — и первый пост за 10 минут.</p>
         </div>
         <div class="hero-visual" aria-hidden="true">
           <div class="mock-float">
@@ -715,7 +724,7 @@
 
       <div class="land-cta-band" id="land-cta">
         <h2>Готовы рассказать о своём деле?</h2>
-        <p>Первый разбор — бесплатный и без регистрации. Дальше решишь сам.</p>
+        <p>Первый разбор — бесплатный. Регистрация займёт полминуты. Дальше решишь сам.</p>
         <div class="land-cta-row">
           <button class="btn btn-primary" id="ctaStart2" type="button">Начать сейчас</button>
         </div>

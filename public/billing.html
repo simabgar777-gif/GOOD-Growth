@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <title>Тариф — GOOD Growth</title>
+  <style>
+    :root { --bg:#f6faf7; --surface:#ffffff; --surface2:#eef5f0; --ink:#122b21; --muted:#4c6b5c;
+      --faint:#6b8a7b; --hair:rgba(18,43,33,.13); --hair-soft:rgba(18,43,33,.06);
+      --green:#1e7a56; --green-deep:#0b3d2e; --sun:#f0b429; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 'Segoe UI',Tahoma,sans-serif; }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 34px 22px 70px; }
+    .back { color: var(--faint); text-decoration: none; font-size: 14px; }
+    .back:hover { color: var(--ink); }
+    h1 { font: 400 32px/1.15 Georgia, serif; margin: 14px 0 6px; }
+    .price { font: 600 40px/1 Georgia, serif; margin: 10px 0 2px; }
+    .price small { font: 400 15px/1 inherit; color: var(--faint); }
+    .sub { color: var(--muted); margin: 0 0 26px; }
+    .badge { display:inline-block; vertical-align: middle; margin-left: 10px; background: var(--surface2); color: var(--green); border: 1px solid var(--green); font-size: 12px; font-weight: 600; padding: 3px 12px; border-radius: 999px; }
+    #planBox { background: var(--surface); border: 1px solid var(--hair-soft); border-radius: 16px; padding: 26px 26px 22px; }
+    #planBox ul { margin: 0 0 22px; padding-left: 20px; color: var(--muted); font-size: 15px; }
+    #planBox li { margin-bottom: 7px; }
+    .cta { display: inline-block; text-align: center; padding: 13px 34px; border-radius: 999px; background: var(--green); color: #fff; font: 600 16px/1 inherit; text-decoration: none; border: 0; cursor: pointer; }
+    .cta:hover { background: var(--green-deep); }
+    .swap { display: inline-block; margin-left: 16px; color: var(--faint); font-size: 14px; text-decoration: none; }
+    .swap:hover { color: var(--ink); text-decoration: underline; }
+    .msg { margin-top: 16px; font-size: 14.5px; border-radius: 10px; padding: 12px 16px; display: none; }
+    .msg.show { display: block; background: #e3f2e6; color: var(--green-deep); }
+    .msg a { color: var(--green-deep); font-weight: 600; }
+    .honest { margin-top: 26px; background: var(--surface); border: 1px solid var(--hair-soft); border-radius: 14px; padding: 18px 20px; color: var(--muted); font-size: 14.5px; }
+    .honest b { color: var(--ink); }
+    .notfound { background: #f9e9e6; color: #b3402f; border-radius: 14px; padding: 22px 24px; }
+    .notfound a { color: #b3402f; font-weight: 600; }
+    @media (max-width: 640px) { #planBox { padding: 20px 18px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/pricing">← Сменить тариф</a>
+    <div id="planBox"><p class="sub">Загружаю тариф…</p></div>
+
+    <div class="honest">
+      <b>Честно про оплату:</b> приём картой включаем в ближайшее обновление. Тариф «Старт» полностью бесплатен и им можно пользоваться прямо сейчас. Хочешь платный тариф раньше — напиши на <a href="mailto:hello@go-ood.com">hello@go-ood.com</a>, подключим вручную за один день.
+    </div>
+  </div>
+<script>
+(function(){
+  var PLANS = {
+    start:     { n:'Старт',     p:'0 ₽',    f:['1 бренд','2 канала','1 пост в день','Базовая аналитика'], free:true },
+    growth:    { n:'Рост',      p:'490 ₽',  f:['1 бренд','5 каналов','4 поста в день','Базовая аналитика'] },
+    pro:       { n:'Про',       p:'990 ₽',  f:['3 бренда','Каналы безлимит','10 постов в день','Полная аналитика','Приоритетная поддержка'] },
+    agency:    { n:'Агентство', p:'2 990 ₽',f:['10 брендов','Каналы безлимит','Посты безлимит','Полная аналитика','Приоритетная поддержка'] },
+    unlimited: { n:'Безлимит',  p:'5 990 ₽',f:['Бренды безлимит','Каналы безлимит','Посты безлимит','Полная аналитика','Приоритетная поддержка'] }
+  };
+  var ALIAS = { rost:'growth' };
+  var sel = new URLSearchParams(location.search).get('plan') || '';
+  sel = ALIAS[sel] || sel;
+
+  function esc(s){ var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+  function render(code, cur){
+    var box = document.getElementById('planBox');
+    var pl = PLANS[code];
+    if (!pl) {
+      box.innerHTML = '<div class="notfound"><b>Такого тарифа нет.</b> Вернись на <a href="/pricing">выбор тарифа</a> и выбери заново.</div>';
+      return;
+    }
+    var badge = (cur && cur === code) ? '<span class="badge">Ваш текущий тариф</span>' : '';
+    var h = '<h1>' + esc(pl.n) + badge + '</h1>';
+    h += '<div class="price">' + esc(pl.p) + '<small> /мес</small></div>';
+    h += '<ul>' + pl.f.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+    h += '<button class="cta" id="payBtn">Оплатить' + (pl.free ? ' — Бесплатно' : ' — ' + esc(pl.p) + ' /мес') + '</button>';
+    h += '<a class="swap" href="/pricing">Сменить тариф</a>';
+    h += '<div class="msg" id="payMsg"><b>Оплата скоро — мы сообщим.</b>' + (pl.free ? ' Тариф «Старт» бесплатный — пользоваться им можно прямо сейчас.' : ' Приём картой включаем в ближайшее обновление.') + ' Напиши на <a href="mailto:hello@go-ood.com">hello@go-ood.com</a> — подключим этот тариф вручную за один день.</div>';
+    box.innerHTML = h;
+    var pb = document.getElementById('payBtn');
+    if (pb) pb.addEventListener('click', function(){
+      var m = document.getElementById('payMsg');
+      if (m) m.classList.add('show');
+    });
+  }
+
+  fetch('/api/me', { credentials:'same-origin' })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var u = d && d.user;
+      var cur = u ? (u.plan || 'start') : null;
+      if (!sel) sel = cur || 'start';
+      render(sel, cur);
+    })
+    .catch(function(){
+      if (!sel) sel = 'start';
+      render(sel, null);
+    });
+})();
+</script>
+<script src="/gg-header.js" defer></script>
+</body>
+</html>

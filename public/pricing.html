@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Тарифы — GOOD Growth</title>
+<meta name="description" content="Тарифы GOOD Growth: Старт, Рост, Про, Агентство, Безлимит. Начни бесплатно — плати, когда вырастешь.">
+<link rel="icon" href="/favicon-32x32.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  :root{
+    --bg:#f6f8f4; --surface:#ffffff; --ink:#1c2419; --muted:#5c6b57; --hair:#e3e9de;
+    --green:#3f9d63; --green-deep:#2f7a4c; --sun:#ffd166; --mint:#52d6c4;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+  a{color:var(--green-deep)}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  header{padding:22px 0;border-bottom:1px solid var(--hair);background:var(--surface)}
+  header .wrap{display:flex;justify-content:space-between;align-items:center}
+  .brand{font-weight:800;letter-spacing:.02em;font-size:18px}
+  .brand b{color:var(--green)}
+  nav a{margin-left:22px;text-decoration:none;font-size:14.5px;color:var(--muted)}
+  nav a:hover{color:var(--ink)}
+  .hero{text-align:center;padding:54px 0 10px}
+  .kicker{font:700 12px/1 ui-monospace,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--green)}
+  h1{font-size:clamp(30px,4.6vw,44px);line-height:1.12;margin:14px 0 10px;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:17px;max-width:620px;margin:0 auto}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(198px,1fr));gap:14px;padding:38px 0 8px}
+  .card{background:var(--surface);border:1px solid var(--hair);border-radius:18px;padding:22px 18px;display:flex;flex-direction:column;position:relative}
+  .card.hot{border-color:var(--green);box-shadow:0 12px 34px rgba(63,157,99,.14)}
+  .flag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;padding:4px 12px;border-radius:999px;white-space:nowrap}
+  .name{font-size:15px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .price{font-size:30px;font-weight:800;margin:10px 0 2px}
+  .price small{font-size:14px;font-weight:600;color:var(--muted)}
+  .ul{list-style:none;margin:14px 0 18px;flex:1}
+  .ul li{font-size:14px;padding:5px 0;color:var(--ink)}
+  .ul li::before{content:"✓";color:var(--green);font-weight:800;margin-right:8px}
+  .ul li.dim{color:var(--muted)}
+  .ul li.dim::before{content:"—";color:var(--hair)}
+  .btn{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:14.5px;padding:11px 0;border-radius:12px;background:var(--green);color:#fff;transition:.15s}
+  .btn:hover{background:var(--green-deep)}
+  .card.dim .btn{background:var(--surface);color:var(--green-deep);border:1.5px solid var(--green)}
+  .note{text-align:center;color:var(--muted);font-size:13.5px;margin:10px 0 0}
+  h2{font-size:22px;margin:46px 0 16px;letter-spacing:-.01em}
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{width:100%;min-width:680px;border-collapse:collapse;background:var(--surface);border:1px solid var(--hair);border-radius:16px;overflow:hidden;font-size:14px}
+  th,td{padding:11px 14px;text-align:center;border-bottom:1px solid var(--hair)}
+  th{background:#eef4ec;font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  td:first-child,th:first-child{text-align:left;font-weight:600}
+  tr:last-child td{border-bottom:0}
+  .yes{color:var(--green);font-weight:700}
+  .no{color:var(--hair)}
+  footer{padding:34px 0 46px;text-align:center;color:var(--muted);font-size:13.5px}
+</style>
+</head>
+<body>
+
+
+<section class="hero wrap">
+  <div class="kicker">Тарифы</div>
+  <h1>Начни бесплатно — плати, когда вырастешь</h1>
+  <p class="sub">Пять честных тарифов. Переход — в один клик, без звонков и «оставьте заявку». Оплата скоро откроется — пока всё подключаем вручную.</p>
+</section>
+
+<main class="wrap">
+  <div class="grid">
+    <div class="card dim">
+      <div class="name">Старт</div>
+      <div class="price">0 ₽<small> /мес</small></div>
+      <ul class="ul">
+        <li>1 бренд</li><li>2 канала</li><li class="dim">1 пост в день</li><li class="dim">Базовая аналитика</li>
+      </ul>
+      <a class="btn" href="/app/billing?plan=start">Выбрать</a>
+    </div>
+    <div class="card dim">
+      <div class="name">Рост</div>
+      <div class="price">490 ₽<small> /мес</small></div>
+      <ul class="ul">
+        <li>1 бренд</li><li>5 каналов</li><li>4 поста в день</li><li class="dim">Базовая аналитика</li>
+      </ul>
+      <a class="btn" href="/app/billing?plan=rost">Выбрать</a>
+    </div>
+    <div class="card hot">
+      <div class="flag">Выбор большинства</div>
+      <div class="name">Про</div>
+      <div class="price">990 ₽<small> /мес</small></div>
+      <ul class="ul">
+        <li>3 бренда</li><li>Каналы безлимит</li><li>10 постов в день</li><li>Полная аналитика</li><li>Приоритетная поддержка</li>
+      </ul>
+      <a class="btn" href="/app/billing?plan=pro">Выбрать</a>
+    </div>
+    <div class="card dim">
+      <div class="name">Агентство</div>
+      <div class="price">2990 ₽<small> /мес</small></div>
+      <ul class="ul">
+        <li>10 брендов</li><li>Каналы безлимит</li><li>Посты безлимит</li><li>Полная аналитика</li><li>Приоритетная поддержка</li>
+      </ul>
+      <a class="btn" href="/app/billing?plan=agency">Выбрать</a>
+    </div>
+    <div class="card dim">
+      <div class="name">Безлимит</div>
+      <div class="price">5990 ₽<small> /мес</small></div>
+      <ul class="ul">
+        <li>Бренды безлимит</li><li>Каналы безлимит</li><li>Посты безлимит</li><li>Полная аналитика</li><li>Приоритетная поддержка</li>
+      </ul>
+      <a class="btn" href="/app/billing?plan=unlimited">Выбрать</a>
+    </div>
+  </div>
+  <p class="note">Оплата картой скоро — переход на тариф сейчас подключаем вручную через <a href="mailto:hello@go-ood.com">hello@go-ood.com</a></p>
+
+  <h2>Сравнение тарифов</h2>
+  <div class="table-scroll">
+  <table>
+    <tr><th>Характеристика</th><th>Старт</th><th>Рост</th><th>Про</th><th>Агентство</th><th>Безлимит</th></tr>
+    <tr><td>Цена</td><td>0 ₽</td><td>490 ₽/мес</td><td>990 ₽/мес</td><td>2990 ₽/мес</td><td>5990 ₽/мес</td></tr>
+    <tr><td>Бренды</td><td>1</td><td>1</td><td>3</td><td>10</td><td class="yes">Безлимит</td></tr>
+    <tr><td>Каналы</td><td>2</td><td>5</td><td class="yes">Безлимит</td><td class="yes">Безлимит</td><td class="yes">Безлимит</td></tr>
+    <tr><td>Посты</td><td>1/день</td><td>4/день</td><td>10/день</td><td class="yes">Безлимит</td><td class="yes">Безлимит</td></tr>
+    <tr><td>Аналитика</td><td>Базовая</td><td>Базовая</td><td class="yes">Полная</td><td class="yes">Полная</td><td class="yes">Полная</td></tr>
+    <tr><td>Приоритет</td><td class="no">—</td><td class="no">—</td><td class="yes">Да</td><td class="yes">Да</td><td class="yes">Да</td></tr>
+  </table>
+  </div>
+</main>
+
+<footer>GOOD Growth — соцсети растут, ты занимаешься делом. <a href="/app/billing?plan=start">Начать бесплатно →</a></footer>
+
+<script src="/gg-header.js" defer></script>
+</body>
+</html>

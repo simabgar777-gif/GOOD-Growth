@@ -60,8 +60,33 @@ function stopHonestProgress() {
     setTimeout(() => wrap.remove(), 700);
   }
 }
-function showError(text) { goalError.textContent = text; goalError.hidden = !text; }
+function setMsgHtml(node, text) {
+  /* Orders 32+34: escape first, then /signup and /login become live links anywhere */
+  node.innerHTML = String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\/(signup|login)\b/g, '<a href="/$1" style="color:var(--accent,#1e7a56);font-weight:700;text-decoration:underline">/$1</a>');
+}
+function showError(text) {
+  /* Order 32: /signup и /login в тексте ошибки — живые ссылки */
+  setMsgHtml(goalError, text);
+  goalError.hidden = !text;
+}
 function clearError() { showError(''); }
+
+/* Order 34 / Door 6.1: effective role from /api/me drives workshop buttons.
+   Design review: resolve role BEFORE first posts render (no flash, no lost edits). */
+let myRole = 'guest'; /* code review: guests must not see role buttons; owner confirmed via /api/me */
+let lastPostsArr = null;
+let resolveRoleReady;
+const roleReady = new Promise((res) => { resolveRoleReady = res; });
+(async () => {
+  try {
+    const r = await fetch('/api/me');
+    const d = await r.json();
+    if (d && d.user && d.user.role) myRole = d.user.role;
+    else if (d && d.user) myRole = 'owner';
+  } catch (e) { /* guest or /api/me down - server still guards every write */ }
+  resolveRoleReady();
+  if (lastPostsArr && lastPostsArr.length) renderPosts(lastPostsArr);
+})();
 
 /* ================= Партнёрский режим: бренды (Приказ 22) ================= */
 let brandState = { id: null, name: null, list: [] };
@@ -85,9 +110,9 @@ function paintBrand() {
   if (!brandState.list.length) { pill.style.display = 'none'; return; }
   pill.style.display = '';
   const label = document.getElementById('brandLabel');
-  label.textContent = brandState.id ? 'Бренд: ' + brandState.name : 'Все бренды';
+  label.textContent = brandState.id ? 'Бренд: ' + brandState.name : 'Мои бренды';
   const dd = document.getElementById('brandMenu');
-  dd.innerHTML = '<button type="button" data-bid="" class="bmenu-item">— Все бренды —</button>' +
+  dd.innerHTML = '<button type="button" data-bid="" class="bmenu-item">— Все мои бренды —</button>' +
     brandState.list.map((b) =>
       '<button type="button" data-bid="' + b.id + '" class="bmenu-item' + (String(b.id) === String(brandState.id) ? ' cur' : '') + '">' +
       escBrand(b.name) + '</button>').join('');
@@ -136,7 +161,7 @@ async function loadGoalFromQuery(id) {
 }
 
 function paintMode() {
-  const label = mode.ai === 'live' ? 'живой' : mode.ai === 'demo' ? 'демо' : 'без ключа';
+  const label = mode.ai === 'live' ? 'ИИ: живой' : mode.ai === 'demo' ? 'ИИ: демо' : 'ИИ: не подключён';
   modeText.textContent = label;
   modeChip.dataset.mode = mode.ai === 'live' ? 'live' : mode.ai === 'demo' ? 'demo' : 'unknown';
   footMode.textContent = label;
@@ -287,6 +312,18 @@ function imgChip(status) {
   return el('span', 'img-status ' + status, map[status] || status);
 }
 
+function closeSchedPops() {
+  document.querySelectorAll('.sched-pop.open').forEach((n) => n.remove());
+}
+document.addEventListener('click', (e) => {
+  if (e.target.closest && (e.target.closest('.sched-pop') || e.target.closest('.btn'))) return;
+  closeSchedPops();
+});
+function defaultSchedValue() {
+  /* сейчас+1ч по МСК, локальное поле datetime (значение шлём как МСК) */
+  const t = new Date(Date.now() + 3600 * 1000 + 3 * 3600 * 1000);
+  return t.toISOString().slice(0, 16);
+}
 function renderPostCard(p) {
   const card = el('section', 'post-card');
   card.dataset.postId = p.id;
@@ -323,10 +360,23 @@ function renderPostCard(p) {
   cta.value = p.cta || ''; cta.setAttribute('aria-label', 'Призыв к действию поста № ' + p.id); cta.maxLength = 120;
   body.appendChild(title); body.appendChild(text); body.appendChild(cta);
 
-  const tools = el('div', 'post-tools');
-  tools.appendChild(el('span', 'post-no', 'Пост № ' + p.id));
-  tools.appendChild(imgChip(p.image_status));
-  tools.appendChild(el('span', 'spacer'));
+  /* O55: meta row — info only, separate container */
+  const meta = el('div', 'post-meta');
+  meta.appendChild(el('span', 'post-no', 'Пост № ' + p.id));
+  meta.appendChild(imgChip(p.image_status));
+  if (p.approved_at) meta.appendChild(el('span', 'approve-status', 'Утверждён'));
+  const schedChip = el('span', 'sched-chip', '');
+  const paintSchedChip = () => {
+    schedChip.style.display = p.schedule_status ? '' : 'none';
+    schedChip.className = 'sched-chip' + (p.schedule_status === 'failed' ? ' failed' : '');
+    schedChip.textContent = p.schedule_status === 'scheduled' ? '⏰ ' + String(p.scheduled_at || '').slice(0, 16) + ' МСК'
+      : p.schedule_status === 'failed' ? 'Сбой публикации' : '';
+  };
+  paintSchedChip();
+  meta.appendChild(schedChip);
+
+  /* O55: actions row — ALL buttons in one dedicated container, never floats up */
+  const actions = el('div', 'post-actions');
 
   const btnSave = el('button', 'btn btn-mini', 'Сохранить'); btnSave.type = 'button';
   const btnRegen = el('button', 'btn btn-mini', 'Перегенерировать'); btnRegen.type = 'button';
@@ -348,7 +398,7 @@ function renderPostCard(p) {
       btnSave.textContent = 'Сохранено ✓';
       setTimeout(() => { btnSave.textContent = old; }, 1600);
     } catch (e) {
-      postsStatus.textContent = e.message;
+      setMsgHtml(postsStatus, e.message);
     } finally { btnSave.disabled = false; }
   });
 
@@ -363,7 +413,7 @@ function renderPostCard(p) {
       startImage(data.post.id);
       postsStatus.textContent = 'Пост № ' + p.id + ' перегенерирован.';
     } catch (e) {
-      postsStatus.textContent = e.message;
+      setMsgHtml(postsStatus, e.message);
       btnRegen.disabled = false;
     }
   });
@@ -393,11 +443,85 @@ function renderPostCard(p) {
       btnPub.textContent = 'В канале ✓';
       postsStatus.textContent = 'Пост № ' + p.id + ' опубликован в «Ковчеге» (сообщение № ' + data.messageId + ').';
     } catch (e) {
-      postsStatus.textContent = e.message;
+      setMsgHtml(postsStatus, e.message);
       btnPub.textContent = oldLabel;
       btnPub.disabled = false;
     }
   });
+
+  /* Order 70: «Запланировать» */
+  const btnSched = el('button', 'btn btn-mini', p.schedule_status === 'scheduled' ? 'Перенести' : 'Запланировать'); btnSched.type = 'button';
+  btnSched.title = 'Опубликовать автоматически в выбранное время (по Москве)';
+  btnSched.addEventListener('click', () => {
+    if (p.published_at) { setMsgHtml(postsStatus, 'Пост уже опубликован — планировать нечего.'); return; }
+    closeSchedPops();
+    const pop = el('div', 'sched-pop');
+    pop.innerHTML = '<label for="sched-when-' + p.id + '">Когда опубликовать? (МСК)</label>' +
+      '<input type="datetime-local" id="sched-when-' + p.id + '" value="' + defaultSchedValue() + '">' +
+      '<div class="sched-err" role="alert"></div>' +
+      '<div class="sched-row"><button type="button" class="qx">Отмена</button>' +
+      (p.schedule_status ? '<button type="button" class="rm">Снять план</button>' : '') +
+      '<button type="button" class="go">' + (p.schedule_status === 'scheduled' ? 'Перенести' : 'Запланировать') + '</button></div>';
+    actions.appendChild(pop);
+    requestAnimationFrame(() => pop.classList.add('open'));
+    const inp = pop.querySelector('input');
+    const err = pop.querySelector('.sched-err');
+    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); pop.querySelector('.go').click(); } });
+    pop.querySelector('.qx').addEventListener('click', () => pop.remove());
+    const rm = pop.querySelector('.rm');
+    if (rm) rm.addEventListener('click', async () => {
+      rm.disabled = true;
+      try {
+        const r = await fetch('/api/posts/' + p.id + '/schedule', { method: 'DELETE' });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.error || 'Не получилось снять план');
+        p.schedule_status = null; p.scheduled_at = null;
+        paintSchedChip(); btnSched.textContent = 'Запланировать';
+        postsStatus.textContent = 'Пост № ' + p.id + ': план снят.';
+        pop.remove();
+      } catch (e) { err.textContent = e.message; rm.disabled = false; }
+    });
+    pop.querySelector('.go').addEventListener('click', async () => {
+      const v = inp.value;
+      if (!v) { err.textContent = 'Выбери дату и время.'; return; }
+      const go = pop.querySelector('.go'); go.disabled = true;
+      try {
+        const r = await fetch('/api/posts/' + p.id + '/schedule', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ when: v })
+        });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.error || 'Не получилось запланировать');
+        p.schedule_status = 'scheduled'; p.scheduled_at = d.post && d.post.scheduled_at;
+        paintSchedChip(); btnSched.textContent = 'Перенести';
+        postsStatus.textContent = 'Пост № ' + p.id + ' запланирован на ' + String(p.scheduled_at || '').slice(0, 16) + ' МСК. Расписание: /app/schedule.';
+        pop.remove();
+      } catch (e) { err.textContent = e.message; go.disabled = false; }
+    });
+    inp.focus();
+  });
+
+  let btnApprove = null;
+  if (myRole === 'approver' || myRole === 'owner') {
+    btnApprove = el('button', 'btn btn-mini approve', p.approved_at ? 'Утверждён ✓' : 'Утвердить'); btnApprove.type = 'button';
+    if (p.approved_at) btnApprove.disabled = true;
+    btnApprove.addEventListener('click', async () => {
+      btnApprove.disabled = true;
+      try {
+        const r = await fetch('/api/posts/' + p.id + '/approve', { method: 'POST' });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error || 'Не получилось утвердить');
+        btnApprove.textContent = 'Утверждён ✓';
+        if (!tools.querySelector('.approve-status')) {
+          const chip = el('span', 'approve-status', 'Утверждён');
+          const sp = tools.querySelector('.spacer');
+          tools.insertBefore(chip, sp || null);
+        }
+        postsStatus.textContent = 'Пост № ' + p.id + ' утверждён.';
+      } catch (e) { setMsgHtml(postsStatus, e.message); btnApprove.disabled = false; }
+    });
+  }
 
   let delArmed = false;
   btnDel.addEventListener('click', async () => {
@@ -416,16 +540,28 @@ function renderPostCard(p) {
       updatePostsCount();
       postsStatus.textContent = 'Пост № ' + p.id + ' удалён.';
     } catch (e) {
-      postsStatus.textContent = e.message;
+      setMsgHtml(postsStatus, e.message);
       btnDel.disabled = false;
     }
   });
 
-  tools.appendChild(btnSave); tools.appendChild(btnRegen); tools.appendChild(btnImg); tools.appendChild(btnSay); tools.appendChild(btnPub); tools.appendChild(btnDel);
+  const canPublish = (myRole === 'publisher' || myRole === 'owner');
+  const canApprove = (myRole === 'approver' || myRole === 'owner');
+  btnSave.title = 'Сохранить правки'; btnRegen.title = 'Написать пост заново'; btnImg.title = 'Нарисовать картинку'; btnSay.title = 'Прочитать пост вслух';
+  if (btnApprove) btnApprove.title = 'Пометить пост согласованным — публикацию выполнит публикатор';
+  if (canPublish) btnPub.title = 'Отправить пост в канал';
+  btnDel.title = 'Удалить пост';
+  actions.appendChild(btnRegen); actions.appendChild(btnImg); actions.appendChild(btnSay); actions.appendChild(btnSave);
+  if (btnApprove) actions.appendChild(btnApprove);
+  if (canPublish) actions.appendChild(btnPub);
+  if (p.published_at) btnSched.disabled = true;
+  actions.appendChild(btnSched);
+  actions.appendChild(btnDel);
 
   card.appendChild(imgWrap);
   card.appendChild(body);
-  card.appendChild(tools);
+  card.appendChild(meta);
+  card.appendChild(actions);
   return card;
 }
 
@@ -442,14 +578,20 @@ function updatePostsCount() {
 }
 
 function renderPosts(posts) {
+  lastPostsArr = posts;
   stopAllPolling();
   postsRoot.textContent = '';
   posts.forEach((p) => postsRoot.appendChild(renderPostCard(p)));
   posts.forEach((p) => { if (p.image_status === 'pending') pollImage(p.id); });
   updatePostsCount();
+  if (myRole === 'creator') {
+    const h = document.getElementById('workshopHint');
+    if (h && h.dataset.roleNote !== '1') { h.textContent += ' Публикацию выполняет публикатор после утверждения.'; h.dataset.roleNote = '1'; }
+  }
 }
 
 async function loadPosts(goalId) {
+  await roleReady;
   try {
     const r = await fetch('/api/goals/' + goalId + '/posts');
     const data = await r.json();
@@ -479,7 +621,7 @@ async function startImage(postId) {
     pollImage(postId);
     const ahead = data.queueAhead > 1 ? ' · в очереди ещё ' + (data.queueAhead - 1) : '';
     postsStatus.textContent = 'Картинка для поста № ' + postId + ': ~15 секунд' + ahead;
-  } catch (e) { postsStatus.textContent = e.message; }
+  } catch (e) { setMsgHtml(postsStatus, e.message); }
 }
 
 function pollImage(postId) {
@@ -560,7 +702,7 @@ makeBtn.addEventListener('click', async () => {
       await startImage(p.id);
     }
   } catch (e) {
-    postsStatus.textContent = e.message;
+    setMsgHtml(postsStatus, e.message);
   } finally {
     makeBtn.disabled = false;
   }
@@ -594,6 +736,31 @@ async function refreshJournal() {
       const text = el('span', 'jtext', '# ' + g.id + ' · ' + g.goal_text);
       if (g.source === 'demo') text.appendChild(el('span', 'jsrc', ' · демо'));
       row.appendChild(text);
+      /* O52: delete goal (owner only, confirm first) */
+      if (myRole === 'owner') {
+        const del = el('button', 'jdel', 'Удалить');
+        del.type = 'button';
+        del.title = 'Удалить цель № ' + g.id;
+        del.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          if (!del.dataset.armed) {
+            del.dataset.armed = '1';
+            del.textContent = 'Точно удалить?';
+            del.classList.add('armed');
+            setTimeout(() => { if (del.isConnected) { delete del.dataset.armed; del.textContent = 'Удалить'; del.classList.remove('armed'); } }, 4000);
+            return;
+          }
+          del.disabled = true;
+          try {
+            const r = await fetch('/api/goals/' + g.id, { method: 'DELETE' });
+            const d = await r.json().catch(() => ({}));
+            if (!r.ok) throw new Error(d.error || 'Не удалось удалить');
+            if (Number(currentGoalId) === Number(g.id)) { currentGoalId = null; resultRoot.innerHTML = ''; }
+            refreshJournal();
+          } catch (err) { del.disabled = false; delete del.dataset.armed; del.textContent = 'Удалить'; alert(err.message); }
+        });
+        row.appendChild(del);
+      }
       row.addEventListener('click', () => loadGoal(g.id));
       journalList.appendChild(row);
     });
@@ -721,7 +888,7 @@ function ensureKeyDialog() {
       await refreshHealth();
       setStatus('Ключ принят: мозг и тексты теперь живые. Перегенерируй посты — почувствуй разницу.');
     } catch (e) {
-      err.textContent = e.message;
+      setMsgHtml(err, e.message);
       err.hidden = false;
     } finally { btn.disabled = false; }
   });
@@ -774,7 +941,7 @@ pollinationsKeyBtn.addEventListener('click', () => {
       pollinationsKeyBtn.hidden = true;
       setStatus('Скорость включена! Картинки теперь за секунды, упавшие вернулись в очередь.');
     } catch (e) {
-      err.textContent = e.message;
+      setMsgHtml(err, e.message);
       err.hidden = false;
     } finally { btn.disabled = false; }
   });
@@ -874,7 +1041,7 @@ function setupMic(btn, target, hintEl) {
       if (wantStop) {
         listening = false;
         btn.setAttribute('aria-pressed', 'false');
-        btn.textContent = '🎙';
+        btn.innerHTML = btn.dataset.origIcon || '🆙';
         if (hintEl && accumulated.trim()) hintEl.textContent = 'Готово — всё сказанное осталось в поле. Проверь и нажми основную кнопку.';
       } else if (listening) {
         try { rec.start(); } catch (e) { /* мгновенный рестарт иногда бросает — не страшно */ }
@@ -885,7 +1052,7 @@ function setupMic(btn, target, hintEl) {
       if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') {
         wantStop = true; listening = false;
         btn.setAttribute('aria-pressed', 'false');
-        btn.textContent = '🎙';
+        btn.innerHTML = btn.dataset.origIcon || '🆙';
         if (hintEl) hintEl.textContent = 'Микрофон запрещён. Разреши доступ к микрофону в браузере и попробуй снова.';
       } else if (ev.error === 'no-speech') {
         /* тишина — это нормально; сессия перезапустится через onend, текст на месте */
@@ -903,10 +1070,11 @@ function setupMic(btn, target, hintEl) {
     wantStop = false;
     listening = true;
     accumulated = ''; /* новая диктовка — новая копилка (старый текст в поле добавим ниже) */
+    if (!btn.dataset.origIcon) btn.dataset.origIcon = btn.innerHTML;
     const existing = target.value.trim();
     if (existing) accumulated = existing; /* накапливаем и на уже написанном */
     btn.setAttribute('aria-pressed', 'true');
-    btn.textContent = '⏹';
+    btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2.5" fill="currentColor"/></svg>';
     if (hintEl) hintEl.textContent = 'Слушаю… говори, делай паузы, пей кофе. Останов — той же кнопкой.';
     startSession();
   });
@@ -1026,6 +1194,28 @@ warmForm.addEventListener('submit', async (e) => {
 });
 
 /* при открытии быстрой формы старая логика остаётся: form submit -> /api/analyze {goal} */
+
+/* Order 70: schedule popover styles (inject once) */
+(function schedStyles() {
+  if (document.getElementById('gg-sched-style')) return;
+  const st = document.createElement('style');
+  st.id = 'gg-sched-style';
+  st.textContent = [
+    '.sched-pop{position:absolute;bottom:calc(100% + 8px);right:0;background:var(--surface-2,#111216);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:14px;z-index:70;min-width:250px;box-shadow:0 14px 34px rgba(0,0,0,.45);display:none}',
+    '.sched-pop.open{display:block}',
+    '.sched-pop label{display:block;font-size:12px;color:#A1A1AA;margin-bottom:6px}',
+    '.sched-pop input{font:inherit;font-size:13.5px;color:#F4F4F5;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:8px 10px;width:100%;outline:none;color-scheme:dark}',
+    '.sched-pop input:focus{border-color:rgba(232,165,79,.5)}',
+    '.sched-row{display:flex;gap:8px;margin-top:10px;justify-content:flex-end}',
+    '.sched-row button{font:inherit;font-size:12.5px;padding:7px 13px;border-radius:8px;cursor:pointer;background:rgba(255,255,255,.03);color:#C9C9D1;border:1px solid rgba(255,255,255,.14)}',
+    '.sched-row button.go{background:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);color:#1B1206;border-color:rgba(255,255,255,.16);font-weight:600}',
+    '.sched-err{font-size:12px;color:#E88A6F;margin-top:8px;min-height:1em}',
+    '.sched-chip{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;border:1px solid rgba(232,165,79,.35);color:#F3C583;background:rgba(232,165,79,.08)}',
+    '.sched-chip.failed{border-color:rgba(232,105,79,.45);color:#E88A6F;background:rgba(232,105,79,.08)}',
+    '.post-actions{position:relative}'
+  ].join('\n');
+  document.head.appendChild(st);
+})();
 
 /* старт */
 refreshHealth();

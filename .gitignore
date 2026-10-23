@@ -6,3 +6,8 @@ server.log
 public/generated/
 reports/uia-log.txt
 *.lnk
+data/
+*.bak-*
+*-bak-*
+*.bak
+*.tgz
