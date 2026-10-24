@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Расписание публикаций — GOOD Growth</title>
+<title data-i18n="schedule.meta.title">Расписание публикаций — GOOD Growth</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
@@ -68,35 +68,36 @@ select:focus{border-color:rgba(232,165,79,.5)}
 </head>
 <body>
 <div id="gg-header"></div>
+<script src="/i18n/i18n.js"></script>
 <script src="/gg-header.js" defer></script>
 <div class="wrap">
-  <h1>Расписание публикаций</h1>
-  <p class="sub">Посты, которые уйдут в канал сами — в выбранное время. Часы сервера идут по Москве.</p>
-  <p class="clock">Сейчас на сервере: <b id="clock">—</b></p>
+  <h1 data-i18n="schedule.h1">Расписание публикаций</h1>
+  <p class="sub" data-i18n="schedule.sub">Посты, которые уйдут в канал сами — в выбранное время. Часы сервера идут по Москве.</p>
+  <p class="clock"><span data-i18n="schedule.now">Сейчас на сервере:</span> <b id="clock">—</b></p>
   <div class="filters">
     <select id="fStatus">
-      <option value="">Все статусы</option>
-      <option value="scheduled">Запланированы</option>
-      <option value="failed">Со сбоем</option>
-      <option value="published">Опубликованы по плану</option>
+      <option value="" data-i18n="common.filter.all">Все статусы</option>
+      <option value="scheduled" data-i18n="schedule.filter.scheduled">Запланированы</option>
+      <option value="failed" data-i18n="schedule.filter.failed">Со сбоем</option>
+      <option value="published" data-i18n="schedule.filter.published">Опубликованы по плану</option>
     </select>
-    <select id="fBrand"><option value="">Все бренды</option></select>
+    <select id="fBrand"><option value="" data-i18n="common.filter.allBrands">Все бренды</option></select>
     <span class="count" id="count"></span>
   </div>
   <div class="grid" id="grid"></div>
-  <p class="empty" id="empty" hidden>Запланированных постов нет. Открой пост в мастерской и нажми «Запланировать».</p>
+  <p class="empty" id="empty" hidden data-i18n="schedule.empty">Запланированных постов нет. Открой пост в мастерской и нажми «Запланировать».</p>
 </div>
 <div class="msg" id="msg"></div>
 <div class="modal" id="modal">
   <div class="mbox">
-    <h3>Изменить время</h3>
+    <h3 data-i18n="schedule.modal.title">Изменить время</h3>
     <p id="mTitle">Пост</p>
-    <label for="mWhen">Дата и время (МСК)</label>
+    <label for="mWhen" data-i18n="schedule.modal.label">Дата и время (МСК)</label>
     <input type="datetime-local" id="mWhen">
     <div class="merr" id="mErr" role="alert"></div>
     <div class="mrow">
-      <button type="button" id="mNo">Отмена</button>
-      <button type="button" class="go" id="mYes">Сохранить</button>
+      <button type="button" id="mNo" data-i18n="common.cancel">Отмена</button>
+      <button type="button" class="go" id="mYes" data-i18n="schedule.modal.save">Сохранить</button>
     </div>
   </div>
 </div>
@@ -105,7 +106,7 @@ select:focus{border-color:rgba(232,165,79,.5)}
   var $ = function(id){ return document.getElementById(id); };
   var ALL = [], BRANDS = [];
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
-  var STATUS_RU = { scheduled:'запланирован', failed:'сбой', published:'опубликован' };
+  var STATUS_RU = { scheduled: ggT('post.status.scheduled','запланирован'), failed: ggT('post.status.failed','сбой'), published: ggT('post.status.published','опубликован') };
   function fmtDT(s){ if (!s) return '—'; var d = new Date(String(s).replace(' ','T')); return isNaN(d) ? String(s).slice(0,16) : d.toLocaleString('ru-RU', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }); }
   function msg(t, err){ var m = $('msg'); m.textContent = t; m.className = 'msg' + (err ? ' err' : ''); m.style.display = 'block'; setTimeout(function(){ m.style.display = 'none'; }, 3800); }
 
@@ -121,7 +122,7 @@ select:focus{border-color:rgba(232,165,79,.5)}
   var editId = null;
   function openEdit(p){
     editId = p.id;
-    $('mTitle').textContent = 'Пост № ' + p.id + (p.title ? ' — «' + p.title.slice(0, 60) + '»' : '');
+    $('mTitle').textContent = ggT('schedule.postN','Пост № {id}').replace('{id}', p.id) + (p.title ? ggT('schedule.postNTitle',' — «{title}»').replace('{title}', p.title.slice(0, 60)) : '');
     var v = String(p.scheduled_at || '').slice(0, 16).replace(' ', 'T');
     $('mWhen').value = v;
     $('mErr').textContent = '';
@@ -132,16 +133,16 @@ select:focus{border-color:rgba(232,165,79,.5)}
   $('mYes').addEventListener('click', function(){
     if (!editId) return;
     var v = $('mWhen').value;
-    if (!v) { $('mErr').textContent = 'Выбери дату и время.'; return; }
+    if (!v) { $('mErr').textContent = ggT('schedule.msg.pickDate','Выбери дату и время.'); return; }
     var b = $('mYes'); b.disabled = true;
     fetch('/api/posts/' + editId + '/schedule', { method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ when: v }) })
       .then(function(r){ return r.json().then(function(d){ return { ok: r.ok, d: d }; }); })
       .then(function(x){
         b.disabled = false;
-        if (x.ok) { $('modal').classList.remove('open'); editId = null; msg('Время перенесено'); load(); }
-        else $('mErr').textContent = x.d.error || 'Не получилось';
+        if (x.ok) { $('modal').classList.remove('open'); editId = null; msg(ggT('schedule.msg.moved','Время перенесено')); load(); }
+        else $('mErr').textContent = x.d.error || ggT('schedule.msg.fail','Не получилось');
       })
-      .catch(function(){ b.disabled = false; $('mErr').textContent = 'Сеть недоступна'; });
+      .catch(function(){ b.disabled = false; $('mErr').textContent = ggT('schedule.msg.nonet','Сеть недоступна'); });
   });
 
   function filtered(){
@@ -154,21 +155,21 @@ select:focus{border-color:rgba(232,165,79,.5)}
   }
   function render(){
     var list = filtered();
-    $('count').textContent = list.length + ' из ' + ALL.length;
+    $('count').textContent = ggT('common.count','{n} из {total}').replace('{n}', list.length).replace('{total}', ALL.length);
     $('empty').hidden = list.length > 0;
     var g = $('grid');
     g.innerHTML = '';
     list.forEach(function(p){
       var c = document.createElement('div'); c.className = 'scard';
-      var thumb = '<div class="thumb">' + (p.image_path && p.image_status === 'done' ? '<img src="' + esc(p.image_path) + '" alt="" loading="lazy">' : 'без картинки') + '</div>';
+      var thumb = '<div class="thumb">' + (p.image_path && p.image_status === 'done' ? '<img src="' + esc(p.image_path) + '" alt="" loading="lazy">' : ggT('schedule.noImage','без картинки')) + '</div>';
       var chip = '<span class="chip ' + esc(p.schedule_status) + '">' + (STATUS_RU[p.schedule_status] || p.schedule_status) + '</span>' +
         (p.brand_name ? '<span class="chip brand">' + esc(p.brand_name) + '</span>' : '') +
-        '<span class="sdate">' + (p.published_at ? 'опубл. ' + fmtDT(p.published_at) : 'созд. ' + fmtDT(p.created_at)) + '</span>';
-      var when = p.schedule_status === 'published' ? '' : '<div class="swhen">' + (p.schedule_status === 'failed' ? 'Планировалось: ' : 'Выйдет: ') + fmtDT(p.scheduled_at) + ' МСК</div>';
+        '<span class="sdate">' + (p.published_at ? ggT('common.date.published','опубл. ') + fmtDT(p.published_at) : ggT('common.date.created','созд. ') + fmtDT(p.created_at)) + '</span>';
+      var when = p.schedule_status === 'published' ? '' : '<div class="swhen">' + (p.schedule_status === 'failed' ? ggT('schedule.when.planned','Планировалось: ') : ggT('schedule.when.out','Выйдет: ')) + fmtDT(p.scheduled_at) + ggT('schedule.msk',' МСК') + '</div>';
       var note = p.schedule_note ? '<div class="snote">' + esc(p.schedule_note) + '</div>' : '';
-      var acts = '<button data-act="open">Открыть</button>';
-      if (p.schedule_status === 'scheduled') acts += '<button data-act="edit">Изменить время</button><button class="del" data-act="cancel">Отменить</button>';
-      if (p.schedule_status === 'failed') acts += '<button data-act="edit">Перенести</button><button class="del" data-act="cancel">Отменить</button>';
+      var acts = '<button data-act="open">' + ggT('common.open','Открыть') + '</button>';
+      if (p.schedule_status === 'scheduled') acts += '<button data-act="edit">' + ggT('schedule.edit','Изменить время') + '</button><button class="del" data-act="cancel">' + ggT('schedule.cancel','Отменить') + '</button>';
+      if (p.schedule_status === 'failed') acts += '<button data-act="edit">' + ggT('schedule.move','Перенести') + '</button><button class="del" data-act="cancel">' + ggT('schedule.cancel','Отменить') + '</button>';
       c.innerHTML = thumb + '<div class="sbody"><div class="stitle">' + esc(p.title) + '</div><div class="stext">' + esc(p.body) + '</div>' + when + '</div>' +
         '<div class="smeta">' + chip + '</div>' + note + '<div class="sacts">' + acts + '</div>';
       c.addEventListener('click', function(e){
@@ -178,10 +179,10 @@ select:focus{border-color:rgba(232,165,79,.5)}
         if (act === 'open') { location.href = '/app?goal=' + p.goal_id + '#post-' + p.id; return; }
         if (act === 'edit') { openEdit(p); return; }
         if (act === 'cancel') {
-          if (!confirm('Отменить публикацию поста № ' + p.id + ' по расписанию?')) return;
+          if (!confirm(ggT('schedule.msg.cancelConfirm','Отменить публикацию поста № {id} по расписанию?').replace('{id}', p.id))) return;
           fetch('/api/posts/' + p.id + '/schedule', { method:'DELETE' })
-            .then(function(r){ if (r.ok) { msg('План снят'); load(); } else msg('Не получилось снять', true); })
-            .catch(function(){ msg('Сеть недоступна', true); });
+            .then(function(r){ if (r.ok) { msg(ggT('schedule.msg.cancelled','План снят')); load(); } else msg(ggT('schedule.msg.cancelFail','Не получилось снять'), true); })
+            .catch(function(){ msg(ggT('schedule.msg.nonet','Сеть недоступна'), true); });
         }
       });
       g.appendChild(c);
@@ -204,7 +205,7 @@ select:focus{border-color:rgba(232,165,79,.5)}
       BRANDS = d.brands || [];
       if (!$('fBrand').options.length) fillBrands();
       render();
-    }).catch(function(e){ if (e.message !== 'auth') msg('Не удалось загрузить расписание', true); });
+    }).catch(function(e){ if (e.message !== 'auth') msg(ggT('schedule.msg.loadFail','Не удалось загрузить расписание'), true); });
   }
   load();
   setInterval(load, 60000);

@@ -71,9 +71,9 @@ select:focus,input:focus{border-color:rgba(232,165,79,.5)}
   <h1 data-i18n="posts.h1">Склад постов</h1>
   <p class="sub" data-i18n="posts.sub">Все посты всех целей: черновики, утверждённые, опубликованные. Фильтруй, открывай, публиковй.</p>
   <div class="filters">
-    <select id="fStatus"><option value="" data-i18n="posts.filter.all">Все статусы</option><option value="draft" data-i18n="posts.filter.draft">Черновики</option><option value="approved" data-i18n="posts.filter.approved">Утверждённые</option><option value="published" data-i18n="posts.filter.published">Опубликованные</option></select>
-    <select id="fBrand"><option value="" data-i18n="posts.filter.allBrands">Все бренды</option></select>
-    <select id="fChannel"><option value="" data-i18n="posts.filter.allChannels">Все каналы</option></select>
+    <select id="fStatus"><option value="" data-i18n="common.filter.all">Все статусы</option><option value="draft" data-i18n="posts.filter.draft">Черновики</option><option value="approved" data-i18n="posts.filter.approved">Утверждённые</option><option value="published" data-i18n="posts.filter.published">Опубликованные</option></select>
+    <select id="fBrand"><option value="" data-i18n="common.filter.allBrands">Все бренды</option></select>
+    <select id="fChannel"><option value="" data-i18n="common.filter.allChannels">Все каналы</option></select>
     <input type="date" id="fDate" title="Опубликованы в дату" data-i18n-attr="title:posts.filter.dateTitle">
     <input type="search" id="fQuery" placeholder="Поиск по тексту…" data-i18n-attr="placeholder:posts.search" style="min-width:180px">
     <span class="count" id="count"></span>
@@ -87,7 +87,7 @@ select:focus,input:focus{border-color:rgba(232,165,79,.5)}
     <h3 id="cTitle" data-i18n="posts.confirm.title">Удалить пост?</h3>
     <p id="cText" data-i18n="posts.confirm.text">Пост будет удалён безвозвратно, вместе с картинкой.</p>
     <div class="crow">
-      <button type="button" id="cNo" data-i18n="posts.confirm.no">Отмена</button>
+      <button type="button" id="cNo" data-i18n="common.cancel">Отмена</button>
       <button type="button" class="yes" id="cYes" data-i18n="posts.confirm.yes">Удалить</button>
     </div>
   </div>
@@ -124,7 +124,7 @@ select:focus,input:focus{border-color:rgba(232,165,79,.5)}
   }
   function render(){
     var list = filtered();
-    $('count').textContent = ggT('posts.count','{n} из {total}').replace('{n}', list.length).replace('{total}', ALL.length);
+    $('count').textContent = ggT('common.count','{n} из {total}').replace('{n}', list.length).replace('{total}', ALL.length);
     $('empty').hidden = list.length > 0;
     var g = $('grid');
     g.innerHTML = '';
@@ -135,8 +135,8 @@ select:focus,input:focus{border-color:rgba(232,165,79,.5)}
       var meta = '<span class="chip ' + st + '">' + STATUS_RU[st] + '</span>' +
         (p.brand_name ? '<span class="chip brand">' + esc(p.brand_name) + '</span>' : '') +
         (p.published_channel ? '<span class="chip brand">' + esc(p.published_channel) + '</span>' : '') +
-        '<span class="pdate">' + (p.published_at ? ggT('posts.date.published','опубл. ') + fmtDT(p.published_at) : ggT('posts.date.created','созд. ') + fmtD(p.created_at)) + '</span>';
-      var acts = '<button data-act="open">' + ggT('posts.open','Открыть') + '</button>';
+        '<span class="pdate">' + (p.published_at ? ggT('common.date.published','опубл. ') + fmtDT(p.published_at) : ggT('common.date.created','созд. ') + fmtD(p.created_at)) + '</span>';
+      var acts = '<button data-act="open">' + ggT('common.open','Открыть') + '</button>';
       if (st === 'approved') acts += '<button class="pub" data-act="publish">' + ggT('posts.publish','Опубликовать') + '</button>';
       acts += '<button class="del" data-act="delete">' + ggT('posts.delete','Удалить') + '</button>';
       c.innerHTML = thumb + '<div class="pbody"><div class="ptitle">' + esc(p.title) + '</div><div class="ptext">' + esc(p.body) + '</div></div>' +
