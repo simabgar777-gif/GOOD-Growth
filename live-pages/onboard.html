@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <title>Шаг 1 · Твоя цель — GOOD Growth</title>
+  <title data-i18n="onboard.meta.title">Шаг 1 · Твоя цель — GOOD Growth</title>
   <style>
     :root { --bg:#08090A; --surface:#0E0F12; --surface2:#111216; --ink:#F4F4F5; --muted:#A1A1AA;
       --faint:#8B8B95; --hair:rgba(255,255,255,.10); --hair-soft:rgba(255,255,255,.06);
@@ -45,31 +45,32 @@
   </style>
 <link rel="stylesheet" href="/style-c.css"></head>
 <body>
+<script src="/i18n/i18n.js"></script>
   <div class="wrap">
-    <a class="back" href="/">← На лендинг</a>
+    <a class="back" href="/" data-i18n="onboard.back">← На лендинг</a>
     <div class="steps-line"><span class="step-dot on"></span><span class="step-dot"></span><span class="step-dot"></span><span class="step-dot"></span></div>
-    <span class="free-pill">Бесплатно · регистрация за 30 секунд · первый пост за 10 минут</span>
-    <p class="kicker">ШАГ 1 ИЗ 4</p>
-    <h1>Расскажи о своём деле</h1>
-    <p class="sub">5 коротких вопросов — и GOOD Growth соберёт стратегию, посты и картинки. Печатаешь или говоришь голосом.</p>
+    <span class="free-pill" data-i18n="onboard.free">Бесплатно · регистрация за 30 секунд · первый пост за 10 минут</span>
+    <p class="kicker" data-i18n="onboard.kicker">ШАГ 1 ИЗ 4</p>
+    <h1 data-i18n="onboard.h1">Расскажи о своём деле</h1>
+    <p class="sub" data-i18n="onboard.sub">5 коротких вопросов — и GOOD Growth соберёт стратегию, посты и картинки. Печатаешь или говоришь голосом.</p>
 
     <form id="onboardForm" novalidate>
-      <label for="d_what">Что ты делаешь?</label>
+      <label for="d_what" data-i18n="onboard.label.what">Что ты делаешь?</label>
       <div class="mic-row">
-        <textarea id="d_what" maxlength="120" rows="3" placeholder="«Мастерская ремонта велосипедов»" autocomplete="off" class="grow-area" style="flex:1"></textarea>
-        <button class="mic-btn" id="mic1" type="button" title="Сказать голосом" aria-label="Сказать голосом">🎙</button>
+        <textarea id="d_what" maxlength="120" rows="3" placeholder="«Мастерская ремонта велосипедов»" data-i18n-attr="placeholder:onboard.ph.what" autocomplete="off" class="grow-area" style="flex:1"></textarea>
+        <button class="mic-btn" id="mic1" type="button" title="Сказать голосом" aria-label="Сказать голосом" data-i18n-attr="title:onboard.mic,aria-label:onboard.mic">🎙</button>
       </div>
-      <label for="d_where">Где ты находишься?</label>
-      <input type="text" id="d_where" maxlength="120" placeholder="«Москва» или «Онлайн по России»" autocomplete="off" />
-      <label for="d_who">Кто твой клиент?</label>
-      <input type="text" id="d_who" maxlength="120" placeholder="«Взрослые, которые хотят научиться играть»" autocomplete="off" />
-      <label for="d_want">Чего ты хочешь?</label>
-      <input type="text" id="d_want" maxlength="120" placeholder="«Чтобы узнали и записались»" autocomplete="off" />
-      <button class="btn" id="go" type="submit">Получить стратегию →</button>
+      <label for="d_where" data-i18n="onboard.label.where">Где ты находишься?</label>
+      <input type="text" id="d_where" maxlength="120" placeholder="«Москва» или «Онлайн по России»" data-i18n-attr="placeholder:onboard.ph.where" autocomplete="off" />
+      <label for="d_who" data-i18n="onboard.label.who">Кто твой клиент?</label>
+      <input type="text" id="d_who" maxlength="120" placeholder="«Взрослые, которые хотят научиться играть»" data-i18n-attr="placeholder:onboard.ph.who" autocomplete="off" />
+      <label for="d_want" data-i18n="onboard.label.want">Чего ты хочешь?</label>
+      <input type="text" id="d_want" maxlength="120" placeholder="«Чтобы узнали и записались»" data-i18n-attr="placeholder:onboard.ph.want" autocomplete="off" />
+      <button class="btn" id="go" type="submit" data-i18n="onboard.go">Получить стратегию →</button>
       <p class="status" id="status" role="status" aria-live="polite"></p>
     </form>
-    <p class="or">— или —</p>
-    <p class="quick-link"><a id="quickLink" href="/app">Написать цель одной фразой →</a></p>
+    <p class="or" data-i18n="onboard.or">— или —</p>
+    <p class="quick-link"><a id="quickLink" href="/app" data-i18n="onboard.quick">Написать цель одной фразой →</a></p>
   </div>
 
   <script>
@@ -96,13 +97,13 @@
       e.preventDefault();
       const details = {};
       fields.forEach((k) => { details[k.slice(2)] = $(k).value.trim(); });
-      if (!details.what || details.what.length < 2) { status('Расскажи хотя бы, что ты делаешь.', true); return; }
+      if (!details.what || details.what.length < 2) { status(ggT('onboard.msg.what','Расскажи хотя бы, что ты делаешь.'), true); return; }
       $('go').disabled = true;
-      status('Собираю стратегию… это займёт до минуты.');
+      status(ggT('onboard.msg.busy','Собираю стратегию… это займёт до минуты.'));
       try {
         const r = await fetch('/api/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ details, quick: false }) });
         const d = await r.json();
-        if (!r.ok) throw new Error(d.error || 'Не получилось. Попробуй ещё раз.');
+        if (!r.ok) throw new Error(d.error || ggT('onboard.msg.fail','Не получилось. Попробуй ещё раз.'));
         sessionStorage.removeItem('gg_onboard');
         location.href = '/app?goal=' + d.id;
       } catch (err) {
@@ -125,7 +126,7 @@
           active = sess;
           b.classList.add('rec'); b.setAttribute('aria-pressed', 'true');
           b.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2.5" fill="currentColor"/></svg>';
-          b.title = 'Идёт запись — нажми ещё раз, чтобы остановить';
+          b.title = ggT('onboard.mic.rec','Идёт запись — нажми ещё раз, чтобы остановить');
           const r = new SR(); sess.rec = r;
           r.lang = 'ru-RU'; r.continuous = true; r.interimResults = true;
           r.onresult = (e) => {
@@ -141,25 +142,25 @@
           const reset = () => {
             sess.btn.classList.remove('rec'); sess.btn.setAttribute('aria-pressed', 'false');
             sess.btn.innerHTML = sess.origIcon;
-            sess.btn.title = 'Сказать голосом';
+            sess.btn.title = ggT('onboard.mic','Сказать голосом');
             if (active === sess) active = null;
           };
           r.onend = () => { if (sess.stopped) reset(); else { try { r.start(); } catch (e) {} } };
           r.onerror = (ev) => {
             if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed') {
-              sess.stopped = true; status('Микрофон запрещён — разреши доступ к микрофону в браузере и попробуй снова.', true); reset();
+              sess.stopped = true; status(ggT('onboard.msg.micDenied','Микрофон запрещён — разреши доступ к микрофону в браузере и попробуй снова.'), true); reset();
             } else if (ev.error === 'no-speech') {
               /* пауза — норм, сессия сама продолжится */
             } else {
-              status('Голос сбоит (' + ev.error + '). Сказанное сохранено в поле.', true);
+              status(ggT('onboard.msg.micErr','Голос сбоит ({err}). Сказанное сохранено в поле.').replace('{err}', ev.error), true);
             }
           };
-          status('Слушаю… говори, останов — той же кнопкой.');
-          try { r.start(); } catch (e) { status('Не удалось включить микрофон. Попробуй ещё раз.', true); reset(); }
+          status(ggT('onboard.msg.listening','Слушаю… говори, останов — той же кнопкой.'));
+          try { r.start(); } catch (e) { status(ggT('onboard.msg.micFail','Не удалось включить микрофон. Попробуй ещё раз.'), true); reset(); }
         });
       });
     } else {
-      document.querySelectorAll('.mic-btn').forEach((b) => { b.style.display = 'none'; status('Голос не поддерживается этим браузером — используй Chrome или Edge.', true); });
+      document.querySelectorAll('.mic-btn').forEach((b) => { b.style.display = 'none'; status(ggT('onboard.msg.micNone','Голос не поддерживается этим браузером — используй Chrome или Edge.'), true); });
     }
   </script>
 <script src="/gg-header.js" defer></script>
