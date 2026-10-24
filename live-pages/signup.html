@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Регистрация — GOOD Growth</title>
+<title data-i18n="signup.meta.title">Регистрация — GOOD Growth</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
@@ -62,6 +62,7 @@ button.btn:disabled{opacity:.6;cursor:wait;transform:none}
 </style>
 <link rel="stylesheet" href="/style-c.css"></head>
 <body>
+<script src="/i18n/i18n.js"></script>
 <main class="gg-split"><!-- O60 · LEFT PANEL — cinematic workshop (CSS/SVG only, no photos) -->
 <style>
 /* ==== O60 LEFT PANEL (.gg-visual / .ggv-*) ==== */
@@ -117,60 +118,60 @@ button.btn:disabled{opacity:.6;cursor:wait;transform:none}
       <circle cx="22" cy="22" r="20.5" fill="none" stroke="rgba(232,165,79,.42)" stroke-width="1.4"/>
       <path d="M30 14.5A11 11 0 1 0 33 22H22" fill="none" stroke="#E8A54F" stroke-width="2.6" stroke-linecap="round"/>
     </svg>
-    <span class="ggv-word">Good&nbsp;Growth</span>
+    <span class="ggv-word" data-i18n="common.brand">Good&nbsp;Growth</span>
   </div>
   <div class="ggv-mid">
-    <p class="ggv-kicker">Мастерская роста</p>
-    <h2 class="ggv-slogan">Рост — не удача. <br><em>Это ремесло.</em></h2>
+    <p class="ggv-kicker" data-i18n="common.kicker">Мастерская роста</p>
+    <h2 class="ggv-slogan"><span data-i18n="common.slogan.a">Рост — не удача.</span> <br><em data-i18n="common.slogan.b">Это ремесло.</em></h2>
     <ul class="ggv-benefits">
-      <li><i aria-hidden="true"></i><span><b>Система вместо хаоса</b><br>цель, метрика и недельный ритм</span></li>
-      <li><i aria-hidden="true"></i><span><b>Практика на твоём проекте</b><br>делаешь руками, а не смотришь вебинары</span></li>
-      <li><i aria-hidden="true"></i><span><b>Разбор с наставником</b><br>живая обратная связь каждую неделю</span></li>
+      <li><i aria-hidden="true"></i><span><b data-i18n="common.b1.title">Система вместо хаоса</b><br><span data-i18n="common.b1.text">цель, метрика и недельный ритм</span></span></li>
+      <li><i aria-hidden="true"></i><span><b data-i18n="common.b2.title">Практика на твоём проекте</b><br><span data-i18n="common.b2.text">делаешь руками, а не смотришь вебинары</span></span></li>
+      <li><i aria-hidden="true"></i><span><b data-i18n="common.b3.title">Разбор с наставником</b><br><span data-i18n="common.b3.text">живая обратная связь каждую неделю</span></span></li>
     </ul>
   </div>
   <footer class="ggv-foot">
-    <span>© GOOD Growth · мастерская системного роста</span>
+    <span data-i18n="common.footer">© GOOD Growth · мастерская системного роста</span>
     <span>MMXXVI</span>
   </footer>
 </aside>
 <section class="gg-form-panel"><div class="gg-form-box"><div class="gg-mhead">
-  <h1>Создать аккаунт</h1>
-  <p class="sub">Тридцать секунд — и у тебя есть своя мастерская роста.</p>
+  <h1 data-i18n="signup.h1">Создать аккаунт</h1>
+  <p class="sub" data-i18n="signup.sub">Тридцать секунд — и у тебя есть своя мастерская роста.</p>
   <form id="signupForm" novalidate>
-    <div><label for="name">Имя</label><input id="name" name="name" type="text" autocomplete="name" maxlength="80" placeholder="Как к тебе обращаться"></div>
-    <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
-    <div><label for="password">Пароль</label><span class="pw-wrap"><input id="password" name="password" type="password" autocomplete="new-password" required placeholder="Минимум 8 символов"><button type="button" class="pw-eye" id="pwEye" aria-label="Показать пароль"><svg class="on-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><svg class="off-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></span>
-      <div class="hint" id="pwHint">Минимум 8 символов. Храним только хэш — сам пароль не увидит даже сервер. Только английские буквы, цифры и символы.</div></div>
-    <button class="btn" type="submit" id="submitBtn">Создать аккаунт</button>
+    <div><label for="name" data-i18n="signup.label.name">Имя</label><input id="name" name="name" type="text" autocomplete="name" maxlength="80" placeholder="Как к тебе обращаться" data-i18n-attr="placeholder:signup.ph.name"></div>
+    <div><label for="email" data-i18n="signup.label.email">Email</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+    <div><label for="password" data-i18n="signup.label.password">Пароль</label><span class="pw-wrap"><input id="password" name="password" type="password" autocomplete="new-password" required placeholder="Минимум 8 символов" data-i18n-attr="placeholder:signup.ph.password"><button type="button" class="pw-eye" id="pwEye" aria-label="Показать пароль" data-i18n-attr="aria-label:signup.eye.show"><svg class="on-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><svg class="off-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></span>
+      <div class="hint" id="pwHint" data-i18n="signup.hint">Минимум 8 символов. Храним только хэш — сам пароль не увидит даже сервер. Только английские буквы, цифры и символы.</div></div>
+    <button class="btn" type="submit" id="submitBtn" data-i18n="signup.submit">Создать аккаунт</button>
   </form>
   <div class="msg" id="msg"></div>
-  <p class="alt">Уже с нами? <a href="/login">Войти</a></p>
+  <p class="alt"><span data-i18n="signup.have.q">Уже с нами?</span> <a href="/login" data-i18n="signup.have.a">Войти</a></p>
 </div></div></section></main>
 <script>
 (function(){
   var f=document.getElementById('signupForm'),m=document.getElementById('msg'),b=document.getElementById('submitBtn');
-  var NAMES={growth:'Рост',pro:'Про',agency:'Агентство',unlimited:'Безлимит'};
+  var NAMES={growth:ggT('plan.growth','Рост'),pro:ggT('plan.pro','Про'),agency:ggT('plan.agency','Агентство'),unlimited:ggT('plan.unlimited','Безлимит')};
   var qp=null;try{qp=new URLSearchParams(location.search).get('plan');if(qp)sessionStorage.setItem('gg_plan',qp);}catch(e){}
   try{var nx=new URLSearchParams(location.search).get('next');if(nx&&nx.charAt(0)==='/'&&nx.charAt(1)!=='/'&&!sessionStorage.getItem('gg_after_login'))sessionStorage.setItem('gg_after_login',nx);}catch(e){}
   try{var ie=new URLSearchParams(location.search).get('email');if(ie){var em=document.getElementById('email');if(em&&!em.value)em.value=ie;}}catch(e){}
-  if(qp&&NAMES[qp])show('Тариф выбран: '+NAMES[qp]+'. Создай аккаунт — и подключим его.',true);
+  if(qp&&NAMES[qp])show(ggT('signup.msg.plan','Тариф выбран: {plan}. Создай аккаунт — и подключим его.').replace('{plan}',NAMES[qp]),true);
   function show(t,ok){m.className='msg '+(ok?'ok':'err');m.textContent=t;}
   try{document.getElementById('password').addEventListener('input',function(){var h=document.getElementById('pwHint');if(h)h.classList.toggle('bad',this.value.length>0&&this.value.length<8);});}catch(e){} /* O37: короткий пароль красим */
   f.addEventListener('submit',function(e){
     e.preventDefault();
     m.className='msg';m.textContent='';
     var email=f.email.value.trim(),password=f.password.value,name=f.name.value.trim();
-    if(!email){show('Укажи email.',false);return;}
-    if(password.length<8){show('Пароль слишком короткий — минимум 8 символов.',false);return;}
-    if(!/^[A-Za-z0-9!@#$%^&*_+\-=.,?;:'"\(\)\[\]{}<>\\|\/~`\s]+$/.test(password)){show('Пароль может содержать только английские буквы, цифры и символы',false);return;} /* O37 */
+    if(!email){show(ggT('signup.msg.email','Укажи email.'),false);return;}
+    if(password.length<8){show(ggT('signup.msg.short','Пароль слишком короткий — минимум 8 символов.'),false);return;}
+    if(!/^[A-Za-z0-9!@#$%^&*_+\-=.,?;:'"\(\)\[\]{}<>\\|\/~`\s]+$/.test(password)){show(ggT('signup.msg.charset','Пароль может содержать только английские буквы, цифры и символы'),false);return;} /* O37 */
     b.disabled=true;
     fetch('/api/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,password:password,name:name})})
       .then(function(r){return r.json().then(function(d){return{status:r.status,d:d};});})
       .then(function(res){
         if(res.status===200&&res.d&&res.d.ok){try{sessionStorage.setItem('gg_user',JSON.stringify(res.d.user));sessionStorage.setItem('gg_entered','1');sessionStorage.removeItem('gg_after_login');}catch(e){}var dest='/app/strategy';try{var gp=sessionStorage.getItem('gg_plan');sessionStorage.removeItem('gg_plan');if(gp&&gp!=='start')dest='/app/billing?plan='+gp;}catch(e){}location.href=dest;}
-        else{b.disabled=false;show((res.d&&res.d.error)||'Не получилось. Проверь поля и попробуй ещё раз.',false);}
+        else{b.disabled=false;show((res.d&&res.d.error)||ggT('signup.msg.fail','Не получилось. Проверь поля и попробуй ещё раз.'),false);}
       })
-      .catch(function(){b.disabled=false;show('Сервер не отвечает. Попробуй ещё раз.',false);});
+      .catch(function(){b.disabled=false;show(ggT('signup.msg.nonet','Сервер не отвечает. Попробуй ещё раз.'),false);});
   });
 })();
 </script>
@@ -178,7 +179,7 @@ button.btn:disabled{opacity:.6;cursor:wait;transform:none}
 (function(){
   var b=document.getElementById('pwEye'),p=document.getElementById('password');
   if(!b||!p)return;
-  b.addEventListener('click',function(){var s=p.type==='password';p.type=s?'text':'password';b.classList.toggle('on',s);b.setAttribute('aria-label',s?'Скрыть пароль':'Показать пароль');});
+  b.addEventListener('click',function(){var s=p.type==='password';p.type=s?'text':'password';b.classList.toggle('on',s);b.setAttribute('aria-label',s?ggT('signup.eye.hide','Скрыть пароль'):ggT('signup.eye.show','Показать пароль'));});
 })();
 </script>
 <script src="/gg-header.js" defer></script>
