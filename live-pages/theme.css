@@ -1,0 +1,281 @@
+/* ============================================================
+   GOOD Growth · ТЕМЫ (приказ №74)
+
+     <html data-theme="dark">       — ночная (основная)
+     <html data-theme="light">      — дневная
+     <html data-theme-src="system"> — системная: data-theme НЕТ,
+                                      решает prefers-color-scheme
+
+   ── ПОЧЕМУ !important ──────────────────────────────────────
+   В style-c.css (строки 163-186) токены объявлены САМИ с !important:
+     :root{ --bg:#08090A !important; --ink:#F4F4F5 !important; ... }
+   Без !important наш переключатель проигрывает, и половина страницы
+   остаётся тёмной (проверено: --fg менялся, --bg — нет).
+
+   Перекрываем ВСЕ токены из того блока, иначе на светлом:
+     · --ink остался светлым  → заголовки исчезают
+     · --hair остался белым   → границы исчезают
+
+   ⚠️ Если в style-c.css появится новый токен с !important —
+       добавь его и сюда, в ОБА блока.
+   ⚠️ Оба блока (явная и системная) править вместе.
+   ============================================================ */
+
+/* ---------- ДНЕВНАЯ ---------- */
+html[data-theme="light"] {
+  /* — семья style-c — */
+  --bg:#F4F1EA !important;
+  --bg-2:#EFEBE2 !important;
+  --bg-soft:#EFEBE2 !important;
+  --surface:#FFFFFF !important;
+  --surface-2:#FAF8F3 !important;
+  --surface2:#FAF8F3 !important;
+  --ink:#14201A !important;
+  --muted:#5C665F !important;
+  --mut:#5C665F !important;
+  --faint:#6F7A72 !important;
+  --fg:#14201A !important;
+  --fg-2:#5C665F !important;
+  --fg-3:#6F7A72 !important;
+  --hair:rgba(20,32,26,.16) !important;
+  --hair-soft:rgba(20,32,26,.10) !important;
+  --line:rgba(20,32,26,.10) !important;
+  --line-2:rgba(20,32,26,.16) !important;
+  --accent:#9A5518 !important;
+  --accent-bright:#B86A2E !important;
+  --accent-ink:#1B1206 !important;
+  --accent-soft:rgba(154,85,24,.10) !important;
+  --pill:#9A5518 !important;
+  --pill-ink:#FFFFFF !important;
+  --danger:#B03A22 !important;
+  --copper:#9A5518 !important;
+  --copper-lt:#B86A2E !important;
+  --copper-dp:#7E400E !important;
+  --copper-2:#B86A2E !important;
+  --sun:#B86A2E !important;
+  --green:#2E7D4F !important;
+  --green-deep:#256840 !important;
+  --deep:#256840 !important;
+  --ok:#2E7D4F !important;
+  --mint:#2E7D4F !important;
+  --red:#B03A22 !important;
+  --mood-goal:#2F5A8C !important;
+  --mood-goal-soft:rgba(47,90,140,.12) !important;
+  --mood-make:#2E7D4F !important;
+  --mood-make-soft:rgba(46,125,79,.10) !important;
+  --mood-publish:#9A5518 !important;
+  --mood-publish-soft:rgba(154,85,24,.12) !important;
+
+  /* — семья страниц — */
+  --pg-bg:#F4F1EA !important;
+  --pg-surface:#FFFFFF !important;
+  --pg-surface2:#FAF8F3 !important;
+  --pg-line:rgba(20,32,26,.10) !important;
+  --pg-line2:rgba(20,32,26,.16) !important;
+  --pg-fg:#14201A !important;
+  --pg-fg2:#5C665F !important;
+  --pg-fg3:#6F7A72 !important;
+  --pg-copper:#9A5518 !important;
+  --pg-copper-lt:#B86A2E !important;
+  --pg-copper-dp:#7E400E !important;
+  --pg-grad:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48) !important;
+  --pg-ink:#1B1206 !important;
+
+  color-scheme: light;
+}
+
+/* ---------- СИСТЕМНАЯ (копия — правь вместе с блоком выше) ---------- */
+@media (prefers-color-scheme: light) {
+  html[data-theme-src="system"] {
+    --bg:#F4F1EA !important;
+    --bg-2:#EFEBE2 !important;
+    --bg-soft:#EFEBE2 !important;
+    --surface:#FFFFFF !important;
+    --surface-2:#FAF8F3 !important;
+    --surface2:#FAF8F3 !important;
+    --ink:#14201A !important;
+    --muted:#5C665F !important;
+    --mut:#5C665F !important;
+    --faint:#6F7A72 !important;
+    --fg:#14201A !important;
+    --fg-2:#5C665F !important;
+    --fg-3:#6F7A72 !important;
+    --hair:rgba(20,32,26,.16) !important;
+    --hair-soft:rgba(20,32,26,.10) !important;
+    --line:rgba(20,32,26,.10) !important;
+    --line-2:rgba(20,32,26,.16) !important;
+    --accent:#9A5518 !important;
+    --accent-bright:#B86A2E !important;
+    --accent-ink:#1B1206 !important;
+    --accent-soft:rgba(154,85,24,.10) !important;
+    --pill:#9A5518 !important;
+    --pill-ink:#FFFFFF !important;
+    --danger:#B03A22 !important;
+    --copper:#9A5518 !important;
+    --copper-lt:#B86A2E !important;
+    --copper-dp:#7E400E !important;
+    --copper-2:#B86A2E !important;
+    --sun:#B86A2E !important;
+    --green:#2E7D4F !important;
+    --green-deep:#256840 !important;
+    --deep:#256840 !important;
+    --ok:#2E7D4F !important;
+    --mint:#2E7D4F !important;
+    --red:#B03A22 !important;
+    --mood-goal:#2F5A8C !important;
+    --mood-goal-soft:rgba(47,90,140,.12) !important;
+    --mood-make:#2E7D4F !important;
+    --mood-make-soft:rgba(46,125,79,.10) !important;
+    --mood-publish:#9A5518 !important;
+    --mood-publish-soft:rgba(154,85,24,.12) !important;
+
+    --pg-bg:#F4F1EA !important;
+    --pg-surface:#FFFFFF !important;
+    --pg-surface2:#FAF8F3 !important;
+    --pg-line:rgba(20,32,26,.10) !important;
+    --pg-line2:rgba(20,32,26,.16) !important;
+    --pg-fg:#14201A !important;
+    --pg-fg2:#5C665F !important;
+    --pg-fg3:#6F7A72 !important;
+    --pg-copper:#9A5518 !important;
+    --pg-copper-lt:#B86A2E !important;
+    --pg-copper-dp:#7E400E !important;
+    --pg-grad:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48) !important;
+    --pg-ink:#1B1206 !important;
+
+    color-scheme: light;
+  }
+}
+
+/* ============================================================
+   Там, где style-c.css писал цвет жёстко, а не токеном.
+   ============================================================ */
+
+/* body числом: у forgot-password и reset-password инлайн-<style> стоит
+   ПОСЛЕ style-c.css и пишет background:#08090A буквально.
+   Никакой токен это не перекроет — только прямое правило с !important. */
+html[data-theme="light"] body {
+  background: #F4F1EA !important;
+  color: #14201A !important;
+}
+@media (prefers-color-scheme: light) {
+  html[data-theme-src="system"] body {
+    background: #F4F1EA !important;
+    color: #14201A !important;
+  }
+}
+
+html[data-theme="light"] ::selection,
+html[data-theme-src="system"] ::selection {
+  background: rgba(154,85,24,.18);
+  color: #14201A;
+}
+html[data-theme="light"] :focus-visible,
+html[data-theme-src="system"] :focus-visible {
+  outline-color: rgba(154,85,24,.85) !important;
+}
+html[data-theme="light"] *,
+html[data-theme-src="system"] * {
+  scrollbar-color: #CFC7B8 transparent;
+}
+html[data-theme="light"] *::-webkit-scrollbar-thumb,
+html[data-theme-src="system"] *::-webkit-scrollbar-thumb {
+  background: #CFC7B8;
+  border-color: #F4F1EA;
+}
+
+/* «призрачные» кнопки: белая подложка на светлом невидима */
+html[data-theme="light"] [class*="ghost"],
+html[data-theme="light"] [class*="quiet"],
+html[data-theme="light"] [class*="secondary"],
+html[data-theme="light"] [class*="outline"],
+html[data-theme-src="system"] [class*="ghost"],
+html[data-theme-src="system"] [class*="quiet"],
+html[data-theme-src="system"] [class*="secondary"],
+html[data-theme-src="system"] [class*="outline"] {
+  background: rgba(20,32,26,.035) !important;
+  border-color: rgba(20,32,26,.16) !important;
+  color: #14201A !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.7) !important;
+}
+html[data-theme="light"] [class*="ghost"]:hover,
+html[data-theme="light"] [class*="quiet"]:hover,
+html[data-theme-src="system"] [class*="ghost"]:hover,
+html[data-theme-src="system"] [class*="quiet"]:hover {
+  background: rgba(20,32,26,.07) !important;
+}
+
+/* поля ввода */
+html[data-theme="light"] input,
+html[data-theme="light"] textarea,
+html[data-theme="light"] select,
+html[data-theme-src="system"] input,
+html[data-theme-src="system"] textarea,
+html[data-theme-src="system"] select {
+  background: #FFFFFF !important;
+  color: #14201A !important;
+  border-color: rgba(20,32,26,.18) !important;
+}
+html[data-theme="light"] input::placeholder,
+html[data-theme="light"] textarea::placeholder,
+html[data-theme-src="system"] input::placeholder,
+html[data-theme-src="system"] textarea::placeholder {
+  color: #8A938B !important;
+}
+
+/* карточки и панели, где фон прописан числом */
+html[data-theme="light"] .card,
+html[data-theme="light"] .panel,
+html[data-theme="light"] .cbox,
+html[data-theme="light"] .mbox,
+html[data-theme="light"] .pcard,
+html[data-theme="light"] .scard,
+html[data-theme="light"] [class*="card"],
+html[data-theme-src="system"] .card,
+html[data-theme-src="system"] .panel,
+html[data-theme-src="system"] .cbox,
+html[data-theme-src="system"] .mbox,
+html[data-theme-src="system"] .pcard,
+html[data-theme-src="system"] .scard,
+html[data-theme-src="system"] [class*="card"] {
+  background: #FFFFFF !important;
+  border-color: rgba(20,32,26,.14) !important;
+  color: #14201A !important;
+}
+
+/* ============================================================
+   Переключатель темы — ЖИВЁТ В ПРОФИЛЕ, в блоке «Настройки».
+   Плавающей плашки нет (уточнение приказа).
+   ============================================================ */
+.gg-theme-pick {
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--surface-2, #111216);
+  box-shadow: inset 0 0 0 1px var(--line-2, rgba(255,255,255,.10));
+  margin: 12px 0 8px;
+  width: fit-content;
+}
+.gg-theme-pick button {
+  border: 0 !important;
+  cursor: pointer;
+  padding: 8px 15px;
+  border-radius: 999px;
+  background: transparent !important;
+  color: var(--fg-3, #8B8B95) !important;
+  font: 600 12.5px/1 inherit;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: background-color 140ms linear, color 140ms linear;
+}
+.gg-theme-pick button[aria-pressed="true"] {
+  background: var(--copper, #E8A54F) !important;
+  color: #1B1206 !important;
+}
+.gg-theme-pick button:hover:not([aria-pressed="true"]) {
+  color: var(--fg, #F4F4F5) !important;
+}
+@media print {
+  .gg-theme-pick { display: none !important; }
+}

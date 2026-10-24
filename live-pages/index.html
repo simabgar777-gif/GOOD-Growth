@@ -2,13 +2,14 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
+<script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.setAttribute("data-theme-src","system");}else{d.setAttribute("data-theme",t==="light"?"light":"dark");}}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <title>GOOD Growth — от цели до готовых постов</title>
+  <title data-i18n="index.meta.title">GOOD Growth — от цели до готовых постов</title>
   <meta name="description" content="Опиши своё дело — получи стратегию и готовые посты с картинками для Telegram. Локально, быстро, без подписок." />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="GOOD Growth" />
@@ -639,19 +640,20 @@
     #brandMenu .bmenu-item:hover { background: var(--surface-2); color: var(--ink); }
     #brandMenu .bmenu-item.cur { color: var(--mint); font-weight: 600; }
   </style>
-<link rel="stylesheet" href="/style-c.css"></head>
+<link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"><link rel="stylesheet" href="/blocks.css"></head>
 <body>
+<script src="/i18n/i18n.js"></script>
     <script>
 (function(){var b=document.getElementById("wsLogout");if(b)b.addEventListener("click",function(){b.disabled=true;fetch("/api/logout",{method:"POST"}).catch(function(){}).then(function(){try{sessionStorage.removeItem("gg_user")}catch(e){}location.href="/"})});})();
 (function(){var p=location.pathname;var prot=(p==="/app"||p.indexOf("/app/")===0)&&p!=="/app/onboard";var u=null;try{u=JSON.parse(sessionStorage.getItem("gg_user")||"null")}catch(e){}if(prot&&!u){try{sessionStorage.setItem("gg_after_login",p+location.search)}catch(e){}location.replace("/login?next="+encodeURIComponent(p+location.search))}})();</script>
   <header class="topbar">
     <div class="wrap topbar-inner">
-      <a class="brand" href="/app" aria-label="GOOD Growth — в мастерскую"><img class="brand-mark" src="/favicon.svg?v=2" alt="" width="26" height="26" style="border-radius:7px;display:block;object-fit:contain;background:none;box-shadow:none"><span class="brand-text">GOOD Growth<span class="brand-sub">мастерская роста</span></span></a>
-      <nav class="ws-nav" id="wsNav" aria-label="Основная навигация">
-        <a href="/app" data-nav="/app">Мастерская</a>
-        <a href="/app/posts">Мои посты</a>
-        <a href="/app/analytics">Аналитика</a>
-        <a href="/pricing">Тарифы</a>
+      <a class="brand" href="/app" aria-label="GOOD Growth — в мастерскую" data-i18n-attr="aria-label:index.aria.brand"><img class="brand-mark" src="/favicon.svg?v=2" alt="" width="26" height="26" style="border-radius:7px;display:block;object-fit:contain;background:none;box-shadow:none"><span class="brand-text">GOOD Growth<span class="brand-sub" data-i18n="index.brandSub">мастерская роста</span></span></a>
+      <nav class="ws-nav" id="wsNav" aria-label="Основная навигация" data-i18n-attr="aria-label:index.aria.nav">
+        <a href="/app" data-nav="/app" data-i18n="index.nav.workshop">Мастерская</a>
+        <a href="/app/posts" data-i18n="profile.myPosts">Мои посты</a>
+        <a href="/app/analytics" data-i18n="common.nav.analytics">Аналитика</a>
+        <a href="/pricing" data-i18n="index.nav.pricing">Тарифы</a>
       </nav>
       <div class="ws-actions">
         <div id="brandPill" style="display:none;position:relative;">
@@ -659,45 +661,45 @@
           <div id="brandMenu" style="display:none;position:absolute;top:110%;right:0;min-width:220px;background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:6px;z-index:50;box-shadow:0 12px 30px rgba(0,0,0,.35)">
           </div>
         </div>
-        <span class="mode-chip" id="modeChip" data-mode="unknown" title="Режим разбора">
+        <span class="mode-chip" id="modeChip" data-mode="unknown" title="Режим разбора" data-i18n-attr="title:index.title.mode">
           <span class="dot" aria-hidden="true"></span><span id="modeText">проверяю…</span>
         </span>
-        <a class="ws-user" id="wsUser" href="/profile" title="Профиль">Профиль</a>
-        <button id="wsLogout" type="button" class="ws-out">Выйти</button>
-        <button id="wsBurger" type="button" class="ws-burger" aria-label="Меню" aria-expanded="false">☰</button>
+        <a class="ws-user" id="wsUser" href="/profile" title="Профиль" data-i18n-attr="title:index.profile" data-i18n="index.profile">Профиль</a>
+        <button id="wsLogout" type="button" class="ws-out" data-i18n="index.logout">Выйти</button>
+        <button id="wsBurger" type="button" class="ws-burger" aria-label="Меню" data-i18n-attr="aria-label:index.aria.menu" aria-expanded="false">☰</button>
       </div>
     </div>
-    <nav class="ws-mnav" id="wsMnav" aria-label="Мобильная навигация">
-      <a href="/app" data-nav="/app">Мастерская</a>
-      <a href="/app/posts">Мои посты</a>
-      <a href="/app/analytics">Аналитика</a>
-      <a href="/pricing">Тарифы</a>
+    <nav class="ws-mnav" id="wsMnav" aria-label="Мобильная навигация" data-i18n-attr="aria-label:index.aria.mnav">
+      <a href="/app" data-nav="/app" data-i18n="index.nav.workshop">Мастерская</a>
+      <a href="/app/posts" data-i18n="profile.myPosts">Мои посты</a>
+      <a href="/app/analytics" data-i18n="common.nav.analytics">Аналитика</a>
+      <a href="/pricing" data-i18n="index.nav.pricing">Тарифы</a>
     </nav>
   </header>
 
   <main class="wrap">
     <!-- ======== ЛЕНДИНГ (Приказ №17) ======== -->
-    <section class="landing" id="landing" aria-label="О GOOD Growth">
+    <section class="landing" id="landing" aria-label="О GOOD Growth" data-i18n-attr="aria-label:index.aria.about">
       <div class="land-hero" id="land-hero">
         <div class="hero-copy">
-          <p class="land-kicker">GOOD GROWTH · МАСТЕРСКАЯ РОСТА</p>
-          <h1>От цели — до готовых постов. За один вечер.</h1>
-          <p class="land-lede">GOOD Growth — тихий инструмент для небольших дел и мастеров. Опиши, чем ты занимаешься, — он разложит цель на стратегию, напишет посты и нарисует к ним картинки. Останется нажать «Опубликовать».</p>
+          <p class="land-kicker" data-i18n="index.kicker">GOOD GROWTH · МАСТЕРСКАЯ РОСТА</p>
+          <h1 data-i18n="index.h1">От цели — до готовых постов. За один вечер.</h1>
+          <p class="land-lede" data-i18n="index.lede">GOOD Growth — тихий инструмент для небольших дел и мастеров. Опиши, чем ты занимаешься, — он разложит цель на стратегию, напишет посты и нарисует к ним картинки. Останется нажать «Опубликовать».</p>
           <div class="land-cta-row">
-            <button class="btn btn-primary" id="ctaStart" type="button">Попробовать бесплатно</button>
-            <button class="btn btn-quiet" id="ctaEnter" type="button">Сразу в мастерскую</button>
+            <button class="btn btn-primary" id="ctaStart" type="button" data-i18n="index.cta.try">Попробовать бесплатно</button>
+            <button class="btn btn-quiet" id="ctaEnter" type="button" data-i18n="index.cta.enter">Сразу в мастерскую</button>
           </div>
-          <p class="land-note">Бесплатно. Регистрация за 30 секунд — и первый пост за 10 минут.</p>
+          <p class="land-note" data-i18n="index.note">Бесплатно. Регистрация за 30 секунд — и первый пост за 10 минут.</p>
         </div>
         <div class="hero-visual" aria-hidden="true">
           <div class="mock-float">
             <div class="mf-row"><span class="mf-dot iris"></span><span class="mf-line w80"></span></div>
             <div class="mf-row"><span class="mf-dot green"></span><span class="mf-line w60"></span></div>
             <div class="mf-row"><span class="mf-dot coral"></span><span class="mf-line w40"></span></div>
-            <div class="mf-cap">стратегия готова</div>
+            <div class="mf-cap" data-i18n="index.mock.cap">стратегия готова</div>
           </div>
           <figure class="mock-post">
-            <svg viewBox="0 0 320 180" role="img" aria-label="Иллюстрация: пост с картинкой">
+            <svg viewBox="0 0 320 180" role="img" aria-label="Иллюстрация: пост с картинкой" data-i18n-attr="aria-label:index.aria.illustration">
               <defs>
                 <linearGradient id="ggSky" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0" stop-color="#1e7a56"/><stop offset="1" stop-color="#7ccb7a"/>
@@ -709,12 +711,12 @@
               <path d="M0 152 Q90 128 180 148 T320 144 V180 H0 Z" fill="#3f8f6b" opacity="0.35"/>
             </svg>
             <figcaption>
-              <div class="mock-title">Мастерская «Велодело»</div>
+              <div class="mock-title" data-i18n="index.mock.title">Мастерская «Велодело»</div>
               <div class="mock-line"></div>
               <div class="mock-line short"></div>
               <div class="mock-actions">
-                <span class="mock-pill dark">Создать</span>
-                <span class="mock-pill coral">Опубликовать</span>
+                <span class="mock-pill dark" data-i18n="index.mock.create">Создать</span>
+                <span class="mock-pill coral" data-i18n="index.mock.publish">Опубликовать</span>
               </div>
             </figcaption>
           </figure>
@@ -722,191 +724,191 @@
       </div>
 
       <div class="land-section" id="land-problem">
-        <h2>Знакомая боль</h2>
-        <p>Делом занимаешься вечером, а на тексты и картинки сил не остаётся. Пустой канал не приводит клиентов, а копирайтер и дизайнер — это бюджет и объяснения. В итоге страница молчит, дело живёт только сарафаном.</p>
+        <h2 data-i18n="index.problem.title">Знакомая боль</h2>
+        <p data-i18n="index.problem.text">Делом занимаешься вечером, а на тексты и картинки сил не остаётся. Пустой канал не приводит клиентов, а копирайтер и дизайнер — это бюджет и объяснения. В итоге страница молчит, дело живёт только сарафаном.</p>
       </div>
 
       <div class="land-section" id="land-solution">
-        <h2>Что делает GOOD Growth</h2>
-        <p>Один экран вместо пяти сервисов. Ты отвечаешь на пять коротких вопросов о своём деле — дальше система работает сама.</p>
+        <h2 data-i18n="index.solution.title">Что делает GOOD Growth</h2>
+        <p data-i18n="index.solution.text">Один экран вместо пяти сервисов. Ты отвечаешь на пять коротких вопросов о своём деле — дальше система работает сама.</p>
         <div class="land-grid">
           <div class="land-card">
             <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2"/></svg></span>
-            <h3>Стратегия из цели</h3>
-            <p>Разбирает «что, где, для кого» на аудиторию, темы и каналы — понятный план вместо пустого листа.</p>
+            <h3 data-i18n="index.card1.h">Стратегия из цели</h3>
+            <p data-i18n="index.card1.p">Разбирает «что, где, для кого» на аудиторию, темы и каналы — понятный план вместо пустого листа.</p>
           </div>
           <div class="land-card">
             <span class="card-ico green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M3.5 17.5l5-5 4 4 3-3 5 4.5"/></svg></span>
-            <h3>Посты с картинками</h3>
-            <p>Готовые тексты с заголовками и иллюстрациями за секунды. Правь как хочешь — это черновик, не клетка.</p>
+            <h3 data-i18n="index.card2.h">Посты с картинками</h3>
+            <p data-i18n="index.card2.p">Готовые тексты с заголовками и иллюстрациями за секунды. Правь как хочешь — это черновик, не клетка.</p>
           </div>
           <div class="land-card">
             <span class="card-ico coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.5L11 13"/><path d="M21.5 2.5L14.5 21.5l-3.5-8.5-8.5-3.5 19-7z"/></svg></span>
-            <h3>Публикация в Telegram</h3>
-            <p>Кнопка «Опубликовать» отправляет пост в твой канал. Без копирования, без лишних окон.</p>
+            <h3 data-i18n="index.card3.h">Публикация в Telegram</h3>
+            <p data-i18n="index.card3.p">Кнопка «Опубликовать» отправляет пост в твой канал. Без копирования, без лишних окон.</p>
           </div>
         </div>
       </div>
 
       <div class="land-section" id="land-how">
-        <h2>Как это работает</h2>
+        <h2 data-i18n="index.how.title">Как это работает</h2>
         <div class="land-steps">
-          <div class="land-step"><span class="no">01</span><h3>Опиши дело</h3><p>Пять вопросов или одна фраза — как удобнее. Можно голосом.</p></div>
-          <div class="land-step"><span class="no">02</span><h3>Получи стратегию</h3><p>Аудитория, темы, каналы и ритм публикаций — сразу на экране.</p></div>
-          <div class="land-step"><span class="no">03</span><h3>Создай посты</h3><p>Один, три, пять или десять — с картинками под каждый.</p></div>
-          <div class="land-step"><span class="no">04</span><h3>Опубликуй</h3><p>Проверил заголовок — нажал кнопку — пост в канале.</p></div>
+          <div class="land-step"><span class="no">01</span><h3 data-i18n="index.step1.h">Опиши дело</h3><p data-i18n="index.step1.p">Пять вопросов или одна фраза — как удобнее. Можно голосом.</p></div>
+          <div class="land-step"><span class="no">02</span><h3 data-i18n="index.step2.h">Получи стратегию</h3><p data-i18n="index.step2.p">Аудитория, темы, каналы и ритм публикаций — сразу на экране.</p></div>
+          <div class="land-step"><span class="no">03</span><h3 data-i18n="index.step3.h">Создай посты</h3><p data-i18n="index.step3.p">Один, три, пять или десять — с картинками под каждый.</p></div>
+          <div class="land-step"><span class="no">04</span><h3 data-i18n="index.step4.h">Опубликуй</h3><p data-i18n="index.step4.p">Проверил заголовок — нажал кнопку — пост в канале.</p></div>
         </div>
       </div>
 
       <div class="land-section" id="land-benefits">
-        <h2>Почему это работает</h2>
+        <h2 data-i18n="index.benefits.title">Почему это работает</h2>
         <div class="land-grid">
           <div class="land-card">
             <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.2c0 4.9-3.2 8.4-7.5 10.3-4.3-1.9-7.5-5.4-7.5-10.3V6L12 3z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg></span>
-            <h3>Твои данные — твои</h3>
-            <p>Всё хранится локально, ключи шифрования не покидают компьютер. Никаких облачных досье.</p>
+            <h3 data-i18n="index.ben1.h">Твои данные — твои</h3>
+            <p data-i18n="index.ben1.p">Всё хранится локально, ключи шифрования не покидают компьютер. Никаких облачных досье.</p>
           </div>
           <div class="land-card">
             <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2.5L4.5 13.5h5.5l-1 8 8.5-11h-5.5l1-8z"/></svg></span>
-            <h3>Скорость как свойство</h3>
-            <p>Картинка рисуется за ~15 секунд, стратегия собирается за полминуты. Идея не успевает остыть.</p>
+            <h3 data-i18n="index.ben2.h">Скорость как свойство</h3>
+            <p data-i18n="index.ben2.p">Картинка рисуется за ~15 секунд, стратегия собирается за полминуты. Идея не успевает остыть.</p>
           </div>
           <div class="land-card">
             <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6.5" width="19" height="11" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/></svg></span>
-            <h3>Без ловушек подписки</h3>
-            <p>Никаких «первый месяц бесплатно, потом списание». Платишь только за то, что реально рисуешь.</p>
+            <h3 data-i18n="index.ben3.h">Без ловушек подписки</h3>
+            <p data-i18n="index.ben3.p">Никаких «первый месяц бесплатно, потом списание». Платишь только за то, что реально рисуешь.</p>
           </div>
         </div>
       </div>
 
       <div class="land-cta-band" id="land-cta">
-        <h2>Готовы рассказать о своём деле?</h2>
-        <p>Первый разбор — бесплатный. Регистрация займёт полминуты. Дальше решишь сам.</p>
+        <h2 data-i18n="index.cta.title">Готовы рассказать о своём деле?</h2>
+        <p data-i18n="index.cta.text">Первый разбор — бесплатный. Регистрация займёт полминуты. Дальше решишь сам.</p>
         <div class="land-cta-row">
-          <button class="btn btn-primary" id="ctaStart2" type="button">Начать сейчас</button>
+          <button class="btn btn-primary" id="ctaStart2" type="button" data-i18n="index.cta.start">Начать сейчас</button>
         </div>
       </div>
     </section>
 
     <!-- ======== МАСТЕРСКАЯ ======== -->
     <div id="appRoot" hidden>
-      <p class="backline"><button class="linkish" id="backToLanding" type="button">← О сервисе</button></p>
+      <p class="backline"><button class="linkish" id="backToLanding" type="button" data-i18n="index.back">← О сервисе</button></p>
       <section class="hero">
-        <p class="kicker">Система, которая управляет ростом</p>
-        <h1>Какую цель ты хочешь достичь?</h1>
+        <p class="kicker" data-i18n="index.ws.kicker">Система, которая управляет ростом</p>
+        <h1 data-i18n="index.ws.h1">Какую цель ты хочешь достичь?</h1>
 
-        <p class="lede">Напиши цель — GOOD Growth разложит её на стратегию, а из стратегии создаст готовые посты с картинками.</p>
+        <p class="lede" data-i18n="index.ws.lede">Напиши цель — GOOD Growth разложит её на стратегию, а из стратегии создаст готовые посты с картинками.</p>
 
         <div class="quick-toggle">
-          <span class="hint" id="warmIntro">Ответь на пять коротких вопросов — чем больше расскажешь, тем точнее будет стратегия.</span>
-          <button class="linkish" id="modeSwap" type="button" style="margin-left:12px;">Написать цель одной фразой</button>
+          <span class="hint" id="warmIntro" data-i18n="index.ws.warmIntro">Ответь на пять коротких вопросов — чем больше расскажешь, тем точнее будет стратегия.</span>
+          <button class="linkish" id="modeSwap" type="button" style="margin-left:12px;" data-i18n="index.ws.swap">Написать цель одной фразой</button>
         </div>
 
         <form class="warm-form" id="warmForm" novalidate>
           <div class="warm-grid">
             <div class="warm-field wide">
-              <label for="d_what">Что ты делаешь?</label>
+              <label for="d_what" data-i18n="onboard.label.what">Что ты делаешь?</label>
               <div class="mic-row">
-                <textarea id="d_what" class="field-side grow-area" maxlength="120" rows="3" placeholder="Например: «Мастерская ремонта велосипедов»" autocomplete="off"></textarea>
-                <button class="btn btn-mic" id="micWarm" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом">🎙</button>
+                <textarea id="d_what" class="field-side grow-area" maxlength="120" rows="3" placeholder="Например: «Мастерская ремонта велосипедов»" data-i18n-attr="placeholder:index.ws.ph.what" autocomplete="off"></textarea>
+                <button class="btn btn-mic" id="micWarm" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом" data-i18n-attr="title:onboard.mic,aria-label:onboard.mic">🎙</button>
               </div>
-              <p class="warm-hint" id="micWarmHint">Напиши в двух словах — как ты сам это называешь. Или нажми микрофон и скажи.</p>
+              <p class="warm-hint" id="micWarmHint" data-i18n="index.ws.hint.what">Напиши в двух словах — как ты сам это называешь. Или нажми микрофон и скажи.</p>
             </div>
             <div class="warm-field">
-              <label for="d_where">Где ты находишься?</label>
+              <label for="d_where" data-i18n="onboard.label.where">Где ты находишься?</label>
               <div class="mic-row">
-                <input type="text" id="d_where" class="field-side" maxlength="120" placeholder="«Москва, район Хамовники» или «Онлайн по России»" autocomplete="off">
-                <button class="btn btn-mic" id="micWhere" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: где ты находишься">🎙</button>
+                <input type="text" id="d_where" class="field-side" maxlength="120" placeholder="«Москва, район Хамовники» или «Онлайн по России»" data-i18n-attr="placeholder:index.ws.ph.where" autocomplete="off">
+                <button class="btn btn-mic" id="micWhere" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: где ты находишься" data-i18n-attr="title:onboard.mic,aria-label:index.ws.aria.micWhere">🎙</button>
               </div>
-              <p class="warm-hint">Чем точнее место — тем легче найти твоих людей.</p>
+              <p class="warm-hint" data-i18n="index.ws.hint.where">Чем точнее место — тем легче найти твоих людей.</p>
             </div>
             <div class="warm-field">
-              <label for="d_who">Кто твой клиент?</label>
+              <label for="d_who" data-i18n="onboard.label.who">Кто твой клиент?</label>
               <div class="mic-row">
-                <input type="text" id="d_who" class="field-side" maxlength="120" placeholder="«Взрослые, которые хотят научиться играть»" autocomplete="off">
-                <button class="btn btn-mic" id="micWho" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: кто твой клиент">🎙</button>
+                <input type="text" id="d_who" class="field-side" maxlength="120" placeholder="«Взрослые, которые хотят научиться играть»" data-i18n-attr="placeholder:onboard.ph.who" autocomplete="off">
+                <button class="btn btn-mic" id="micWho" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: кто твой клиент" data-i18n-attr="title:onboard.mic,aria-label:index.ws.aria.micWho">🎙</button>
               </div>
-              <p class="warm-hint">Опиши одного человека, которому ты помогаешь.</p>
+              <p class="warm-hint" data-i18n="index.ws.hint.who">Опиши одного человека, которому ты помогаешь.</p>
             </div>
             <div class="warm-field wide">
-              <label for="d_want">Чего ты хочешь?</label>
+              <label for="d_want" data-i18n="onboard.label.want">Чего ты хочешь?</label>
               <div class="mic-row">
-                <input type="text" id="d_want" class="field-side" maxlength="120" placeholder="«Чтобы узнали», «Чтобы записались», «Чтобы пришли в мастерскую»" autocomplete="off">
-                <button class="btn btn-mic" id="micWant" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: чего ты хочешь">🎙</button>
+                <input type="text" id="d_want" class="field-side" maxlength="120" placeholder="«Чтобы узнали», «Чтобы записались», «Чтобы пришли в мастерскую»" data-i18n-attr="placeholder:index.ws.ph.want" autocomplete="off">
+                <button class="btn btn-mic" id="micWant" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: чего ты хочешь" data-i18n-attr="title:onboard.mic,aria-label:index.ws.aria.micWant">🎙</button>
               </div>
-              <p class="warm-hint">Что должно случиться, чтобы ты сказал: «Да, это сработало»?</p>
+              <p class="warm-hint" data-i18n="index.ws.hint.want">Что должно случиться, чтобы ты сказал: «Да, это сработало»?</p>
             </div>
             <div class="warm-field wide">
-              <label for="d_photo">Фото твоего дела (по желанию)</label>
+              <label for="d_photo" data-i18n="index.ws.label.photo">Фото твоего дела (по желанию)</label>
               <div class="warm-photo-row">
-                <img id="photoPreview" class="warm-preview" alt="Предпросмотр фото" hidden>
-                <div id="photoPreviewPh" class="warm-preview-ph">нет фото</div>
+                <img id="photoPreview" class="warm-preview" alt="Предпросмотр фото" data-i18n-attr="alt:index.ws.alt.preview" hidden>
+                <div id="photoPreviewPh" class="warm-preview-ph" data-i18n="index.ws.noPhoto">нет фото</div>
                 <input type="file" id="d_photo" accept="image/*" capture="environment" hidden>
-                <button type="button" class="btn btn-mini" id="photoBtn">Загрузить фото</button>
-                <button type="button" class="btn btn-mini danger" id="photoClear" hidden>Убрать</button>
+                <button type="button" class="btn btn-mini" id="photoBtn" data-i18n="index.ws.upload">Загрузить фото</button>
+                <button type="button" class="btn btn-mini danger" id="photoClear" hidden data-i18n="index.ws.remove">Убрать</button>
               </div>
-              <p class="warm-hint">Фото помогает понять твоё дело — и его можно будет использовать в постах. Голос здесь не нужен: фото выбирается кнопкой, слов его не расскажешь.</p>
+              <p class="warm-hint" data-i18n="index.ws.hint.photo">Фото помогает понять твоё дело — и его можно будет использовать в постах. Голос здесь не нужен: фото выбирается кнопкой, слов его не расскажешь.</p>
             </div>
           </div>
           <div class="warm-actions">
-            <button class="btn btn-primary" id="warmBtn" type="submit">Рассказать о деле</button>
-            <p class="hint">Разбор появится ниже и сохранится в журнале.</p>
+            <button class="btn btn-primary" id="warmBtn" type="submit" data-i18n="index.ws.submit">Рассказать о деле</button>
+            <p class="hint" data-i18n="index.ws.submitHint">Разбор появится ниже и сохранится в журнале.</p>
           </div>
           <p class="status-line" id="warmStatus" role="status" aria-live="polite"></p>
         </form>
 
         <p class="status-line" id="statusLine" role="status" aria-live="polite"></p>
 
-        <form class="ask quick-form-hidden" id="askForm" novalidate aria-label="Написать цель одной фразой">
-          <label for="goal">Твоя цель</label>
+        <form class="ask quick-form-hidden" id="askForm" novalidate aria-label="Написать цель одной фразой" data-i18n-attr="aria-label:index.ws.aria.ask">
+          <label for="goal" data-i18n="index.ws.label.goal">Твоя цель</label>
           <textarea id="goal" name="goal" rows="4"
-            placeholder="Например: «Хочу, чтобы о нашей юридической помощи узнали в Telegram»"
+            placeholder="Например: «Хочу, чтобы о нашей юридической помощи узнали в Telegram»" data-i18n-attr="placeholder:index.ws.ph.goal"
             aria-describedby="goal-hint goal-error" maxlength="2000"></textarea>
-          <span id="goal-hint" class="visually-hidden">Опиши цель в одном-двух предложениях. Система разберёт её на стратегию и создаст посты.</span>
+          <span id="goal-hint" class="visually-hidden" data-i18n="index.ws.hint.goal">Опиши цель в одном-двух предложениях. Система разберёт её на стратегию и создаст посты.</span>
           <div class="ask-row">
-            <button class="btn btn-primary" id="goBtn" type="submit">Разобрать цель</button>
-            <button class="btn btn-mic" id="micQuick" type="button" aria-pressed="false" title="Сказать цель голосом" aria-label="Сказать цель голосом">🎙</button>
-            <p class="hint" id="micQuickHint">Просто напиши цель — для тех, кто торопится.</p>
+            <button class="btn btn-primary" id="goBtn" type="submit" data-i18n="index.ws.go">Разобрать цель</button>
+            <button class="btn btn-mic" id="micQuick" type="button" aria-pressed="false" title="Сказать цель голосом" aria-label="Сказать цель голосом" data-i18n-attr="title:index.ws.aria.micQuick,aria-label:index.ws.aria.micQuick">🎙</button>
+            <p class="hint" id="micQuickHint" data-i18n="index.ws.hint.quick">Просто напиши цель — для тех, кто торопится.</p>
           </div>
           <p id="goal-error" class="error-box" role="alert" hidden></p>
         </form>
       </section>
 
-      <section class="result" id="resultSection" aria-label="Разбор цели">
-        <div id="emptyState" class="panel-empty">Пока пусто. Впиши цель и нажми «Разобрать цель».</div>
+      <section class="result" id="resultSection" aria-label="Разбор цели" data-i18n-attr="aria-label:index.aria.result">
+        <div id="emptyState" class="panel-empty" data-i18n="index.ws.empty">Пока пусто. Впиши цель и нажми «Разобрать цель».</div>
         <div id="resultRoot" hidden></div>
       </section>
 
-      <section class="workshop" id="workshopSection" aria-label="Мастерская постов" hidden>
+      <section class="workshop" id="workshopSection" aria-label="Мастерская постов" data-i18n-attr="aria-label:index.aria.workshop" hidden>
         <div class="workshop-bar">
-          <span class="block-kicker" style="margin:0;">Сколько постов создать</span>
-          <div class="count-group" role="group" aria-label="Количество постов">
+          <span class="block-kicker" style="margin:0;" data-i18n="index.ws.count">Сколько постов создать</span>
+          <div class="count-group" role="group" aria-label="Количество постов" data-i18n-attr="aria-label:index.aria.count">
             <button type="button" class="count-btn" data-count="1" aria-pressed="true">1</button>
             <button type="button" class="count-btn" data-count="3" aria-pressed="false">3</button>
             <button type="button" class="count-btn" data-count="5" aria-pressed="false">5</button>
             <button type="button" class="count-btn" data-count="10" aria-pressed="false">10</button>
           </div>
-          <button class="btn btn-primary" id="makeBtn" type="button">Создать контент</button>
-          <p class="hint" id="workshopHint">Тексты напишет разум, картинки — за секунды.</p>
+          <button class="btn btn-primary" id="makeBtn" type="button" data-i18n="index.ws.make">Создать контент</button>
+          <p class="hint" id="workshopHint" data-i18n="index.ws.makeHint">Тексты напишет разум, картинки — за секунды.</p>
         </div>
         <div id="postsStatus" class="status-line" role="status" aria-live="polite"></div>
         <div id="postsRoot" class="posts"></div>
       </section>
 
-      <section class="journal" id="journalSection" aria-label="Журнал целей">
-        <h2>Журнал целей</h2>
-        <p class="jsub">Каждый разбор сохраняется локально. Нажми на строку, чтобы открыть разбор и посты.</p>
-        <div id="journalList"><p class="jsub" id="journalEmpty">Журнал пока пуст.</p></div>
+      <section class="journal" id="journalSection" aria-label="Журнал целей" data-i18n-attr="aria-label:index.aria.journal">
+        <h2 data-i18n="index.journal.title">Журнал целей</h2>
+        <p class="jsub" data-i18n="index.journal.sub">Каждый разбор сохраняется локально. Нажми на строку, чтобы открыть разбор и посты.</p>
+        <div id="journalList"><p class="jsub" id="journalEmpty" data-i18n="index.journal.empty">Журнал пока пуст.</p></div>
       </section>
     </div>
   </main>
 
   <footer class="pagefoot">
     <div class="wrap pagefoot-inner">
-      <span>GOOD Growth · локальный инструмент · данные хранятся только на этом компьютере</span>
+      <span data-i18n="index.footer">GOOD Growth · локальный инструмент · данные хранятся только на этом компьютере</span>
       <span class="meta">
-        <span id="footMeta">Режим: <span id="footMode">—</span> ·
-        <button class="linkish" id="demoToggle" type="button">переключить демо</button></span>
+        <span id="footMeta"><span data-i18n="index.footer.mode">Режим: </span><span id="footMode">—</span> ·
+        <button class="linkish" id="demoToggle" type="button" data-i18n="index.footer.demo">переключить демо</button></span>
       </span>
     </div>
   </footer>
@@ -974,7 +976,7 @@
   try {
     var u = JSON.parse(sessionStorage.getItem('gg_user') || 'null');
     var slot = document.getElementById('wsUser');
-    if (u && slot) slot.textContent = u.name || u.email || 'Профиль';
+    if (u && slot) slot.textContent = u.name || u.email || ggT('index.profile','Профиль');
   } catch (e) {}
   var b = document.getElementById('wsBurger'), m = document.getElementById('wsMnav');
   if (b && m) b.addEventListener('click', function () {
@@ -983,5 +985,6 @@
   });
 })();
 </script>
+<script src="/theme.js" defer></script>
 </body>
 </html>

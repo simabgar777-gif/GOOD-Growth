@@ -2,13 +2,14 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
+<script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.setAttribute("data-theme-src","system");}else{d.setAttribute("data-theme",t==="light"?"light":"dark");}}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <title>Партнёрам — GOOD Growth</title>
+  <title data-i18n="info.meta.title">Партнёрам — GOOD Growth</title>
   <meta name="description" content="Зарабатывайте с GOOD Growth: подписка, комиссия или white-label. Для агентств, фрилансеров и бренд-менеджеров." />
   <style>
   :root{
@@ -59,83 +60,84 @@
   .faq summary{cursor:pointer;font-weight:600}
   .faq p{color:var(--pg-fg2);margin:10px 0 0}
   @media (max-width:640px){.models{grid-template-columns:1fr}h1{font-size:30px}}</style>
-<link rel="stylesheet" href="/style-c.css"></head>
+<link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"></head>
 <body>
+<script src="/i18n/i18n.js"></script>
   <div class="wrap">
-    <a class="back" href="/partner">← К брендам</a> · <a class="back" href="/">← На лендинг</a>
-    <p class="kicker">GOOD GROWTH · Партнёрская программа</p>
-    <h1>Зарабатывайте, управляя ростом чужих брендов</h1>
-    <p class="lead">Агентства, фрилансеры и бренд-менеджеры ведут по 5–20 клиентов. GOOD Growth забирает рутину: стратегия, посты, картинки, публикация. Вы — растёте и зарабатываете. Три модели — выбирайте свою.</p>
+    <a class="back" href="/partner" data-i18n="common.back.brands">← К брендам</a> · <a class="back" href="/" data-i18n="common.back.landing">← На лендинг</a>
+    <p class="kicker" data-i18n="info.kicker">GOOD GROWTH · Партнёрская программа</p>
+    <h1 data-i18n="info.h1">Зарабатывайте, управляя ростом чужих брендов</h1>
+    <p class="lead" data-i18n="info.lead">Агентства, фрилансеры и бренд-менеджеры ведут по 5–20 клиентов. GOOD Growth забирает рутину: стратегия, посты, картинки, публикация. Вы — растёте и зарабатываете. Три модели — выбирайте свою.</p>
 
-    <h2>Три модели дохода</h2>
+    <h2 data-i18n="info.modelsTitle">Три модели дохода</h2>
     <div class="models">
       <div class="model">
-        <div class="tag">Модель 01 · Подписка</div>
-        <h3>Аренда системы</h3>
-        <div class="price">2 000 – 5 000 ₽/мес</div>
-        <p>Платите фиксированную подписку — ведите сколько угодно брендов. Клиентам выставляете свою цену, разница — ваша.</p>
-        <div class="fit">Подходит: <b>фрилансерам</b>, которые уже ведут 3+ клиентов.</div>
+        <div class="tag" data-i18n="info.m1.tag">Модель 01 · Подписка</div>
+        <h3 data-i18n="info.m1.h">Аренда системы</h3>
+        <div class="price">2 000 – 5 000 ₽<span data-i18n="pricing.perMonthShort">/мес</span></div>
+        <p data-i18n="info.m1.p">Платите фиксированную подписку — ведите сколько угодно брендов. Клиентам выставляете свою цену, разница — ваша.</p>
+        <div class="fit"><span data-i18n="info.fit.label">Подходит: </span><b data-i18n="info.m1.fit.b">фрилансерам</b><span data-i18n="info.m1.fit.c">, которые уже ведут 3+ клиентов.</span></div>
       </div>
       <div class="model">
-        <div class="tag">Модель 02 · Комиссия</div>
-        <h3>Процент с клиентов</h3>
-        <div class="price">20% с каждого</div>
-        <p>Инструмент — бесплатно. Мы берём долю с каждого приведённого клиента, пока он пользуется. Вы ничего не платите вперёд.</p>
-        <div class="fit">Подходит: <b>тем, кто только начинает</b> и не хочет риска.</div>
+        <div class="tag" data-i18n="info.m2.tag">Модель 02 · Комиссия</div>
+        <h3 data-i18n="info.m2.h">Процент с клиентов</h3>
+        <div class="price" data-i18n="info.m2.price">20% с каждого</div>
+        <p data-i18n="info.m2.p">Инструмент — бесплатно. Мы берём долю с каждого приведённого клиента, пока он пользуется. Вы ничего не платите вперёд.</p>
+        <div class="fit"><span data-i18n="info.fit.label">Подходит: </span><b data-i18n="info.m2.fit.b">тем, кто только начинает</b><span data-i18n="info.m2.fit.c"> и не хочет риска.</span></div>
       </div>
       <div class="model">
-        <div class="tag">Модель 03 · White-label</div>
-        <h3>Под своим брендом</h3>
-        <div class="price">Обсуждается</div>
-        <p>Ваш логотип, ваш домен, ваш интерфейс — клиенты не знают о нас. Разделение дохода по договору.</p>
-        <div class="fit">Подходит: <b>агентствам</b> с собственной маркой и 10+ клиентами.</div>
+        <div class="tag" data-i18n="info.m3.tag">Модель 03 · White-label</div>
+        <h3 data-i18n="info.m3.h">Под своим брендом</h3>
+        <div class="price" data-i18n="info.m3.price">Обсуждается</div>
+        <p data-i18n="info.m3.p">Ваш логотип, ваш домен, ваш интерфейс — клиенты не знают о нас. Разделение дохода по договору.</p>
+        <div class="fit"><span data-i18n="info.fit.label">Подходит: </span><b data-i18n="info.m3.fit.b">агентствам</b><span data-i18n="info.m3.fit.c"> с собственной маркой и 10+ клиентами.</span></div>
       </div>
     </div>
 
-    <h2>Как стать партнёром</h2>
+    <h2 data-i18n="info.howTitle">Как стать партнёром</h2>
     <ol class="steps">
-      <li><div><b>Напишите нам</b><span>Одно письмо на hello@growth.go-ood.com: кто вы, сколько клиентов, какая модель интересна.</span></div></li>
-      <li><div><b>Получите доступ</b><span>Мы открываем партнёрский режим и помогаем перенести первых клиентов — за один вечер.</span></div></li>
-      <li><div><b>Растите вместе</b><span>Аналитика по каждому бренду, команда с ролями, публикация в их каналы. Ваш заработок — ваш темп.</span></div></li>
+      <li><div><b data-i18n="info.s1.b">Напишите нам</b><span data-i18n="info.s1.t">Одно письмо на hello@growth.go-ood.com: кто вы, сколько клиентов, какая модель интересна.</span></div></li>
+      <li><div><b data-i18n="info.s2.b">Получите доступ</b><span data-i18n="info.s2.t">Мы открываем партнёрский режим и помогаем перенести первых клиентов — за один вечер.</span></div></li>
+      <li><div><b data-i18n="info.s3.b">Растите вместе</b><span data-i18n="info.s3.t">Аналитика по каждому бренду, команда с ролями, публикация в их каналы. Ваш заработок — ваш темп.</span></div></li>
     </ol>
 
-    <h2>Модели рядом</h2>
+    <h2 data-i18n="info.compareTitle">Модели рядом</h2>
     <table class="compare">
-      <thead><tr><th></th><th>Старт</th><th>Риск</th><th>Потолок</th></tr></thead>
+      <thead><tr><th></th><th data-i18n="info.th.start">Старт</th><th data-i18n="info.th.risk">Риск</th><th data-i18n="info.th.ceiling">Потолок</th></tr></thead>
       <tbody>
-        <tr><td><b>Подписка</b></td><td>мгновенный</td><td>фиксированный платёж</td><td>высокий</td></tr>
-        <tr><td><b>Комиссия</b></td><td>нулевой</td><td>нет</td><td>зависит от клиентов</td></tr>
-        <tr><td><b>White-label</b></td><td>индивидуальный</td><td>договор</td><td>максимальный</td></tr>
+        <tr><td><b data-i18n="info.row.sub">Подписка</b></td><td data-i18n="info.cell.instant">мгновенный</td><td data-i18n="info.cell.fixed">фиксированный платёж</td><td data-i18n="info.cell.high">высокий</td></tr>
+        <tr><td><b data-i18n="info.row.comm">Комиссия</b></td><td data-i18n="info.cell.zero">нулевой</td><td data-i18n="info.cell.none">нет</td><td data-i18n="info.cell.depends">зависит от клиентов</td></tr>
+        <tr><td><b data-i18n="info.row.wl">White-label</b></td><td data-i18n="info.cell.individual">индивидуальный</td><td data-i18n="info.cell.contract">договор</td><td data-i18n="info.cell.max">максимальный</td></tr>
       </tbody>
     </table>
 
     <div class="cta-band">
-      <h2>Готовы обсудить?</h2>
-      <p class="lead" style="margin-bottom:16px">Программа партнёров запускается — первые места обсуждаем индивидуально, под ваш состав клиентов.</p>
+      <h2 data-i18n="info.cta.title">Готовы обсудить?</h2>
+      <p class="lead" style="margin-bottom:16px" data-i18n="info.cta.lead">Программа партнёров запускается — первые места обсуждаем индивидуально, под ваш состав клиентов.</p>
       <a class="mail" href="mailto:hello@growth.go-ood.com?subject=Партнёрская%20программа">hello@growth.go-ood.com</a>
-      <p class="note" style="margin-top:14px">А мастерская уже работает — можно показать клиентам прямо сейчас.</p>
-      <a class="mail ghost" href="/app">Открыть мастерскую</a>
+      <p class="note" style="margin-top:14px" data-i18n="info.cta.note">А мастерская уже работает — можно показать клиентам прямо сейчас.</p>
+      <a class="mail ghost" href="/app" data-i18n="info.cta.open">Открыть мастерскую</a>
     </div>
 
-    <h2>Частые вопросы</h2>
+    <h2 data-i18n="info.faq.title">Частые вопросы</h2>
     <div class="faq">
-      <details><summary>Партнёрский режим уже работает?</summary><p>Технически — да: список брендов, переключение, отдельные каналы и аналитика функционируют. Роли команды и white-label — в финальной стадии. Коммерческие условия обсуждаем индивидуально с первыми партнёрами.</p></details>
-      <details><summary>Что видят мои клиенты?</summary><p>Клиенты видят только результат: посты в их канале. Интерфейс, бренд GOOD Growth и цены — остаются вашими (в white-label — полностью вашими).</p></details>
-      <details><summary>Данные клиентов в безопасности?</summary><p>Всё хранится на нашем сервере, изолированно по брендам. Ключи и база не покидают инфраструктуру GOOD Growth, резервные копии делаются регулярно.</p></details>
-      <details><summary>Можно начать с комиссии и перейти на подписку?</summary><p>Да, модель меняется в любой момент по договорённости — накопленная статистика клиентов сохраняется.</p></details>
+      <details><summary data-i18n="info.faq.q1">Партнёрский режим уже работает?</summary><p data-i18n="info.faq.a1">Технически — да: список брендов, переключение, отдельные каналы и аналитика функционируют. Роли команды и white-label — в финальной стадии. Коммерческие условия обсуждаем индивидуально с первыми партнёрами.</p></details>
+      <details><summary data-i18n="info.faq.q2">Что видят мои клиенты?</summary><p data-i18n="info.faq.a2">Клиенты видят только результат: посты в их канале. Интерфейс, бренд GOOD Growth и цены — остаются вашими (в white-label — полностью вашими).</p></details>
+      <details><summary data-i18n="info.faq.q3">Данные клиентов в безопасности?</summary><p data-i18n="info.faq.a3">Всё хранится на нашем сервере, изолированно по брендам. Ключи и база не покидают инфраструктуру GOOD Growth, резервные копии делаются регулярно.</p></details>
+      <details><summary data-i18n="info.faq.q4">Можно начать с комиссии и перейти на подписку?</summary><p data-i18n="info.faq.a4">Да, модель меняется в любой момент по договорённости — накопленная статистика клиентов сохраняется.</p></details>
     </div>
   </div>
 <script src="/gg-header.js" defer></script>
 
 <section style="max-width:640px;margin:56px auto 0;padding:0 20px 64px">
   <div style="background:var(--pg-surface);border:1px solid rgba(232,165,79,.18);border-radius:12px;padding:28px 26px">
-    <div style="font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--pg-copper);margin-bottom:8px">Ранний доступ</div>
-    <h3 style="margin:0 0 10px;font-size:22px;font-weight:600">Оставить email — сообщим о запуске</h3>
-    <p style="margin:0 0 18px;color:var(--pg-fg2);line-height:1.55">Никакого спама. Одно письмо, когда партнёрский режим откроется.</p>
+    <div style="font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--pg-copper);margin-bottom:8px" data-i18n="info.early.label">Ранний доступ</div>
+    <h3 style="margin:0 0 10px;font-size:22px;font-weight:600" data-i18n="info.early.title">Оставить email — сообщим о запуске</h3>
+    <p style="margin:0 0 18px;color:var(--pg-fg2);line-height:1.55" data-i18n="info.early.text">Никакого спама. Одно письмо, когда партнёрский режим откроется.</p>
     <form id="ggWaitlistForm" style="display:flex;gap:10px;flex-wrap:wrap">
       <input id="ggWaitlistEmail" type="email" required placeholder="you@example.com"
         style="flex:1;min-width:220px;background:var(--pg-surface2);border:1px solid var(--pg-line2);border-radius:8px;padding:12px 14px;color:var(--pg-fg);font-size:15px">
-      <button type="submit" style="background:var(--pg-grad);color:var(--pg-ink);border:0;border-radius:8px;padding:12px 22px;font-weight:600;cursor:pointer;font-size:15px">Оставить email</button>
+      <button type="submit" style="background:var(--pg-grad);color:var(--pg-ink);border:0;border-radius:8px;padding:12px 22px;font-weight:600;cursor:pointer;font-size:15px" data-i18n="info.early.button">Оставить email</button>
     </form>
     <div id="ggWaitlistMsg" style="margin-top:12px;font-size:14px;color:var(--pg-copper-lt);min-height:20px"></div>
   </div>
@@ -151,12 +153,13 @@
     fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})})
       .then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j};});})
       .then(function(res){
-        if(res.ok){msg.style.color='#8bd98b';msg.textContent='Готово! Записали. Одно письмо — когда откроем.';f.reset();}
-        else{msg.style.color='#ff9d9d';msg.textContent=(res.j&&res.j.error)?('Ошибка: '+res.j.error):'Проверьте email и попробуйте ещё раз.';}
+        if(res.ok){msg.style.color='#8bd98b';msg.textContent=ggT('info.msg.ok','Готово! Записали. Одно письмо — когда откроем.');f.reset();}
+        else{msg.style.color='#ff9d9d';msg.textContent=(res.j&&res.j.error)?(ggT('info.msg.errPrefix','Ошибка: ')+res.j.error):ggT('info.msg.badEmail','Проверьте email и попробуйте ещё раз.');}
       })
-      .catch(function(){msg.style.color='#ff9d9d';msg.textContent='Сеть недоступна. Попробуйте позже.';});
+      .catch(function(){msg.style.color='#ff9d9d';msg.textContent=ggT('info.msg.nonet','Сеть недоступна. Попробуйте позже.');});
   });
 })();
 </script>
+<script src="/theme.js" defer></script>
 </body>
 </html>

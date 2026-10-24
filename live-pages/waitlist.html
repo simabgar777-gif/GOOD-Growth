@@ -2,10 +2,11 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
+<script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.setAttribute("data-theme-src","system");}else{d.setAttribute("data-theme",t==="light"?"light":"dark");}}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <title>Лист ожидания партнёров — GOOD Growth</title>
+  <title data-i18n="waitlist.meta.title">Лист ожидания партнёров — GOOD Growth</title>
   <style>
     :root { --bg:#08090A; --surface:#0E0F12; --surface2:#111216; --ink:#F4F4F5; --muted:#A1A1AA;
       --faint:#8B8B95; --hair:rgba(255,255,255,.10); --mint:#E8A54F; --copper-lt:#F3C583; }
@@ -31,23 +32,24 @@
     .perks li { margin-bottom: 6px; }
     .perks b { color: var(--ink); }
   </style>
-<link rel="stylesheet" href="/style-c.css"></head>
+<link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"></head>
 <body>
+<script src="/i18n/i18n.js"></script>
   <div class="wrap">
-    <a class="back" href="/partner">← К брендам</a> · <a class="back" href="/">← На лендинг</a>
-    <h1>Лист ожидания партнёров</h1>
-    <p class="sub">Партнёрский режим открываем волнами — по мере готовности поддержки. Оставь email — позовём в первой волне.</p>
+    <a class="back" href="/partner" data-i18n="common.back.brands">← К брендам</a> · <a class="back" href="/" data-i18n="common.back.landing">← На лендинг</a>
+    <h1 data-i18n="waitlist.h1">Лист ожидания партнёров</h1>
+    <p class="sub" data-i18n="waitlist.sub">Партнёрский режим открываем волнами — по мере готовности поддержки. Оставь email — позовём в первой волне.</p>
     <div class="card" id="formCard">
       <ul class="perks">
-        <li><b>Первая волна — бесплатно на 3 месяца</b> (без комиссии и подписки)</li>
-        <li><b>Личный разбор</b> твоих брендов с основателем</li>
-        <li><b>Голос в дорожной карте</b> — что строить следующим</li>
+        <li><b data-i18n="waitlist.perk1.b">Первая волна — бесплатно на 3 месяца</b><span data-i18n="waitlist.perk1.t"> (без комиссии и подписки)</span></li>
+        <li><b data-i18n="waitlist.perk2.b">Личный разбор</b><span data-i18n="waitlist.perk2.t"> твоих брендов с основателем</span></li>
+        <li><b data-i18n="waitlist.perk3.b">Голос в дорожной карте</b><span data-i18n="waitlist.perk3.t"> — что строить следующим</span></li>
       </ul>
-      <label for="wemail">Твой email</label>
+      <label for="wemail" data-i18n="waitlist.label.email">Твой email</label>
       <input id="wemail" type="email" maxlength="120" placeholder="anna@agency.ru" autocomplete="email" />
-      <label for="wname">Как к тебе обращаться (по желанию)</label>
-      <input id="wname" type="text" maxlength="80" placeholder="Имя или название агентства" autocomplete="off" />
-      <button class="btn" id="join" type="button">Занять место в первой волне</button>
+      <label for="wname" data-i18n="waitlist.label.name">Как к тебе обращаться (по желанию)</label>
+      <input id="wname" type="text" maxlength="80" placeholder="Имя или название агентства" data-i18n-attr="placeholder:waitlist.ph.name" autocomplete="off" />
+      <button class="btn" id="join" type="button" data-i18n="waitlist.join">Занять место в первой волне</button>
       <p class="status" id="status" role="status" aria-live="polite"></p>
     </div>
   </div>
@@ -56,20 +58,21 @@
     $('join').addEventListener('click', async () => {
       const email = $('wemail').value.trim();
       if (!/^[A-Za-z0-9_'+\-\.]+@[A-Za-z0-9][A-Za-z0-9\-]*(\.[A-Za-z0-9\-]+)+$/.test(email)) {
-        status('Проверь email — что-то не так в адресе.', true); return;
+        status(ggT('waitlist.msg.bad','Проверь email — что-то не так в адресе.'), true); return;
       }
       $('join').disabled = true;
-      status('Занимаю место…');
+      status(ggT('waitlist.msg.busy','Занимаю место…'));
       try {
         const r = await fetch('/api/waitlist', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, name: $('wname').value.trim() }) });
         const d = await r.json();
-        if (!r.ok) throw new Error(d.error || 'Не получилось. Попробуй позже.');
-        status('✔ Ты в списке! Напишем на ' + email + ' — следи за почтой.', false);
-        $('join').textContent = 'Место занято';
+        if (!r.ok) throw new Error(d.error || ggT('waitlist.msg.fail','Не получилось. Попробуй позже.'));
+        status(ggT('waitlist.msg.ok','✔ Ты в списке! Напишем на {email} — следи за почтой.').replace('{email}', email), false);
+        $('join').textContent = ggT('waitlist.msg.done','Место занято');
       } catch (e) { status(e.message, true); $('join').disabled = false; }
     });
     function status(t, isErr) { const el = $('status'); el.textContent = t; el.className = 'status' + (isErr ? ' err' : ' ok'); }
   </script>
 <script src="/gg-header.js" defer></script>
+<script src="/theme.js" defer></script>
 </body>
 </html>

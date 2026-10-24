@@ -2,13 +2,14 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
+<script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.setAttribute("data-theme-src","system");}else{d.setAttribute("data-theme",t==="light"?"light":"dark");}}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <title>Аналитика — GOOD Growth</title>
+  <title data-i18n="analytics.meta.title">Аналитика — GOOD Growth</title>
   <style>
   :root{
     --pg-bg:#08090A; --pg-surface:#0E0F12; --pg-surface2:#111216;
@@ -40,16 +41,17 @@
   .empty{border:1px dashed var(--pg-line2);border-radius:12px;padding:30px;text-align:center;color:var(--pg-fg3)}
   .hint{color:var(--pg-fg3);font-size:13px;margin-top:16px}
   @media (max-width:640px){th,td{padding:9px 10px;font-size:13px}}</style>
-<link rel="stylesheet" href="/style-c.css"></head>
+<link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"></head>
 <body>
   <div class="wrap">
-    <a class="back" href="/partner">Партнёрам · ← К брендам</a> · <a class="back" href="/partner/team">Команда</a>
-    <h1>Аналитика</h1>
-    <p class="sub">Сводка по всем брендам: цели, посты, публикации. Обновляется мгновенно из базы.</p>
+    <a class="back" href="/partner" data-i18n="common.nav.partners">Партнёрам · ← К брендам</a> · <a class="back" href="/partner/team" data-i18n="common.nav.team">Команда</a>
+    <h1 data-i18n="analytics.h1">Аналитика</h1>
+    <p class="sub" data-i18n="analytics.sub">Сводка по всем брендам: цели, посты, публикации. Обновляется мгновенно из базы.</p>
     <div class="totals" id="totals"></div>
     <div id="tableWrap"></div>
-    <p class="hint">Публикация считается по кнопке «Опубликовать». Каналы — привязанные Telegram-каналы бренда.</p>
+    <p class="hint" data-i18n="analytics.hint">Публикация считается по кнопке «Опубликовать». Каналы — привязанные Telegram-каналы бренда.</p>
   </div>
+  <script src="/i18n/i18n.js"></script>
   <script>
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const fmtDate = (s) => { if (!s) return '—'; const d = new Date(String(s).replace(' ', 'T')); return isNaN(d) ? '—' : d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' }); };
@@ -58,9 +60,9 @@
         const d = await (await fetch('/api/analytics')).json();
         const t = d.totals;
         document.getElementById('totals').innerHTML =
-          tcard(t.brands, 'брендов') + tcard(t.goals, 'целей') +
-          tcard(t.posts, 'постов') + '<div class="tcard coral"><div class="n">' + t.published + '</div><div class="l">публикаций</div></div>' +
-          tcard(t.channels, 'каналов');
+          tcard(t.brands, ggT('analytics.tile.brands','брендов')) + tcard(t.goals, ggT('analytics.tile.goals','целей')) +
+          tcard(t.posts, ggT('analytics.tile.posts','постов')) + '<div class="tcard coral"><div class="n">' + t.published + '</div><div class="l">' + ggT('analytics.tile.published','публикаций') + '</div></div>' +
+          tcard(t.channels, ggT('analytics.tile.channels','каналов'));
         const rows = d.brands.map((b) =>
           '<tr><td class="name">' + esc(b.name) + '</td>' +
           '<td class="n">' + b.goals + '</td><td class="n">' + b.posts + '</td>' +
@@ -68,15 +70,16 @@
           '<td class="muted">' + b.channels + '</td>' +
           '<td class="muted">' + fmtDate(b.last_published_at) + '</td></tr>').join('');
         document.getElementById('tableWrap').innerHTML = d.brands.length
-          ? '<table><thead><tr><th>Бренд</th><th>Цели</th><th>Посты</th><th>Публикации</th><th>Каналы</th><th>Последняя публ.</th></tr></thead><tbody>' + rows + '</tbody></table>'
-          : '<div class="empty">Брендов пока нет. Создай первый на странице «К брендам» — и здесь появится статистика.</div>';
+          ? '<table><thead><tr><th>' + ggT('analytics.th.brand','Бренд') + '</th><th>' + ggT('analytics.th.goals','Цели') + '</th><th>' + ggT('analytics.th.posts','Посты') + '</th><th>' + ggT('analytics.th.published','Публикации') + '</th><th>' + ggT('analytics.th.channels','Каналы') + '</th><th>' + ggT('analytics.th.last','Последняя публ.') + '</th></tr></thead><tbody>' + rows + '</tbody></table>'
+          : '<div class="empty">' + ggT('analytics.empty','Брендов пока нет. Создай первый на странице «К брендам» — и здесь появится статистика.') + '</div>';
       } catch (e) {
-        document.getElementById('tableWrap').innerHTML = '<div class="empty">Не удалось загрузить: ' + esc(e.message) + '</div>';
+        document.getElementById('tableWrap').innerHTML = '<div class="empty">' + ggT('analytics.err','Не удалось загрузить: ') + esc(e.message) + '</div>';
       }
     }
     function tcard(n, l) { return '<div class="tcard"><div class="n">' + n + '</div><div class="l">' + l + '</div></div>'; }
     load();
   </script>
 <script src="/gg-header.js" defer></script>
+<script src="/theme.js" defer></script>
 </body>
 </html>
