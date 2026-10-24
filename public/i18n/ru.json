@@ -5,13 +5,14 @@
     "page": "login",
     "source": "live-pages/login.html (снимок прода 2026-10-24)",
     "note": "Плоские ключи. Текст в HTML остаётся как запасной — словарь только перекрывает его.",
-    "keys": 91,
+    "keys": 111,
     "pages": [
       "analytics",
       "channels",
       "forgot",
       "login",
-      "reset"
+      "reset",
+      "waitlist"
     ]
   },
   "login.meta.title": "Вход — GOOD Growth",
@@ -104,5 +105,25 @@
   "reset.msg.charset": "Пароль может содержать только английские буквы, цифры и символы",
   "reset.msg.done": "Пароль изменён. Сейчас перебросим на вход…",
   "reset.msg.fail": "Не получилось. Попробуй ещё раз.",
-  "reset.msg.nonet": "Сервер не отвечает. Попробуй ещё раз."
+  "reset.msg.nonet": "Сервер не отвечает. Попробуй ещё раз.",
+  "waitlist.meta.title": "Лист ожидания партнёров — GOOD Growth",
+  "waitlist.back.partners": "← К брендам",
+  "waitlist.back.landing": "← На лендинг",
+  "waitlist.h1": "Лист ожидания партнёров",
+  "waitlist.sub": "Партнёрский режим открываем волнами — по мере готовности поддержки. Оставь email — позовём в первой волне.",
+  "waitlist.perk1.b": "Первая волна — бесплатно на 3 месяца",
+  "waitlist.perk1.t": " (без комиссии и подписки)",
+  "waitlist.perk2.b": "Личный разбор",
+  "waitlist.perk2.t": " твоих брендов с основателем",
+  "waitlist.perk3.b": "Голос в дорожной карте",
+  "waitlist.perk3.t": " — что строить следующим",
+  "waitlist.label.email": "Твой email",
+  "waitlist.label.name": "Как к тебе обращаться (по желанию)",
+  "waitlist.ph.name": "Имя или название агентства",
+  "waitlist.join": "Занять место в первой волне",
+  "waitlist.msg.bad": "Проверь email — что-то не так в адресе.",
+  "waitlist.msg.busy": "Занимаю место…",
+  "waitlist.msg.fail": "Не получилось. Попробуй позже.",
+  "waitlist.msg.ok": "✔ Ты в списке! Напишем на {email} — следи за почтой.",
+  "waitlist.msg.done": "Место занято"
 }
