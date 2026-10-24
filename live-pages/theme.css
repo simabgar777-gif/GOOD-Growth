@@ -244,42 +244,38 @@ html[data-theme-src="system"] [class*="card"] {
 }
 
 /* ============================================================
-   Переключатель (ставит theme.js)
+   Переключатель темы — ЖИВЁТ В ПРОФИЛЕ, в блоке «Настройки».
+   Плавающей плашки нет (уточнение приказа).
    ============================================================ */
-.gg-theme-switch {
-  position: fixed;
-  left: 14px;
-  bottom: 14px;
-  z-index: 900;
+.gg-theme-pick {
   display: flex;
-  gap: 2px;
+  gap: 3px;
   padding: 3px;
   border-radius: 999px;
-  background: var(--surface, #0E0F12);
-  box-shadow: inset 0 0 0 1px var(--line-2, rgba(255,255,255,.10)),
-              0 10px 26px -14px rgba(0,0,0,.7);
-  font: 600 11px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--surface-2, #111216);
+  box-shadow: inset 0 0 0 1px var(--line-2, rgba(255,255,255,.10));
+  margin: 12px 0 8px;
+  width: fit-content;
 }
-.gg-theme-switch button {
+.gg-theme-pick button {
   border: 0 !important;
   cursor: pointer;
-  padding: 6px 11px;
+  padding: 8px 15px;
   border-radius: 999px;
   background: transparent !important;
   color: var(--fg-3, #8B8B95) !important;
-  font: inherit;
+  font: 600 12.5px/1 inherit;
   box-shadow: none !important;
   transform: none !important;
   transition: background-color 140ms linear, color 140ms linear;
 }
-.gg-theme-switch button[aria-pressed="true"] {
+.gg-theme-pick button[aria-pressed="true"] {
   background: var(--copper, #E8A54F) !important;
   color: #1B1206 !important;
 }
-.gg-theme-switch button:hover:not([aria-pressed="true"]) {
+.gg-theme-pick button:hover:not([aria-pressed="true"]) {
   color: var(--fg, #F4F4F5) !important;
 }
-
 @media print {
-  .gg-theme-switch { display: none !important; }
+  .gg-theme-pick { display: none !important; }
 }

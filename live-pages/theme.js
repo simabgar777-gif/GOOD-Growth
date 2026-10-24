@@ -1,26 +1,27 @@
 /* ============================================================
-   GOOD Growth · переключатель темы (приказ №74)
+   GOOD Growth · тема (приказ №74, уточнение)
 
-   · запоминает выбор в localStorage
-   · «Системная» — НЕ ставит data-theme, работает prefers-color-scheme
-   · по умолчанию (первый визит) — ТЁМНАЯ: она основная
-   · сам ставит кнопку в левый нижний угол
+   Плавающей плашки НЕТ. Переключатель живёт в профиле,
+   в блоке «Настройки» — там ему и место.
 
-   Атрибут темы должен быть выставлен ДО отрисовки — это делает
-   маленький инлайн-скрипт в <head> каждой страницы (иначе вспышка).
+   Иконку в шапку добавит Зая: gg-header.js у неё на сервере,
+   я его не вижу.
+
+   Модуль только применяет и запоминает тему. Никакого DOM.
    ============================================================ */
 (function () {
   'use strict';
 
   var KEY = 'gg_theme';
-  var MODES = [
-    { id: 'dark', label: 'Тёмная' },
-    { id: 'light', label: 'Светлая' },
-    { id: 'system', label: 'Системная' }
-  ];
+  var VALID = { dark: 1, light: 1, system: 1 };
 
-  function read() {
-    try { return localStorage.getItem(KEY) || 'dark'; } catch (e) { return 'dark'; }
+  function get() {
+    try {
+      var v = localStorage.getItem(KEY);
+      return VALID[v] ? v : 'dark';
+    } catch (e) {
+      return 'dark';
+    }
   }
 
   function apply(mode) {
@@ -34,54 +35,33 @@
     }
   }
 
-  function save(mode) {
-    try { localStorage.setItem(KEY, mode); } catch (e) {}
-  }
-
-  function paint(switcher, mode) {
-    var btns = switcher.querySelectorAll('button');
+  function paint() {
+    var mode = get();
+    var btns = document.querySelectorAll('[data-theme-pick]');
     for (var i = 0; i < btns.length; i++) {
-      btns[i].setAttribute('aria-pressed', btns[i].getAttribute('data-mode') === mode ? 'true' : 'false');
+      btns[i].setAttribute('aria-pressed',
+        btns[i].getAttribute('data-theme-pick') === mode ? 'true' : 'false');
     }
   }
 
   function set(mode) {
-    if (mode !== 'light' && mode !== 'dark' && mode !== 'system') mode = 'dark';
+    if (!VALID[mode]) mode = 'dark';
     apply(mode);
-    save(mode);
-    var sw = document.querySelector('.gg-theme-switch');
-    if (sw) paint(sw, mode);
+    try { localStorage.setItem(KEY, mode); } catch (e) {}
+    paint();
     try { document.dispatchEvent(new CustomEvent('gg:theme', { detail: { mode: mode } })); } catch (e) {}
   }
 
-  function build() {
-    if (document.querySelector('.gg-theme-switch')) return;
-    var box = document.createElement('div');
-    box.className = 'gg-theme-switch';
-    box.setAttribute('role', 'group');
-    box.setAttribute('aria-label', 'Тема оформления');
-    for (var i = 0; i < MODES.length; i++) {
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.textContent = MODES[i].label;
-      b.setAttribute('data-mode', MODES[i].id);
-      b.addEventListener('click', function () {
-        set(this.getAttribute('data-mode'));
-      });
-      box.appendChild(b);
-    }
-    document.body.appendChild(box);
-    paint(box, read());
-  }
+  window.ggTheme = { get: get, set: set, apply: apply, paint: paint };
 
-  window.ggTheme = { get: read, set: set, apply: apply };
+  // если инлайн-скрипт в <head> не сработал
+  apply(get());
 
-  // на случай, если инлайн-скрипт в <head> не сработал
-  apply(read());
-
+  // кнопки могли отрисоваться позже (профиль строит разметку скриптом)
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', build);
+    document.addEventListener('DOMContentLoaded', paint);
   } else {
-    build();
+    paint();
   }
+  document.addEventListener('gg:ready', paint);
 })();

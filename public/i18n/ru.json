@@ -5,7 +5,7 @@
     "page": "login",
     "source": "live-pages/login.html (снимок прода 2026-10-24)",
     "note": "Плоские ключи. Текст в HTML остаётся как запасной — словарь только перекрывает его.",
-    "keys": 623,
+    "keys": 628,
     "pages": [
       "analytics",
       "billing",
@@ -653,5 +653,10 @@
   "index.footer.demo": "переключить демо",
   "index.aria.result": "Разбор цели",
   "index.aria.workshop": "Мастерская постов",
-  "index.aria.journal": "Журнал целей"
+  "index.aria.journal": "Журнал целей",
+  "profile.appearance": "Оформление",
+  "profile.theme.hint": "Тема применяется сразу и запоминается на этом устройстве.",
+  "profile.theme.dark": "Тёмная",
+  "profile.theme.light": "Светлая",
+  "profile.theme.system": "Системная"
 }

@@ -121,6 +121,13 @@
       h+='<div class="empty">'+ggT('profile.noSettings','Смены тарифов ещё не было — настройки появятся после первого изменения тарифа.')+'</div>';
     }
     h+='</div>';
+    h+='<div class="card"><h3>'+ggT('profile.appearance','Оформление')+'</h3>'
+      +'<p class="mut">'+ggT('profile.theme.hint','Тема применяется сразу и запоминается на этом устройстве.')+'</p>'
+      +'<div class="gg-theme-pick" role="group" aria-label="'+ggT('profile.appearance','Оформление')+'">'
+      +'<button type="button" data-theme-pick="dark">'+ggT('profile.theme.dark','Тёмная')+'</button>'
+      +'<button type="button" data-theme-pick="light">'+ggT('profile.theme.light','Светлая')+'</button>'
+      +'<button type="button" data-theme-pick="system">'+ggT('profile.theme.system','Системная')+'</button>'
+      +'</div></div>';
     h+='<div class="card"><h3>'+ggT('profile.security','Безопасность')+'</h3><form id="passForm"><div class="frow"><div><label for="p0">'+ggT('profile.curPassword','Текущий пароль')+'</label><input id="p0" type="password" autocomplete="current-password"></div><div><label for="p1">'+ggT('profile.newPassword','Новый пароль')+'</label><input id="p1" type="password" autocomplete="new-password" placeholder="'+ggT('common.ph.password','Минимум 8 символов')+'"><div class="hint" id="pwHint" style="font-size:12.5px;color:#7a8775;margin-top:3px">'+ggT('common.hint.password','Только английские буквы, цифры и символы. Храним только хэш.')+'</div></div></div><div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap"><button type="submit" id="pBtn">'+ggT('profile.changePassword','Сменить пароль')+'</button><button type="button" id="outAll" class="ghost">'+ggT('profile.logoutAll','Выйти на других устройствах')+'</button></div><div class="status" id="pStat"></div></form></div>';
     h+='</div>';
 
@@ -132,6 +139,17 @@
     else{h+='<div class="empty">'+ggT('profile.noChanges','Смен ещё не было.')+'</div>';}
     h+='</div></div>';
     root.innerHTML=h;
+
+    /* тема оформления — приказ №74 */
+    (function(){
+      var picks=root.querySelectorAll('[data-theme-pick]');
+      for(var i=0;i<picks.length;i++){
+        picks[i].addEventListener('click',function(){
+          if(window.ggTheme)window.ggTheme.set(this.getAttribute('data-theme-pick'));
+        });
+      }
+      if(window.ggTheme)window.ggTheme.paint();
+    })();
 
     /* name form */
     $('nameForm').addEventListener('submit',function(e){
