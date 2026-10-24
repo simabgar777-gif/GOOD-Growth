@@ -244,6 +244,65 @@ html[data-theme-src="system"] [class*="card"] {
 }
 
 /* ============================================================
+   ШАПКА (#gg-header) — её рисует gg-header.js, цвета вписаны числом.
+   Токены туда не достают, поэтому перекрываем по классам.
+   Замер на живом сайте: навигация была 2.27, стала 5.29.
+   ============================================================ */
+html[data-theme="light"] #gg-header {
+  background: rgba(244,241,234,.92) !important;
+  border-bottom: 1px solid rgba(20,32,26,.12) !important;
+}
+html[data-theme="light"] #gg-header a.ggb { color: #14201A !important; }
+html[data-theme="light"] #gg-header nav a { color: #5C665F !important; }
+html[data-theme="light"] #gg-header nav a.on {
+  color: #9A5518 !important;
+  background: rgba(154,85,24,.10) !important;
+}
+html[data-theme="light"] #gg-header .ggtheme {
+  color: #5C665F !important;
+  background: rgba(20,32,26,.04) !important;
+  border-color: rgba(20,32,26,.16) !important;
+}
+html[data-theme="light"] #gg-header .ggburger {
+  color: #14201A !important;
+  background: rgba(20,32,26,.04) !important;
+  border-color: rgba(20,32,26,.16) !important;
+}
+html[data-theme="light"] #gg-header a.ggghost {
+  color: #14201A !important;
+  background: rgba(20,32,26,.035) !important;
+  border-color: rgba(20,32,26,.16) !important;
+}
+
+@media (prefers-color-scheme: light) {
+  html[data-theme-src="system"] #gg-header {
+    background: rgba(244,241,234,.92) !important;
+    border-bottom: 1px solid rgba(20,32,26,.12) !important;
+  }
+  html[data-theme-src="system"] #gg-header a.ggb { color: #14201A !important; }
+  html[data-theme-src="system"] #gg-header nav a { color: #5C665F !important; }
+  html[data-theme-src="system"] #gg-header nav a.on {
+    color: #9A5518 !important;
+    background: rgba(154,85,24,.10) !important;
+  }
+  html[data-theme-src="system"] #gg-header .ggtheme {
+    color: #5C665F !important;
+    background: rgba(20,32,26,.04) !important;
+    border-color: rgba(20,32,26,.16) !important;
+  }
+  html[data-theme-src="system"] #gg-header .ggburger {
+    color: #14201A !important;
+    background: rgba(20,32,26,.04) !important;
+    border-color: rgba(20,32,26,.16) !important;
+  }
+  html[data-theme-src="system"] #gg-header a.ggghost {
+    color: #14201A !important;
+    background: rgba(20,32,26,.035) !important;
+    border-color: rgba(20,32,26,.16) !important;
+  }
+}
+
+/* ============================================================
    Переключатель темы — ЖИВЁТ В ПРОФИЛЕ, в блоке «Настройки».
    Плавающей плашки нет (уточнение приказа).
    ============================================================ */
