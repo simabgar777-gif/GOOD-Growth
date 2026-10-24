@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Каналы бренда — GOOD Growth</title>
+<title data-i18n="channels.meta.title">Каналы бренда — GOOD Growth</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
@@ -39,32 +39,33 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
 </style>
 <link rel="stylesheet" href="/style-c.css"></head>
 <body>
+<script src="/i18n/i18n.js"></script>
 <div class="wrap">
-  <h1>Каналы бренда</h1>
-  <p class="sub" id="sub">Загрузка…</p>
+  <h1 data-i18n="channels.h1">Каналы бренда</h1>
+  <p class="sub" id="sub" data-i18n="channels.loading">Загрузка…</p>
   <div class="panel">
-    <div id="list"><span class="mut">Загружаю…</span></div>
+    <div id="list"><span class="mut" data-i18n="channels.loading2">Загружаю…</span></div>
     <div class="add">
-      <input id="chat" placeholder="@имя_канала или -100...">
-      <button class="go" id="go">+ Подключить</button>
+      <input id="chat" placeholder="@имя_канала или -100..." data-i18n-attr="placeholder:channels.ph">
+      <button class="go" id="go" data-i18n="channels.connect">+ Подключить</button>
     </div>
   </div>
   <div class="panel">
     <div class="grid" id="nets"></div>
-    <p class="mut" style="margin-top:12px">Серые — в разработке: OAuth-подключение откроем в ближайших спринтах.</p>
+    <p class="mut" style="margin-top:12px" data-i18n="channels.note">Серые — в разработке: OAuth-подключение откроем в ближайших спринтах.</p>
   </div>
 </div>
 <script src="/gg-header.js" defer></script>
 <script>
 (function(){
   var brand = new URLSearchParams(location.search).get('brand') || sessionStorage.getItem('gg_brand') || '';
-  if (!brand) { document.getElementById('sub').textContent = 'Бренд не выбран — открой список брендов.'; document.getElementById('list').innerHTML=''; }
-  else document.getElementById('sub').textContent = 'Бренд #' + brand + ' — подключённые каналы и соцсети.';
+  if (!brand) { document.getElementById('sub').textContent = ggT('channels.noBrand','Бренд не выбран — открой список брендов.'); document.getElementById('list').innerHTML=''; }
+  else document.getElementById('sub').textContent = ggT('channels.sub','Бренд #{id} — подключённые каналы и соцсети.').replace('{id}', brand);
   function esc(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   var NETS = [['Telegram','ok','✈'],['VK','soon','V'],['Pinterest','soon','P'],['Facebook','soon','f'],['Instagram','soon','IG'],['X (Twitter)','soon','X'],['LinkedIn','soon','in'],['YouTube','soon','▶'],['TikTok','soon','♪'],['Одноклассники','soon','ок']];
   document.getElementById('nets').innerHTML = NETS.map(function(n){
     return '<div class="net ' + n[1] + '"><span class="ic">' + n[2] + '</span><span class="n">' + n[0] + '</span>' +
-      (n[1]==='ok' ? '<span class="st">Подключён</span>' : '<span class="st">Скоро</span>') + '</div>';
+      (n[1]==='ok' ? '<span class="st">' + ggT('channels.st.ok','Подключён') + '</span>' : '<span class="st">' + ggT('channels.st.soon','Скоро') + '</span>') + '</div>';
   }).join('');
   async function load(){
     if (!brand) return;
@@ -73,9 +74,9 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
       var arr = await r.json();
       if (!Array.isArray(arr)) arr = arr.channels || [];
       document.getElementById('list').innerHTML = arr.length
-        ? arr.map(function(c){ return '<div class="row"><span><b>' + esc(c.title || '') + '</b> <span class="cid">' + esc(c.chat_id) + '</span></span><button class="del" data-id="' + c.id + '">Отключить</button></div>'; }).join('')
-        : '<span class="mut">Пока пусто — подключи первый Telegram-канал ниже.</span>';
-    } catch(e){ document.getElementById('list').innerHTML = '<span class="mut">Ошибка загрузки</span>'; }
+        ? arr.map(function(c){ return '<div class="row"><span><b>' + esc(c.title || '') + '</b> <span class="cid">' + esc(c.chat_id) + '</span></span><button class="del" data-id="' + c.id + '">' + ggT('channels.disconnect','Отключить') + '</button></div>'; }).join('')
+        : '<span class="mut">' + ggT('channels.empty','Пока пусто — подключи первый Telegram-канал ниже.') + '</span>';
+    } catch(e){ document.getElementById('list').innerHTML = '<span class="mut">' + ggT('channels.err','Ошибка загрузки') + '</span>'; }
   }
   load();
   document.getElementById('go').addEventListener('click', async function(){
@@ -88,7 +89,7 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
   document.getElementById('list').addEventListener('click', async function(e){
     var d = e.target.closest('[data-id]');
     if (!d) return;
-    if (!confirm('Отключить канал?')) return;
+    if (!confirm(ggT('channels.confirm','Отключить канал?'))) return;
     await fetch('/api/channels/' + d.getAttribute('data-id'), { method: 'DELETE' });
     load();
   });
