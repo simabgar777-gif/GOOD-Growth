@@ -672,5 +672,9 @@
   "rail.theme.dark": "Тёмная",
   "rail.theme.light": "Светлая",
   "rail.theme.system": "Системная",
-  "rail.group": "Разделы GOOD Growth"
+  "rail.group": "Разделы GOOD Growth",
+  "rail": {
+    "brands": "Бренды",
+    "billing": "Оплата"
+  }
 }

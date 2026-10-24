@@ -21,6 +21,7 @@
     ['/app/schedule', 'schedule'],
     ['/app/analytics', 'analytics'],
     ['/app/channels', 'channels'],
+    ['/partner/channels', 'brands'],
     ['/app/billing', 'billing'],
     ['/app/onboard', 'app'],
     ['/app', 'app'],
