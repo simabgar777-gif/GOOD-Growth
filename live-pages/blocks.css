@@ -1,0 +1,236 @@
+/* ============================================================
+   GOOD Growth · КОМПОНЕНТЫ БЛОКОВ (шаг 1)
+
+   Кубики для перестройки мастерской в блоки. Пока НЕ ИСПОЛЬЗУЮТСЯ
+   ни на одной странице — подключены, но не влияют ни на один пиксель.
+
+   Правила:
+   · только префикс gg- , чтобы не столкнуться со style-c.css
+   · цвета берём из style-c.css через var(--pg-*, запасной)
+   · ноль правил для существующих классов
+
+   Слои:  токены (style-c.css) -> ЭТИ КУБИКИ -> блоки -> экран
+   ============================================================ */
+
+:root {
+  /* если style-c.css не дал — берём свои */
+  --gg-bg:      var(--pg-bg, #08090A);
+  --gg-surface: var(--pg-surface, #0E0F12);
+  --gg-surface2:var(--pg-surface2, #111216);
+  --gg-line:    var(--pg-line, rgba(255,255,255,.06));
+  --gg-line2:   var(--pg-line2, rgba(255,255,255,.10));
+  --gg-fg:      var(--pg-fg, #F4F4F5);
+  --gg-fg2:     var(--pg-fg2, #A1A1AA);
+  --gg-fg3:     var(--pg-fg3, #8B8B95);
+  --gg-faint:   #5F626B;
+  --gg-copper:  var(--pg-copper, #E8A54F);
+  --gg-copper-l:var(--pg-copper-lt, #F3C583);
+  --gg-copper-d:var(--pg-copper-dp, #C97B3C);
+  --gg-rec:     #E88A6F;
+
+  --gg-grad: linear-gradient(180deg, #F0BC72, #E8A54F 55%, #DF9A48);
+  --gg-r:    12px;
+  --gg-r-sm: 9px;
+  --gg-r-lg: 16px;
+  --gg-rail: 236px;
+}
+
+/* ---------------- каркас: рейка + область ---------------- */
+.gg-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--gg-bg);
+  color: var(--gg-fg);
+}
+.gg-main { flex: 1; min-width: 0; }
+.gg-canvas { max-width: 1000px; margin: 0 auto; padding: 20px 26px 64px; }
+
+/* ---------------- рейка ---------------- */
+.gg-rail {
+  width: var(--gg-rail);
+  flex: none;
+  background: var(--gg-surface);
+  border-right: 1px solid var(--gg-line);
+  display: flex;
+  flex-direction: column;
+  padding: 16px 11px 12px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+.gg-rail-brand { display: flex; align-items: center; gap: 9px; padding: 2px 8px 16px; }
+.gg-rail-brand .gg-mark {
+  width: 26px; height: 26px; border-radius: 8px; flex: none;
+  display: grid; place-items: center;
+  background: var(--gg-grad);
+  color: #1B1206; font: 700 13px/1 inherit;
+}
+.gg-rail-brand b { font-size: 13.5px; letter-spacing: -.01em; }
+.gg-rail-brand span {
+  display: block; font-size: 8.5px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--gg-faint); font-weight: 600;
+}
+
+.gg-rail-new {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  width: 100%; padding: 11px 14px; margin-bottom: 16px;
+  border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--gg-grad); color: #1B1206;
+  font: 700 13px/1 inherit;
+  box-shadow: 0 8px 20px -12px rgba(232,165,79,.9);
+}
+
+.gg-rail-nav { display: flex; flex-direction: column; gap: 1px; }
+.gg-rail-nav a {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 10px; border-radius: var(--gg-r-sm);
+  color: var(--gg-fg2); text-decoration: none;
+  font-size: 13px; font-weight: 500;
+}
+.gg-rail-nav a.is-on {
+  background: #16181D; color: var(--gg-fg);
+  box-shadow: inset 0 0 0 1px var(--gg-line);
+}
+.gg-rail-nav a .gg-count {
+  margin-left: auto; font-size: 10.5px; font-weight: 700; color: var(--gg-copper);
+}
+.gg-rail-sec {
+  margin: 18px 0 7px; padding-left: 10px;
+  font-size: 8.5px; font-weight: 700; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--gg-faint);
+}
+.gg-rail-foot { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
+.gg-rail-org {
+  padding: 9px 10px; border-radius: 11px;
+  background: var(--gg-surface2); box-shadow: inset 0 0 0 1px var(--gg-line);
+}
+.gg-rail-org b { display: block; font-size: 11.5px; font-weight: 600; }
+.gg-rail-org span { display: block; font-size: 10px; color: var(--gg-faint); }
+
+/* ---------------- блок ---------------- */
+.gg-blk {
+  background: var(--gg-surface);
+  border-radius: var(--gg-r-lg);
+  margin-bottom: 12px;
+  box-shadow: inset 0 0 0 1px var(--gg-line);
+  overflow: hidden;
+}
+.gg-blk-h {
+  display: flex; align-items: baseline; gap: 9px;
+  padding: 14px 17px 0;
+}
+.gg-blk-h h2 {
+  font-size: 12.5px; font-weight: 700; letter-spacing: .02em;
+  text-transform: uppercase; margin: 0;
+}
+.gg-blk-q {
+  font: italic 400 11.5px/1 Georgia, serif;
+  color: var(--gg-faint);
+}
+.gg-blk-h .gg-more {
+  margin-left: auto; font-size: 11.5px; color: var(--gg-copper);
+  text-decoration: none; font-weight: 600;
+}
+.gg-blk-b { padding: 13px 17px 16px; }
+.gg-blk-b.is-flush { padding: 0; }
+
+/* ---------------- плитки чисел ---------------- */
+.gg-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+.gg-tile {
+  padding: 12px 13px; border-radius: var(--gg-r);
+  background: var(--gg-surface2); box-shadow: inset 0 0 0 1px var(--gg-line);
+}
+.gg-tile .gg-n {
+  font-size: 22px; font-weight: 700; letter-spacing: -.04em; line-height: 1.1;
+}
+.gg-tile .gg-l { margin-top: 3px; font-size: 11px; color: var(--gg-fg2); }
+.gg-tile.is-a .gg-n { color: var(--gg-copper-l); }
+.gg-tile.is-b .gg-n { color: var(--gg-copper); }
+.gg-tile.is-c .gg-n { color: var(--gg-fg3); }
+.gg-tile.is-d .gg-n { color: var(--gg-fg); }
+
+/* ---------------- цель в одну строку ---------------- */
+.gg-goal { display: flex; gap: 8px; }
+.gg-goal input {
+  flex: 1; min-width: 0; padding: 12px 15px;
+  border: 0; border-radius: 999px;
+  background: var(--gg-surface2);
+  box-shadow: inset 0 0 0 1px var(--gg-line2);
+  font: 400 13.5px/1.3 inherit; color: var(--gg-fg);
+}
+.gg-goal input::placeholder { color: var(--gg-faint); }
+.gg-goal input:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 1px rgba(232,165,79,.6), 0 0 0 3px rgba(232,165,79,.13);
+}
+.gg-goal button {
+  border: 0; cursor: pointer; padding: 0 20px; border-radius: 999px;
+  background: var(--gg-grad); color: #1B1206;
+  font: 700 13px/1 inherit;
+}
+.gg-switch { display: flex; gap: 6px; margin-top: 11px; font-size: 11.5px; color: var(--gg-fg3); }
+.gg-switch a { color: var(--gg-copper); text-decoration: none; }
+.gg-switch b { color: var(--gg-fg); }
+
+/* ---------------- пустое состояние ---------------- */
+.gg-empty {
+  display: grid; justify-items: center; gap: 7px;
+  padding: 26px 16px 28px; text-align: center;
+}
+.gg-empty .gg-ic {
+  width: 36px; height: 36px; border-radius: 11px;
+  display: grid; place-items: center;
+  background: var(--gg-surface2);
+  box-shadow: inset 0 0 0 1px var(--gg-line);
+  color: var(--gg-fg3);
+}
+.gg-empty b { font-size: 12.5px; font-weight: 600; }
+.gg-empty span { font-size: 11.5px; color: var(--gg-faint); max-width: 34ch; }
+
+/* ---------------- строка журнала ---------------- */
+.gg-jrow {
+  display: flex; align-items: center; gap: 11px;
+  padding: 9px 0; border-bottom: 1px solid var(--gg-line);
+  font-size: 12.5px;
+}
+.gg-jrow:last-child { border-bottom: 0; }
+.gg-jrow .gg-d {
+  width: 82px; flex: none; color: var(--gg-faint); font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.gg-jrow .gg-id { width: 34px; flex: none; color: var(--gg-faint); font-weight: 700; font-size: 10.5px; }
+.gg-jrow .gg-g { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gg-jrow .gg-c { flex: none; color: var(--gg-fg2); font-size: 11px; }
+.gg-jrow .gg-go { flex: none; color: var(--gg-copper); font-size: 11px; font-weight: 600; text-decoration: none; }
+
+/* ---------------- видимая строка статуса ---------------- */
+/* сейчас #warmStatus и #statusLine пустые и выглядят как сломанные плашки —
+   этот кубик показывает их только когда в них есть текст */
+.gg-status {
+  margin-top: 12px; padding: 10px 13px; border-radius: var(--gg-r-sm);
+  background: rgba(232,165,79,.07);
+  box-shadow: inset 0 0 0 1px rgba(232,165,79,.22);
+  font-size: 12px; color: var(--gg-copper-l);
+}
+.gg-status:empty { display: none; }
+
+/* ---------------- кнопки ---------------- */
+.gg-btn-gold {
+  cursor: pointer; border: 0; padding: 9px 16px; border-radius: 999px;
+  background: var(--gg-grad); color: #1B1206;
+  font: 700 12.5px/1 inherit;
+  box-shadow: 0 8px 20px -12px rgba(232,165,79,.9);
+}
+.gg-btn-ghost {
+  cursor: pointer; padding: 8px 14px; border: 0; border-radius: 999px;
+  background: transparent; color: var(--gg-copper);
+  font: 600 12px/1 inherit;
+  box-shadow: inset 0 0 0 1px rgba(232,165,79,.35);
+}
+
+/* ---------------- узкий экран: рейку уберём позже (шаг 5) ---------------- */
+@media (max-width: 900px) {
+  .gg-layout { display: block; }
+  .gg-rail { display: none; }
+  .gg-tiles { grid-template-columns: repeat(2, 1fr); }
+}
