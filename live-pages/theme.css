@@ -244,6 +244,46 @@ html[data-theme-src="system"] [class*="card"] {
 }
 
 /* ============================================================
+   СТРАХОВКА: заголовки на светлой теме ВСЕГДА тёмные.
+
+   Причина, зачем это нужно: на проде Капитан увидел светлый фон
+   со светлыми заголовками. Воспроизвести локально не удалось —
+   значит цвет приходит откуда-то, чего я не вижу (gg-header.js,
+   инлайн-стиль страницы или чужая правка).
+
+   Эти правила не дают случиться «белому на белом» НИКОГДА,
+   независимо от источника. Заголовки — единственное, что
+   перекрываем жёстко: акценты и медь не трогаем.
+   ============================================================ */
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3,
+html[data-theme="light"] h4,
+html[data-theme="light"] h5,
+html[data-theme="light"] h6,
+html[data-theme="light"] .hero h1,
+html[data-theme="light"] .card h1,
+html[data-theme="light"] .card h2,
+html[data-theme="light"] .card h3 {
+  color: #14201A !important;
+}
+
+@media (prefers-color-scheme: light) {
+  html[data-theme-src="system"] h1,
+  html[data-theme-src="system"] h2,
+  html[data-theme-src="system"] h3,
+  html[data-theme-src="system"] h4,
+  html[data-theme-src="system"] h5,
+  html[data-theme-src="system"] h6,
+  html[data-theme-src="system"] .hero h1,
+  html[data-theme-src="system"] .card h1,
+  html[data-theme-src="system"] .card h2,
+  html[data-theme-src="system"] .card h3 {
+    color: #14201A !important;
+  }
+}
+
+/* ============================================================
    ШАПКА (#gg-header) — её рисует gg-header.js, цвета вписаны числом.
    Токены туда не достают, поэтому перекрываем по классам.
    Замер на живом сайте: навигация была 2.27, стала 5.29.
