@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Расписание публикаций — GOOD Growth</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
+<link rel="icon" type="image/x-icon" href="/favicon.ico?v=2">
+<style>
+:root{
+  --bg:#08090A;--surface:#0E0F12;--surface-2:#111216;
+  --line:rgba(255,255,255,.06);--line-2:rgba(255,255,255,.10);
+  --ink:#F4F4F5;--mut:#A1A1AA;--faint:#8B8B95;
+  --copper:#E8A54F;--copper-2:#F3C583;--green:#7CCB7A;--red:#E8694F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:15px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+.wrap{max-width:1120px;margin:0 auto;padding:26px 22px 80px}
+h1{font-size:26px;letter-spacing:-.02em;font-weight:600}
+.sub{color:var(--mut);margin:6px 0 22px;font-size:14.5px}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+select{font:inherit;font-size:13.5px;color:var(--ink);background:var(--surface-2);border:1px solid var(--line-2);border-radius:9px;padding:9px 12px;outline:none}
+select:focus{border-color:rgba(232,165,79,.5)}
+.count{color:var(--faint);font-size:13px;margin-left:auto}
+.clock{color:var(--faint);font-size:12.5px;margin-bottom:14px}
+.clock b{color:var(--copper-2);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+.scard{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:border-color 150ms}
+.scard:hover{border-color:rgba(232,165,79,.28)}
+.thumb{height:140px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:12px;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.sbody{padding:14px 16px 6px;flex:1}
+.stitle{font-weight:600;font-size:15.5px;letter-spacing:-.01em;margin-bottom:6px}
+.stext{color:var(--mut);font-size:13.5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.swhen{font-size:13px;color:var(--copper-2);margin-top:8px;font-weight:500}
+.smeta{display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px 0;align-items:center}
+.chip{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:999px;border:1px solid var(--line-2);color:var(--mut)}
+.chip.scheduled{color:var(--copper-2);border-color:rgba(232,165,79,.35);background:rgba(232,165,79,.08)}
+.chip.failed{color:#E88A6F;border-color:rgba(232,105,79,.45);background:rgba(232,105,79,.08)}
+.chip.published{color:#9BD89A;border-color:rgba(124,203,122,.35);background:rgba(124,203,122,.08)}
+.chip.brand{color:var(--faint)}
+.snote{font-size:12px;color:var(--faint);padding:6px 16px 0}
+.sdate{color:var(--faint);font-size:12px;margin-left:auto}
+.sacts{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px 14px;margin-top:auto}
+.sacts button{font:inherit;font-size:12.5px;font-weight:500;padding:7px 13px;border-radius:8px;cursor:pointer;background:rgba(255,255,255,.03);color:#C9C9D1;border:1px solid rgba(255,255,255,.14);transition:border-color 150ms,color 150ms}
+.sacts button:hover{border-color:rgba(232,165,79,.45);color:var(--ink)}
+.sacts button.del:hover{border-color:rgba(232,105,79,.6);color:#E88A6F}
+.sacts button:disabled{opacity:.4;cursor:default}
+.empty{color:var(--faint);text-align:center;padding:60px 0;font-size:14.5px}
+.msg{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--surface-2);border:1px solid var(--line-2);color:var(--ink);padding:11px 20px;border-radius:10px;font-size:13.5px;display:none;z-index:80;max-width:calc(100% - 40px)}
+.msg.err{border-color:rgba(232,105,79,.5);color:#E88A6F}
+.modal{position:fixed;inset:0;background:rgba(5,6,8,.72);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:90;padding:20px}
+.modal.open{display:flex}
+.mbox{background:var(--surface);border:1px solid var(--line-2);border-radius:14px;padding:24px;max-width:420px;width:100%}
+.mbox h3{font-size:16.5px;margin-bottom:8px;font-weight:600}
+.mbox p{color:var(--mut);font-size:13.5px;margin-bottom:14px}
+.mbox label{display:block;font-size:12px;color:var(--mut);margin-bottom:6px}
+.mbox input{font:inherit;font-size:14px;color:var(--ink);background:var(--surface-2);border:1px solid var(--line-2);border-radius:9px;padding:9px 11px;width:100%;outline:none;color-scheme:dark}
+.mbox input:focus{border-color:rgba(232,165,79,.5)}
+.merr{font-size:12.5px;color:#E88A6F;margin-top:8px;min-height:1.2em}
+.mrow{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+.mrow button{font:inherit;font-size:13.5px;padding:9px 16px;border-radius:9px;cursor:pointer;border:1px solid var(--line-2);background:none;color:var(--mut)}
+.mrow button.go{background:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);color:#1B1206;border-color:rgba(255,255,255,.16);font-weight:600}
+@media(max-width:640px){.grid{grid-template-columns:1fr}.filters select{flex:1 1 40%}}
+</style>
+</head>
+<body>
+<div id="gg-header"></div>
+<script src="/gg-header.js" defer></script>
+<div class="wrap">
+  <h1>Расписание публикаций</h1>
+  <p class="sub">Посты, которые уйдут в канал сами — в выбранное время. Часы сервера идут по Москве.</p>
+  <p class="clock">Сейчас на сервере: <b id="clock">—</b></p>
+  <div class="filters">
+    <select id="fStatus">
+      <option value="">Все статусы</option>
+      <option value="scheduled">Запланированы</option>
+      <option value="failed">Со сбоем</option>
+      <option value="published">Опубликованы по плану</option>
+    </select>
+    <select id="fBrand"><option value="">Все бренды</option></select>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="grid" id="grid"></div>
+  <p class="empty" id="empty" hidden>Запланированных постов нет. Открой пост в мастерской и нажми «Запланировать».</p>
+</div>
+<div class="msg" id="msg"></div>
+<div class="modal" id="modal">
+  <div class="mbox">
+    <h3>Изменить время</h3>
+    <p id="mTitle">Пост</p>
+    <label for="mWhen">Дата и время (МСК)</label>
+    <input type="datetime-local" id="mWhen">
+    <div class="merr" id="mErr" role="alert"></div>
+    <div class="mrow">
+      <button type="button" id="mNo">Отмена</button>
+      <button type="button" class="go" id="mYes">Сохранить</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var ALL = [], BRANDS = [];
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  var STATUS_RU = { scheduled:'запланирован', failed:'сбой', published:'опубликован' };
+  function fmtDT(s){ if (!s) return '—'; var d = new Date(String(s).replace(' ','T')); return isNaN(d) ? String(s).slice(0,16) : d.toLocaleString('ru-RU', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }); }
+  function msg(t, err){ var m = $('msg'); m.textContent = t; m.className = 'msg' + (err ? ' err' : ''); m.style.display = 'block'; setTimeout(function(){ m.style.display = 'none'; }, 3800); }
+
+  function tickClock(){
+    try {
+      var el = $('clock'); if (!el) return;
+      var d = new Date(Date.now() + (3 * 60 + new Date().getTimezoneOffset()) * 60000);
+      el.textContent = d.toLocaleString('ru-RU', { weekday:'short', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit', second:'2-digit' }) + ' МСК';
+    } catch (e) {}
+  }
+  setInterval(tickClock, 1000); tickClock();
+
+  var editId = null;
+  function openEdit(p){
+    editId = p.id;
+    $('mTitle').textContent = 'Пост № ' + p.id + (p.title ? ' — «' + p.title.slice(0, 60) + '»' : '');
+    var v = String(p.scheduled_at || '').slice(0, 16).replace(' ', 'T');
+    $('mWhen').value = v;
+    $('mErr').textContent = '';
+    $('modal').classList.add('open');
+    $('mWhen').focus();
+  }
+  $('mNo').addEventListener('click', function(){ $('modal').classList.remove('open'); editId = null; });
+  $('mYes').addEventListener('click', function(){
+    if (!editId) return;
+    var v = $('mWhen').value;
+    if (!v) { $('mErr').textContent = 'Выбери дату и время.'; return; }
+    var b = $('mYes'); b.disabled = true;
+    fetch('/api/posts/' + editId + '/schedule', { method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ when: v }) })
+      .then(function(r){ return r.json().then(function(d){ return { ok: r.ok, d: d }; }); })
+      .then(function(x){
+        b.disabled = false;
+        if (x.ok) { $('modal').classList.remove('open'); editId = null; msg('Время перенесено'); load(); }
+        else $('mErr').textContent = x.d.error || 'Не получилось';
+      })
+      .catch(function(){ b.disabled = false; $('mErr').textContent = 'Сеть недоступна'; });
+  });
+
+  function filtered(){
+    var st = $('fStatus').value, br = $('fBrand').value;
+    return ALL.filter(function(p){
+      if (st && p.schedule_status !== st) return false;
+      if (br && String(p.brand_id || '') !== br) return false;
+      return true;
+    });
+  }
+  function render(){
+    var list = filtered();
+    $('count').textContent = list.length + ' из ' + ALL.length;
+    $('empty').hidden = list.length > 0;
+    var g = $('grid');
+    g.innerHTML = '';
+    list.forEach(function(p){
+      var c = document.createElement('div'); c.className = 'scard';
+      var thumb = '<div class="thumb">' + (p.image_path && p.image_status === 'done' ? '<img src="' + esc(p.image_path) + '" alt="" loading="lazy">' : 'без картинки') + '</div>';
+      var chip = '<span class="chip ' + esc(p.schedule_status) + '">' + (STATUS_RU[p.schedule_status] || p.schedule_status) + '</span>' +
+        (p.brand_name ? '<span class="chip brand">' + esc(p.brand_name) + '</span>' : '') +
+        '<span class="sdate">' + (p.published_at ? 'опубл. ' + fmtDT(p.published_at) : 'созд. ' + fmtDT(p.created_at)) + '</span>';
+      var when = p.schedule_status === 'published' ? '' : '<div class="swhen">' + (p.schedule_status === 'failed' ? 'Планировалось: ' : 'Выйдет: ') + fmtDT(p.scheduled_at) + ' МСК</div>';
+      var note = p.schedule_note ? '<div class="snote">' + esc(p.schedule_note) + '</div>' : '';
+      var acts = '<button data-act="open">Открыть</button>';
+      if (p.schedule_status === 'scheduled') acts += '<button data-act="edit">Изменить время</button><button class="del" data-act="cancel">Отменить</button>';
+      if (p.schedule_status === 'failed') acts += '<button data-act="edit">Перенести</button><button class="del" data-act="cancel">Отменить</button>';
+      c.innerHTML = thumb + '<div class="sbody"><div class="stitle">' + esc(p.title) + '</div><div class="stext">' + esc(p.body) + '</div>' + when + '</div>' +
+        '<div class="smeta">' + chip + '</div>' + note + '<div class="sacts">' + acts + '</div>';
+      c.addEventListener('click', function(e){
+        var act = e.target && e.target.getAttribute && e.target.getAttribute('data-act');
+        if (!act) return;
+        e.stopPropagation();
+        if (act === 'open') { location.href = '/app?goal=' + p.goal_id + '#post-' + p.id; return; }
+        if (act === 'edit') { openEdit(p); return; }
+        if (act === 'cancel') {
+          if (!confirm('Отменить публикацию поста № ' + p.id + ' по расписанию?')) return;
+          fetch('/api/posts/' + p.id + '/schedule', { method:'DELETE' })
+            .then(function(r){ if (r.ok) { msg('План снят'); load(); } else msg('Не получилось снять', true); })
+            .catch(function(){ msg('Сеть недоступна', true); });
+        }
+      });
+      g.appendChild(c);
+    });
+  }
+  function fillBrands(){
+    var b = $('fBrand');
+    BRANDS.forEach(function(x){ var o = document.createElement('option'); o.value = x.id; o.textContent = x.name; b.appendChild(o); });
+  }
+  ['fStatus','fBrand'].forEach(function(id){ $(id).addEventListener('change', render); });
+  function load(){
+    fetch('/api/schedule', { headers:{ 'Cache-Control':'no-cache' } }).then(function(r){
+      if (r.status === 401) { location.href = '/login?next=' + encodeURIComponent('/app/schedule'); throw new Error('auth'); }
+      return r.json();
+    }).then(function(d){
+      ALL = d.scheduled || [];
+      if (d.serverNow) { try { sessionStorage.setItem('gg_server_now', d.serverNow); } catch (e) {} }
+      return fetch('/api/posts', { headers:{ 'Cache-Control':'no-cache' } });
+    }).then(function(r){ return r.json(); }).then(function(d){
+      BRANDS = d.brands || [];
+      if (!$('fBrand').options.length) fillBrands();
+      render();
+    }).catch(function(e){ if (e.message !== 'auth') msg('Не удалось загрузить расписание', true); });
+  }
+  load();
+  setInterval(load, 60000);
+})();
+</script>
+</body>
+</html>

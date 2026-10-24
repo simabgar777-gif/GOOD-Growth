@@ -1,0 +1,270 @@
+/* ============================================================
+   GOOD Growth — Style C overlay (dark, cinematic)
+   Loaded by every app page: <link rel="stylesheet" href="/style-c.css">
+   Tokens and surfaces mirror the approved landing (md5 5b84ed8f).
+   ============================================================ */
+:root{
+  --bg:#08090A;
+  --bg-soft:#0B0C0E;
+  --surface:#0E0F12;
+  --surface-2:#111216;
+  --line:rgba(255,255,255,.06);
+  --line-2:rgba(255,255,255,.10);
+  --fg:#F4F4F5;
+  --fg-2:#A1A1AA;
+  --fg-3:#8B8B95;
+  --copper:#E8A54F;
+  --copper-lt:#F3C583;
+  --copper-dp:#C97B3C;
+  --green:#7CCB7A;
+  --r-btn:8px;
+  --r-card:12px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);
+  color:var(--fg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+h1,h2,h3,h4{color:var(--fg);font-weight:600;letter-spacing:-.02em}
+p,li,span,label,td,th,small{color:var(--fg-2)}
+a{color:inherit}
+
+/* selection + focus — copper, like landing */
+::selection{background:rgba(232,165,79,.26);color:#FFF}
+:focus-visible{outline:2px solid rgba(232,165,79,.75);outline-offset:3px;border-radius:4px}
+
+/* scrollbar */
+*{scrollbar-width:thin;scrollbar-color:#26272C transparent}
+*::-webkit-scrollbar{width:10px;height:10px}
+*::-webkit-scrollbar-thumb{background:#26272C;border-radius:6px;border:2px solid var(--bg)}
+*::-webkit-scrollbar-track{background:transparent}
+
+/* ---- buttons ---- */
+button,.btn,[class*="btn"]{
+  font-family:inherit;
+}
+button,.btn{
+  border-radius:var(--r-btn);
+  transition:transform 150ms var(--ease),background-color 150ms linear,border-color 150ms linear,box-shadow 150ms linear,color 150ms linear,opacity 150ms linear;
+}
+button:hover:not(:disabled),.btn:hover{transform:translateY(-1px)}
+button:active:not(:disabled),.btn:active{transform:translateY(0) scale(.992)}
+[class*="primary"],[class*="Primary"],.btn-mic,[type="submit"]{
+  background:linear-gradient(180deg,#F0BC72 0%,#E8A54F 55%,#DF9A48 100%);
+  color:#1B1206;border:1px solid rgba(255,255,255,.16);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 10px 26px -10px rgba(232,165,79,.55);
+}
+[type="submit"]:hover,[class*="primary"]:hover{background:linear-gradient(180deg,#F7C987 0%,#EDAB5D 55%,#E8A54F 100%)}
+[class*="ghost"],[class*="quiet"],[class*="secondary"],[class*="outline"]{
+  background:rgba(255,255,255,.032);color:var(--fg);border:1px solid var(--line-2);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+[class*="ghost"]:hover,[class*="quiet"]:hover,[class*="secondary"]:hover{background:rgba(255,255,255,.062);border-color:rgba(255,255,255,.17)}
+[class*="danger"],[class*="Danger"]{border:1px solid rgba(232,105,79,.35);color:#E88A6F}
+[class*="linkish"],[class*="link"]{background:transparent;border:none;color:var(--fg-2)}
+[class*="linkish"]:hover{color:var(--fg)}
+
+/* ---- inputs ---- */
+input,textarea,select{
+  background:var(--surface) !important;
+  color:var(--fg) !important;
+  border:1px solid var(--line-2) !important;
+  border-radius:8px;
+  font-family:inherit;
+  transition:border-color 150ms linear,box-shadow 150ms linear;
+}
+input::placeholder,textarea::placeholder{color:var(--fg-3)}
+input:focus,textarea:focus,select:focus{
+  outline:none;border-color:rgba(232,165,79,.55) !important;
+  box-shadow:0 0 0 3px rgba(232,165,79,.14);
+}
+input[type="checkbox"],input[type="radio"]{accent-color:var(--copper)}
+
+/* ---- cards / panels ---- */
+[class*="card"],[class*="panel"],[class*="Card"]{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r-card);
+}
+[class*="card"]:hover{border-color:var(--line-2)}
+
+/* ---- tables ---- */
+table{border-color:var(--line)}
+th{color:var(--fg-3);font-weight:500;text-transform:none}
+td{border-color:var(--line)}
+tr:hover td{background:rgba(255,255,255,.02)}
+
+/* ---- hr / dividers ---- */
+hr{border:none;border-top:1px solid var(--line)}
+
+/* ---- badges / chips ---- */
+[class*="badge"],[class*="chip"],[class*="tag"],[class*="status"]{
+  border-radius:999px;border:1px solid var(--line-2);
+  background:rgba(255,255,255,.035);color:var(--fg-2);
+}
+[class*="green"],[class*="success"],[class*="ok"],[class*="active"]{color:#9BD89A;border-color:rgba(124,203,122,.22);background:rgba(124,203,122,.07)}
+[class*="warn"],[class*="pending"]{color:#D6B183;border-color:rgba(232,165,79,.22);background:rgba(232,165,79,.07)}
+
+/* ---- gg-header (shared app header) ---- */
+#gg-header{background:var(--bg-soft);border-bottom:1px solid var(--line)}
+#gg-header a,#gg-header button,#gg-header span,#gg-header div{color:var(--fg-2)}
+#gg-header a:hover,#gg-header button:hover{color:var(--fg)}
+#gg-header [class*="brand"],#gg-header [class*="logo"]{color:var(--fg)}
+#gg-header button,#gg-header a[class*="btn"]{
+  background:rgba(255,255,255,.032);border:1px solid var(--line-2);border-radius:8px;
+}
+#gg-header [class*="active"],#gg-header [aria-current]{color:var(--copper)}
+
+/* ---- nav links ---- */
+.nav a,.nav button,.topbar a,.topbar button,header a,header button{color:var(--fg-2)}
+.nav a:hover,.topbar a:hover,header a:hover{color:var(--fg)}
+
+/* ============================================================
+   O59 SWEEP — last green remnants -> copper (visible surfaces)
+   Root paints first, overlay wins cascade: these settle final.
+   ============================================================ */
+/* pricing: plan card hover + CTA borders still read green */
+.plan,[class*="plan"]{border-color:var(--line-2) !important}
+.plan:hover{border-color:rgba(232,165,79,.45) !important;box-shadow:0 24px 60px -30px rgba(232,165,79,.35)}
+.plan.featured,.plan.popular{border-color:rgba(232,165,79,.40) !important}
+/* profile: avatar + progress bar + hover accents */
+.avatar{background:linear-gradient(135deg,#F2BC73,#E8A54F 55%,#C97B3C) !important;color:#1B1206 !important}
+.bar i{background:linear-gradient(90deg,#C97B3C,#E8A54F) !important}
+.bitem:hover{border-color:rgba(232,165,79,.45) !important}
+/* team: invite/status chips painted by [class*=ok]/[class*=green] above */
+/* billing/accept-invite/buttons inherit global [type=submit]/[class*=primary] rules */
+
+/* ============================================================
+   O59F — AUTH CARDS: visible dark panel + copper input frames
+   (anti-white-line: .card{background:var(--bg)} above kills the
+   inline panel tone; settle it here, last in cascade)
+   ============================================================ */
+.card{background:#101216 !important;border-color:rgba(232,165,79,.16) !important}
+.card form input{border-color:rgba(232,165,79,.26) !important}
+.card form input:focus{border-color:rgba(232,165,79,.62) !important}
+input::placeholder,textarea::placeholder{color:#5F626B !important;opacity:1}
+.msg.err{background:rgba(232,105,79,.10) !important;color:#E88A6F !important;border:1px solid rgba(232,105,79,.28)}
+.msg.ok{background:rgba(232,165,79,.08) !important;color:#F3C583 !important;border:1px solid rgba(232,165,79,.25)}
+
+/* ---- reduced motion ---- */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition-duration:.001ms !important;animation-duration:.001ms !important}
+}
+
+/* ============================================================
+   WORKSHOP BRIDGE (O50) — remap workshop light vars to Style C
+   The workshop defines its own palette in :root; this block
+   overrides those vars AFTER its styles load (overlay is last).
+   ============================================================ */
+:root{
+  --bg:#08090A !important;
+  --bg-2:#0B0C0E !important;
+  --surface:#0E0F12 !important;
+  --surface-2:#111216 !important;
+  --ink:#F4F4F5 !important;
+  --muted:#A1A1AA !important;
+  --faint:#8B8B95 !important;
+  --hair:rgba(255,255,255,.10) !important;
+  --hair-soft:rgba(255,255,255,.06) !important;
+  --accent:#E8A54F !important;
+  --accent-bright:#F3C583 !important;
+  --accent-ink:#1B1206 !important;
+  --accent-soft:rgba(232,165,79,.10) !important;
+  --pill:#E8A54F !important;
+  --pill-ink:#1B1206 !important;
+  --danger:#E8694F !important;
+  --ok:#7CCB7A !important;
+  --mint:#7CCB7A !important;
+  --mood-goal:#3E5A8C !important;
+  --mood-goal-soft:rgba(94,124,180,.12) !important;
+  --mood-make:#7CCB7A !important;
+  --mood-make-soft:rgba(124,203,122,.10) !important;
+  --mood-publish:#E8A54F !important;
+  --mood-publish-soft:rgba(232,165,79,.12) !important;
+}
+
+/* workshop surfaces */
+body, .land, .topbar, .card, .panel, .sheet, .modal, .goal-side, .post-card{
+  background:var(--bg);
+}
+.topbar, header.appbar, .app-header{background:rgba(11,12,14,.92);border-bottom:1px solid var(--hair)}
+.card,.panel,.sheet,.modal,.goal-side,.post-card{
+  border-color:var(--hair) !important;color:var(--ink);
+}
+h1,h2,h3,h4,.land-h1,.goal-title{color:var(--ink) !important}
+.mut,.faint,.land-lede,.hint,.tiny{color:var(--muted) !important}
+
+/* POST CARD BUTTONS — visible frames in Style C (O50 task 1) */
+.btn-mini{
+  background:rgba(255,255,255,.03) !important;
+  color:#C9C9D1 !important;
+  border:1px solid rgba(255,255,255,.14) !important;
+  font-weight:500;
+}
+.btn-mini:hover{border-color:rgba(232,165,79,.45) !important;color:#F4F4F5 !important}
+.post-tools .btn-mini.approve{
+  background:rgba(124,203,122,.08) !important;
+  color:#9BD89A !important;
+  border:1px solid rgba(124,203,122,.35) !important;
+}
+.post-tools .btn-mini.approve:hover{border-color:rgba(124,203,122,.6) !important}
+.post-tools .btn-mini.publish{
+  background:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48) !important;
+  color:#1B1206 !important;
+  border:1px solid rgba(255,255,255,.16) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 8px 22px -10px rgba(232,165,79,.55);
+}
+.post-tools .btn-mini.publish:disabled{opacity:.45;transform:none;box-shadow:none}
+.post-tools .btn-mini.danger{
+  background:rgba(232,105,79,.07) !important;
+  color:#E88A6F !important;
+  border:1px solid rgba(232,105,79,.38) !important;
+}
+.post-tools .btn-mini.danger:hover{border-color:rgba(232,105,79,.65) !important}
+.approve-status{color:#9BD89A !important}
+.count-btn{color:var(--muted) !important}
+.count-btn[aria-pressed="true"]{color:#E8A54F !important}
+.btn-primary{background:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48) !important;color:#1B1206 !important;border-color:rgba(255,255,255,.16) !important}
+.btn-quiet{background:rgba(255,255,255,.032) !important;color:#C9C9D1 !important;border-color:rgba(255,255,255,.10) !important}
+.btn-quiet:hover{color:#F4F4F5 !important;border-color:rgba(255,255,255,.17) !important}
+textarea,input,.field,textarea.goal{background:var(--surface-2) !important;color:var(--ink) !important;border-color:var(--hair) !important}
+
+/* ============================================================
+   POST CARD BOTTOM (O55) — dedicated meta + actions containers.
+   .post-actions is its own flex row pinned to the card bottom;
+   it wraps INSIDE itself, buttons never float above the body.
+   ============================================================ */
+.post-card .post-meta{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  padding:10px 16px 0;
+}
+.post-card .post-meta .post-no{font-family:ui-monospace,Consolas,monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8B8B95}
+.post-card .post-actions{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  border-top:1px solid rgba(255,255,255,.06);
+  padding:12px 16px 14px;margin-top:auto;
+}
+.post-card .post-actions:empty{display:none}
+.post-card .post-actions .spacer{flex:1}
+.post-actions .btn-mini{margin:0}
+@media(max-width:480px){
+  .post-card .post-actions{gap:6px;padding:10px 12px 12px}
+  .post-actions .btn-mini{padding:6px 11px;font-size:12.5px}
+}
+
+/* ============================================================
+   GOAL RESIZE (O57) — «Какую цель ты хочешь достичь?» on /app
+   Native resize handle guaranteed; 3..10 rows bounds.
+   ============================================================ */
+textarea#goal{
+  resize: vertical !important;
+  min-height: calc(3 * 1.55em + 28px) !important;
+  max-height: calc(10 * 1.55em + 28px) !important;
+  overflow-y: auto;
+}
+@media(max-width:640px){
+  textarea#goal{ min-height: calc(3 * 1.55em + 26px); max-height: calc(10 * 1.55em + 26px); }
+}

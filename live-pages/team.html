@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <title>Команда — GOOD Growth</title>
+  <style>
+  :root{
+    --pg-bg:#08090A; --pg-surface:#0E0F12; --pg-surface2:#111216;
+    --pg-line:rgba(255,255,255,.06); --pg-line2:rgba(255,255,255,.10);
+    --pg-fg:#F4F4F5; --pg-fg2:#A1A1AA; --pg-fg3:#8B8B95;
+    --pg-copper:#E8A54F; --pg-copper-lt:#F3C583; --pg-copper-dp:#C97B3C;
+    --pg-grad:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);
+    --pg-ink:#1B1206;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--pg-bg);color:var(--pg-fg);font:16px/1.6 'Segoe UI',Tahoma,sans-serif}
+  .wrap{max-width:1120px;margin:0 auto;padding:28px 22px 60px}
+  .back{color:var(--pg-fg3);text-decoration:none;font-size:14px}
+  .back:hover{color:var(--pg-copper)}
+  h1{font:400 32px/1.15 Georgia,serif;margin:14px 0 8px}
+  .sub{color:var(--pg-fg2);margin:0 0 26px;max-width:56ch}
+  .roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:30px}
+  .role{background:var(--pg-surface);border:1px solid var(--pg-line2);border-radius:12px;padding:14px 16px}
+  .role h3{font:600 15px/1.3 inherit;margin:0 0 4px;color:var(--pg-copper)}
+  .role p{margin:0;color:var(--pg-fg2);font-size:13.5px}
+  .form{background:var(--pg-surface);border:1px solid var(--pg-line2);border-radius:12px;padding:18px;margin-bottom:26px}
+  .form label{display:block;font:500 12px/1 Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--pg-fg3);margin:0 0 8px}
+  .form input,.form select{width:100%;background:var(--pg-surface2);color:var(--pg-fg);border:1px solid var(--pg-line2);border-radius:8px;padding:12px 14px;font:inherit;margin-bottom:14px}
+  .form input:focus,.form select:focus{outline:2px solid rgba(232,165,79,.55);border-color:var(--pg-copper)}
+  .btn{padding:12px 22px;border-radius:8px;font:600 14px/1 inherit;cursor:pointer;border:1px solid rgba(255,255,255,.16);background:var(--pg-grad);color:var(--pg-ink);transition:box-shadow .2s ease,transform 150ms cubic-bezier(.22,1,.36,1)}
+  .btn:hover{box-shadow:0 10px 26px -10px rgba(232,165,79,.55);transform:translateY(-1px)}
+  .btn:disabled{opacity:.55;cursor:wait}
+  .status{min-height:22px;font:13px/1.4 Consolas,monospace;color:var(--pg-fg2);margin:10px 0 0}
+  .err{color:#F3C583}
+  table{width:100%;border-collapse:collapse;background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:12px;overflow:hidden}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--pg-line);font-size:14.5px}
+  th{font:500 11.5px/1 Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--pg-fg3);background:var(--pg-surface2)}
+  tr:last-child td{border-bottom:0}
+  .role-select{background:var(--pg-surface2);color:var(--pg-fg);border:1px solid var(--pg-line2);border-radius:8px;padding:6px 10px;font:inherit;font-size:13.5px}</style>
+<link rel="stylesheet" href="/style-c.css"></head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/partner">← К брендам</a> · <a class="back" href="/partner/info">Партнёрам</a> · <a class="back" href="/partner/analytics">Аналитика</a>
+    <h1>Команда</h1>
+    <p class="sub">Помощники с ролями. Каждый видит бренды, но может делать только то, что разрешено его ролью. Добавишь почту — помощнику сразу уйдёт приглашение со ссылкой на вход.</p>
+
+    <div class="roles">
+      <div class="role"><h3>Создатель</h3><p>Готовит цели, посты и картинки. Не публикует.</p></div>
+      <div class="role"><h3>Утверждающий</h3><p>Проверяет черновики перед публикацией. Правит и возвращает.</p></div>
+      <div class="role"><h3>Публикатор</h3><p>Нажимает «Опубликовать». Отвечает за канал.</p></div>
+    </div>
+
+    <form class="form" id="teamForm" novalidate>
+      <label for="mname">Имя помощника</label>
+      <input id="mname" type="text" maxlength="80" placeholder="Например: Анна" autocomplete="off" />
+      <label for="memail">Email — на него уйдёт приглашение (по желанию)</label>
+      <input id="memail" type="email" maxlength="120" placeholder="anna@example.com" autocomplete="off" />
+      <label for="mrole">Роль</label>
+      <select id="mrole">
+        <option value="creator">Создатель</option>
+        <option value="approver">Утверждающий</option>
+        <option value="publisher">Публикатор</option>
+      </select>
+      <button class="btn" id="save" type="submit">Добавить в команду</button>
+      <p class="status" id="formStatus" role="status" aria-live="polite"></p>
+    </form>
+
+    <div id="tableWrap"></div>
+    <p class="note">Роли работают: Создатель не видит «Опубликовать», Утверждающий утверждает черновики, Публикатор публикует. Связь роли с аккаунтом — по email помощника (владелец без email в команде — полные права). Приглашение: помощник открывает ссылку, задаёт пароль — аккаунт создан и роль уже его. Пока SMTP-порты закрыты хостером (тикет №12847443), копия письма приходит владельцу в Telegram.</p>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const roleNames = { creator: 'Создатель', approver: 'Утверждающий', publisher: 'Публикатор' };
+    const statusText = (t, isErr) => { const el = $('formStatus'); el.textContent = t || ''; el.className = 'status' + (isErr ? ' err' : ''); };
+
+    async function load() {
+      try {
+        const list = await (await fetch('/api/team')).json();
+        const w = $('tableWrap');
+        if (!list.length) { w.innerHTML = '<div class="empty">Пока один в команде. Добавь помощника — делегируй рутину.</div>'; return; }
+        w.innerHTML = '<table><thead><tr><th>Имя</th><th>Email</th><th>Роль</th><th>Приглашение</th><th></th></tr></thead><tbody>' +
+          list.map((m) =>
+            '<tr><td>' + esc(m.name) + '</td><td class="muted">' + (m.email ? esc(m.email) : '—') + '</td>' +
+            '<td><select class="role-select" data-id="' + m.id + '">' +
+            Object.entries(roleNames).map(([k, v]) => '<option value="' + k + '"' + (k === m.role ? ' selected' : '') + '>' + v + '</option>').join('') +
+            '</select></td>' +
+            '<td class="inv">' + (m.invite_status === 'pending'
+              ? '<span class="pend">Ожидает подтверждения</span><button class="resend" data-resend="' + m.id + '">Отправить повторно</button>'
+              : (m.invite_status === 'accepted' ? '<span class="ok">✓ Принято</span>' : '<button class="resend" data-resend="' + m.id + '" title="Выслать приглашение на email участника">Пригласить</button>')) + '</td>' +
+            '<td><button class="del" data-del="' + m.id + '" data-name="' + esc(m.name) + '" title="Убрать из команды">×</button></td></tr>'
+          ).join('') + '</tbody></table>';
+      } catch (e) { $('tableWrap').innerHTML = '<div class="empty">Ошибка загрузки: ' + esc(e.message) + '</div>'; }
+    }
+
+    $('teamForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = $('mname').value.trim();
+      if (name.length < 2) { statusText('Имя — хотя бы два символа.', true); return; }
+      $('save').disabled = true;
+      try {
+        const r = await fetch('/api/team', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email: $('memail').value.trim(), role: $('mrole').value }) });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.error || 'Ошибка');
+        statusText(d.invite_link ? (name + ' в команде. Приглашение сформировано: копия письма ушлётся в Telegram владельца, ссылка действует и без письма.') : (name + ' добавлен(а) в команду (email не указан — приглашение не отправляется).'));
+        $('mname').value = ''; $('memail').value = '';
+        load();
+      } catch (err) { statusText(err.message, true); }
+      finally { $('save').disabled = false; }
+    });
+
+    document.addEventListener('change', async (e) => {
+      const sel = e.target.closest('.role-select');
+      if (sel) { await fetch('/api/team/' + sel.dataset.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ role: sel.value }) }); }
+    });
+    document.addEventListener('click', async (e) => {
+      const rs = e.target.closest('[data-resend]');
+      if (rs) {
+        rs.disabled = true;
+        try {
+          const r = await fetch('/api/team/' + rs.dataset.resend + '/resend', { method: 'POST' });
+          const d = await r.json();
+          if (!r.ok) { rs.disabled = false; alert(d.error || 'Ошибка'); return; }
+          statusText('Приглашение отправлено заново.');
+          load();
+        } catch (err) { rs.disabled = false; }
+        return;
+      }
+      const del = e.target.closest('[data-del]');
+      if (del) {
+        if (!confirm('Убрать «' + del.dataset.name + '» из команды?')) return;
+        await fetch('/api/team/' + del.dataset.del, { method: 'DELETE' });
+        load();
+      }
+    });
+
+    load();
+  </script>
+<script src="/gg-header.js" defer></script>
+</body>
+</html>

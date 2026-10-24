@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <title>Тариф — GOOD Growth</title>
+  <style>
+  :root{
+    --pg-bg:#08090A; --pg-surface:#0E0F12; --pg-surface2:#111216;
+    --pg-line:rgba(255,255,255,.06); --pg-line2:rgba(255,255,255,.10);
+    --pg-fg:#F4F4F5; --pg-fg2:#A1A1AA; --pg-fg3:#8B8B95;
+    --pg-copper:#E8A54F; --pg-copper-lt:#F3C583; --pg-copper-dp:#C97B3C;
+    --pg-grad:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);
+    --pg-ink:#1B1206;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--pg-bg);color:var(--pg-fg);font:16px/1.6 'Segoe UI',Tahoma,sans-serif}
+  .wrap{max-width:1120px;margin:0 auto;padding:34px 22px 70px}
+  .back{color:var(--pg-fg3);text-decoration:none;font-size:14px}
+  .back:hover{color:var(--pg-copper)}
+  .cols{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}
+  .panel{background:var(--pg-surface);border:1px solid var(--pg-line2);border-radius:12px;padding:26px 26px 24px}
+  .panel-title{font:500 11.5px/1 Consolas,monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--pg-copper);margin:0 0 16px}
+  h1{font:400 32px/1.15 Georgia,serif;margin:0 0 6px}
+  .price{font:600 40px/1 Georgia,serif;margin:12px 0 2px;color:var(--pg-fg)}
+  .price small{font:400 15px/1 inherit;color:var(--pg-fg3)}
+  .badge{display:inline-block;vertical-align:middle;margin-left:10px;background:rgba(232,165,79,.12);color:var(--pg-copper-lt);border:1px solid rgba(232,165,79,.35);font-size:12px;font-weight:600;padding:3px 12px;border-radius:999px}
+  .feat{list-style:none;margin:0;padding:0}
+  .feat li{margin:0;padding:9px 0 9px 26px;border-top:1px solid var(--pg-line);position:relative;color:var(--pg-fg2);font-size:15px}
+  .feat li:first-child{border-top:0}
+  .feat li::before{content:"\2713";position:absolute;left:2px;top:9px;color:var(--pg-copper);font-weight:800}
+  .cta{display:block;width:100%;text-align:center;padding:15px 34px;border-radius:8px;background:var(--pg-grad);color:var(--pg-ink);font:700 16px/1 inherit;text-decoration:none;border:1px solid rgba(255,255,255,.16);cursor:pointer;transition:box-shadow .2s ease,transform 150ms cubic-bezier(.22,1,.36,1)}
+  .cta:hover{box-shadow:0 10px 26px -10px rgba(232,165,79,.55);transform:translateY(-1px)}
+  .cta:active{transform:translateY(0) scale(.995)}
+  .cta:disabled{opacity:.6;cursor:wait;transform:none;box-shadow:none}
+  .swap{display:inline-block;margin-top:14px;color:var(--pg-fg3);font-size:14px;text-decoration:none}
+  .swap:hover{color:var(--pg-copper);text-decoration:underline}
+  .pay-note{color:var(--pg-fg3);font-size:12.5px;margin:12px 0 0;display:flex;align-items:center;gap:8px;justify-content:center}
+  .lock{display:inline-block;width:12px;height:14px;border:1.5px solid var(--pg-copper);border-radius:3px;position:relative;flex:0 0 auto}
+  .lock::before{content:"";position:absolute;left:2px;top:-7px;width:6px;height:7px;border:1.5px solid var(--pg-copper);border-bottom:0;border-radius:6px 6px 0 0}
+  .msg{margin-top:16px;font-size:14.5px;border-radius:10px;padding:12px 16px;display:none;line-height:1.5}
+  .msg.show{display:block;background:rgba(232,165,79,.10);color:var(--pg-copper-lt);border:1px solid rgba(232,165,79,.28)}
+  .msg b{color:var(--pg-fg)}
+  .msg a{color:var(--pg-copper);font-weight:600}
+  .notfound{background:rgba(232,105,79,.08);color:#E88A6F;border:1px solid rgba(232,105,79,.3);border-radius:12px;padding:22px 24px}
+  .notfound a{color:#E88A6F;font-weight:600}
+  .field{margin-bottom:14px}
+  .field label{display:block;font:500 11.5px/1 Consolas,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--pg-fg3);margin:0 0 7px}
+  .field input{width:100%;padding:12px 14px;border:1px solid var(--pg-line2);border-radius:8px;background:var(--pg-surface2);color:var(--pg-fg);font:inherit;font-size:15px;transition:border-color .15s ease,box-shadow .15s ease}
+  .field input:focus{outline:none;border-color:rgba(232,165,79,.55);box-shadow:0 0 0 3px rgba(232,165,79,.14)}
+  .field input::placeholder{color:#5F626B}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .cardline{background:var(--pg-surface2);border:1px solid var(--pg-line2);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;color:var(--pg-fg2);font-size:14px}
+  .chipx{width:34px;height:22px;border-radius:4px;background:var(--pg-grad);flex:0 0 auto;position:relative}
+  .chipx::before{content:"";position:absolute;left:6px;top:9px;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);box-shadow:7px 0 0 rgba(255,255,255,.25)}
+  @media (max-width:820px){.cols{grid-template-columns:1fr}}</style>
+<link rel="stylesheet" href="/style-c.css"></head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/pricing">← К выбору тарифа</a>
+    <div class="cols" id="cols">
+      <section class="panel" id="planBox"><p class="back">Загружаю тариф…</p></section>
+      <section class="panel" id="payBox">
+        <p class="panel-title">Оплата</p>
+        <div class="cardline"><span class="chipx"></span><span>Оплата банковской картой — Visa · Mastercard · МИР</span></div>
+        <form id="payForm" novalidate>
+          <div class="field"><label for="cardNum">Номер карты</label><input id="cardNum" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" maxlength="19"></div>
+          <div class="frow">
+            <div class="field"><label for="cardExp">Срок</label><input id="cardExp" inputmode="numeric" autocomplete="cc-exp" placeholder="ММ/ГГ" maxlength="5"></div>
+            <div class="field"><label for="cardCvc">CVC</label><input id="cardCvc" inputmode="numeric" autocomplete="cc-csc" placeholder="•••" maxlength="3" type="password"></div>
+          </div>
+          <div class="field"><label for="payEmail">Email для чека</label><input id="payEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+          <button class="cta" id="payBtn" type="submit">Оплатить</button>
+          <p class="pay-note"><span class="lock"></span>Платёж защищён. Данные карты не сохраняются.</p>
+        </form>
+        <div class="msg" id="payMsg"></div>
+      </section>
+    </div>
+  </div>
+<script>
+(function(){
+  var PLANS = {
+    start:     { n:'Старт',     p:'0 ₽',    f:['1 бренд','2 канала','1 пост в день','Базовая аналитика'], free:true },
+    growth:    { n:'Рост',      p:'490 ₽',  f:['1 бренд','5 каналов','4 поста в день','Базовая аналитика'] },
+    pro:       { n:'Про',       p:'990 ₽',  f:['3 бренда','Каналы безлимит','10 постов в день','Полная аналитика','Приоритетная поддержка'] },
+    agency:    { n:'Агентство', p:'2 990 ₽',f:['10 брендов','Каналы безлимит','Посты безлимит','Полная аналитика','Приоритетная поддержка'] },
+    unlimited: { n:'Безлимит',  p:'5 990 ₽',f:['Бренды безлимит','Каналы безлимит','Посты безлимит','Полная аналитика','Приоритетная поддержка'] }
+  };
+  var ALIAS = { rost:'growth' };
+  var sel = new URLSearchParams(location.search).get('plan') || '';
+  sel = ALIAS[sel] || sel;
+
+  function esc(s){ var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+  function digits(v){ return v.replace(/\D/g, ''); }
+  function luhnOk(num){
+    if (num.length < 12) return false;
+    var sum = 0, alt = false;
+    for (var i = num.length - 1; i >= 0; i--) {
+      var d = parseInt(num.charAt(i), 10);
+      if (alt) { d *= 2; if (d > 9) d -= 9; }
+      sum += d; alt = !alt;
+    }
+    return sum % 10 === 0;
+  }
+  function fmtCard(v){
+    var d = digits(v).slice(0, 16);
+    return d.replace(/(\d{4})(?=\d)/g, '$1 ');
+  }
+  function fmtExp(v){
+    var d = digits(v).slice(0, 4);
+    if (d.length >= 3) return d.slice(0, 2) + '/' + d.slice(2);
+    return d;
+  }
+  function render(code, cur){
+    var box = document.getElementById('planBox');
+    var pl = PLANS[code];
+    if (!pl) {
+      document.getElementById('cols').innerHTML = '<section class="panel"><div class="notfound"><b>Такого тарифа нет.</b> Вернись на <a href="/pricing">выбор тарифа</a> и выбери заново.</div></section>';
+      return;
+    }
+    var badge = (cur && cur === code) ? '<span class="badge">Ваш текущий тариф</span>' : '';
+    var h = '<p class="panel-title">Что вы получаете</p>';
+    h += '<h1>' + esc(pl.n) + badge + '</h1>';
+    h += '<div class="price">' + esc(pl.p) + '<small> /мес</small></div>';
+    h += '<ul class="feat">' + pl.f.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+    h += '<a class="swap" href="/pricing">Сменить тариф</a>';
+    box.innerHTML = h;
+    var pb = document.getElementById('payBtn');
+    var title = document.getElementById('payBtn');
+    pb.textContent = pl.free ? 'Начать бесплатно' : ('Оплатить ' + esc(pl.p) + ' /мес');
+    document.getElementById('payForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      var m = document.getElementById('payMsg');
+      var num = digits(document.getElementById('cardNum').value);
+      var exp = document.getElementById('cardExp').value;
+      var cvc = digits(document.getElementById('cardCvc').value);
+      var em = document.getElementById('payEmail').value.trim();
+      if (pl.free) {
+        m.innerHTML = '<b>Готово!</b> Тариф «' + esc(pl.n) + '» активирован. Мастерская ждёт: <a href="/app">открыть</a>.';
+        m.classList.add('show');
+        return;
+      }
+      if (!luhnOk(num)) { m.innerHTML = '<b>Проверьте номер карты</b> — похоже, есть опечатка.'; m.classList.add('show'); return; }
+      if (!/^\d{2}\/\d{2}$/.test(exp)) { m.innerHTML = '<b>Проверьте срок действия</b> — формат ММ/ГГ.'; m.classList.add('show'); return; }
+      if (cvc.length !== 3) { m.innerHTML = '<b>Проверьте CVC</b> — три цифры на обороте карты.'; m.classList.add('show'); return; }
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { m.innerHTML = '<b>Проверьте email</b> — на него придёт чек.'; m.classList.add('show'); return; }
+      pb.disabled = true;
+      pb.textContent = 'Обрабатываем платёж…';
+      fetch('/api/billing/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ plan: code, card: num, exp: exp, email: em })
+      }).then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); })
+        .then(function(res){
+          pb.disabled = false;
+          pb.textContent = 'Оплатить ' + esc(pl.p) + ' /мес';
+          if (res.ok) {
+            m.innerHTML = '<b>Спасибо! Платёж принят.</b> Мы свяжемся с вами для подтверждения оплаты — письмо уже на ' + esc(em) + '.';
+            m.classList.add('show');
+            document.getElementById('payForm').reset();
+          } else {
+            m.innerHTML = '<b>Платёж не прошёл.</b> ' + esc((res.j && res.j.error) || 'Попробуйте ещё раз или напишите на hello@growth.go-ood.com.');
+            m.classList.add('show');
+          }
+        })
+        .catch(function(){
+          pb.disabled = false;
+          pb.textContent = 'Оплатить ' + esc(pl.p) + ' /мес';
+          m.innerHTML = '<b>Сеть недоступна.</b> Попробуйте ещё раз — или напишите на <a href="mailto:hello@growth.go-ood.com">hello@growth.go-ood.com</a>.';
+          m.classList.add('show');
+        });
+    });
+  }
+
+  fetch('/api/me', { credentials:'same-origin' })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var u = d && d.user;
+      var cur = u ? (u.plan || 'start') : null;
+      if (!sel) sel = cur || 'start';
+      render(sel, cur);
+    })
+    .catch(function(){
+      if (!sel) sel = 'start';
+      render(sel, null);
+    });
+})();
+</script>
+<script src="/gg-header.js" defer></script>
+</body>
+</html>

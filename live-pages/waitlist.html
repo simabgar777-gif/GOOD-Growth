@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <title>Лист ожидания партнёров — GOOD Growth</title>
+  <style>
+    :root { --bg:#08090A; --surface:#0E0F12; --surface2:#111216; --ink:#F4F4F5; --muted:#A1A1AA;
+      --faint:#8B8B95; --hair:rgba(255,255,255,.10); --mint:#E8A54F; --copper-lt:#F3C583; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 'Segoe UI',Tahoma,sans-serif; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 40px 22px 70px; }
+    .back { color: var(--faint); text-decoration: none; font-size: 14px; }
+    .back:hover { color: var(--copper-lt); }
+    h1 { font: 400 32px/1.15 Georgia, serif; margin: 16px 0 10px; color: var(--ink); }
+    .sub { color: var(--muted); margin: 0 0 26px; }
+    .card { background: #101216; border: 1px solid rgba(232,165,79,.16); border-radius: 14px; padding: 24px; max-width: 680px; box-shadow: 0 0 0 1px rgba(255,255,255,.03), 0 40px 90px -50px rgba(0,0,0,.9); }
+    label { display: block; font: 500 12px/1 'Consolas',monospace; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); margin: 0 0 8px; }
+    input { width: 100%; background: #111216; color: var(--ink); border: 1px solid rgba(232,165,79,.28); border-radius: 10px; padding: 13px 14px; font: inherit; margin-bottom: 14px; }
+    input::placeholder { color: #5F626B; }
+    input:focus { outline: none; border-color: rgba(232,165,79,.65); box-shadow: 0 0 0 3px rgba(232,165,79,.15); }
+    .btn { width: 100%; padding: 14px; border-radius: 10px; background: linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48); color: #1B1206; font: 600 16px/1 inherit; border: 1px solid rgba(255,255,255,.16); cursor: pointer; box-shadow: inset 0 1px 0 rgba(255,255,255,.32),0 10px 26px -10px rgba(232,165,79,.55); transition: transform 150ms cubic-bezier(.22,1,.36,1), background-color 150ms linear; }
+    .btn:hover { background: linear-gradient(180deg,#F7C987,#EDAB5D 55%,#E8A54F); transform: translateY(-1px); }
+    .btn:disabled { opacity: .55; cursor: wait; transform: none; }
+    .status { min-height: 24px; font: 13.5px/1.5 'Consolas',monospace; color: var(--muted); margin: 12px 0 0; }
+    .err { color: #E88A6F; }
+    .ok { color: #9BD89A; }
+    .perks { margin: 0 0 24px; padding-left: 18px; color: var(--muted); font-size: 14.5px; }
+    .perks li { margin-bottom: 6px; }
+    .perks b { color: var(--ink); }
+  </style>
+<link rel="stylesheet" href="/style-c.css"></head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/partner">← К брендам</a> · <a class="back" href="/">← На лендинг</a>
+    <h1>Лист ожидания партнёров</h1>
+    <p class="sub">Партнёрский режим открываем волнами — по мере готовности поддержки. Оставь email — позовём в первой волне.</p>
+    <div class="card" id="formCard">
+      <ul class="perks">
+        <li><b>Первая волна — бесплатно на 3 месяца</b> (без комиссии и подписки)</li>
+        <li><b>Личный разбор</b> твоих брендов с основателем</li>
+        <li><b>Голос в дорожной карте</b> — что строить следующим</li>
+      </ul>
+      <label for="wemail">Твой email</label>
+      <input id="wemail" type="email" maxlength="120" placeholder="anna@agency.ru" autocomplete="email" />
+      <label for="wname">Как к тебе обращаться (по желанию)</label>
+      <input id="wname" type="text" maxlength="80" placeholder="Имя или название агентства" autocomplete="off" />
+      <button class="btn" id="join" type="button">Занять место в первой волне</button>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    $('join').addEventListener('click', async () => {
+      const email = $('wemail').value.trim();
+      if (!/^[A-Za-z0-9_'+\-\.]+@[A-Za-z0-9][A-Za-z0-9\-]*(\.[A-Za-z0-9\-]+)+$/.test(email)) {
+        status('Проверь email — что-то не так в адресе.', true); return;
+      }
+      $('join').disabled = true;
+      status('Занимаю место…');
+      try {
+        const r = await fetch('/api/waitlist', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, name: $('wname').value.trim() }) });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.error || 'Не получилось. Попробуй позже.');
+        status('✔ Ты в списке! Напишем на ' + email + ' — следи за почтой.', false);
+        $('join').textContent = 'Место занято';
+      } catch (e) { status(e.message, true); $('join').disabled = false; }
+    });
+    function status(t, isErr) { const el = $('status'); el.textContent = t; el.className = 'status' + (isErr ? ' err' : ' ok'); }
+  </script>
+<script src="/gg-header.js" defer></script>
+</body>
+</html>

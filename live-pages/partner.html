@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <title>Мои бренды — GOOD Growth</title>
+  <style>
+  :root{
+    --pg-bg:#08090A; --pg-surface:#0E0F12; --pg-surface2:#111216;
+    --pg-line:rgba(255,255,255,.06); --pg-line2:rgba(255,255,255,.10);
+    --pg-fg:#F4F4F5; --pg-fg2:#A1A1AA; --pg-fg3:#8B8B95;
+    --pg-copper:#E8A54F; --pg-copper-lt:#F3C583; --pg-copper-dp:#C97B3C;
+    --pg-grad:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);
+    --pg-ink:#1B1206;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--pg-bg);color:var(--pg-fg);font:16px/1.6 'Segoe UI',Tahoma,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:28px 22px 60px}
+  .back{color:var(--pg-fg3);text-decoration:none;font-size:14px}
+  .back:hover{color:var(--pg-copper)}
+  h1{font:400 32px/1.15 Georgia,serif;margin:14px 0 8px;letter-spacing:-.01em}
+  .sub{color:var(--pg-fg2);margin:0 0 28px;max-width:52ch}
+  .add-btn{display:block;width:100%;padding:16px;border-radius:8px;cursor:pointer;background:var(--pg-grad);color:var(--pg-ink);border:1px solid rgba(255,255,255,.16);font:600 16px/1 inherit;transition:box-shadow .2s ease,transform 150ms cubic-bezier(.22,1,.36,1),filter .15s ease}
+  .add-btn:hover{box-shadow:0 10px 26px -10px rgba(232,165,79,.55);transform:translateY(-1px)}
+  .add-btn:active{transform:translateY(0)}
+  .add-btn:disabled{opacity:.55;cursor:wait}
+  .form{display:none;background:var(--pg-surface);border:1px solid var(--pg-line2);border-radius:12px;padding:18px;margin-top:16px}
+  .form.open{display:block}
+  .form label{display:block;font:500 12px/1 Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--pg-fg3);margin:0 0 8px}
+  .form input,.form textarea{width:100%;background:var(--pg-surface2);color:var(--pg-fg);border:1px solid var(--pg-line2);border-radius:8px;padding:12px 14px;font:inherit;margin-bottom:14px;resize:vertical}
+  .form input:focus,.form textarea:focus{outline:2px solid rgba(232,165,79,.55);border-color:var(--pg-copper)}
+  .form .row{display:flex;gap:10px}
+  .btn{padding:11px 20px;border-radius:8px;font:600 14px/1 inherit;cursor:pointer;border:1px solid transparent;transition:box-shadow .2s ease,transform 150ms cubic-bezier(.22,1,.36,1)}
+  .btn-primary{background:var(--pg-grad);color:var(--pg-ink);border-color:rgba(255,255,255,.16)}
+  .btn-primary:hover{box-shadow:0 10px 26px -10px rgba(232,165,79,.55);transform:translateY(-1px)}
+  .btn-primary:disabled{opacity:.55}
+  .btn-quiet{background:transparent;color:var(--pg-fg2);border-color:var(--pg-line2)}
+  .btn-quiet:hover{color:var(--pg-fg);border-color:rgba(232,165,79,.4)}
+  .status-line{min-height:22px;color:var(--pg-fg2);font:13px/1.4 Consolas,monospace;margin:10px 0 0}
+  .err{color:#F3C583}
+  .cards{margin-top:26px;display:grid;gap:14px}
+  .card{background:var(--pg-surface);border:1px solid var(--pg-line2);border-radius:12px;padding:16px 18px;transition:border-color .2s ease}
+  .card:hover{border-color:rgba(232,165,79,.3)}
+  .card-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .card h2{font:500 20px/1.2 Georgia,serif;margin:0}
+  .badge{font:500 11px/1 Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid var(--pg-line2);color:var(--pg-fg3)}
+  .badge.active{color:var(--pg-copper);border-color:var(--pg-copper)}
+  .badge.paused{color:var(--pg-copper-lt);border-color:var(--pg-copper-lt)}
+  .card .meta{color:var(--pg-fg3);font-size:13.5px;margin:6px 0 0}
+  .card .actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .mini{font:500 13px/1 inherit;padding:7px 14px;border-radius:8px;background:transparent;color:var(--pg-fg2);border:1px solid var(--pg-line2);cursor:pointer;transition:color .15s ease,border-color .15s ease}
+  .mini:hover{color:var(--pg-fg);border-color:rgba(232,165,79,.4)}
+  .mini.danger:hover{color:#E88A6F;border-color:#E8694F}
+  .mini.open-link{color:var(--pg-copper);border-color:rgba(232,165,79,.45)}
+  .mini.open-link:hover{background:rgba(232,165,79,.08)}
+  .empty{border:1px dashed var(--pg-line2);border-radius:12px;padding:30px;text-align:center;color:var(--pg-fg3);margin-top:26px}
+  .soon{margin-top:30px;border-top:1px solid var(--pg-line);padding-top:18px;color:var(--pg-fg3);font-size:13.5px}</style>
+<link rel="stylesheet" href="/style-c.css"></head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/">← На лендинг</a> · <a class="back" href="/partner/info">Партнёрам</a> · <a class="back" href="/partner/analytics">Аналитика</a> · <a class="back" href="/partner/team">Команда</a>
+    <h1>Мои бренды</h1>
+    <p class="sub">Ты ведёшь несколько брендов. У каждого — своя стратегия, свои посты, свои каналы. Выбери бренд — и работай в его контексте.</p>
+
+    <button class="add-btn" id="addToggle" type="button">+ Добавить бренд</button>
+    <form class="form" id="brandForm" novalidate>
+      <label for="bname">Название бренда</label>
+      <input id="bname" type="text" maxlength="80" placeholder="«Кофейня Зерно», «Студия Света»…" autocomplete="off" />
+      <label for="bdesc">Короткое описание (по желанию)</label>
+      <textarea id="bdesc" rows="2" maxlength="300" placeholder="Чем занимается бренд — одной фразой"></textarea>
+      <div class="row">
+        <button class="btn btn-primary" id="brandSave" type="submit">Создать бренд</button>
+        <button class="btn btn-quiet" id="brandCancel" type="button">Отмена</button>
+      </div>
+      <p class="status-line" id="formStatus" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="cards" id="cards"></div>
+    <div class="empty" id="empty" hidden>Брендов пока нет. Добавь первый — и начни вести его контент.</div>
+
+    
+    <div class="anthem" style="margin-top:34px;background:var(--surface);border:1px solid var(--hair);border-radius:14px;padding:22px;">
+      <p style="margin:0 0 4px;font:600 11px/1 'Consolas',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--mint)">Наш гимн</p>
+      <h2 style="font:400 24px/1.2 Georgia,serif;margin:0 0 6px">Мост к открытым сердцам</h2>
+      <p style="margin:0 0 14px;color:var(--muted);font-size:14px">Песня GOOD Growth — о том, как тихая мастерская соединяет сердца. Включи громче.</p>
+      <video controls preload="metadata" style="width:100%;max-width:560px;border-radius:10px;display:block" src="/app/anthem.mp4"></video>
+    </div>
+
+    <p class="soon">Скоро: переключатель брендов в мастерской, отдельные каналы на каждый бренд, аналитика по брендам, команда с ролями.</p>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const statusText = (t, isErr) => { const el = $('formStatus'); el.textContent = t || ''; el.className = 'status-line' + (isErr ? ' err' : ''); };
+
+    
+    async function loadChannels(brandId) {
+      const box = document.getElementById('chans-' + brandId);
+      if (!box) return;
+      try {
+        const r = await fetch('/api/brands/' + brandId + '/channels');
+        const list = await r.json();
+        box.innerHTML = list.length
+          ? '<span style="font:500 12px/1 Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)">Каналы:</span> ' +
+            list.map((c) => '<span style="display:inline-flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--hair);border-radius:999px;padding:5px 12px;font-size:13px">' +
+              esc(c.chat_id) + (c.title ? ' · ' + esc(c.title) : '') +
+              ' <button data-delch="' + c.id + '" data-br="' + brandId + '" style="background:none;border:0;color:var(--danger);cursor:pointer;font-size:14px;padding:0">×</button></span>').join(' ')
+          : '<span style="color:var(--faint);font-size:12.5px">Каналы не привязаны — публикация уйдёт в канал по умолчанию.</span>';
+      } catch (e) { box.innerHTML = '<span class="err">ошибка каналов</span>'; }
+    }
+
+    async function addChannel(brandId) {
+      const chat = prompt('chat_id канала для этого бренда (например @imya_kanala или -100…):');
+      if (!chat) return;
+      const title = prompt('Название канала (по желанию):') || '';
+      await fetch('/api/brands/' + brandId + '/channels', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: chat.trim(), title: title.trim() }) });
+      loadChannels(brandId);
+    }
+
+    async function load() {
+      try {
+        const r = await fetch('/api/brands');
+        const list = await r.json();
+        const cards = $('cards');
+        cards.innerHTML = '';
+        $('empty').hidden = list.length > 0;
+        for (const b of list) {
+          const div = document.createElement('div');
+          div.className = 'card';
+          const st = b.status === 'paused' ? 'на паузе' : b.status === 'draft' ? 'черновик' : 'активен';
+          div.innerHTML =
+            '<div class="card-top"><h2>' + esc(b.name) + '</h2><span class="badge ' + esc(b.status) + '">' + st + '</span></div>' +
+            '<p class="meta">Постов: ' + (b.posts_count || 0) + (b.description ? ' · ' + esc(b.description) : '') + '</p>' +
+            '<div class="chans" id="chans-' + b.id + '" style="margin-top:10px"></div>' +
+            '<div class="actions">' +
+            '<a class="mini open-link" href="/app?brand=' + b.id + '" style="text-decoration:none">Открыть</a>' +
+            '<button class="mini" data-channels="' + b.id + '" data-bname="' + esc(b.name) + '">Каналы</button>' +
+            '<button class="mini" data-rename="' + b.id + '" data-name="' + esc(b.name) + '">Переименовать</button>' +
+            '<button class="mini" data-status="' + b.id + '" data-cur="' + esc(b.status) + '">' + (b.status === 'paused' ? 'Включить' : 'Пауза') + '</button>' +
+            '<button class="mini danger" data-del="' + b.id + '" data-name="' + esc(b.name) + '">Удалить</button>' +
+            '<button class="mini" data-addch="' + b.id + '">Каналы</button>' +
+            '</div>';
+          cards.appendChild(div);
+          loadChannels(b.id);
+        }
+      } catch (e) { statusText('Не удалось загрузить бренды: ' + e.message, true); }
+    }
+
+    $('addToggle').addEventListener('click', () => {
+      const f = $('brandForm');
+      f.classList.toggle('open');
+      if (f.classList.contains('open')) $('bname').focus();
+    });
+    $('brandCancel').addEventListener('click', () => { $('brandForm').classList.remove('open'); statusText(''); });
+
+    $('brandForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = $('bname').value.trim();
+      if (name.length < 2) { statusText('Название — хотя бы два символа.', true); return; }
+      $('brandSave').disabled = true;
+      statusText('Создаю бренд…');
+      try {
+        const r = await fetch('/api/brands', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, description: $('bdesc').value.trim() }) });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.error || 'Ошибка');
+        statusText('Бренд «' + name + '» создан.');
+        $('bname').value = ''; $('bdesc').value = '';
+        $('brandForm').classList.remove('open');
+        await load();
+      } catch (err) { statusText(err.message, true); }
+      finally { $('brandSave').disabled = false; }
+    });
+
+    $('cards').addEventListener('click', async (e) => {
+      const del = e.target.closest('[data-del]');
+      const ren = e.target.closest('[data-rename]');
+      const st = e.target.closest('[data-status]');
+      if (del) {
+        if (!confirm('Удалить бренд «' + del.dataset.name + '»? Его цели и посты останутся, но отвяжутся от бренда.')) return;
+        await fetch('/api/brands/' + del.dataset.del, { method: 'DELETE' });
+        load();
+      } else if (ren) {
+        const nn = prompt('Новое название бренда:', ren.dataset.name);
+        if (nn && nn.trim().length >= 2) { await fetch('/api/brands/' + ren.dataset.rename, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: nn.trim() }) }); load(); }
+      } else if (st) {
+        await fetch('/api/brands/' + st.dataset.status, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: st.dataset.cur === 'paused' ? 'active' : 'paused' }) });
+        load();
+      }
+    });
+
+    load();
+  </script>
+
+<div id="ch-modal" style="display:none;position:fixed;inset:0;background:rgba(8,10,14,.72);z-index:90;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)closeChModal()">
+  <div style="background:var(--surface,#12151b);border:1px solid var(--hair,#2a2f3a);border-radius:16px;max-width:640px;width:100%;max-height:86vh;overflow:auto;padding:26px">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <h3 id="ch-title" style="margin:0;font-size:19px">Каналы бренда</h3>
+      <button onclick="closeChModal()" style="background:none;border:0;color:var(--faint,#8b93a3);font-size:22px;cursor:pointer;line-height:1">×</button>
+    </div>
+    <div id="ch-connected" style="margin-top:18px"></div>
+    <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+      <button id="ch-add" class="mini" style="border-color:var(--mint);color:var(--mint)">+ Добавить Telegram-канал</button>
+    </div>
+    <div style="margin-top:22px;font:600 12px/1 Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint,#8b93a3)">Все соцсети GOOD Growth</div>
+    <div id="ch-grid" style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px"></div>
+    <p style="margin-top:16px;font-size:12.5px;color:var(--faint,#8b93a3)">Серые — в разработке: OAuth-подключение откроем в ближайших спринтах. Почти все соцсети будут в GOOD Growth.</p>
+  </div>
+</div>
+<script>
+(function(){
+  var NETS = [
+    {n:'Telegram', s:'ok', i:'✈'},
+    {n:'VK', s:'soon', i:'🅥'},
+    {n:'Pinterest', s:'soon', i:'P'},
+    {n:'Facebook', s:'soon', i:'f'},
+    {n:'Instagram', s:'soon', i:'◙'},
+    {n:'X (Twitter)', s:'soon', i:'𝕏'},
+    {n:'LinkedIn', s:'soon', i:'in'},
+    {n:'YouTube', s:'soon', i:'▶'},
+    {n:'TikTok', s:'soon', i:'♪'},
+    {n:'Одноклассники', s:'soon', i:'ок'}
+  ];
+  var curBrand = null;
+  function esc(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  window.openChModal = function(id, name){
+    curBrand = id;
+    document.getElementById('ch-title').textContent = 'Каналы — ' + name;
+    document.getElementById('ch-modal').style.display = 'flex';
+    loadCh();
+  };
+  window.closeChModal = function(){
+    document.getElementById('ch-modal').style.display = 'none';
+  };
+  async function loadCh(){
+    var box = document.getElementById('ch-connected');
+    box.innerHTML = '<span style="color:var(--faint,#8b93a3);font-size:13px">Загружаю…</span>';
+    try {
+      var r = await fetch('/api/brands/' + curBrand + '/channels');
+      var list = await r.json();
+      var arr = Array.isArray(list) ? list : (list.channels || []);
+      box.innerHTML = arr.length
+        ? '<div style="font:600 12px/1 Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint,#8b93a3);margin-bottom:8px">Подключённые</div>' +
+          arr.map(function(c){
+            return '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--surface2,#171b22);border:1px solid var(--hair,#2a2f3a);border-radius:10px;padding:10px 14px;margin-bottom:8px">' +
+              '<span style="display:inline-flex;align-items:center;gap:8px"><span style="color:var(--pg-copper)">✅</span> <b>' + esc(c.title || c.chat_id) + '</b> <span style="color:var(--faint,#8b93a3);font-size:12px">' + esc(c.chat_id) + '</span></span>' +
+              '<button class="mini danger" data-delch="' + c.id + '" style="color:var(--danger,#f87171)">Отключить</button></div>';
+          }).join('')
+        : '<span style="color:var(--faint,#8b93a3);font-size:13px">Пока нет подключённых каналов — добавь Telegram-канал бренда.</span>';
+      document.getElementById('ch-grid').innerHTML = NETS.map(function(nt){
+        var ok = nt.s === 'ok';
+        return '<div style="display:flex;align-items:center;gap:10px;border:1px solid ' + (ok ? 'rgba(74,222,128,.45)' : 'var(--hair,#2a2f3a)') + ';border-radius:10px;padding:10px 12px;' + (ok ? '' : 'opacity:.55') + '">' +
+          '<span style="width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;background:var(--surface2,#171b22);border:1px solid var(--hair,#2a2f3a);font-size:13px;font-weight:700">' + nt.i + '</span>' +
+          '<span style="flex:1;font-size:13.5px;font-weight:600">' + nt.n + '</span>' +
+          (ok ? '<span style="font-size:11.5px;color:#4ade80;font-weight:700">Подключён</span>' : '<span style="font-size:11.5px;color:var(--faint,#8b93a3)">Скоро 🔧</span>') +
+          '</div>';
+      }).join('');
+    } catch(e) {
+      box.innerHTML = '<span class="err">Ошибка загрузки каналов</span>';
+    }
+  }
+  document.addEventListener('click', async function(e){
+    var t = e.target.closest ? e.target.closest('[data-channels]') : null;
+    if (t) { openChModal(t.getAttribute('data-channels'), t.getAttribute('data-bname')); return; }
+    var del = e.target.closest ? e.target.closest('[data-delch]') : null;
+    if (del) {
+      if (!confirm('Отключить этот канал?')) return;
+      del.disabled = true;
+      await fetch('/api/channels/' + del.getAttribute('data-delch'), { method: 'DELETE' });
+      loadCh();
+      return;
+    }
+    if (e.target.id === 'ch-add' && curBrand) {
+      var chat = prompt('chat_id канала в Telegram (@имя или -100...):');
+      if (!chat) return;
+      await fetch('/api/brands/' + curBrand + '/channels', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: chat.trim() })
+      });
+      loadCh();
+    }
+  });
+})();
+</script>
+
+<script src="/gg-header.js" defer></script>
+</body>
+</html>

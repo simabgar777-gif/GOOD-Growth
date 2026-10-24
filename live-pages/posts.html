@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Склад постов — GOOD Growth</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<style>
+:root{
+  --bg:#08090A;--surface:#0E0F12;--surface-2:#111216;
+  --line:rgba(255,255,255,.06);--line-2:rgba(255,255,255,.10);
+  --ink:#F4F4F5;--mut:#A1A1AA;--faint:#8B8B95;
+  --copper:#E8A54F;--copper-2:#F3C583;--green:#7CCB7A;--red:#E8694F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:15px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+.wrap{max-width:1120px;margin:0 auto;padding:26px 22px 80px}
+h1{font-size:26px;letter-spacing:-.02em;font-weight:600}
+.sub{color:var(--mut);margin:6px 0 22px;font-size:14.5px}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+select,input[type="date"],input[type="search"]{
+  font:inherit;font-size:13.5px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line-2);border-radius:9px;padding:9px 12px;outline:none;
+}
+select:focus,input:focus{border-color:rgba(232,165,79,.5)}
+.count{color:var(--faint);font-size:13px;margin-left:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+.pcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:border-color 150ms linear}
+.pcard:hover{border-color:rgba(232,165,79,.28)}
+.thumb{height:150px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:12px;position:relative;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.pbody{padding:14px 16px 6px;flex:1}
+.ptitle{font-weight:600;font-size:15.5px;letter-spacing:-.01em;margin-bottom:6px}
+.ptext{color:var(--mut);font-size:13.5px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.pmeta{display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px 0;align-items:center}
+.chip{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:999px;border:1px solid var(--line-2);color:var(--mut)}
+.chip.draft{color:#C9C9D1}
+.chip.approved{color:#9BD89A;border-color:rgba(124,203,122,.35);background:rgba(124,203,122,.08)}
+.chip.published{color:var(--copper-2);border-color:rgba(232,165,79,.35);background:rgba(232,165,79,.08)}
+.chip.brand{color:var(--faint)}
+.pdate{color:var(--faint);font-size:12px;margin-left:auto}
+.pacts{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px 14px;margin-top:auto}
+.pacts button{font:inherit;font-size:12.5px;font-weight:500;padding:7px 13px;border-radius:8px;cursor:pointer;background:rgba(255,255,255,.03);color:#C9C9D1;border:1px solid rgba(255,255,255,.14);transition:border-color 150ms linear,color 150ms linear}
+.pacts button:hover{border-color:rgba(232,165,79,.45);color:var(--ink)}
+.pacts button.pub{background:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);color:#1B1206;border-color:rgba(255,255,255,.16);font-weight:600}
+.pacts button.del:hover{border-color:rgba(232,105,79,.6);color:#E88A6F}
+.pacts button:disabled{opacity:.4;cursor:default}
+.empty{color:var(--faint);text-align:center;padding:60px 0;font-size:14.5px}
+.msg{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--surface-2);border:1px solid var(--line-2);color:var(--ink);padding:11px 20px;border-radius:10px;font-size:13.5px;display:none;z-index:50}
+.msg.err{border-color:rgba(232,105,79,.5);color:#E88A6F}
+.confirm{position:fixed;inset:0;background:rgba(5,6,8,.72);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:60}
+.confirm.open{display:flex}
+.cbox{background:var(--surface);border:1px solid var(--line-2);border-radius:14px;padding:24px;max-width:420px;width:calc(100% - 40px)}
+.cbox h3{font-size:16.5px;margin-bottom:8px;font-weight:600}
+.cbox p{color:var(--mut);font-size:14px;margin-bottom:18px}
+.crow{display:flex;gap:10px;justify-content:flex-end}
+.crow button{font:inherit;font-size:13.5px;padding:9px 16px;border-radius:9px;cursor:pointer;border:1px solid var(--line-2);background:none;color:var(--mut)}
+.crow button.yes{background:rgba(232,105,79,.10);border-color:rgba(232,105,79,.4);color:#E88A6F;font-weight:600}
+.crow button:hover{color:var(--ink)}
+@media(max-width:640px){.grid{grid-template-columns:1fr}.filters select,.filters input{flex:1 1 40%}}
+</style>
+</head>
+<body>
+<div id="gg-header"></div>
+<script src="/gg-header.js" defer></script>
+<div class="wrap">
+  <h1>Склад постов</h1>
+  <p class="sub">Все посты всех целей: черновики, утверждённые, опубликованные. Фильтруй, открывай, публиковй.</p>
+  <div class="filters">
+    <select id="fStatus"><option value="">Все статусы</option><option value="draft">Черновики</option><option value="approved">Утверждённые</option><option value="published">Опубликованные</option></select>
+    <select id="fBrand"><option value="">Все бренды</option></select>
+    <select id="fChannel"><option value="">Все каналы</option></select>
+    <input type="date" id="fDate" title="Опубликованы в дату">
+    <input type="search" id="fQuery" placeholder="Поиск по тексту…" style="min-width:180px">
+    <span class="count" id="count"></span>
+  </div>
+  <div class="grid" id="grid"></div>
+  <p class="empty" id="empty" hidden>Постов нет. Создай цель в мастерской — и посты появятся здесь.</p>
+</div>
+<div class="msg" id="msg"></div>
+<div class="confirm" id="confirm">
+  <div class="cbox">
+    <h3 id="cTitle">Удалить пост?</h3>
+    <p id="cText">Пост будет удалён безвозвратно, вместе с картинкой.</p>
+    <div class="crow">
+      <button type="button" id="cNo">Отмена</button>
+      <button type="button" class="yes" id="cYes">Удалить</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var ALL = [], BRANDS = [], CH = ['Telegram','VK','Pinterest','Instagram','YouTube','Дзен'];
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function status(p){ if (p.published_at) return 'published'; if (p.approved_at) return 'approved'; return 'draft'; }
+  var STATUS_RU = { draft:'черновик', approved:'утверждён', published:'опубликован' };
+  function fmtD(s){ if (!s) return ''; var d = new Date(String(s).replace(' ','T')); return isNaN(d) ? '' : d.toLocaleDateString('ru-RU', { day:'numeric', month:'short', year:'2-digit' }); }
+  function fmtDT(s){ if (!s) return ''; var d = new Date(String(s).replace(' ','T')); return isNaN(d) ? '' : d.toLocaleString('ru-RU', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }); }
+  function msg(t, err){ var m = $('msg'); m.textContent = t; m.className = 'msg' + (err ? ' err' : ''); m.style.display = 'block'; setTimeout(function(){ m.style.display = 'none'; }, 3500); }
+
+  var pendingAction = null;
+  function askConfirm(title, text, onYes){
+    $('cTitle').textContent = title; $('cText').textContent = text;
+    pendingAction = onYes; $('confirm').classList.add('open');
+  }
+  $('cNo').addEventListener('click', function(){ $('confirm').classList.remove('open'); pendingAction = null; });
+  $('cYes').addEventListener('click', function(){ $('confirm').classList.remove('open'); if (pendingAction) { var f = pendingAction; pendingAction = null; f(); } });
+
+  function filtered(){
+    var st = $('fStatus').value, br = $('fBrand').value, ch = $('fChannel').value, dt = $('fDate').value, q = $('fQuery').value.trim().toLowerCase();
+    return ALL.filter(function(p){
+      if (st && status(p) !== st) return false;
+      if (br && String(p.brand_id || '') !== br) return false;
+      if (ch && (p.published_channel || '') !== ch) return false;
+      if (dt && String(p.published_at || '').slice(0,10) !== dt) return false;
+      if (q && (p.title + ' ' + p.body).toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
+  }
+  function render(){
+    var list = filtered();
+    $('count').textContent = list.length + ' из ' + ALL.length;
+    $('empty').hidden = list.length > 0;
+    var g = $('grid');
+    g.innerHTML = '';
+    list.forEach(function(p){
+      var c = document.createElement('div'); c.className = 'pcard';
+      var st = status(p);
+      var thumb = '<div class="thumb">' + (p.image_path ? '<img src="' + esc(p.image_path) + '" alt="" loading="lazy">' : 'нет картинки') + '</div>';
+      var meta = '<span class="chip ' + st + '">' + STATUS_RU[st] + '</span>' +
+        (p.brand_name ? '<span class="chip brand">' + esc(p.brand_name) + '</span>' : '') +
+        (p.published_channel ? '<span class="chip brand">' + esc(p.published_channel) + '</span>' : '') +
+        '<span class="pdate">' + (p.published_at ? 'опубл. ' + fmtDT(p.published_at) : 'созд. ' + fmtD(p.created_at)) + '</span>';
+      var acts = '<button data-act="open">Открыть</button>';
+      if (st === 'approved') acts += '<button class="pub" data-act="publish">Опубликовать</button>';
+      acts += '<button class="del" data-act="delete">Удалить</button>';
+      c.innerHTML = thumb + '<div class="pbody"><div class="ptitle">' + esc(p.title) + '</div><div class="ptext">' + esc(p.body) + '</div></div>' +
+        '<div class="pmeta">' + meta + '</div><div class="pacts">' + acts + '</div>';
+      c.addEventListener('click', function(e){
+        var act = e.target && e.target.getAttribute && e.target.getAttribute('data-act');
+        if (!act) return;
+        e.stopPropagation();
+        if (act === 'open') { location.href = '/app?goal=' + p.goal_id + '#post-' + p.id; return; }
+        if (act === 'publish') {
+          var b = e.target; b.disabled = true; b.textContent = 'Публикую…';
+          fetch('/api/posts/' + p.id + '/publish', { method:'POST' }).then(function(r){ return r.json().then(function(d){ return { ok: r.ok, d: d }; }); }).then(function(x){
+            if (x.ok) { msg('Опубликован в ' + (x.d.post && x.d.post.published_channel || 'канал')); load(); }
+            else { msg(x.d.error || 'Не удалось опубликовать', true); b.disabled = false; b.textContent = 'Опубликовать'; }
+          }).catch(function(){ msg('Сеть недоступна', true); b.disabled = false; b.textContent = 'Опубликовать'; });
+          return;
+        }
+        if (act === 'delete') {
+          askConfirm('Удалить пост № ' + p.id + '?', '«' + p.title + '» будет удалён безвозвратно' + (p.image_path ? ', вместе с картинкой' : '') + '.', function(){
+            fetch('/api/posts/' + p.id, { method:'DELETE' }).then(function(r){ if (r.ok) { msg('Пост удалён'); load(); } else msg('Не удалось удалить', true); }).catch(function(){ msg('Сеть недоступна', true); });
+          });
+        }
+      });
+      g.appendChild(c);
+    });
+  }
+  function fillBrands(){
+    var b = $('fBrand');
+    BRANDS.forEach(function(x){ var o = document.createElement('option'); o.value = x.id; o.textContent = x.name; b.appendChild(o); });
+    var ch = $('fChannel');
+    CH.forEach(function(x){ var o = document.createElement('option'); o.value = x; o.textContent = x; ch.appendChild(o); });
+  }
+  ['fStatus','fBrand','fChannel','fDate','fQuery'].forEach(function(id){
+    $(id).addEventListener('change', render);
+    if (id === 'fQuery') $(id).addEventListener('input', render);
+  });
+  function load(){
+    fetch('/api/posts', { headers:{ 'Cache-Control':'no-cache' } }).then(function(r){ if (r.status === 401) { location.href = '/login?next=' + encodeURIComponent('/app/posts'); throw new Error('auth'); } return r.json(); }).then(function(d){
+      ALL = d.posts || []; BRANDS = d.brands || [];
+      if (!$('fBrand').options.length) fillBrands();
+      render();
+    }).catch(function(e){ if (e.message !== 'auth') msg('Не удалось загрузить склад', true); });
+  }
+  load();
+})();
+</script>
+</body>
+</html>

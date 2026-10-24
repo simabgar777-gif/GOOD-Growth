@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Вход — GOOD Growth</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
+<link rel="icon" type="image/x-icon" href="/favicon.ico?v=2">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#08090A;color:#F4F4F5}
+.gg-split{min-height:calc(100vh - 58px);display:grid;grid-template-columns:1.08fr 1fr}
+.gg-form-panel{display:flex;align-items:center;justify-content:center;padding:48px 40px;background:linear-gradient(180deg,#0B0C0E,#08090A)}
+.gg-form-box{width:100%;max-width:430px;text-align:left}
+.gg-form-box .card-inner{max-width:none;margin:0;text-align:left}
+.gg-mhead{text-align:center;margin-bottom:6px}
+.gg-mhead h1{font-size:27px;margin-bottom:10px;letter-spacing:-.01em;color:#F4F4F5}
+.gg-mhead .sub{text-align:center;color:#A1A1AA;font-size:15.5px;margin:0}
+form{margin-top:24px;display:flex;flex-direction:column;gap:12px;text-align:left}
+label{font-size:13.5px;font-weight:700;color:#C9C9D1}
+input{width:100%;padding:12px 14px;border:1px solid rgba(232,165,79,.28);border-radius:10px;font:inherit;font-size:15px;background:#111216;color:#F4F4F5}
+input::placeholder{color:#5F626B}
+.pw-wrap{display:block;position:relative}
+.pw-wrap input{padding-right:46px}
+.pw-eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:transparent;border:0;cursor:pointer;color:#8B8B95;padding:4px;line-height:0;border-radius:8px;transition:color 150ms linear}
+.pw-eye:hover{color:#E8A54F}
+.pw-eye svg{width:20px;height:20px}
+.pw-eye .off-i{display:none}
+.pw-eye.on .on-i{display:none}
+.pw-eye.on .off-i{display:block}
+.pw-eye{color:#E8A54F}
+.pw-eye:hover,.pw-eye:focus-visible{color:#F3C583}
+button.pw-eye,button.pw-eye:hover,button.pw-eye:active,button.pw-eye:focus{transform:translateY(-50%) !important}
+input[type="password"]::-ms-reveal,input[type="password"]::-ms-clear{display:none !important;height:0;width:0}
+input:focus{outline:none;border-color:rgba(232,165,79,.65);background:#0E0F12;box-shadow:0 0 0 3px rgba(232,165,79,.15)}
+button.btn{margin-top:6px;background:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);color:#1B1206;font-weight:700;font-size:15px;padding:12px 22px;border:1px solid rgba(255,255,255,.16);border-radius:10px;cursor:pointer;font-family:inherit;box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 10px 26px -10px rgba(232,165,79,.55);transition:transform 150ms cubic-bezier(.22,1,.36,1),background-color 150ms linear}
+button.btn:hover{background:linear-gradient(180deg,#F7C987,#EDAB5D 55%,#E8A54F);transform:translateY(-1px)}
+button.btn:disabled{opacity:.6;cursor:wait;transform:none}
+.msg{margin-top:14px;font-size:14.5px;border-radius:10px;padding:10px 14px;display:none;text-align:left}
+.msg.err{display:block;background:rgba(232,105,79,.10);color:#E88A6F;border:1px solid rgba(232,105,79,.30)}
+.msg.ok{display:block;background:rgba(232,165,79,.08);color:#F3C583;border:1px solid rgba(232,165,79,.25)}
+.alt{margin-top:18px;font-size:14px;color:#A1A1AA;text-align:center}
+.alt a{color:#E8A54F;font-weight:600;text-decoration:none}
+.alt a:hover{text-decoration:underline}
+.authed{display:none;margin:0 0 18px;background:rgba(232,165,79,.10);border:1px solid rgba(232,165,79,.35);color:#E8A54F;border-radius:12px;padding:14px 18px;font-size:15px;text-align:left}
+.authed .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.authed a{display:inline-block;background:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);color:#1B1206;font-weight:600;font-size:14px;padding:9px 16px;border-radius:9px;text-decoration:none}
+.authed a.ghost{background:rgba(255,255,255,.04);color:#C9C9D1;border:1px solid rgba(255,255,255,.14)}
+.hint{font-size:12.5px;color:#8B8B95;margin-top:3px}
+.hint.bad{color:#E88A6F;font-weight:700}
+@media (max-width:900px){
+  .gg-split{grid-template-columns:1fr}
+  .gg-visual{display:none}
+  .gg-form-panel{padding:36px 22px}
+}
+@media (max-width:480px){
+  .gg-form-panel{padding:28px 18px}
+  .gg-mhead h1{font-size:23px}
+}
+</style>
+<link rel="stylesheet" href="/style-c.css"></head>
+<body>
+<main class="gg-split"><!-- O60 · LEFT PANEL — cinematic workshop (CSS/SVG only, no photos) -->
+<style>
+/* ==== O60 LEFT PANEL (.gg-visual / .ggv-*) ==== */
+.gg-visual{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:34px;padding:50px 54px 38px;overflow:hidden;color:#F4F4F5;background:linear-gradient(160deg,#111216 0%,#0E0F12 52%,#0B0C0E 100%);border-right:1px solid rgba(255,255,255,.06)}
+/* drafting grid, fades to edges */
+.gg-visual::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px) 0 0/100% 64px,linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px) 0 0/64px 100%;-webkit-mask-image:radial-gradient(130% 95% at 28% 18%,#000 26%,transparent 76%);mask-image:radial-gradient(130% 95% at 28% 18%,#000 26%,transparent 76%)}
+/* copper glow — breathes */
+.gg-visual::after{content:"";position:absolute;left:-170px;top:-170px;width:540px;height:540px;pointer-events:none;background:radial-gradient(circle,rgba(232,165,79,.17),rgba(232,165,79,.05) 45%,transparent 70%);animation:ggv-breathe 8s cubic-bezier(.22,1,.36,1) infinite}
+/* side ruler ticks */
+.ggv-axis{position:absolute;top:0;bottom:0;left:24px;width:9px;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,.13) 9px,transparent 9px) 0 0/9px 48px}
+.ggv-top{position:relative;display:flex;align-items:center;gap:12px}
+.ggv-top svg{display:block;filter:drop-shadow(0 0 14px rgba(232,165,79,.35))}
+.ggv-word{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#A1A1AA}
+.ggv-mid{position:relative;max-width:400px}
+.ggv-kicker{display:flex;align-items:center;gap:10px;margin:0 0 16px;font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#E8A54F}
+.ggv-kicker::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,#E8A54F,transparent)}
+.ggv-slogan{margin:0 0 26px;font-size:38px;line-height:1.12;font-weight:600;letter-spacing:-.02em;color:#F4F4F5}
+.ggv-slogan em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;color:#F3C583}
+.ggv-benefits{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.ggv-benefits li{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;line-height:1.5;color:#8B8B95}
+.ggv-benefits b{display:block;color:#F4F4F5;font-weight:600}
+.ggv-benefits i{flex:none;width:8px;height:8px;margin-top:6px;transform:rotate(45deg);border:1px solid rgba(232,165,79,.85);background:rgba(232,165,79,.14)}
+.ggv-foot{position:relative;display:flex;justify-content:space-between;gap:12px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06);font-size:12px;color:#8B8B95}
+.ggv-foot span:last-child{font-family:ui-monospace,Consolas,monospace;letter-spacing:.12em}
+/* entrance + breathe */
+@keyframes ggv-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes ggv-breathe{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.07)}}
+.ggv-top,.ggv-mid,.ggv-foot{animation:ggv-in .7s cubic-bezier(.22,1,.36,1) both}
+.ggv-mid{animation-delay:.09s}
+.ggv-foot{animation-delay:.18s}
+/* ≤900px: compact hero band */
+@media (max-width:900px){
+  .gg-visual{flex-direction:row;align-items:center;gap:16px;padding:20px 22px;border-right:0;border-bottom:1px solid rgba(255,255,255,.06)}
+  .gg-visual::after{left:auto;right:-150px;top:-190px}
+  .ggv-axis,.ggv-kicker,.ggv-benefits,.ggv-foot{display:none}
+  .ggv-mid{max-width:none}
+  .ggv-slogan{margin:0;font-size:19px}
+  .ggv-slogan br{display:none}
+  .ggv-slogan em{display:inline}
+}
+@media (max-width:560px){
+  .ggv-slogan{display:none}
+  .gg-visual{justify-content:center;padding:16px 20px}
+}
+@media (prefers-reduced-motion:reduce){
+  .ggv-top,.ggv-mid,.ggv-foot,.gg-visual::after{animation:none}
+}
+</style>
+<aside class="gg-visual">
+  <i class="ggv-axis" aria-hidden="true"></i>
+  <div class="ggv-top">
+    <svg width="42" height="42" viewBox="0 0 44 44" aria-hidden="true">
+      <circle cx="22" cy="22" r="20.5" fill="none" stroke="rgba(232,165,79,.42)" stroke-width="1.4"/>
+      <path d="M30 14.5A11 11 0 1 0 33 22H22" fill="none" stroke="#E8A54F" stroke-width="2.6" stroke-linecap="round"/>
+    </svg>
+    <span class="ggv-word">Good&nbsp;Growth</span>
+  </div>
+  <div class="ggv-mid">
+    <p class="ggv-kicker">Мастерская роста</p>
+    <h2 class="ggv-slogan">Рост — не удача. <br><em>Это ремесло.</em></h2>
+    <ul class="ggv-benefits">
+      <li><i aria-hidden="true"></i><span><b>Система вместо хаоса</b><br>цель, метрика и недельный ритм</span></li>
+      <li><i aria-hidden="true"></i><span><b>Практика на твоём проекте</b><br>делаешь руками, а не смотришь вебинары</span></li>
+      <li><i aria-hidden="true"></i><span><b>Разбор с наставником</b><br>живая обратная связь каждую неделю</span></li>
+    </ul>
+  </div>
+  <footer class="ggv-foot">
+    <span>© GOOD Growth · мастерская системного роста</span>
+    <span>MMXXVI</span>
+  </footer>
+</aside>
+<section class="gg-form-panel"><div class="gg-form-box"><div class="gg-mhead"><div class="authed" id="authed">Вы уже вошли. Мастерская ждёт.<div class="row"><a href="/app">Открыть мастерскую</a><a class="ghost" href="/profile">Профиль</a></div></div>
+  <h1>Вход</h1>
+  <p class="sub">С возвращением. Твоя мастерская ждёт.</p>
+  <form id="loginForm" novalidate>
+    <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+    <div><label for="password">Пароль</label><span class="pw-wrap"><input id="password" name="password" type="password" autocomplete="current-password" required placeholder="••••••••"><button type="button" class="pw-eye" id="pwEye" aria-label="Показать пароль"><svg class="on-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><svg class="off-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></span></div>
+    <button class="btn" type="submit" id="submitBtn">Войти</button>
+  </form>
+  <div class="msg" id="msg"></div>
+  <p class="alt">Забыли пароль? <a href="/forgot-password">Восстановить</a></p>
+  <p class="alt">Впервые здесь? <a href="/signup">Создать аккаунт</a></p>
+</div></div></section></main>
+<script>
+(function(){
+  var f=document.getElementById('loginForm'),m=document.getElementById('msg'),b=document.getElementById('submitBtn');
+  function show(t,ok){m.className='msg '+(ok?'ok':'err');m.textContent=t;}
+  if (new URLSearchParams(location.search).get('registered')==='1') show('Аккаунт создан. Войди тем же email и паролем.',true);
+  if (new URLSearchParams(location.search).get('reset')==='1') show('Пароль изменён. Войди с новым паролем.',true);
+  try{var lp=new URLSearchParams(location.search).get('plan');if(lp)sessionStorage.setItem('gg_plan',lp);}catch(e){}
+  try{var nx=new URLSearchParams(location.search).get('next');if(nx&&nx.charAt(0)==='/'&&nx.charAt(1)!=='/'&&!sessionStorage.getItem('gg_after_login'))sessionStorage.setItem('gg_after_login',nx);}catch(e){}
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    m.className='msg';m.textContent='';
+    var email=f.email.value.trim(),password=f.password.value;
+    if(!email||!password){show('Заполни email и пароль.',false);return;}
+    b.disabled=true;
+    fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,password:password})})
+      .then(function(r){return r.json().then(function(d){return{status:r.status,d:d};});})
+      .then(function(res){
+        if(res.status===200&&res.d&&res.d.ok){try{sessionStorage.setItem('gg_user',JSON.stringify(res.d.user));sessionStorage.setItem('gg_entered','1');}catch(e){}var dest='/app/strategy';try{var after=sessionStorage.getItem('gg_after_login');var gp=sessionStorage.getItem('gg_plan');sessionStorage.removeItem('gg_after_login');sessionStorage.removeItem('gg_plan');if(after)dest=after;else if(gp&&gp!=='start')dest='/app/billing?plan='+gp;}catch(e){}location.href=dest;}
+        else{b.disabled=false;show((res.d&&res.d.error)||'Не получилось войти. Попробуй ещё раз.',false);}
+      })
+      .catch(function(){b.disabled=false;show('Сервер не отвечает. Попробуй ещё раз.',false);});
+  });
+})();
+</script>
+<script>
+(function(){
+  var b=document.getElementById('pwEye'),p=document.getElementById('password');
+  if(!b||!p)return;
+  b.addEventListener('click',function(){var s=p.type==='password';p.type=s?'text':'password';b.classList.toggle('on',s);b.setAttribute('aria-label',s?'Скрыть пароль':'Показать пароль');});
+})();
+</script>
+<script src="/gg-header.js" defer></script>
+</body>
+</html>

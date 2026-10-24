@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Тарифы — GOOD Growth</title>
+<meta name="description" content="Тарифы GOOD Growth: Старт, Рост, Про, Агентство, Безлимит. Начни бесплатно — плати, когда вырастешь.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
+<link rel="icon" type="image/x-icon" href="/favicon.ico?v=2">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  :root{
+    --pg-bg:#08090A; --pg-surface:#0E0F12; --pg-surface2:#111216;
+    --pg-line:rgba(255,255,255,.06); --pg-line2:rgba(255,255,255,.10);
+    --pg-fg:#F4F4F5; --pg-fg2:#A1A1AA; --pg-fg3:#8B8B95;
+    --pg-copper:#E8A54F; --pg-copper-lt:#F3C583; --pg-copper-dp:#C97B3C;
+    --pg-grad:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);
+    --pg-ink:#1B1206;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--pg-bg);color:var(--pg-fg)}
+  a{color:var(--pg-copper)}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  .hero{text-align:center;padding:54px 0 10px}
+  .kicker{font:700 12px/1 ui-monospace,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--pg-copper)}
+  h1{font-size:clamp(30px,4.6vw,44px);line-height:1.12;margin:14px 0 10px;letter-spacing:-.01em;color:var(--pg-fg)}
+  .sub{color:var(--pg-fg2);font-size:17px;max-width:620px;margin:0 auto}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(198px,1fr));gap:14px;padding:38px 0 8px}
+  .card{background:var(--pg-surface);border:1px solid var(--pg-line2);border-radius:12px;padding:22px 18px;display:flex;flex-direction:column;position:relative;transition:border-color .2s ease,box-shadow .2s ease}
+  .card:hover{border-color:rgba(232,165,79,.35);box-shadow:0 14px 34px -18px rgba(232,165,79,.25)}
+  .card.hot{border-color:rgba(232,165,79,.45);box-shadow:0 12px 34px rgba(232,165,79,.10)}
+  .flag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--pg-grad);color:var(--pg-ink);font-size:11px;font-weight:700;letter-spacing:.06em;padding:4px 12px;border-radius:999px;white-space:nowrap}
+  .name{font-size:15px;font-weight:700;color:var(--pg-fg3);text-transform:uppercase;letter-spacing:.08em}
+  .price{font-size:30px;font-weight:800;margin:10px 0 2px;color:var(--pg-fg)}
+  .price small{font-size:14px;font-weight:600;color:var(--pg-fg3)}
+  .ul{list-style:none;margin:14px 0 18px;flex:1}
+  .ul li{font-size:14px;padding:5px 0;color:var(--pg-fg)}
+  .ul li::before{content:"\2713";color:var(--pg-copper);font-weight:800;margin-right:8px}
+  .ul li.dim{color:var(--pg-fg3)}
+  .ul li.dim::before{content:"\2014";color:var(--pg-line2)}
+  .btn{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:14.5px;padding:11px 0;border-radius:8px;background:var(--pg-grad);color:var(--pg-ink);border:1px solid rgba(255,255,255,.16);transition:background .2s ease,box-shadow .2s ease,transform 150ms cubic-bezier(.22,1,.36,1)}
+  .btn:hover{background:var(--pg-grad);box-shadow:0 10px 26px -10px rgba(232,165,79,.55);transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
+  .card.dim .btn{background:transparent;color:var(--pg-copper);border:1px solid rgba(232,165,79,.45)}
+  .card.dim .btn:hover{background:rgba(232,165,79,.08);border-color:var(--pg-copper);box-shadow:0 10px 26px -12px rgba(232,165,79,.4);transform:translateY(-1px)}
+  .note{text-align:center;color:var(--pg-fg3);font-size:13.5px;margin:10px 0 0}
+  .note a{color:var(--pg-copper)}
+  h2{font-size:22px;margin:46px 0 16px;letter-spacing:-.01em;color:var(--pg-fg)}
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{width:100%;min-width:680px;border-collapse:collapse;background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:12px;font-size:14px}
+  th,td{padding:11px 14px;text-align:center;border-bottom:1px solid var(--pg-line)}
+  th{background:var(--pg-surface2);font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--pg-fg3)}
+  td:first-child,th:first-child{text-align:left;font-weight:600;color:var(--pg-fg)}
+  tr:last-child td{border-bottom:0}
+  .yes{color:var(--pg-copper);font-weight:700}
+  .no{color:var(--pg-fg3)}
+  footer{padding:34px 0 46px;text-align:center;color:var(--pg-fg3);font-size:13.5px}
+  footer a{color:var(--pg-copper);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+  @media (max-width:480px){ .hero{padding:40px 0 6px} h1{font-size:30px} }
+</style>
+<link rel="stylesheet" href="/style-c.css"></head>
+<body>
+
+
+<section class="hero wrap">
+  <div class="kicker">Тарифы</div>
+  <h1>Начни бесплатно — плати, когда вырастешь</h1>
+  <p class="sub">Пять честных тарифов. Переход — в один клик, без звонков и «оставьте заявку». Оплата скоро откроется — пока всё подключаем вручную.</p>
+</section>
+
+<main class="wrap">
+  <div class="grid">
+    <div class="card dim">
+      <div class="name">Старт</div>
+      <div class="price">0 ₽<small> /мес</small></div>
+      <ul class="ul">
+        <li>1 бренд</li><li>2 канала</li><li class="dim">1 пост в день</li><li class="dim">Базовая аналитика</li>
+      </ul>
+      <a class="btn" href="/app/billing?plan=start">Выбрать</a>
+    </div>
+    <div class="card dim">
+      <div class="name">Рост</div>
+      <div class="price">490 ₽<small> /мес</small></div>
+      <ul class="ul">
+        <li>1 бренд</li><li>5 каналов</li><li>4 поста в день</li><li class="dim">Базовая аналитика</li>
+      </ul>
+      <a class="btn" href="/app/billing?plan=rost">Выбрать</a>
+    </div>
+    <div class="card hot">
+      <div class="flag">Выбор большинства</div>
+      <div class="name">Про</div>
+      <div class="price">990 ₽<small> /мес</small></div>
+      <ul class="ul">
+        <li>3 бренда</li><li>Каналы безлимит</li><li>10 постов в день</li><li>Полная аналитика</li><li>Приоритетная поддержка</li>
+      </ul>
+      <a class="btn" href="/app/billing?plan=pro">Выбрать</a>
+    </div>
+    <div class="card dim">
+      <div class="name">Агентство</div>
+      <div class="price">2990 ₽<small> /мес</small></div>
+      <ul class="ul">
+        <li>10 брендов</li><li>Каналы безлимит</li><li>Посты безлимит</li><li>Полная аналитика</li><li>Приоритетная поддержка</li>
+      </ul>
+      <a class="btn" href="/app/billing?plan=agency">Выбрать</a>
+    </div>
+    <div class="card dim">
+      <div class="name">Безлимит</div>
+      <div class="price">5990 ₽<small> /мес</small></div>
+      <ul class="ul">
+        <li>Бренды безлимит</li><li>Каналы безлимит</li><li>Посты безлимит</li><li>Полная аналитика</li><li>Приоритетная поддержка</li>
+      </ul>
+      <a class="btn" href="/app/billing?plan=unlimited">Выбрать</a>
+    </div>
+  </div>
+  <p class="note">Оплата картой скоро — переход на тариф сейчас подключаем вручную через <a href="mailto:hello@growth.go-ood.com">hello@growth.go-ood.com</a></p>
+
+  <h2>Сравнение тарифов</h2>
+  <div class="table-scroll">
+  <table>
+    <tr><th>Характеристика</th><th>Старт</th><th>Рост</th><th>Про</th><th>Агентство</th><th>Безлимит</th></tr>
+    <tr><td>Цена</td><td>0 ₽</td><td>490 ₽/мес</td><td>990 ₽/мес</td><td>2990 ₽/мес</td><td>5990 ₽/мес</td></tr>
+    <tr><td>Бренды</td><td>1</td><td>1</td><td>3</td><td>10</td><td class="yes">Безлимит</td></tr>
+    <tr><td>Каналы</td><td>2</td><td>5</td><td class="yes">Безлимит</td><td class="yes">Безлимит</td><td class="yes">Безлимит</td></tr>
+    <tr><td>Посты</td><td>1/день</td><td>4/день</td><td>10/день</td><td class="yes">Безлимит</td><td class="yes">Безлимит</td></tr>
+    <tr><td>Аналитика</td><td>Базовая</td><td>Базовая</td><td class="yes">Полная</td><td class="yes">Полная</td><td class="yes">Полная</td></tr>
+    <tr><td>Приоритет</td><td class="no">—</td><td class="no">—</td><td class="yes">Да</td><td class="yes">Да</td><td class="yes">Да</td></tr>
+  </table>
+  </div>
+</main>
+
+<footer>GOOD Growth — соцсети растут, ты занимаешься делом. <a href="/app/billing?plan=start">Начать бесплатно →</a></footer>
+
+<script src="/gg-header.js" defer></script>
+</body>
+</html>
