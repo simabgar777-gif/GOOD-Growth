@@ -17,13 +17,9 @@ body.gg-with-rail {
   padding-left: var(--rail-w) !important;
 }
 
-/* старая шапка: прячем, НО НЕ УДАЛЯЕМ —
-   app.js ходит за #wsLogout, #modeChip, #brandPill, #wsUser.
-   Удалишь — мастерская умрёт. */
-body.gg-with-rail .topbar,
-body.gg-with-rail #gg-header {
-  display: none !important;
-}
+/* старая шапка прячется на широком экране (см. медиазапрос ниже),
+   НО НЕ УДАЛЯЕТСЯ — app.js ходит за #wsLogout, #modeChip, #brandPill,
+   #wsUser. Удалишь — мастерская умрёт. */
 
 /* ---------- сама панель ---------- */
 .gg-rail {
@@ -234,8 +230,20 @@ html[data-theme="light"] .gg-rail-out { color: #5C665F !important; }
   html[data-theme-src="system"] .gg-rail-out { color: #5C665F !important; }
 }
 
-/* ---------- мобильная: пока просто убираем панель (приказ: потом) ---------- */
-@media (max-width: 900px) {
+/* ---------- шапку прячем ТОЛЬКО там, где есть панель ----------
+   Раньше было наоборот: шапка спрятана всегда, а панель пряталась
+   ниже 900px — и на ширине 870px навигации не оставалось ВООБЩЕ.
+   Теперь: есть панель — шапки нет; панели нет — шапка на месте. */
+@media (min-width: 769px) {
+  body.gg-with-rail .topbar,
+  body.gg-with-rail #gg-header {
+    display: none !important;
+  }
+}
+
+/* ---------- узкий экран: панель уходит, возвращается старая шапка ----------
+   Мобильную делаем отдельным приказом (бургер, выезд панели). */
+@media (max-width: 768px) {
   body.gg-with-rail { padding-left: 0 !important; }
   .gg-rail { display: none !important; }
 }
