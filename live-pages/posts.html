@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
+<script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.setAttribute("data-theme-src","system");}else{d.setAttribute("data-theme",t==="light"?"light":"dark");}}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title data-i18n="posts.meta.title">Склад постов — GOOD Growth</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -62,6 +63,7 @@ select:focus,input:focus{border-color:rgba(232,165,79,.5)}
 .crow button:hover{color:var(--ink)}
 @media(max-width:640px){.grid{grid-template-columns:1fr}.filters select,.filters input{flex:1 1 40%}}
 </style>
+<link rel="stylesheet" href="/theme.css">
 </head>
 <body>
 <div id="gg-header"></div>
@@ -183,5 +185,6 @@ select:focus,input:focus{border-color:rgba(232,165,79,.5)}
   load();
 })();
 </script>
+<script src="/theme.js" defer></script>
 </body>
 </html>
