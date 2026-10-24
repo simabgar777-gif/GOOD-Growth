@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <title>Тариф — GOOD Growth</title>
+  <title data-i18n="billing.meta.title">Тариф — GOOD Growth</title>
   <style>
   :root{
     --pg-bg:#08090A; --pg-surface:#0E0F12; --pg-surface2:#111216;
@@ -58,22 +58,23 @@
   @media (max-width:820px){.cols{grid-template-columns:1fr}}</style>
 <link rel="stylesheet" href="/style-c.css"></head>
 <body>
+<script src="/i18n/i18n.js"></script>
   <div class="wrap">
-    <a class="back" href="/pricing">← К выбору тарифа</a>
+    <a class="back" href="/pricing" data-i18n="billing.back">← К выбору тарифа</a>
     <div class="cols" id="cols">
       <section class="panel" id="planBox"><p class="back">Загружаю тариф…</p></section>
       <section class="panel" id="payBox">
-        <p class="panel-title">Оплата</p>
-        <div class="cardline"><span class="chipx"></span><span>Оплата банковской картой — Visa · Mastercard · МИР</span></div>
+        <p class="panel-title" data-i18n="billing.payTitle">Оплата</p>
+        <div class="cardline"><span class="chipx"></span><span data-i18n="billing.cardBrands">Оплата банковской картой — Visa · Mastercard · МИР</span></div>
         <form id="payForm" novalidate>
-          <div class="field"><label for="cardNum">Номер карты</label><input id="cardNum" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" maxlength="19"></div>
+          <div class="field"><label for="cardNum" data-i18n="billing.label.cardNum">Номер карты</label><input id="cardNum" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" maxlength="19"></div>
           <div class="frow">
-            <div class="field"><label for="cardExp">Срок</label><input id="cardExp" inputmode="numeric" autocomplete="cc-exp" placeholder="ММ/ГГ" maxlength="5"></div>
+            <div class="field"><label for="cardExp" data-i18n="billing.label.cardExp">Срок</label><input id="cardExp" inputmode="numeric" autocomplete="cc-exp" placeholder="ММ/ГГ" data-i18n-attr="placeholder:billing.ph.exp" maxlength="5"></div>
             <div class="field"><label for="cardCvc">CVC</label><input id="cardCvc" inputmode="numeric" autocomplete="cc-csc" placeholder="•••" maxlength="3" type="password"></div>
           </div>
-          <div class="field"><label for="payEmail">Email для чека</label><input id="payEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+          <div class="field"><label for="payEmail" data-i18n="billing.label.email">Email для чека</label><input id="payEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
           <button class="cta" id="payBtn" type="submit">Оплатить</button>
-          <p class="pay-note"><span class="lock"></span>Платёж защищён. Данные карты не сохраняются.</p>
+          <p class="pay-note"><span class="lock"></span><span data-i18n="billing.secure">Платёж защищён. Данные карты не сохраняются.</span></p>
         </form>
         <div class="msg" id="payMsg"></div>
       </section>
@@ -82,11 +83,11 @@
 <script>
 (function(){
   var PLANS = {
-    start:     { n:'Старт',     p:'0 ₽',    f:['1 бренд','2 канала','1 пост в день','Базовая аналитика'], free:true },
-    growth:    { n:'Рост',      p:'490 ₽',  f:['1 бренд','5 каналов','4 поста в день','Базовая аналитика'] },
-    pro:       { n:'Про',       p:'990 ₽',  f:['3 бренда','Каналы безлимит','10 постов в день','Полная аналитика','Приоритетная поддержка'] },
-    agency:    { n:'Агентство', p:'2 990 ₽',f:['10 брендов','Каналы безлимит','Посты безлимит','Полная аналитика','Приоритетная поддержка'] },
-    unlimited: { n:'Безлимит',  p:'5 990 ₽',f:['Бренды безлимит','Каналы безлимит','Посты безлимит','Полная аналитика','Приоритетная поддержка'] }
+    start:     { n:ggT('plan.start','Старт'),     p:'0 ₽',    f:[ggT('pricing.f.brand1','1 бренд'),ggT('pricing.f.ch2','2 канала'),ggT('pricing.f.post1','1 пост в день'),ggT('pricing.f.anBase','Базовая аналитика')], free:true },
+    growth:    { n:ggT('plan.growth','Рост'),      p:'490 ₽',  f:[ggT('pricing.f.brand1','1 бренд'),ggT('pricing.f.ch5','5 каналов'),ggT('pricing.f.post4','4 поста в день'),ggT('pricing.f.anBase','Базовая аналитика')] },
+    pro:       { n:ggT('plan.pro','Про'),       p:'990 ₽',  f:[ggT('pricing.f.brand3','3 бренда'),ggT('pricing.f.chUnl','Каналы безлимит'),ggT('pricing.f.post10','10 постов в день'),ggT('pricing.f.anFull','Полная аналитика'),ggT('pricing.f.priority','Приоритетная поддержка')] },
+    agency:    { n:ggT('plan.agency','Агентство'), p:'2 990 ₽',f:[ggT('pricing.f.brand10','10 брендов'),ggT('pricing.f.chUnl','Каналы безлимит'),ggT('pricing.f.postUnl','Посты безлимит'),ggT('pricing.f.anFull','Полная аналитика'),ggT('pricing.f.priority','Приоритетная поддержка')] },
+    unlimited: { n:ggT('plan.unlimited','Безлимит'),  p:'5 990 ₽',f:[ggT('pricing.f.brandUnl','Бренды безлимит'),ggT('pricing.f.chUnl','Каналы безлимит'),ggT('pricing.f.postUnl','Посты безлимит'),ggT('pricing.f.anFull','Полная аналитика'),ggT('pricing.f.priority','Приоритетная поддержка')] }
   };
   var ALIAS = { rost:'growth' };
   var sel = new URLSearchParams(location.search).get('plan') || '';
@@ -117,19 +118,19 @@
     var box = document.getElementById('planBox');
     var pl = PLANS[code];
     if (!pl) {
-      document.getElementById('cols').innerHTML = '<section class="panel"><div class="notfound"><b>Такого тарифа нет.</b> Вернись на <a href="/pricing">выбор тарифа</a> и выбери заново.</div></section>';
+      document.getElementById('cols').innerHTML = '<section class="panel"><div class="notfound"><b>'+ggT('billing.notFound','Такого тарифа нет.')+'</b> '+ggT('billing.notFound.a','Вернись на ')+'<a href="/pricing">'+ggT('billing.notFound.link','выбор тарифа')+'</a>'+ggT('billing.notFound.b',' и выбери заново.')+'</div></section>';
       return;
     }
-    var badge = (cur && cur === code) ? '<span class="badge">Ваш текущий тариф</span>' : '';
-    var h = '<p class="panel-title">Что вы получаете</p>';
+    var badge = (cur && cur === code) ? '<span class="badge">'+ggT('billing.current','Ваш текущий тариф')+'</span>' : '';
+    var h = '<p class="panel-title">'+ggT('billing.whatYouGet','Что вы получаете')+'</p>';
     h += '<h1>' + esc(pl.n) + badge + '</h1>';
-    h += '<div class="price">' + esc(pl.p) + '<small> /мес</small></div>';
+    h += '<div class="price">' + esc(pl.p) + '<small>'+ggT('pricing.perMonth',' /мес')+'</small></div>';
     h += '<ul class="feat">' + pl.f.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
-    h += '<a class="swap" href="/pricing">Сменить тариф</a>';
+    h += '<a class="swap" href="/pricing">'+ggT('billing.swap','Сменить тариф')+'</a>';
     box.innerHTML = h;
     var pb = document.getElementById('payBtn');
     var title = document.getElementById('payBtn');
-    pb.textContent = pl.free ? 'Начать бесплатно' : ('Оплатить ' + esc(pl.p) + ' /мес');
+    pb.textContent = pl.free ? ggT('billing.startFree','Начать бесплатно') : ggT('billing.payFor','Оплатить {price} /мес').replace('{price}', esc(pl.p));
     document.getElementById('payForm').addEventListener('submit', function(e){
       e.preventDefault();
       var m = document.getElementById('payMsg');
@@ -138,16 +139,16 @@
       var cvc = digits(document.getElementById('cardCvc').value);
       var em = document.getElementById('payEmail').value.trim();
       if (pl.free) {
-        m.innerHTML = '<b>Готово!</b> Тариф «' + esc(pl.n) + '» активирован. Мастерская ждёт: <a href="/app">открыть</a>.';
+        m.innerHTML = '<b>'+ggT('billing.msg.done','Готово!')+'</b>'+ggT('billing.msg.done.a',' Тариф «')+esc(pl.n)+ggT('billing.msg.done.b','» активирован. Мастерская ждёт: ')+'<a href="/app">'+ggT('billing.msg.done.link','открыть')+'</a>.';
         m.classList.add('show');
         return;
       }
-      if (!luhnOk(num)) { m.innerHTML = '<b>Проверьте номер карты</b> — похоже, есть опечатка.'; m.classList.add('show'); return; }
-      if (!/^\d{2}\/\d{2}$/.test(exp)) { m.innerHTML = '<b>Проверьте срок действия</b> — формат ММ/ГГ.'; m.classList.add('show'); return; }
-      if (cvc.length !== 3) { m.innerHTML = '<b>Проверьте CVC</b> — три цифры на обороте карты.'; m.classList.add('show'); return; }
-      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { m.innerHTML = '<b>Проверьте email</b> — на него придёт чек.'; m.classList.add('show'); return; }
+      if (!luhnOk(num)) { m.innerHTML = '<b>'+ggT('billing.msg.cardNum.b','Проверьте номер карты')+'</b>'+ggT('billing.msg.cardNum.t',' — похоже, есть опечатка.'); m.classList.add('show'); return; }
+      if (!/^\d{2}\/\d{2}$/.test(exp)) { m.innerHTML = '<b>'+ggT('billing.msg.exp.b','Проверьте срок действия')+'</b>'+ggT('billing.msg.exp.t',' — формат ММ/ГГ.'); m.classList.add('show'); return; }
+      if (cvc.length !== 3) { m.innerHTML = '<b>'+ggT('billing.msg.cvc.b','Проверьте CVC')+'</b>'+ggT('billing.msg.cvc.t',' — три цифры на обороте карты.'); m.classList.add('show'); return; }
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { m.innerHTML = '<b>'+ggT('billing.msg.email.b','Проверьте email')+'</b>'+ggT('billing.msg.email.t',' — на него придёт чек.'); m.classList.add('show'); return; }
       pb.disabled = true;
-      pb.textContent = 'Обрабатываем платёж…';
+      pb.textContent = ggT('billing.processing','Обрабатываем платёж…');
       fetch('/api/billing/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -156,20 +157,20 @@
       }).then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); })
         .then(function(res){
           pb.disabled = false;
-          pb.textContent = 'Оплатить ' + esc(pl.p) + ' /мес';
+          pb.textContent = ggT('billing.payFor','Оплатить {price} /мес').replace('{price}', esc(pl.p));
           if (res.ok) {
-            m.innerHTML = '<b>Спасибо! Платёж принят.</b> Мы свяжемся с вами для подтверждения оплаты — письмо уже на ' + esc(em) + '.';
+            m.innerHTML = '<b>'+ggT('billing.msg.ok.b','Спасибо! Платёж принят.')+'</b>'+ggT('billing.msg.ok.t',' Мы свяжемся с вами для подтверждения оплаты — письмо уже на ')+esc(em)+'.';
             m.classList.add('show');
             document.getElementById('payForm').reset();
           } else {
-            m.innerHTML = '<b>Платёж не прошёл.</b> ' + esc((res.j && res.j.error) || 'Попробуйте ещё раз или напишите на hello@growth.go-ood.com.');
+            m.innerHTML = '<b>'+ggT('billing.msg.bad.b','Платёж не прошёл.')+'</b> ' + esc((res.j && res.j.error) || ggT('billing.msg.bad.t','Попробуйте ещё раз или напишите на hello@growth.go-ood.com.'));
             m.classList.add('show');
           }
         })
         .catch(function(){
           pb.disabled = false;
-          pb.textContent = 'Оплатить ' + esc(pl.p) + ' /мес';
-          m.innerHTML = '<b>Сеть недоступна.</b> Попробуйте ещё раз — или напишите на <a href="mailto:hello@growth.go-ood.com">hello@growth.go-ood.com</a>.';
+          pb.textContent = ggT('billing.payFor','Оплатить {price} /мес').replace('{price}', esc(pl.p));
+          m.innerHTML = '<b>'+ggT('billing.msg.nonet.b','Сеть недоступна.')+'</b>'+ggT('billing.msg.nonet.t',' Попробуйте ещё раз — или напишите на ')+'<a href="mailto:hello@growth.go-ood.com">hello@growth.go-ood.com</a>.';
           m.classList.add('show');
         });
     });
