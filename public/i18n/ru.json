@@ -5,7 +5,7 @@
     "page": "login",
     "source": "live-pages/login.html (снимок прода 2026-10-24)",
     "note": "Плоские ключи. Текст в HTML остаётся как запасной — словарь только перекрывает его.",
-    "keys": 641,
+    "keys": 644,
     "pages": [
       "analytics",
       "billing",
@@ -676,5 +676,7 @@
   "rail": {
     "brands": "Бренды",
     "billing": "Оплата"
-  }
+  },
+  "rail.brands": "Бренды",
+  "rail.billing": "Оплата"
 }
