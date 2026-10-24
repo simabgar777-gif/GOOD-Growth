@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Профиль — GOOD Growth</title>
+<title data-i18n="profile.meta.title">Профиль — GOOD Growth</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
@@ -61,7 +61,8 @@
   .empty{color:var(--pg-fg3);font-size:14px;border:1px dashed var(--pg-line2);border-radius:12px;padding:16px;text-align:center}
   @media(max-width:820px){.grid{grid-template-columns:1fr}.hero{flex-direction:column;align-items:flex-start;gap:12px}.frow{grid-template-columns:1fr}.card{padding:22px 18px}}</style>
 <link rel="stylesheet" href="/style-c.css"></head>
-<body><div id="gg-header"></div><script src="/gg-header.js" defer></script>
+<body>
+<script src="/i18n/i18n.js"></script><div id="gg-header"></div><script src="/gg-header.js" defer></script>
 <div class="wrap">
   <div class="card" id="root"><p class="mut">Загружаю профиль…</p></div>
 </div>
@@ -69,8 +70,8 @@
 (function(){
   var $=function(id){return document.getElementById(id)};
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-  var PLAN_NAMES={start:'Старт',growth:'Рост',pro:'Про',agency:'Агентство',unlimited:'Безлимит'};
-  var ROLE_NAMES={owner:'Владелец',approver:'Утверждающий',publisher:'Публикатор',creator:'Создатель'};
+  var PLAN_NAMES={start:ggT('plan.start','Старт'),growth:ggT('plan.growth','Рост'),pro:ggT('plan.pro','Про'),agency:ggT('plan.agency','Агентство'),unlimited:ggT('plan.unlimited','Безлимит')};
+  var ROLE_NAMES={owner:ggT('role.owner','Владелец'),approver:ggT('role.approver','Утверждающий'),publisher:ggT('role.publisher','Публикатор'),creator:ggT('role.creator','Создатель')};
   var ROLE_CLS={owner:'rc-owner',approver:'rc-approver',publisher:'rc-publisher',creator:'rc-creator'};
   function fmtDate(iso){try{var d=new Date(iso);if(isNaN(d))return '';return d.toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'});}catch(e){return '';}}
   function fmtDT(iso){try{var d=new Date(iso);if(isNaN(d))return '';return d.toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});}catch(e){return '';}}
@@ -81,53 +82,53 @@
     var u=P.user,pl=P.plan,usage=P.usage;
     var letter=(u.name||u.email||'?').trim().charAt(0).toUpperCase();
     var root=$('root');
-    var h='<div class="hero"><div class="avatar">'+esc(letter)+'</div><div><h1>'+esc(u.name||'Без имени')+'</h1><div class="mail">'+esc(u.email)+'</div><div class="since">В команде с '+esc(fmtDate(u.created_at)||'—')+'</div></div></div>';
+    var h='<div class="hero"><div class="avatar">'+esc(letter)+'</div><div><h1>'+esc(u.name||ggT('profile.anonName','Без имени'))+'</h1><div class="mail">'+esc(u.email)+'</div><div class="since">'+ggT('profile.since','В команде с ')+esc(fmtDate(u.created_at)||'—')+'</div></div></div>';
 
-    h+='<h2>Личные данные</h2><div class="card"><form id="nameForm" style="max-width:420px"><label for="nm">Имя</label><input id="nm" maxlength="80" value="'+esc(u.name||'')+'"><button type="submit" id="nmBtn">Сохранить имя</button><div class="status" id="nmStat"></div></form></div>';
+    h+='<h2>'+ggT('profile.personal','Личные данные')+'</h2><div class="card"><form id="nameForm" style="max-width:420px"><label for="nm">'+ggT('common.label.name','Имя')+'</label><input id="nm" maxlength="80" value="'+esc(u.name||'')+'"><button type="submit" id="nmBtn">'+ggT('profile.saveName','Сохранить имя')+'</button><div class="status" id="nmStat"></div></form></div>';
 
     var ub=P.usage_brands,uc=P.usage_channels,up=P.usage_posts;
     function bar(n,max){var pct=max>0&&max<9999?Math.min(100,Math.round(n*100/max)):0;return '<div class="bar"><i style="width:'+pct+'%"></i></div>';}
-    h+='<h2>Тариф и лимиты</h2><div class="card"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap"><h3 style="margin:0">Тариф: <span class="badge">'+esc(PLAN_NAMES[pl.code]||pl.code)+'</span></h3><a class="btn" href="/pricing">Сменить тариф</a></div>'+
-      '<div style="margin-top:14px"><div class="mut"><b>'+ub.used+' из '+inf(ub.max)+'</b> брендов</div>'+bar(ub.used,ub.max)+
-      '<div class="mut"><b>'+uc.used+' из '+inf(uc.max)+'</b> каналов</div>'+bar(uc.used,uc.max)+
-      '<div class="mut"><b>'+up.used+' из '+inf(up.max)+'</b> постов сегодня</div>'+bar(up.used,up.max)+
-      '</div><div class="tiny">Лимиты обновляются сразу после смены тарифа.</div></div>';
+    h+='<h2>'+ggT('profile.planLimits','Тариф и лимиты')+'</h2><div class="card"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap"><h3 style="margin:0">'+ggT('profile.planLabel','Тариф: ')+'<span class="badge">'+esc(PLAN_NAMES[pl.code]||pl.code)+'</span></h3><a class="btn" href="/pricing">'+ggT('billing.swap','Сменить тариф')+'</a></div>'+
+      '<div style="margin-top:14px"><div class="mut"><b>'+ub.used+ggT('profile.usage.of',' из ')+inf(ub.max)+'</b>'+ggT('profile.usage.brands',' брендов')+'</div>'+bar(ub.used,ub.max)+
+      '<div class="mut"><b>'+uc.used+' из '+inf(uc.max)+'</b>'+ggT('profile.usage.channels',' каналов')+'</div>'+bar(uc.used,uc.max)+
+      '<div class="mut"><b>'+up.used+' из '+inf(up.max)+'</b>'+ggT('profile.usage.posts',' постов сегодня')+'</div>'+bar(up.used,up.max)+
+      '</div><div class="tiny">'+ggT('profile.limitsNote','Лимиты обновляются сразу после смены тарифа.')+'</div></div>';
 
-    h+='<h2>Мои бренды</h2><div class="card">';
-    if(P.brands.length){h+='<div class="blist">'+P.brands.map(function(b){return '<a class="bitem" href="/app?brand='+encodeURIComponent(b.name)+'"><span><span class="dotc"></span>'+esc(b.name)+'</span><span class="tiny">'+b.posts_count+' пост(ов)</span></a>';}).join('')+'</div>';}
-    else{h+='<div class="empty">Брендов пока нет.</div>';}
-    h+='<div style="margin-top:12px"><a class="btn ghost" href="/partner" >+ Добавить бренд</a></div></div>';
+    h+='<h2>'+ggT('profile.myBrands','Мои бренды')+'</h2><div class="card">';
+    if(P.brands.length){h+='<div class="blist">'+P.brands.map(function(b){return '<a class="bitem" href="/app?brand='+encodeURIComponent(b.name)+'"><span><span class="dotc"></span>'+esc(b.name)+'</span><span class="tiny">'+b.posts_count+ggT('profile.postsCount',' пост(ов)')+'</span></a>';}).join('')+'</div>';}
+    else{h+='<div class="empty">'+ggT('profile.noBrands','Брендов пока нет.')+'</div>';}
+    h+='<div style="margin-top:12px"><a class="btn ghost" href="/partner" >'+ggT('profile.addBrand','+ Добавить бренд')+'</a></div></div>';
 
-    h+='<h2>Команда</h2><div class="card">';
+    h+='<h2>'+ggT('team.h1','Команда')+'</h2><div class="card">';
     if(P.user.role==='owner'){
-      if(P.team.length){h+=P.team.map(function(m){var st=m.invite_status;var chip=st==='pending'?'<span class="rolechip rc-pending">Приглашение не принято</span>':(st==='accepted'?'<span class="rolechip rc-owner">В команде</span>':'');return '<div class="trow"><b>'+esc(m.name)+'</b><span class="rolechip '+(ROLE_CLS[m.role]||'rc-creator')+'">'+esc(ROLE_NAMES[m.role]||m.role)+'</span>'+chip+'</div>';}).join('');}
-      else{h+='<div class="empty">Ты пока один. Пригласи помощников.</div>';}
-      h+='<div style="margin-top:12px"><a class="btn ghost" href="/partner/team" >Управлять командой</a></div>';
+      if(P.team.length){h+=P.team.map(function(m){var st=m.invite_status;var chip=st==='pending'?'<span class="rolechip rc-pending">'+ggT('profile.invPending','Приглашение не принято')+'</span>':(st==='accepted'?'<span class="rolechip rc-owner">'+ggT('profile.inTeam','В команде')+'</span>':'');return '<div class="trow"><b>'+esc(m.name)+'</b><span class="rolechip '+(ROLE_CLS[m.role]||'rc-creator')+'">'+esc(ROLE_NAMES[m.role]||m.role)+'</span>'+chip+'</div>';}).join('');}
+      else{h+='<div class="empty">'+ggT('profile.teamEmpty','Ты пока один. Пригласи помощников.')+'</div>';}
+      h+='<div style="margin-top:12px"><a class="btn ghost" href="/partner/team" >'+ggT('profile.manageTeam','Управлять командой')+'</a></div>';
     }else{
-      h+='<div class="trow"><span class="rolechip '+(ROLE_CLS[P.role]||'rc-creator')+'">'+esc(ROLE_NAMES[P.role]||P.role)+'</span><span class="mut">— твоя роль в команде GOOD Growth</span></div><div style="margin-top:10px"><a class="btn ghost" href="/partner/team" >Вся команда</a></div>';
+      h+='<div class="trow"><span class="rolechip '+(ROLE_CLS[P.role]||'rc-creator')+'">'+esc(ROLE_NAMES[P.role]||P.role)+'</span><span class="mut">'+ggT('profile.yourRole','— твоя роль в команде GOOD Growth')+'</span></div><div style="margin-top:10px"><a class="btn ghost" href="/partner/team" >'+ggT('profile.wholeTeam','Вся команда')+'</a></div>';
     }
     h+='</div>';
 
     var s=P.settings;
-    h+='<h2>Настройки</h2><div class="grid">';
-    h+='<div class="card"><h3>Уведомления и приватность</h3>';
+    h+='<h2>'+ggT('profile.settings','Настройки')+'</h2><div class="grid">';
+    h+='<div class="card"><h3>'+ggT('profile.notifPrivacy','Уведомления и приватность')+'</h3>';
     if(s){
-      h+='<label for="ntf">Уведомления</label><select id="ntf"><option value="email"'+(s.notifications==='email'?' selected':'')+'>На email</option><option value="telegram"'+(s.notifications==='telegram'?' selected':'')+'>В Telegram</option><option value="off"'+(s.notifications==='off'?' selected':'')+'>Выключено</option></select>'+
-      '<label for="prv">Кто видит профиль</label><select id="prv"><option value="all"'+(s.privacy==='all'?' selected':'')+'>Все</option><option value="team"'+(s.privacy==='team'?' selected':'')+'>Только команда</option><option value="nobody"'+(s.privacy==='nobody'?' selected':'')+'>Никто</option></select>'+
-      '<div style="margin-top:12px"><button id="setBtn" class="ghost">Сохранить настройки</button></div><div class="status" id="setStat"></div>';
+      h+='<label for="ntf">'+ggT('profile.notifications','Уведомления')+'</label><select id="ntf"><option value="email"'+(s.notifications==='email'?' selected':'')+'>'+ggT('profile.notif.email','На email')+'</option><option value="telegram"'+(s.notifications==='telegram'?' selected':'')+'>'+ggT('profile.notif.telegram','В Telegram')+'</option><option value="off"'+(s.notifications==='off'?' selected':'')+'>'+ggT('profile.notif.off','Выключено')+'</option></select>'+
+      '<label for="prv">'+ggT('profile.privacy','Кто видит профиль')+'</label><select id="prv"><option value="all"'+(s.privacy==='all'?' selected':'')+'>'+ggT('profile.priv.all','Все')+'</option><option value="team"'+(s.privacy==='team'?' selected':'')+'>'+ggT('profile.priv.team','Только команда')+'</option><option value="nobody"'+(s.privacy==='nobody'?' selected':'')+'>'+ggT('profile.priv.nobody','Никто')+'</option></select>'+
+      '<div style="margin-top:12px"><button id="setBtn" class="ghost">'+ggT('profile.saveSettings','Сохранить настройки')+'</button></div><div class="status" id="setStat"></div>';
     }else{
-      h+='<div class="empty">Смены тарифов ещё не было — настройки появятся после первого изменения тарифа.</div>';
+      h+='<div class="empty">'+ggT('profile.noSettings','Смены тарифов ещё не было — настройки появятся после первого изменения тарифа.')+'</div>';
     }
     h+='</div>';
-    h+='<div class="card"><h3>Безопасность</h3><form id="passForm"><div class="frow"><div><label for="p0">Текущий пароль</label><input id="p0" type="password" autocomplete="current-password"></div><div><label for="p1">Новый пароль</label><input id="p1" type="password" autocomplete="new-password" placeholder="Минимум 8 символов"><div class="hint" id="pwHint" style="font-size:12.5px;color:#7a8775;margin-top:3px">Только английские буквы, цифры и символы. Храним только хэш.</div></div></div><div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap"><button type="submit" id="pBtn">Сменить пароль</button><button type="button" id="outAll" class="ghost">Выйти на других устройствах</button></div><div class="status" id="pStat"></div></form></div>';
+    h+='<div class="card"><h3>'+ggT('profile.security','Безопасность')+'</h3><form id="passForm"><div class="frow"><div><label for="p0">'+ggT('profile.curPassword','Текущий пароль')+'</label><input id="p0" type="password" autocomplete="current-password"></div><div><label for="p1">'+ggT('profile.newPassword','Новый пароль')+'</label><input id="p1" type="password" autocomplete="new-password" placeholder="'+ggT('common.ph.password','Минимум 8 символов')+'"><div class="hint" id="pwHint" style="font-size:12.5px;color:#7a8775;margin-top:3px">'+ggT('common.hint.password','Только английские буквы, цифры и символы. Храним только хэш.')+'</div></div></div><div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap"><button type="submit" id="pBtn">'+ggT('profile.changePassword','Сменить пароль')+'</button><button type="button" id="outAll" class="ghost">'+ggT('profile.logoutAll','Выйти на других устройствах')+'</button></div><div class="status" id="pStat"></div></form></div>';
     h+='</div>';
 
-    h+='<h2>История</h2><div class="grid"><div class="card"><h3>Мои посты</h3>';
+    h+='<h2>'+ggT('profile.history','История')+'</h2><div class="grid"><div class="card"><h3>'+ggT('profile.myPosts','Мои посты')+'</h3>';
     if(P.posts.length){h+='<ul class="hist">'+P.posts.map(function(p){return '<li><span>'+((p.published_at)?'📣':'📝')+'</span><span>'+esc(p.title)+'</span><span class="d">'+esc(fmtDT(p.published_at||p.created_at))+'</span></li>';}).join('')+'</ul>';}
-    else{h+='<div class="empty">Постов ещё нет.</div>';}
-    h+='</div><div class="card"><h3>Смены тарифов</h3>';
+    else{h+='<div class="empty">'+ggT('profile.noPosts','Постов ещё нет.')+'</div>';}
+    h+='</div><div class="card"><h3>'+ggT('profile.planChanges','Смены тарифов')+'</h3>';
     if(P.subs.length){h+='<ul class="hist">'+P.subs.map(function(x){return '<li><span class="rolechip rc-owner">'+esc(PLAN_NAMES[x.plan_code]||x.plan_code)+'</span><span class="d">'+esc(fmtDT(x.created_at))+'</span></li>';}).join('')+'</ul>';}
-    else{h+='<div class="empty">Смен ещё не было.</div>';}
+    else{h+='<div class="empty">'+ggT('profile.noChanges','Смен ещё не было.')+'</div>';}
     h+='</div></div>';
     root.innerHTML=h;
 
@@ -136,8 +137,8 @@
       e.preventDefault();var b=$('nmBtn');b.disabled=true;
       fetch('/api/profile',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:$('nm').value})})
         .then(function(r){return r.json().then(function(d){return{status:r.status,d:d};});})
-        .then(function(res){b.disabled=false;if(res.status===200){stat($('nmStat'),'Имя сохранено.',true);try{var c=JSON.parse(sessionStorage.getItem('gg_user')||'{}');c.name=res.d.user.name;sessionStorage.setItem('gg_user',JSON.stringify(c));}catch(e){}}else{stat($('nmStat'),res.d.error||'Ошибка',false);}})
-        .catch(function(){b.disabled=false;stat($('nmStat'),'Сервер не отвечает.',false);});
+        .then(function(res){b.disabled=false;if(res.status===200){stat($('nmStat'),ggT('profile.msg.nameSaved','Имя сохранено.'),true);try{var c=JSON.parse(sessionStorage.getItem('gg_user')||'{}');c.name=res.d.user.name;sessionStorage.setItem('gg_user',JSON.stringify(c));}catch(e){}}else{stat($('nmStat'),res.d.error||ggT('profile.msg.err','Ошибка'),false);}})
+        .catch(function(){b.disabled=false;stat($('nmStat'),ggT('profile.msg.nonet','Сервер не отвечает.'),false);});
     });
 
     /* password form */
@@ -145,18 +146,18 @@
       e.preventDefault();var b=$('pBtn');
       try{$('p1').addEventListener('input',function(){var h=document.getElementById('pwHint');if(h)h.classList.toggle('bad',this.value.length>0&&this.value.length<8);});}catch(err){} /* O37 */
       var p0=$('p0').value,p1=$('p1').value;
-      if(p1.length<8){stat($('pStat'),'Новый пароль — минимум 8 символов.',false);return;}
-      if(!/^[A-Za-z0-9!@#$%^&*_+\-=.,?;:'"\(\)\[\]{}<>\\|\/~`\s]+$/.test(p1)){stat($('pStat'),'Пароль может содержать только английские буквы, цифры и символы',false);return;} /* O37 */
+      if(p1.length<8){stat($('pStat'),ggT('profile.msg.shortPass','Новый пароль — минимум 8 символов.'),false);return;}
+      if(!/^[A-Za-z0-9!@#$%^&*_+\-=.,?;:'"\(\)\[\]{}<>\\|\/~`\s]+$/.test(p1)){stat($('pStat'),ggT('common.msg.charset','Пароль может содержать только английские буквы, цифры и символы'),false);return;} /* O37 */
       b.disabled=true;
       fetch('/api/profile/password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({current:p0,next:p1})})
         .then(function(r){return r.json().then(function(d){return{status:r.status,d:d};});})
-        .then(function(res){b.disabled=false;if(res.status===200){stat($('pStat'),'Пароль изменён. Другие сессии завершены.',true);$('p0').value='';$('p1').value='';}else{stat($('pStat'),res.d.error||'Ошибка',false);}})
-        .catch(function(){b.disabled=false;stat($('pStat'),'Сервер не отвечает.',false);});
+        .then(function(res){b.disabled=false;if(res.status===200){stat($('pStat'),ggT('profile.msg.passChanged','Пароль изменён. Другие сессии завершены.'),true);$('p0').value='';$('p1').value='';}else{stat($('pStat'),res.d.error||ggT('profile.msg.err','Ошибка'),false);}})
+        .catch(function(){b.disabled=false;stat($('pStat'),ggT('profile.msg.nonet','Сервер не отвечает.'),false);});
     });
 
     /* logout all */
     $('outAll').addEventListener('click',function(){
-      if(!confirm('Завершить все сессии на других устройствах? Текущая останется активной.'))return;
+      if(!confirm(ggT('profile.msg.logoutConfirm','Завершить все сессии на других устройствах? Текущая останется активной.')))return;
       fetch('/api/profile/sessions',{method:'DELETE'}).then(function(){try{sessionStorage.removeItem('gg_user');}catch(e){}location.href='/';});
     });
 
@@ -166,10 +167,10 @@
       sb.disabled=true;
       fetch('/api/profile/settings',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({notifications:$('ntf').value,privacy:$('prv').value})})
         .then(function(r){return r.json().then(function(d){return{status:r.status,d:d};});})
-        .then(function(res){sb.disabled=false;if(res.status===200){stat($('setStat'),'Настройки сохранены.',true);}else{stat($('setStat'),res.d.error||'Ошибка',false);}})
-        .catch(function(){sb.disabled=false;stat($('setStat'),'Сервер не отвечает.',false);});
+        .then(function(res){sb.disabled=false;if(res.status===200){stat($('setStat'),ggT('profile.msg.settingsSaved','Настройки сохранены.'),true);}else{stat($('setStat'),res.d.error||ggT('profile.msg.err','Ошибка'),false);}})
+        .catch(function(){sb.disabled=false;stat($('setStat'),ggT('profile.msg.nonet','Сервер не отвечает.'),false);});
     });
-  }).catch(function(e){if(e.message!=='auth')$('root').innerHTML='<p class="mut">Профиль не загрузился. Обнови страницу.</p>';});
+  }).catch(function(e){if(e.message!=='auth')$('root').innerHTML='<p class="mut">'+ggT('profile.msg.loadFail','Профиль не загрузился. Обнови страницу.')+'</p>';});
 })();
 </script>
 </body>
