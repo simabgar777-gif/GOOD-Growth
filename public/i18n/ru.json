@@ -5,7 +5,7 @@
     "page": "login",
     "source": "live-pages/login.html (снимок прода 2026-10-24)",
     "note": "Плоские ключи. Текст в HTML остаётся как запасной — словарь только перекрывает его.",
-    "keys": 628,
+    "keys": 641,
     "pages": [
       "analytics",
       "billing",
@@ -23,6 +23,7 @@
       "posts",
       "pricing",
       "profile",
+      "rail",
       "reset",
       "role",
       "schedule",
@@ -658,5 +659,18 @@
   "profile.theme.hint": "Тема применяется сразу и запоминается на этом устройстве.",
   "profile.theme.dark": "Тёмная",
   "profile.theme.light": "Светлая",
-  "profile.theme.system": "Системная"
+  "profile.theme.system": "Системная",
+  "rail.app": "Мастерская",
+  "rail.strategy": "Цель",
+  "rail.posts": "Контент",
+  "rail.schedule": "Публикации",
+  "rail.analytics": "Аналитика",
+  "rail.channels": "Каналы",
+  "rail.settings": "Настройки",
+  "rail.logout": "Выйти",
+  "rail.tagline": "мастерская роста",
+  "rail.theme.dark": "Тёмная",
+  "rail.theme.light": "Светлая",
+  "rail.theme.system": "Системная",
+  "rail.group": "Разделы GOOD Growth"
 }

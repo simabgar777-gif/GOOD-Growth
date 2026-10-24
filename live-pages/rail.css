@@ -1,0 +1,246 @@
+/* ============================================================
+   GOOD Growth · ЛЕВАЯ ПАНЕЛЬ (приказ №76)
+
+   Все ссылки сверху переехали влево. Панель фиксированная,
+   поэтому разметку страниц не перестраиваем — только сдвигаем
+   содержимое через padding-left. Меньше риска сломать логику.
+
+   Мобильная — ПОКА как есть (приказ: потом).
+   ============================================================ */
+
+:root {
+  --rail-w: 232px;
+}
+
+/* ---------- сдвиг содержимого ---------- */
+body.gg-with-rail {
+  padding-left: var(--rail-w) !important;
+}
+
+/* старая шапка: прячем, НО НЕ УДАЛЯЕМ —
+   app.js ходит за #wsLogout, #modeChip, #brandPill, #wsUser.
+   Удалишь — мастерская умрёт. */
+body.gg-with-rail .topbar,
+body.gg-with-rail #gg-header {
+  display: none !important;
+}
+
+/* ---------- сама панель ---------- */
+.gg-rail {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--rail-w);
+  z-index: 800;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 12px 14px;
+  background: var(--surface, #0E0F12);
+  border-right: 1px solid var(--line, rgba(255,255,255,.06));
+  font: 500 13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-y: auto;
+}
+
+/* логотип */
+.gg-rail-logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 2px 8px 18px;
+  text-decoration: none;
+}
+.gg-rail-logo .gg-m {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, #F0BC72, #E8A54F 55%, #DF9A48);
+  color: #1B1206;
+  font-weight: 700;
+  font-size: 13px;
+}
+.gg-rail-logo b {
+  display: block;
+  font-size: 13.5px;
+  color: var(--fg, #F4F4F5);
+  letter-spacing: -.01em;
+}
+.gg-rail-logo i {
+  display: block;
+  font-style: normal;
+  font-size: 8px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--fg-3, #8B8B95);
+  font-weight: 700;
+}
+
+/* пункты */
+.gg-rail-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.gg-rail-nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  border-radius: 9px;
+  text-decoration: none;
+  color: var(--fg-2, #A1A1AA);
+  font-weight: 500;
+  transition: background-color 130ms linear, color 130ms linear;
+}
+/* правило на ВСЕ иконки панели, а не только навигации:
+   без него SVG в подвале рисуется 300x150 и выглядит как белое солнце */
+.gg-rail svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  opacity: .8;
+}
+.gg-rail-nav a svg {
+  opacity: .8;
+}
+.gg-rail-nav a:hover {
+  background: rgba(255,255,255,.04);
+  color: var(--fg, #F4F4F5);
+}
+.gg-rail-nav a.is-on {
+  background: rgba(232,165,79,.12);
+  color: var(--copper-lt, #F3C583);
+  font-weight: 600;
+}
+.gg-rail-nav a.is-on svg {
+  opacity: 1;
+  color: var(--copper, #E8A54F);
+}
+
+/* низ */
+.gg-rail-foot {
+  margin-top: auto;
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-top: 1px solid var(--line, rgba(255,255,255,.06));
+}
+/* «Настройки» — такой же пункт меню, как остальные, а не подпись */
+.gg-rail-foot a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  border-radius: 9px;
+  text-decoration: none;
+  color: var(--fg-2, #A1A1AA);
+  font-weight: 500;
+}
+.gg-rail-foot a:hover {
+  background: rgba(255,255,255,.04);
+  color: var(--fg, #F4F4F5);
+}
+.gg-rail-foot a.is-on {
+  background: rgba(232,165,79,.12);
+  color: var(--copper-lt, #F3C583);
+  font-weight: 600;
+}
+.gg-rail-out {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  border-radius: 9px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--fg-3, #8B8B95);
+  font: inherit;
+  text-align: left;
+  width: 100%;
+}
+.gg-rail-out:hover {
+  background: rgba(232,105,79,.08);
+  color: #E88A6F;
+}
+
+/* кнопка темы: заменила иконку из спрятанной шапки */
+.gg-rail-theme {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  border-radius: 9px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--fg-3, #8B8B95);
+  font: inherit;
+  text-align: left;
+  width: 100%;
+}
+.gg-rail-theme:hover {
+  background: rgba(255,255,255,.04);
+  color: var(--fg, #F4F4F5);
+}
+.gg-rail-theme .gg-ico { font-size: 15px; line-height: 1; }
+html[data-theme="light"] .gg-rail-theme { color: #5C665F !important; }
+html[data-theme="light"] .gg-rail-theme:hover { background: rgba(20,32,26,.04) !important; color: #14201A !important; }
+@media (prefers-color-scheme: light) {
+  html[data-theme-src="system"] .gg-rail-theme { color: #5C665F !important; }
+  html[data-theme-src="system"] .gg-rail-theme:hover { background: rgba(20,32,26,.04) !important; color: #14201A !important; }
+}
+
+/* светлая тема */
+html[data-theme="light"] .gg-rail {
+  background: #FFFFFF !important;
+  border-right-color: rgba(20,32,26,.12) !important;
+}
+html[data-theme="light"] .gg-rail-nav a { color: #5C665F !important; }
+html[data-theme="light"] .gg-rail-nav a:hover { background: rgba(20,32,26,.04) !important; color: #14201A !important; }
+html[data-theme="light"] .gg-rail-nav a.is-on {
+  background: rgba(154,85,24,.10) !important;
+  color: #7E400E !important;
+}
+html[data-theme="light"] .gg-rail-logo b { color: #14201A !important; }
+html[data-theme="light"] .gg-rail-logo span { color: #6F7A72 !important; }
+html[data-theme="light"] .gg-rail-foot { border-top-color: rgba(20,32,26,.12) !important; }
+html[data-theme="light"] .gg-rail-foot a { color: #5C665F !important; }
+html[data-theme="light"] .gg-rail-foot a:hover { background: rgba(20,32,26,.04) !important; color: #14201A !important; }
+html[data-theme="light"] .gg-rail-foot a.is-on {
+  background: rgba(154,85,24,.10) !important;
+  color: #7E400E !important;
+}
+html[data-theme="light"] .gg-rail-out { color: #5C665F !important; }
+
+@media (prefers-color-scheme: light) {
+  html[data-theme-src="system"] .gg-rail {
+    background: #FFFFFF !important;
+    border-right-color: rgba(20,32,26,.12) !important;
+  }
+  html[data-theme-src="system"] .gg-rail-nav a { color: #5C665F !important; }
+  html[data-theme-src="system"] .gg-rail-nav a:hover { background: rgba(20,32,26,.04) !important; color: #14201A !important; }
+  html[data-theme-src="system"] .gg-rail-nav a.is-on {
+    background: rgba(154,85,24,.10) !important;
+    color: #7E400E !important;
+  }
+  html[data-theme-src="system"] .gg-rail-logo b { color: #14201A !important; }
+  html[data-theme-src="system"] .gg-rail-logo span { color: #6F7A72 !important; }
+  html[data-theme-src="system"] .gg-rail-foot { border-top-color: rgba(20,32,26,.12) !important; }
+  html[data-theme-src="system"] .gg-rail-out { color: #5C665F !important; }
+}
+
+/* ---------- мобильная: пока просто убираем панель (приказ: потом) ---------- */
+@media (max-width: 900px) {
+  body.gg-with-rail { padding-left: 0 !important; }
+  .gg-rail { display: none !important; }
+}
+
+@media print {
+  .gg-rail { display: none !important; }
+  body.gg-with-rail { padding-left: 0 !important; }
+}

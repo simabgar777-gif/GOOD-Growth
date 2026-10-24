@@ -44,8 +44,10 @@
     .quick-link { text-align:center; }
     .quick-link a { color: var(--green); font-size: 14.5px; }
   </style>
-<link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"></head>
-<body>
+<link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"><link rel="stylesheet" href="/rail.css">
+</head>
+<body class="gg-with-rail">
+<aside class="gg-rail" id="gg-rail" aria-label="Разделы GOOD Growth" data-i18n-attr="aria-label:rail.group"><a class="gg-rail-logo" href="/app"><span class="gg-m">G</span><span class="gg-t"><b>GOOD Growth</b><i data-i18n="rail.tagline">мастерская роста</i></span></a><nav class="gg-rail-nav"><a href="/app" data-k="app"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="11" height="11" rx="2.5"/><path d="M5.5 8h5"/></svg><span data-i18n="rail.app">Мастерская</span></a><a href="/app/strategy" data-k="strategy"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="2"/></svg><span data-i18n="rail.strategy">Цель</span></a><a href="/app/posts" data-k="posts"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="11" height="10" rx="2"/><path d="M2.5 6.5h11"/></svg><span data-i18n="rail.posts">Контент</span></a><a href="/app/schedule" data-k="schedule"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="11" height="10" rx="2"/><path d="M5 1.8v2.4M11 1.8v2.4M2.5 7h11"/></svg><span data-i18n="rail.schedule">Публикации</span></a><a href="/app/analytics" data-k="analytics"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5h11"/><path d="M4.5 12.5V8M8 12.5V4.2M11.5 12.5V9.6"/></svg><span data-i18n="rail.analytics">Аналитика</span></a><a href="/app/channels" data-k="channels"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 5.8L3.6 8.4l2.6 2.6"/><path d="M9.8 5.8l2.6 2.6-2.6 2.6"/></svg><span data-i18n="rail.channels">Каналы</span></a></nav><div class="gg-rail-foot"><a href="/profile" data-k="profile"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.8v1.6M8 12.6v1.6M1.8 8h1.6M12.6 8h1.6M3.6 3.6l1.1 1.1M11.3 11.3l1.1 1.1M12.4 3.6l-1.1 1.1M4.7 11.3l-1.1 1.1"/></svg><span data-i18n="rail.settings">Настройки</span></a><button type="button" class="gg-rail-theme" id="ggRailTheme"><span class="gg-ico">☾</span><span class="gg-tx" data-i18n="rail.theme.dark">Тёмная</span></button><button type="button" class="gg-rail-out" id="ggRailOut" data-i18n="rail.logout">Выйти</button></div></aside>
 <script src="/i18n/i18n.js"></script>
   <div class="wrap">
     <a class="back" href="/" data-i18n="common.back.landing">← На лендинг</a>
@@ -166,5 +168,6 @@
   </script>
 <script src="/gg-header.js" defer></script>
 <script src="/theme.js" defer></script>
+<script src="/rail.js" defer></script>
 </body>
 </html>
