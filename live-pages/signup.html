@@ -140,7 +140,7 @@ button.btn:disabled{opacity:.6;cursor:wait;transform:none}
   <form id="signupForm" novalidate>
     <div><label for="name" data-i18n="signup.label.name">Имя</label><input id="name" name="name" type="text" autocomplete="name" maxlength="80" placeholder="Как к тебе обращаться" data-i18n-attr="placeholder:signup.ph.name"></div>
     <div><label for="email" data-i18n="signup.label.email">Email</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
-    <div><label for="password" data-i18n="signup.label.password">Пароль</label><span class="pw-wrap"><input id="password" name="password" type="password" autocomplete="new-password" required placeholder="Минимум 8 символов" data-i18n-attr="placeholder:signup.ph.password"><button type="button" class="pw-eye" id="pwEye" aria-label="Показать пароль" data-i18n-attr="aria-label:signup.eye.show"><svg class="on-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><svg class="off-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></span>
+    <div><label for="password" data-i18n="signup.label.password">Пароль</label><span class="pw-wrap"><input id="password" name="password" type="password" autocomplete="new-password" required placeholder="Минимум 8 символов" data-i18n-attr="placeholder:signup.ph.password"><button type="button" class="pw-eye" id="pwEye" aria-label="Показать пароль" data-i18n-attr="aria-label:common.eye.show"><svg class="on-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><svg class="off-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></span>
       <div class="hint" id="pwHint" data-i18n="signup.hint">Минимум 8 символов. Храним только хэш — сам пароль не увидит даже сервер. Только английские буквы, цифры и символы.</div></div>
     <button class="btn" type="submit" id="submitBtn" data-i18n="signup.submit">Создать аккаунт</button>
   </form>
@@ -162,8 +162,8 @@ button.btn:disabled{opacity:.6;cursor:wait;transform:none}
     m.className='msg';m.textContent='';
     var email=f.email.value.trim(),password=f.password.value,name=f.name.value.trim();
     if(!email){show(ggT('signup.msg.email','Укажи email.'),false);return;}
-    if(password.length<8){show(ggT('signup.msg.short','Пароль слишком короткий — минимум 8 символов.'),false);return;}
-    if(!/^[A-Za-z0-9!@#$%^&*_+\-=.,?;:'"\(\)\[\]{}<>\\|\/~`\s]+$/.test(password)){show(ggT('signup.msg.charset','Пароль может содержать только английские буквы, цифры и символы'),false);return;} /* O37 */
+    if(password.length<8){show(ggT('common.msg.shortPass','Пароль слишком короткий — минимум 8 символов.'),false);return;}
+    if(!/^[A-Za-z0-9!@#$%^&*_+\-=.,?;:'"\(\)\[\]{}<>\\|\/~`\s]+$/.test(password)){show(ggT('common.msg.charset','Пароль может содержать только английские буквы, цифры и символы'),false);return;} /* O37 */
     b.disabled=true;
     fetch('/api/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,password:password,name:name})})
       .then(function(r){return r.json().then(function(d){return{status:r.status,d:d};});})
@@ -171,7 +171,7 @@ button.btn:disabled{opacity:.6;cursor:wait;transform:none}
         if(res.status===200&&res.d&&res.d.ok){try{sessionStorage.setItem('gg_user',JSON.stringify(res.d.user));sessionStorage.setItem('gg_entered','1');sessionStorage.removeItem('gg_after_login');}catch(e){}var dest='/app/strategy';try{var gp=sessionStorage.getItem('gg_plan');sessionStorage.removeItem('gg_plan');if(gp&&gp!=='start')dest='/app/billing?plan='+gp;}catch(e){}location.href=dest;}
         else{b.disabled=false;show((res.d&&res.d.error)||ggT('signup.msg.fail','Не получилось. Проверь поля и попробуй ещё раз.'),false);}
       })
-      .catch(function(){b.disabled=false;show(ggT('signup.msg.nonet','Сервер не отвечает. Попробуй ещё раз.'),false);});
+      .catch(function(){b.disabled=false;show(ggT('common.msg.nonet','Сервер не отвечает. Попробуй ещё раз.'),false);});
   });
 })();
 </script>
@@ -179,7 +179,7 @@ button.btn:disabled{opacity:.6;cursor:wait;transform:none}
 (function(){
   var b=document.getElementById('pwEye'),p=document.getElementById('password');
   if(!b||!p)return;
-  b.addEventListener('click',function(){var s=p.type==='password';p.type=s?'text':'password';b.classList.toggle('on',s);b.setAttribute('aria-label',s?ggT('signup.eye.hide','Скрыть пароль'):ggT('signup.eye.show','Показать пароль'));});
+  b.addEventListener('click',function(){var s=p.type==='password';p.type=s?'text':'password';b.classList.toggle('on',s);b.setAttribute('aria-label',s?ggT('common.eye.hide','Скрыть пароль'):ggT('common.eye.show','Показать пароль'));});
 })();
 </script>
 <script src="/gg-header.js" defer></script>

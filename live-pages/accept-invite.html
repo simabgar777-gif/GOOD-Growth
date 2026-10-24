@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Приглашение в команду — GOOD Growth</title>
+<title data-i18n="invite.meta.title">Приглашение в команду — GOOD Growth</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
@@ -58,6 +58,7 @@ button.btn:disabled{opacity:.6;cursor:wait;transform:none}
 </style>
 <link rel="stylesheet" href="/style-c.css"></head>
 <body>
+<script src="/i18n/i18n.js"></script>
 <main class="gg-split"><!-- O60 · LEFT PANEL — cinematic workshop (CSS/SVG only, no photos) -->
 <style>
 /* ==== O60 LEFT PANEL (.gg-visual / .ggv-*) ==== */
@@ -113,19 +114,19 @@ button.btn:disabled{opacity:.6;cursor:wait;transform:none}
       <circle cx="22" cy="22" r="20.5" fill="none" stroke="rgba(232,165,79,.42)" stroke-width="1.4"/>
       <path d="M30 14.5A11 11 0 1 0 33 22H22" fill="none" stroke="#E8A54F" stroke-width="2.6" stroke-linecap="round"/>
     </svg>
-    <span class="ggv-word">Good&nbsp;Growth</span>
+    <span class="ggv-word" data-i18n="common.brand">Good&nbsp;Growth</span>
   </div>
   <div class="ggv-mid">
-    <p class="ggv-kicker">Мастерская роста</p>
-    <h2 class="ggv-slogan">Рост — не удача. <br><em>Это ремесло.</em></h2>
+    <p class="ggv-kicker" data-i18n="common.kicker">Мастерская роста</p>
+    <h2 class="ggv-slogan"><span data-i18n="common.slogan.a">Рост — не удача.</span> <br><em data-i18n="common.slogan.b">Это ремесло.</em></h2>
     <ul class="ggv-benefits">
-      <li><i aria-hidden="true"></i><span><b>Система вместо хаоса</b><br>цель, метрика и недельный ритм</span></li>
-      <li><i aria-hidden="true"></i><span><b>Практика на твоём проекте</b><br>делаешь руками, а не смотришь вебинары</span></li>
-      <li><i aria-hidden="true"></i><span><b>Разбор с наставником</b><br>живая обратная связь каждую неделю</span></li>
+      <li><i aria-hidden="true"></i><span><b data-i18n="common.b1.title">Система вместо хаоса</b><br><span data-i18n="common.b1.text">цель, метрика и недельный ритм</span></span></li>
+      <li><i aria-hidden="true"></i><span><b data-i18n="common.b2.title">Практика на твоём проекте</b><br><span data-i18n="common.b2.text">делаешь руками, а не смотришь вебинары</span></span></li>
+      <li><i aria-hidden="true"></i><span><b data-i18n="common.b3.title">Разбор с наставником</b><br><span data-i18n="common.b3.text">живая обратная связь каждую неделю</span></span></li>
     </ul>
   </div>
   <footer class="ggv-foot">
-    <span>© GOOD Growth · мастерская системного роста</span>
+    <span data-i18n="common.footer">© GOOD Growth · мастерская системного роста</span>
     <span>MMXXVI</span>
   </footer>
 </aside>
@@ -136,57 +137,57 @@ button.btn:disabled{opacity:.6;cursor:wait;transform:none}
 (function(){
   var card=document.getElementById('card');
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-  var ROLES={creator:'Создатель',approver:'Утверждающий',publisher:'Публикатор'};
+  var ROLES={creator:ggT('role.creator','Создатель'),approver:ggT('role.approver','Утверждающий'),publisher:ggT('role.publisher','Публикатор')};
   var token=null;
   try{token=new URLSearchParams(location.search).get('token')||'';}catch(e){}
-  if(!token){card.innerHTML='<div class="bad"><h1>Ссылка неполная</h1><p class="sub">В ссылке нет токена приглашения. Попроси у владельца команды свежее письмо.</p></div>';return;}
+  if(!token){card.innerHTML='<div class="bad"><h1>'+ggT('invite.noToken.title','Ссылка неполная')+'</h1><p class="sub">'+ggT('invite.noToken.text','В ссылке нет токена приглашения. Попроси у владельца команды свежее письмо.')+'</p></div>';return;}
 
   fetch('/api/invite/'+encodeURIComponent(token))
     .then(function(r){return r.json().then(function(d){return {status:r.status,d:d};});})
     .then(function(res){
-      if(res.status!==200){card.innerHTML='<div class="bad"><h1>Приглашение не найдено</h1><p class="sub">'+esc(res.d&&res.d.error||'Ссылка устарела или неверна.')+'</p></div>';return;}
+      if(res.status!==200){card.innerHTML='<div class="bad"><h1>'+ggT('invite.notFound.title','Приглашение не найдено')+'</h1><p class="sub">'+esc(res.d&&res.d.error||ggT('invite.notFound.text','Ссылка устарела или неверна.'))+'</p></div>';return;}
       var inv=res.d;
-      if(inv.accepted){card.innerHTML='<div class="bad"><h1>Уже принято</h1><p class="sub">Это приглашение уже использовали. <a href="/login">Войди</a> под '+esc(inv.email)+' — роль уже подключена.</p></div>';return;}
+      if(inv.accepted){card.innerHTML='<div class="bad"><h1>'+ggT('invite.accepted.title','Уже принято')+'</h1><p class="sub">'+ggT('invite.accepted.a','Это приглашение уже использовали. ')+'<a href="/login">'+ggT('invite.accepted.login','Войди')+'</a>'+ggT('invite.accepted.b',' под ')+esc(inv.email)+ggT('invite.accepted.c',' — роль уже подключена.')+'</p></div>';return;}
       var role=ROLES[inv.role]||inv.role;
-      card.innerHTML='<h1>Тебя пригласили!</h1>'+
-        '<p class="sub">'+(inv.name?esc(inv.name)+' ждёт тебя':'Тебя ждут')+' в команде GOOD Growth.</p>'+
-        '<span class="role">Роль: '+esc(role)+'</span>'+
+      card.innerHTML='<h1>'+ggT('invite.h1','Тебя пригласили!')+'</h1>'+
+        '<p class="sub">'+(inv.name?esc(inv.name)+ggT('invite.wait.named',' ждёт тебя'):ggT('invite.wait.anon','Тебя ждут'))+ggT('invite.wait.tail',' в команде GOOD Growth.')+'</p>'+
+        '<span class="role">'+ggT('invite.role','Роль: ')+esc(role)+'</span>'+
         '<form id="invForm" novalidate>'+
-        '<div><label for="name">Имя</label><input id="name" type="text" maxlength="80" autocomplete="name" placeholder="Как к тебе обращаться" value="'+esc(inv.name||'')+'"></div>'+
-        '<div><label for="email">Email приглашения</label><input id="email" type="email" autocomplete="email" value="'+esc(inv.email)+'"></div>'+
-        '<div class="hint">Введи именно тот адрес, на который пришло приглашение.</div>'+
-        '<div><label for="password">Пароль</label><span class="pw-wrap"><input id="password" type="password" autocomplete="new-password" minlength="8" required placeholder="Минимум 8 символов"><button type="button" class="pw-eye" id="pwEye" aria-label="Показать пароль"><svg class="on-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><svg class="off-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></span>'+
-        '<div class="hint" id="pwHint">Храним только хэш — сам пароль не увидит даже сервер. Только английские буквы, цифры и символы.</div></div>'+
-        '<button class="btn" type="submit" id="btn">Принять и войти</button>'+
+        '<div><label for="name">'+ggT('common.label.name','Имя')+'</label><input id="name" type="text" maxlength="80" autocomplete="name" placeholder="'+ggT('common.ph.name','Как к тебе обращаться')+'" value="'+esc(inv.name||'')+'"></div>'+
+        '<div><label for="email">'+ggT('invite.label.email','Email приглашения')+'</label><input id="email" type="email" autocomplete="email" value="'+esc(inv.email)+'"></div>'+
+        '<div class="hint">'+ggT('invite.hint.email','Введи именно тот адрес, на который пришло приглашение.')+'</div>'+
+        '<div><label for="password">'+ggT('common.label.password','Пароль')+'</label><span class="pw-wrap"><input id="password" type="password" autocomplete="new-password" minlength="8" required placeholder="'+ggT('common.ph.password','Минимум 8 символов')+'"><button type="button" class="pw-eye" id="pwEye" aria-label="'+ggT('common.eye.show','Показать пароль')+'"><svg class="on-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><svg class="off-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></span>'+
+        '<div class="hint" id="pwHint">'+ggT('invite.hint.password','Храним только хэш — сам пароль не увидит даже сервер. Только английские буквы, цифры и символы.')+'</div></div>'+
+        '<button class="btn" type="submit" id="btn">'+ggT('invite.submit','Принять и войти')+'</button>'+
         '</form><div class="msg" id="msg"></div>'+
-        '<p class="alt">Уже есть аккаунт? <a href="/login?next='+encodeURIComponent('/app/strategy')+'">Войти</a> — роль подключится по email.</p>';
+        '<p class="alt">'+ggT('invite.have.q','Уже есть аккаунт? ')+'<a href="/login?next='+encodeURIComponent('/app/strategy')+'">'+ggT('invite.have.login','Войти')+'</a>'+ggT('invite.have.tail',' — роль подключится по email.')+'</p>';
       var f=document.getElementById('invForm'),m=document.getElementById('msg'),b=document.getElementById('btn');
       function show(t,ok){m.className='msg '+(ok?'ok':'err');m.textContent=t;}
       try{document.getElementById('password').addEventListener('input',function(){var h=document.getElementById('pwHint');if(h)h.classList.toggle('bad',this.value.length>0&&this.value.length<8);});}catch(e){} /* O37 */
-      try{var eb=document.getElementById('pwEye'),ep=document.getElementById('password');eb.addEventListener('click',function(){var s=ep.type==='password';ep.type=s?'text':'password';eb.classList.toggle('on',s);eb.setAttribute('aria-label',s?'Скрыть пароль':'Показать пароль');});}catch(e){} /* O61 eye */
+      try{var eb=document.getElementById('pwEye'),ep=document.getElementById('password');eb.addEventListener('click',function(){var s=ep.type==='password';ep.type=s?'text':'password';eb.classList.toggle('on',s);eb.setAttribute('aria-label',s?ggT('common.eye.hide','Скрыть пароль'):ggT('common.eye.show','Показать пароль'));});}catch(e){} /* O61 eye */
       f.addEventListener('submit',function(e){
         e.preventDefault();m.className='msg';m.textContent='';
         var email=f.email.value.trim(),password=f.password.value,name=f.name.value.trim();
-        if(!email){show('Укажи email приглашения.',false);return;}
-        if(password.length<8){show('Пароль слишком короткий — минимум 8 символов.',false);return;}
-        if(!/^[A-Za-z0-9!@#$%^&*_+\-=.,?;:'"\(\)\[\]{}<>\\|\/~`\s]+$/.test(password)){show('Пароль может содержать только английские буквы, цифры и символы',false);return;} /* O37 */
+        if(!email){show(ggT('invite.msg.email','Укажи email приглашения.'),false);return;}
+        if(password.length<8){show(ggT('common.msg.shortPass','Пароль слишком короткий — минимум 8 символов.'),false);return;}
+        if(!/^[A-Za-z0-9!@#$%^&*_+\-=.,?;:'"\(\)\[\]{}<>\\|\/~`\s]+$/.test(password)){show(ggT('common.msg.charset','Пароль может содержать только английские буквы, цифры и символы'),false);return;} /* O37 */
         b.disabled=true;
         fetch('/api/invite/'+encodeURIComponent(token)+'/accept',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,password:password,name:name})})
           .then(function(r){return r.json().then(function(d){return {status:r.status,d:d};});})
           .then(function(res2){
             if(res2.status===200&&res2.d&&res2.d.ok){
               try{sessionStorage.setItem('gg_user',JSON.stringify(res2.d.user));sessionStorage.setItem('gg_entered','1');}catch(e){}
-              show('Готово! Открываю мастерскую…',true);
+              show(ggT('invite.msg.done','Готово! Открываю мастерскую…'),true);
               setTimeout(function(){location.href='/app/strategy';},600);
             }else if(res2.d&&res2.d.needLogin){
               show(res2.d.error,false);
               setTimeout(function(){location.href='/login?next='+encodeURIComponent('/app/strategy');},1500);
-            }else{b.disabled=false;show((res2.d&&res2.d.error)||'Не получилось. Проверь поля.',false);}
+            }else{b.disabled=false;show((res2.d&&res2.d.error)||ggT('invite.msg.fail','Не получилось. Проверь поля.'),false);}
           })
-          .catch(function(){b.disabled=false;show('Сервер не отвечает. Попробуй ещё раз.',false);});
+          .catch(function(){b.disabled=false;show(ggT('common.msg.nonet','Сервер не отвечает. Попробуй ещё раз.'),false);});
       });
     })
-    .catch(function(){card.innerHTML='<div class="bad"><h1>Сервер не отвечает</h1><p class="sub">Обнови страницу чуть позже.</p></div>';});
+    .catch(function(){card.innerHTML='<div class="bad"><h1>'+ggT('invite.err.title','Сервер не отвечает')+'</h1><p class="sub">'+ggT('invite.err.text','Обнови страницу чуть позже.')+'</p></div>';});
 })();
 </script>
 </body>
