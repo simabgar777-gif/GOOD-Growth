@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <title>Команда — GOOD Growth</title>
+  <title data-i18n="team.meta.title">Команда — GOOD Growth</title>
   <style>
   :root{
     --pg-bg:#08090A; --pg-surface:#0E0F12; --pg-surface2:#111216;
@@ -45,71 +45,72 @@
   .role-select{background:var(--pg-surface2);color:var(--pg-fg);border:1px solid var(--pg-line2);border-radius:8px;padding:6px 10px;font:inherit;font-size:13.5px}</style>
 <link rel="stylesheet" href="/style-c.css"></head>
 <body>
+<script src="/i18n/i18n.js"></script>
   <div class="wrap">
-    <a class="back" href="/partner">← К брендам</a> · <a class="back" href="/partner/info">Партнёрам</a> · <a class="back" href="/partner/analytics">Аналитика</a>
-    <h1>Команда</h1>
-    <p class="sub">Помощники с ролями. Каждый видит бренды, но может делать только то, что разрешено его ролью. Добавишь почту — помощнику сразу уйдёт приглашение со ссылкой на вход.</p>
+    <a class="back" href="/partner" data-i18n="common.back.brands">← К брендам</a> · <a class="back" href="/partner/info" data-i18n="team.back.partners">Партнёрам</a> · <a class="back" href="/partner/analytics" data-i18n="team.back.analytics">Аналитика</a>
+    <h1 data-i18n="team.h1">Команда</h1>
+    <p class="sub" data-i18n="team.sub">Помощники с ролями. Каждый видит бренды, но может делать только то, что разрешено его ролью. Добавишь почту — помощнику сразу уйдёт приглашение со ссылкой на вход.</p>
 
     <div class="roles">
-      <div class="role"><h3>Создатель</h3><p>Готовит цели, посты и картинки. Не публикует.</p></div>
-      <div class="role"><h3>Утверждающий</h3><p>Проверяет черновики перед публикацией. Правит и возвращает.</p></div>
-      <div class="role"><h3>Публикатор</h3><p>Нажимает «Опубликовать». Отвечает за канал.</p></div>
+      <div class="role"><h3 data-i18n="role.creator">Создатель</h3><p data-i18n="team.role.creator">Готовит цели, посты и картинки. Не публикует.</p></div>
+      <div class="role"><h3 data-i18n="role.approver">Утверждающий</h3><p data-i18n="team.role.approver">Проверяет черновики перед публикацией. Правит и возвращает.</p></div>
+      <div class="role"><h3 data-i18n="role.publisher">Публикатор</h3><p data-i18n="team.role.publisher">Нажимает «Опубликовать». Отвечает за канал.</p></div>
     </div>
 
     <form class="form" id="teamForm" novalidate>
-      <label for="mname">Имя помощника</label>
-      <input id="mname" type="text" maxlength="80" placeholder="Например: Анна" autocomplete="off" />
-      <label for="memail">Email — на него уйдёт приглашение (по желанию)</label>
+      <label for="mname" data-i18n="team.label.name">Имя помощника</label>
+      <input id="mname" type="text" maxlength="80" placeholder="Например: Анна" data-i18n-attr="placeholder:team.ph.name" autocomplete="off" />
+      <label for="memail" data-i18n="team.label.email">Email — на него уйдёт приглашение (по желанию)</label>
       <input id="memail" type="email" maxlength="120" placeholder="anna@example.com" autocomplete="off" />
-      <label for="mrole">Роль</label>
+      <label for="mrole" data-i18n="team.label.role">Роль</label>
       <select id="mrole">
-        <option value="creator">Создатель</option>
-        <option value="approver">Утверждающий</option>
-        <option value="publisher">Публикатор</option>
+        <option value="creator" data-i18n="role.creator">Создатель</option>
+        <option value="approver" data-i18n="role.approver">Утверждающий</option>
+        <option value="publisher" data-i18n="role.publisher">Публикатор</option>
       </select>
-      <button class="btn" id="save" type="submit">Добавить в команду</button>
+      <button class="btn" id="save" type="submit" data-i18n="team.add">Добавить в команду</button>
       <p class="status" id="formStatus" role="status" aria-live="polite"></p>
     </form>
 
     <div id="tableWrap"></div>
-    <p class="note">Роли работают: Создатель не видит «Опубликовать», Утверждающий утверждает черновики, Публикатор публикует. Связь роли с аккаунтом — по email помощника (владелец без email в команде — полные права). Приглашение: помощник открывает ссылку, задаёт пароль — аккаунт создан и роль уже его. Пока SMTP-порты закрыты хостером (тикет №12847443), копия письма приходит владельцу в Telegram.</p>
+    <p class="note" data-i18n="team.note">Роли работают: Создатель не видит «Опубликовать», Утверждающий утверждает черновики, Публикатор публикует. Связь роли с аккаунтом — по email помощника (владелец без email в команде — полные права). Приглашение: помощник открывает ссылку, задаёт пароль — аккаунт создан и роль уже его. Пока SMTP-порты закрыты хостером (тикет №12847443), копия письма приходит владельцу в Telegram.</p>
   </div>
 
   <script>
     const $ = (id) => document.getElementById(id);
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const roleNames = { creator: 'Создатель', approver: 'Утверждающий', publisher: 'Публикатор' };
+    const roleNames = { creator: ggT('role.creator','Создатель'), approver: ggT('role.approver','Утверждающий'), publisher: ggT('role.publisher','Публикатор') };
     const statusText = (t, isErr) => { const el = $('formStatus'); el.textContent = t || ''; el.className = 'status' + (isErr ? ' err' : ''); };
 
     async function load() {
       try {
         const list = await (await fetch('/api/team')).json();
         const w = $('tableWrap');
-        if (!list.length) { w.innerHTML = '<div class="empty">Пока один в команде. Добавь помощника — делегируй рутину.</div>'; return; }
-        w.innerHTML = '<table><thead><tr><th>Имя</th><th>Email</th><th>Роль</th><th>Приглашение</th><th></th></tr></thead><tbody>' +
+        if (!list.length) { w.innerHTML = '<div class="empty">' + ggT('team.empty','Пока один в команде. Добавь помощника — делегируй рутину.') + '</div>'; return; }
+        w.innerHTML = '<table><thead><tr><th>' + ggT('team.th.name','Имя') + '</th><th>' + ggT('team.th.email','Email') + '</th><th>' + ggT('team.th.role','Роль') + '</th><th>' + ggT('team.th.invite','Приглашение') + '</th><th></th></tr></thead><tbody>' +
           list.map((m) =>
             '<tr><td>' + esc(m.name) + '</td><td class="muted">' + (m.email ? esc(m.email) : '—') + '</td>' +
             '<td><select class="role-select" data-id="' + m.id + '">' +
             Object.entries(roleNames).map(([k, v]) => '<option value="' + k + '"' + (k === m.role ? ' selected' : '') + '>' + v + '</option>').join('') +
             '</select></td>' +
             '<td class="inv">' + (m.invite_status === 'pending'
-              ? '<span class="pend">Ожидает подтверждения</span><button class="resend" data-resend="' + m.id + '">Отправить повторно</button>'
-              : (m.invite_status === 'accepted' ? '<span class="ok">✓ Принято</span>' : '<button class="resend" data-resend="' + m.id + '" title="Выслать приглашение на email участника">Пригласить</button>')) + '</td>' +
-            '<td><button class="del" data-del="' + m.id + '" data-name="' + esc(m.name) + '" title="Убрать из команды">×</button></td></tr>'
+              ? '<span class="pend">' + ggT('team.inv.pending','Ожидает подтверждения') + '</span><button class="resend" data-resend="' + m.id + '">' + ggT('team.inv.resend','Отправить повторно') + '</button>'
+              : (m.invite_status === 'accepted' ? '<span class="ok">' + ggT('team.inv.accepted','✓ Принято') + '</span>' : '<button class="resend" data-resend="' + m.id + '" title="' + ggT('team.inv.sendTitle','Выслать приглашение на email участника') + '">' + ggT('team.inv.send','Пригласить') + '</button>')) + '</td>' +
+            '<td><button class="del" data-del="' + m.id + '" data-name="' + esc(m.name) + '" title="' + ggT('team.del.title','Убрать из команды') + '">×</button></td></tr>'
           ).join('') + '</tbody></table>';
-      } catch (e) { $('tableWrap').innerHTML = '<div class="empty">Ошибка загрузки: ' + esc(e.message) + '</div>'; }
+      } catch (e) { $('tableWrap').innerHTML = '<div class="empty">' + ggT('team.err','Ошибка загрузки: ') + esc(e.message) + '</div>'; }
     }
 
     $('teamForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = $('mname').value.trim();
-      if (name.length < 2) { statusText('Имя — хотя бы два символа.', true); return; }
+      if (name.length < 2) { statusText(ggT('team.msg.short','Имя — хотя бы два символа.'), true); return; }
       $('save').disabled = true;
       try {
         const r = await fetch('/api/team', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email: $('memail').value.trim(), role: $('mrole').value }) });
         const d = await r.json();
-        if (!r.ok) throw new Error(d.error || 'Ошибка');
-        statusText(d.invite_link ? (name + ' в команде. Приглашение сформировано: копия письма ушлётся в Telegram владельца, ссылка действует и без письма.') : (name + ' добавлен(а) в команду (email не указан — приглашение не отправляется).'));
+        if (!r.ok) throw new Error(d.error || ggT('team.msg.err','Ошибка'));
+        statusText(d.invite_link ? ggT('team.msg.invited','{name} в команде. Приглашение сформировано: копия письма ушлётся в Telegram владельца, ссылка действует и без письма.').replace('{name}', name) : ggT('team.msg.added','{name} добавлен(а) в команду (email не указан — приглашение не отправляется).').replace('{name}', name));
         $('mname').value = ''; $('memail').value = '';
         load();
       } catch (err) { statusText(err.message, true); }
@@ -127,15 +128,15 @@
         try {
           const r = await fetch('/api/team/' + rs.dataset.resend + '/resend', { method: 'POST' });
           const d = await r.json();
-          if (!r.ok) { rs.disabled = false; alert(d.error || 'Ошибка'); return; }
-          statusText('Приглашение отправлено заново.');
+          if (!r.ok) { rs.disabled = false; alert(d.error || ggT('team.msg.err','Ошибка')); return; }
+          statusText(ggT('team.msg.resent','Приглашение отправлено заново.'));
           load();
         } catch (err) { rs.disabled = false; }
         return;
       }
       const del = e.target.closest('[data-del]');
       if (del) {
-        if (!confirm('Убрать «' + del.dataset.name + '» из команды?')) return;
+        if (!confirm(ggT('team.msg.confirm','Убрать «{name}» из команды?').replace('{name}', del.dataset.name))) return;
         await fetch('/api/team/' + del.dataset.del, { method: 'DELETE' });
         load();
       }
