@@ -5,7 +5,11 @@
     "page": "login",
     "source": "live-pages/login.html (снимок прода 2026-10-24)",
     "note": "Плоские ключи. Текст в HTML остаётся как запасной — словарь только перекрывает его.",
-    "keys": 32
+    "keys": 51,
+    "pages": [
+      "analytics",
+      "login"
+    ]
   },
   "login.meta.title": "Вход — GOOD Growth",
   "login.brand": "Good Growth",
@@ -38,5 +42,24 @@
   "login.msg.reset": "Пароль изменён. Войди с новым паролем.",
   "login.msg.fill": "Заполни email и пароль.",
   "login.msg.fail": "Не получилось войти. Попробуй ещё раз.",
-  "login.msg.nonet": "Сервер не отвечает. Попробуй ещё раз."
+  "login.msg.nonet": "Сервер не отвечает. Попробуй ещё раз.",
+  "analytics.meta.title": "Аналитика — GOOD Growth",
+  "analytics.back.partners": "Партнёрам · ← К брендам",
+  "analytics.back.team": "Команда",
+  "analytics.h1": "Аналитика",
+  "analytics.sub": "Сводка по всем брендам: цели, посты, публикации. Обновляется мгновенно из базы.",
+  "analytics.hint": "Публикация считается по кнопке «Опубликовать». Каналы — привязанные Telegram-каналы бренда.",
+  "analytics.tile.brands": "брендов",
+  "analytics.tile.goals": "целей",
+  "analytics.tile.posts": "постов",
+  "analytics.tile.published": "публикаций",
+  "analytics.tile.channels": "каналов",
+  "analytics.th.brand": "Бренд",
+  "analytics.th.goals": "Цели",
+  "analytics.th.posts": "Посты",
+  "analytics.th.published": "Публикации",
+  "analytics.th.channels": "Каналы",
+  "analytics.th.last": "Последняя публ.",
+  "analytics.empty": "Брендов пока нет. Создай первый на странице «К брендам» — и здесь появится статистика.",
+  "analytics.err": "Не удалось загрузить: "
 }

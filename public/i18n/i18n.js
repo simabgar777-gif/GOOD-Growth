@@ -42,9 +42,6 @@
       }
     }
 
-    // заголовок вкладки
-    if (dict['login.meta.title']) document.title = dict['login.meta.title'];
-
     document.documentElement.setAttribute('data-i18n-ready', '1');
     try { document.dispatchEvent(new CustomEvent('gg:i18n')); } catch (e) {}
   }
