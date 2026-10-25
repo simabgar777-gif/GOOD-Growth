@@ -5,7 +5,7 @@
     "page": "login",
     "source": "live-pages/login.html (снимок прода 2026-10-24)",
     "note": "Плоские ключи. Текст в HTML остаётся как запасной — словарь только перекрывает его.",
-    "keys": 656,
+    "keys": 661,
     "pages": [
       "analytics",
       "billing",
@@ -690,5 +690,10 @@
   "schedule.blk.queue": "Очередь",
   "schedule.q.queue": "когда выйдет?",
   "partner.blk.all": "Все бренды",
-  "partner.q.all": "за что я отвечаю?"
+  "partner.q.all": "за что я отвечаю?",
+  "index.blk.result": "Разбор",
+  "index.q.result": "что получилось?",
+  "index.blk.posts": "Посты",
+  "index.q.posts": "что напишем?",
+  "index.q.journal": "что уже было?"
 }

@@ -639,6 +639,34 @@
     }
     #brandMenu .bmenu-item:hover { background: var(--surface-2); color: var(--ink); }
     #brandMenu .bmenu-item.cur { color: var(--mint); font-weight: 600; }
+
+    /* ── ВОЛНА 4: мастерская в блоках ───────────────────────────
+       Меняем ТОЛЬКО вид. Ни один id не тронут: app.js ходит за 43 id,
+       все они остались на своих местах внутри секций. */
+    .hero, #resultSection, #workshopSection, #journalSection {
+      background: var(--surface);
+      border-radius: 14px;
+      padding: 20px 24px 24px;
+      box-shadow: inset 0 0 0 1px var(--line);
+      margin-bottom: 14px;
+    }
+    #journalSection { margin-top: 0; border-top: 0; }
+    .hero { padding-block: 20px 24px; }
+
+    /* заголовок блока + вопрос курсивом (наш почерк) */
+    .gg-blk-h { display: flex; align-items: baseline; gap: 9px; margin: 0 0 14px; }
+    .gg-blk-h h2 {
+      font-size: 12.5px; font-weight: 700; letter-spacing: .02em;
+      text-transform: uppercase; margin: 0; color: var(--fg);
+    }
+    .gg-blk-q {
+      font-family: Georgia, 'Times New Roman', serif; font-style: italic;
+      font-size: 11.5px; line-height: 1; color: var(--faint);
+    }
+    /* у «Цели» заголовок — уже стоящий kicker; вопрос дописываем стилем */
+    .hero .kicker { margin-bottom: 14px; }
+    .hero .kicker::after { content: " · что ты хочешь достичь?"; text-transform: none;
+      font-family: Georgia, serif; font-style: italic; letter-spacing: 0; color: var(--faint); }
   </style>
 <link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"><link rel="stylesheet" href="/blocks.css"><link rel="stylesheet" href="/rail.css">
 </head>
@@ -877,11 +905,13 @@
       </section>
 
       <section class="result" id="resultSection" aria-label="Разбор цели" data-i18n-attr="aria-label:index.aria.result">
+        <div class="gg-blk-h"><h2 data-i18n="index.blk.result">Разбор</h2><span class="gg-blk-q" data-i18n="index.q.result">что получилось?</span></div>
         <div id="emptyState" class="panel-empty" data-i18n="index.ws.empty">Пока пусто. Впиши цель и нажми «Разобрать цель».</div>
         <div id="resultRoot" hidden></div>
       </section>
 
       <section class="workshop" id="workshopSection" aria-label="Мастерская постов" data-i18n-attr="aria-label:index.aria.workshop" hidden>
+        <div class="gg-blk-h"><h2 data-i18n="index.blk.posts">Посты</h2><span class="gg-blk-q" data-i18n="index.q.posts">что напишем?</span></div>
         <div class="workshop-bar">
           <span class="block-kicker" style="margin:0;" data-i18n="index.ws.count">Сколько постов создать</span>
           <div class="count-group" role="group" aria-label="Количество постов" data-i18n-attr="aria-label:index.aria.count">
@@ -898,7 +928,7 @@
       </section>
 
       <section class="journal" id="journalSection" aria-label="Журнал целей" data-i18n-attr="aria-label:index.aria.journal">
-        <h2 data-i18n="index.journal.title">Журнал целей</h2>
+        <div class="gg-blk-h"><h2 data-i18n="index.journal.title">Журнал целей</h2><span class="gg-blk-q" data-i18n="index.q.journal">что уже было?</span></div>
         <p class="jsub" data-i18n="index.journal.sub">Каждый разбор сохраняется локально. Нажми на строку, чтобы открыть разбор и посты.</p>
         <div id="journalList"><p class="jsub" id="journalEmpty" data-i18n="index.journal.empty">Журнал пока пуст.</p></div>
       </section>
