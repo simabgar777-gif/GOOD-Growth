@@ -2,76 +2,91 @@
 # ============================================================
 #  GOOD Growth — выкладка одной командой
 #
-#  Зачем: чтобы выкладка не зависела от одного человека.
-#  Запускается НА СЕРВЕРЕ. Делает бэкап, забирает код, кладёт,
-#  проверяет nginx и здоровье сайта. При ошибке — откат.
+#  Принцип: скрипт кладёт ТОЛЬКО статику в /var/www/app.
+#  Он НЕ ИМЕЕТ ДЕЛА с живым сервисом в /opt/goodgrowth/repo
+#  (server.js, .env, data/goodgrowth.db) — там ни reset,
+#  ни checkout, ни записи.
+#
+#  ИСТОРИЯ ДЕФЕКТА: первая версия делала `git reset --hard` в рабочей
+#  копии. Зая поймала: в /opt/goodgrowth/repo лежит живой server.js с 33
+#  несохранёнными правками — reset положил бы сервис. Поэтому теперь
+#  на сервере НЕТ постоянной рабочей копии: код клонируется во временную
+#  папку, оттуда копируется статика, папка удаляется.
 #
 #  Использование:
-#     ./deploy.sh              # выложить origin/main
-#     ./deploy.sh jessie/i18n-login
+#     sudo ./deploy.sh              # origin/main
+#     sudo ./deploy.sh jessie/i18n-login
 #
-#  ⚠️ ПЕРЕД ПЕРВЫМ ЗАПУСКОМ: сверить пути в блоке НАСТРОЙКИ
-#     с тем, что реально на сервере (см. SERVER.md).
+#  ⚠️ Перед первым запуском сверь пути (SERVER.md).
 # ============================================================
 set -euo pipefail
 
-# ---------- НАСТРОЙКИ (сверить!) ----------
-APP_DIR="${APP_DIR:-/var/www/app}"        # откуда nginx отдаёт страницы
-REPO_DIR="${REPO_DIR:-/opt/goodgrowth}"   # рабочая копия git на сервере
-BAK_ROOT="${BAK_ROOT:-/root/bak}"         # куда кладём бэкапы
+# ---------- НАСТРОЙКИ ----------
+APP_DIR="${APP_DIR:-/var/www/app}"                  # статика для nginx
+SERVICE_DIR="${SERVICE_DIR:-/opt/goodgrowth/repo}"  # ЖИВОЙ СЕРВИС — НЕ ТРОГАЕМ
+BAK_ROOT="${BAK_ROOT:-/root/bak}"
 REPO_URL="${REPO_URL:-https://github.com/simabgar777-gif/GOOD-Growth.git}"
 SITE="${SITE:-https://growth.go-ood.com}"
 BRANCH="${1:-main}"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 BAK="$BAK_ROOT/deploy-$STAMP"
 
-say() { printf '\n\033[1;33m>> %s\033[0m\n' "$1"; }
-die() { printf '\n\033[1;31m!! %s\033[0m\n' "$1" >&2; exit 1; }
+say()  { printf '\n\033[1;33m>> %s\033[0m\n' "$1"; }
+warn() { printf '\033[1;35m   ! %s\033[0m\n' "$1"; }
+die()  { printf '\n\033[1;31m!! %s\033[0m\n' "$1" >&2; exit 1; }
 
-# root нужен, чтобы писать в /var/www и перезагружать nginx.
-# ALLOW_NON_ROOT=1 — ТОЛЬКО для проверки скрипта на машине разработчика,
-# на сервере не ставить.
+TMP="$(mktemp -d "${TMPDIR:-/tmp}/gg-deploy-XXXXXX")"
+cleanup() { rm -rf "$TMP"; }
+trap cleanup EXIT
+
+# ---------- 0. защита ----------
 if [ "${ALLOW_NON_ROOT:-}" != "1" ]; then
   [ "$(id -u)" -eq 0 ] || die "нужен root (или sudo)"
 fi
 [ -d "$APP_DIR" ] || die "нет $APP_DIR — сверь путь в SERVER.md"
 
-# ---------- 1. бэкап ----------
-say "1/5 бэкап $APP_DIR → $BAK"
+# никакая запись не должна попасть в живой сервис
+real_app="$(cd "$APP_DIR" && pwd -P)"
+real_svc="$(cd "$SERVICE_DIR" 2>/dev/null && pwd -P || echo /__no_service__)"
+case "$real_app" in
+  "$real_svc"*) die "APP_DIR=$APP_DIR внутри живого сервиса $SERVICE_DIR — остановка" ;;
+esac
+
+# ---------- 1. код во временную папку ----------
+say "1/5 клонирую $BRANCH во временную папку"
+git clone --quiet --depth 1 --branch "$BRANCH" "$REPO_URL" "$TMP" \
+  || die "не удалось клонировать $REPO_URL (нет доступа к GitHub с сервера?)"
+cd "$TMP"
+echo "   HEAD: $(git rev-parse --short HEAD) $(git log -1 --pretty=%s | cut -c1-60)"
+[ -d "$TMP/live-pages" ] || die "в репозитории нет live-pages/ — нечего выкладывать"
+
+# ---------- 2. бэкап ----------
+say "2/5 бэкап $APP_DIR → $BAK"
 mkdir -p "$BAK"
 cp -a "$APP_DIR/." "$BAK/"
 echo "   файлов в бэкапе: $(find "$BAK" -type f | wc -l)"
 
-# ---------- 2. код ----------
-say "2/5 забираю $BRANCH"
-if [ ! -d "$REPO_DIR/.git" ]; then
-  echo "   рабочей копии нет — создаю"
-  mkdir -p "$REPO_DIR"
-  git clone --quiet "$REPO_URL" "$REPO_DIR"
-fi
-cd "$REPO_DIR"
-git fetch --quiet origin
-git reset --quiet --hard "origin/$BRANCH"
-echo "   HEAD: $(git rev-parse --short HEAD) $(git log -1 --pretty=%s | cut -c1-60)"
-
 # ---------- 3. выкладка ----------
-say "3/5 кладу страницы в $APP_DIR"
-# статика уровня сайта
-for f in live-pages/*.html live-pages/*.css live-pages/*.js; do
+say "3/5 кладу статику в $APP_DIR"
+for f in "$TMP"/live-pages/*.html "$TMP"/live-pages/*.css "$TMP"/live-pages/*.js; do
   [ -e "$f" ] || continue
   cp -f "$f" "$APP_DIR/"
 done
-# словарь и движок переводов
-if [ -d public/i18n ]; then
+if [ -d "$TMP/public/i18n" ]; then
   mkdir -p "$APP_DIR/i18n"
-  cp -f public/i18n/* "$APP_DIR/i18n/"
+  cp -f "$TMP"/public/i18n/* "$APP_DIR/i18n/"
 fi
-# серверный код — только если он есть и менялся
-if [ -f public/app.js ]; then
+if [ -f "$TMP/public/app.js" ]; then
   mkdir -p "$APP_DIR/public"
-  cp -f public/app.js "$APP_DIR/public/app.js"
+  cp -f "$TMP/public/app.js" "$APP_DIR/public/app.js"
 fi
 echo "   файлов в $APP_DIR: $(find "$APP_DIR" -maxdepth 1 -type f | wc -l)"
+
+# сервис не должен измениться — говорим об этом вслух
+if [ -d "$SERVICE_DIR/.git" ]; then
+  dirty="$(cd "$SERVICE_DIR" && git status --porcelain 2>/dev/null | wc -l || echo 0)"
+  warn "живой сервис $SERVICE_DIR: изменённых файлов $dirty — НЕ ТРОНУТ"
+fi
 
 # ---------- 4. nginx ----------
 say "4/5 проверяю nginx"
@@ -86,9 +101,7 @@ fi
 say "5/5 проверяю сайт"
 code="$(curl -s -o /dev/null -w '%{http_code}' "$SITE/" || echo 000)"
 echo "   $SITE/ → HTTP $code"
-if [ "$code" != "200" ]; then
-  die "сайт не отвечает 200. Откат: cp -a $BAK/. $APP_DIR/"
-fi
+[ "$code" = "200" ] || die "сайт не отвечает 200. Откат: cp -a $BAK/. $APP_DIR/"
 
 say "ГОТОВО"
 echo "   коммит:  $(git rev-parse --short HEAD)"
