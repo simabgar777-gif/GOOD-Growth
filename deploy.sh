@@ -24,6 +24,7 @@ set -euo pipefail
 # ---------- НАСТРОЙКИ ----------
 APP_DIR="${APP_DIR:-/var/www/app}"                  # статика для nginx
 SERVICE_DIR="${SERVICE_DIR:-/opt/goodgrowth/repo}"  # ЖИВОЙ СЕРВИС — НЕ ТРОГАЕМ
+I18N_DIR="${I18N_DIR:-/opt/goodgrowth/repo/public/i18n}"  # словарь (nginx alias)
 BAK_ROOT="${BAK_ROOT:-/root/bak}"
 REPO_URL="${REPO_URL:-https://github.com/simabgar777-gif/GOOD-Growth.git}"
 SITE="${SITE:-https://growth.go-ood.com}"
@@ -73,8 +74,12 @@ for f in "$TMP"/live-pages/*.html "$TMP"/live-pages/*.css "$TMP"/live-pages/*.js
   cp -f "$f" "$APP_DIR/"
 done
 if [ -d "$TMP/public/i18n" ]; then
-  mkdir -p "$APP_DIR/i18n"
-  cp -f "$TMP"/public/i18n/* "$APP_DIR/i18n/"
+  # ВАЖНО: словарь отдаёт nginx через alias на /opt/goodgrowth/repo/public/i18n/,
+  # а НЕ из /var/www/app/i18n. Раньше скрипт клал его не туда — переводы не доезжали.
+  # Это единственная запись в каталог сервиса, и только один файл.
+  mkdir -p "$I18N_DIR"
+  cp -f "$TMP"/public/i18n/* "$I18N_DIR/"
+  echo "   словарь → $I18N_DIR"
 fi
 if [ -f "$TMP/public/app.js" ]; then
   mkdir -p "$APP_DIR/public"
