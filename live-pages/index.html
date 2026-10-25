@@ -667,6 +667,21 @@
     .hero .kicker { margin-bottom: 14px; }
     .hero .kicker::after { content: " · что ты хочешь достичь?"; text-transform: none;
       font-family: Georgia, serif; font-style: italic; letter-spacing: 0; color: var(--faint); }
+
+    /* журнал: строка читается как строка, а не как абзац-ссылка */
+    #journalSection .jtext {
+      color: var(--ink); font-size: 13px; text-decoration: none;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    #journalSection .jrow:hover .jtext { color: var(--copper-lt); }
+    #journalSection .jheader { margin-bottom: 0; }
+    #journalSection .jsub { margin: 4px 0 14px; color: var(--faint); font-size: 12px; }
+    #journalSection .jdel {
+      font-size: 11px; color: var(--copper);
+      border: 1px solid rgba(232,165,79,.28); border-radius: 999px;
+      padding: 3px 10px; background: none; cursor: pointer;
+    }
+    #journalSection .jdel:hover { background: rgba(232,165,79,.10); }
   </style>
 <link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"><link rel="stylesheet" href="/blocks.css"><link rel="stylesheet" href="/rail.css">
 </head>
@@ -831,7 +846,7 @@
 
         <div class="quick-toggle">
           <span class="hint" id="warmIntro" data-i18n="index.ws.warmIntro">Ответь на пять коротких вопросов — чем больше расскажешь, тем точнее будет стратегия.</span>
-          <button class="linkish" id="modeSwap" type="button" style="margin-left:12px;" data-i18n="index.ws.swap">Написать цель одной фразой</button>
+          <button class="linkish" id="modeSwap" type="button" style="margin-left:12px;">Рассказать о деле (пять вопросов)</button>
         </div>
 
         <form class="warm-form" id="warmForm" novalidate>

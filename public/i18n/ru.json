@@ -5,7 +5,7 @@
     "page": "login",
     "source": "live-pages/login.html (снимок прода 2026-10-24)",
     "note": "Плоские ключи. Текст в HTML остаётся как запасной — словарь только перекрывает его.",
-    "keys": 661,
+    "keys": 663,
     "pages": [
       "analytics",
       "billing",
@@ -695,5 +695,7 @@
   "index.q.result": "что получилось?",
   "index.blk.posts": "Посты",
   "index.q.posts": "что напишем?",
-  "index.q.journal": "что уже было?"
+  "index.q.journal": "что уже было?",
+  "index.ws.swapToWarm": "Рассказать о деле (пять вопросов)",
+  "index.ws.swapToQuick": "Написать цель одной фразой"
 }

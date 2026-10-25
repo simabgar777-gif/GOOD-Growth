@@ -1140,16 +1140,26 @@ photoClear.addEventListener('click', () => {
   photoClear.hidden = true;
 });
 
-/* переключение тёплый/быстрый вход */
-let quickMode = false;
-modeSwap.addEventListener('click', () => {
-  quickMode = !quickMode;
+/* переключение тёплый/быстрый вход
+   Приказ №78: по умолчанию — ОДНА СТРОКА, как в одобренном дизайне.
+   Пять вопросов — по ссылке «или пять вопросов — точнее».
+   Раньше было quickMode = false: человек сразу видел стену из пяти полей. */
+let quickMode = true;
+function applyQuickMode() {
   warmForm.classList.toggle('quick-form-hidden', quickMode);
   quickForm.classList.toggle('quick-form-hidden', !quickMode);
-  modeSwap.textContent = quickMode ? 'Рассказать о деле (пять вопросов)' : 'Написать цель одной фразой';
-  $('warmIntro').hidden = quickMode;
+  modeSwap.textContent = quickMode
+    ? ggT('index.ws.swapToWarm', 'Рассказать о деле (пять вопросов)')
+    : ggT('index.ws.swapToQuick', 'Написать цель одной фразой');
+  const wi = $('warmIntro');
+  if (wi) wi.hidden = quickMode;
+}
+modeSwap.addEventListener('click', () => {
+  quickMode = !quickMode;
+  applyQuickMode();
   if (quickMode) goalEl.focus(); else $('d_what').focus();
 });
+applyQuickMode();
 
 /* отправка тёплой формы: детали -> /api/analyze (details) */
 warmForm.addEventListener('submit', async (e) => {
