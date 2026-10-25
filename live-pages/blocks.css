@@ -35,77 +35,22 @@
   --gg-rail: 236px;
 }
 
-/* ---------------- каркас: рейка + область ---------------- */
-.gg-layout {
-  display: flex;
-  min-height: 100vh;
-  background: var(--gg-bg);
-  color: var(--gg-fg);
-}
-.gg-main { flex: 1; min-width: 0; }
-.gg-canvas { max-width: 1000px; margin: 0 auto; padding: 20px 26px 64px; }
+/* ============================================================
+   ⚠️ ДЕМОНСТРАЦИОННЫЙ КАРКАС УДАЛЁН (25.10)
 
-/* ---------------- рейка ---------------- */
-.gg-rail {
-  width: var(--gg-rail);
-  flex: none;
-  background: var(--gg-surface);
-  border-right: 1px solid var(--gg-line);
-  display: flex;
-  flex-direction: column;
-  padding: 16px 11px 12px;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-}
-.gg-rail-brand { display: flex; align-items: center; gap: 9px; padding: 2px 8px 16px; }
-.gg-rail-brand .gg-mark {
-  width: 26px; height: 26px; border-radius: 8px; flex: none;
-  display: grid; place-items: center;
-  background: var(--gg-grad);
-  color: #1B1206; font: 700 13px/1 inherit;
-}
-.gg-rail-brand b { font-size: 13.5px; letter-spacing: -.01em; }
-.gg-rail-brand span {
-  display: block; font-size: 8.5px; letter-spacing: .16em;
-  text-transform: uppercase; color: var(--gg-faint); font-weight: 600;
-}
+   Здесь были .gg-layout / .gg-main / .gg-canvas и — ОПАСНОЕ —
+   .gg-rail { position: sticky } с .gg-rail-brand / -new / -nav /
+   -sec / -foot / -org.
 
-.gg-rail-new {
-  display: flex; align-items: center; justify-content: center; gap: 7px;
-  width: 100%; padding: 11px 14px; margin-bottom: 16px;
-  border: 0; border-radius: 999px; cursor: pointer;
-  background: var(--gg-grad); color: #1B1206;
-  font: 700 13px/1 inherit;
-  box-shadow: 0 8px 20px -12px rgba(232,165,79,.9);
-}
+   Настоящая панель живёт в rail.css (.gg-rail { position: fixed }).
+   blocks.css подключается ПОСЛЕ rail.css и перебивал её: панель
+   становилась sticky, съезжала вправо на свою ширину, а контент
+   уезжал под неё. Дефект жил на проде с e742ace.
 
-.gg-rail-nav { display: flex; flex-direction: column; gap: 1px; }
-.gg-rail-nav a {
-  display: flex; align-items: center; gap: 9px;
-  padding: 8px 10px; border-radius: var(--gg-r-sm);
-  color: var(--gg-fg2); text-decoration: none;
-  font-size: 13px; font-weight: 500;
-}
-.gg-rail-nav a.is-on {
-  background: #16181D; color: var(--gg-fg);
-  box-shadow: inset 0 0 0 1px var(--gg-line);
-}
-.gg-rail-nav a .gg-count {
-  margin-left: auto; font-size: 10.5px; font-weight: 700; color: var(--gg-copper);
-}
-.gg-rail-sec {
-  margin: 18px 0 7px; padding-left: 10px;
-  font-size: 8.5px; font-weight: 700; letter-spacing: .16em;
-  text-transform: uppercase; color: var(--gg-faint);
-}
-.gg-rail-foot { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
-.gg-rail-org {
-  padding: 9px 10px; border-radius: 11px;
-  background: var(--gg-surface2); box-shadow: inset 0 0 0 1px var(--gg-line);
-}
-.gg-rail-org b { display: block; font-size: 11.5px; font-weight: 600; }
-.gg-rail-org span { display: block; font-size: 10px; color: var(--gg-faint); }
+   ПРАВИЛО: блоки не имеют права объявлять классы панели.
+   Если нужен каркас для демо — делай его в отдельном файле
+   с собственными именами (.demo-rail), а не .gg-rail.
+   ============================================================ */
 
 /* ---------------- блок ---------------- */
 .gg-blk {
@@ -228,10 +173,11 @@
   box-shadow: inset 0 0 0 1px rgba(232,165,79,.35);
 }
 
-/* ---------------- узкий экран: рейку уберём позже (шаг 5) ---------------- */
+/* ---------------- узкий экран: только наши плитки ----------------
+   ⚠️ Строки про .gg-layout и .gg-rail отсюда УДАЛЕНЫ.
+   Они прятали настоящую панель ниже 900px — rail.css делает это
+   сам и на 768px. blocks.css грузится позже и перебивал его. */
 @media (max-width: 900px) {
-  .gg-layout { display: block; }
-  .gg-rail { display: none; }
   .gg-tiles { grid-template-columns: repeat(2, 1fr); }
 }
 

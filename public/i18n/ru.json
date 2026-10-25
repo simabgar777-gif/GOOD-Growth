@@ -5,7 +5,7 @@
     "page": "login",
     "source": "live-pages/login.html (снимок прода 2026-10-24)",
     "note": "Плоские ключи. Текст в HTML остаётся как запасной — словарь только перекрывает его.",
-    "keys": 646,
+    "keys": 649,
     "pages": [
       "analytics",
       "billing",
@@ -51,7 +51,6 @@
   "login.msg.fail": "Не получилось войти. Попробуй ещё раз.",
   "analytics.meta.title": "Аналитика — GOOD Growth",
   "analytics.h1": "Аналитика",
-  "analytics.sub": "Сводка по всем брендам: цели, посты, публикации. Обновляется мгновенно из базы.",
   "analytics.hint": "Публикация считается по кнопке «Опубликовать». Каналы — привязанные Telegram-каналы бренда.",
   "analytics.tile.brands": "брендов",
   "analytics.tile.goals": "целей",
@@ -680,5 +679,9 @@
   "rail.brands": "Бренды",
   "rail.billing": "Оплата",
   "rail.team": "Команда",
-  "rail.partners": "Партнёрам"
+  "rail.partners": "Партнёрам",
+  "analytics.blk.summary": "Сводка",
+  "analytics.q.summary": "что в цифрах?",
+  "analytics.blk.brands": "Бренды",
+  "analytics.q.brands": "у кого что?"
 }
