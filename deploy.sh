@@ -28,7 +28,12 @@ BAK="$BAK_ROOT/deploy-$STAMP"
 say() { printf '\n\033[1;33m>> %s\033[0m\n' "$1"; }
 die() { printf '\n\033[1;31m!! %s\033[0m\n' "$1" >&2; exit 1; }
 
-[ "$(id -u)" -eq 0 ] || die "нужен root (или sudo)"
+# root нужен, чтобы писать в /var/www и перезагружать nginx.
+# ALLOW_NON_ROOT=1 — ТОЛЬКО для проверки скрипта на машине разработчика,
+# на сервере не ставить.
+if [ "${ALLOW_NON_ROOT:-}" != "1" ]; then
+  [ "$(id -u)" -eq 0 ] || die "нужен root (или sudo)"
+fi
 [ -d "$APP_DIR" ] || die "нет $APP_DIR — сверь путь в SERVER.md"
 
 # ---------- 1. бэкап ----------
