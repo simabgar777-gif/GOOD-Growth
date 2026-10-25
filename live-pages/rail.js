@@ -13,15 +13,19 @@
   var rail = document.getElementById('gg-rail');
   if (!rail) return;
 
-  /* ---------- 1. активный раздел ---------- */
+  /* ---------- 1. активный раздел ----------
+     Приказ №77: адреса исправлены. Порядок важен — более длинные
+     пути проверяются раньше (/partner/channels до /partner). */
   var path = (location.pathname || '/').replace(/\/+$/, '') || '/app';
   var MAP = [
+    ['/partner/channels', 'channels'],
+    ['/partner/team', 'team'],
+    ['/partner/info', 'partners'],
+    ['/partner', 'brands'],
     ['/app/strategy', 'strategy'],
     ['/app/posts', 'posts'],
     ['/app/schedule', 'schedule'],
     ['/app/analytics', 'analytics'],
-    ['/app/channels', 'channels'],
-    ['/partner/channels', 'brands'],
     ['/app/billing', 'billing'],
     ['/app/onboard', 'app'],
     ['/app', 'app'],
