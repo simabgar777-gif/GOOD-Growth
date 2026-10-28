@@ -36,7 +36,7 @@ def rep(old, new, why, count=1):
 # ── панель: реальные маршруты ────────────────────────────────────────
 NAV = [
     ('href="#desk"', 'href="/app" data-k="app"'),
-    ('href="#goal" aria-current="page"', 'href="/app/strategy" data-k="strategy" aria-current="page"'),
+    ('href="#goal" aria-current="page"', 'href="/app/strategy" data-k="strategy"'),
     ('href="#content"', 'href="/app/posts" data-k="posts"'),
     ('href="#publish"', 'href="/app/schedule" data-k="schedule"'),
     ('href="#brands"', 'href="/partner" data-k="brands"'),

@@ -252,3 +252,14 @@ html[data-theme="light"] .gg-rail-out { color: #5C665F !important; }
   .gg-rail { display: none !important; }
   body.gg-with-rail { padding-left: 0 !important; }
 }
+
+/* ── полоска у активного пункта (как в дизайне Заи) ── */
+.gg-rail-nav a, .gg-rail-foot a { position: relative; }
+.gg-rail-nav a.is-on::before,
+.gg-rail-foot a.is-on::before {
+  content: '';
+  position: absolute;
+  left: -12px; top: 8px; bottom: 8px;
+  width: 2px; border-radius: 2px;
+  background: var(--copper, #E8A54F);
+}

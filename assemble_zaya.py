@@ -274,11 +274,49 @@ __BODY__
 </html>
 '''
 
+# ── подготовка тела: идемпотентно, ДО сборки ────────────────────
+def prepare_body(body):
+    import json as _json, re as _re
+
+    if 'id="emptyState"' not in body:
+        body = body.replace('<footer class="trust">',
+                            '<p id="emptyState" hidden></p>\n      <footer class="trust">', 1)
+
+    if 'data-i18n="z.' not in body:
+        keys, ph = {}, {}
+        for m in _re.finditer(r'<([a-z0-9]+)([^>]*?)\bdata-i18n="([^"]+)"([^>]*)>(.*?)</\1>', body, _re.S):
+            k = m.group(3); t = _re.sub(r"<[^>]+>", "", m.group(5)).strip()
+            if t and k not in keys: keys[k] = t
+        for m in _re.finditer(r'data-i18n-ph="([^"]+)"[^>]*placeholder="([^"]*)"', body, _re.S):
+            ph[m.group(1)] = m.group(2)
+        for m in _re.finditer(r'placeholder="([^"]*)"[^>]*data-i18n-ph="([^"]+)"', body, _re.S):
+            ph[m.group(2)] = m.group(1)
+        body = _re.sub(r'data-i18n="([^"]+)"', lambda m: 'data-i18n="z.%s"' % m.group(1), body)
+        body = _re.sub(r'data-i18n-ph="([^"]+)"',
+                       lambda m: 'data-i18n-attr="placeholder:z.ph.%s"' % m.group(1), body)
+        dp = os.path.join(HERE, "public", "i18n", "ru.json")
+        try:
+            dic = _json.load(io.open(dp, encoding="utf-8"))
+        except Exception:
+            dic = {}
+        for k, v in list(keys.items()) + [("ph." + k, v) for k, v in ph.items()]:
+            kk = "z." + k
+            if kk not in dic: dic[kk] = v
+        if dic:
+            dic.setdefault("_meta", {})
+            dic["_meta"]["keys"] = len([x for x in dic if not x.startswith("_")])
+            dic["_meta"]["pages"] = sorted({x.split(".")[0] for x in dic if not x.startswith("_")})
+            io.open(dp, "w", encoding="utf-8", newline="\n").write(
+                _json.dumps(dic, ensure_ascii=False, indent=2) + "\n")
+    return body
+
+
+body = prepare_body(body)
+
 out = (HTML.replace("__CSS__", css)
            .replace("__BRIDGE__", BRIDGE)
            .replace("__BODY__", body))
 
-body = body.replace("    </main>", "      <p id=\"emptyState\" hidden></p>\n    </main>", 1)
 io.open(os.path.join(LP, "index.html"), "w", encoding="utf-8", newline="").write(out)
 print("index.html собран: %d байт" % len(out.encode()))
 

@@ -245,3 +245,10 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
   html{scroll-behavior:auto}
   .reveal{opacity:1;transform:none;transition:none}
 }
+
+
+/* ── активный пункт по data-k (ставит rail.js) — тот же вид, что и
+   у [aria-current="page"]: медная подложка + полоска слева ── */
+.nav a.is-on{background:var(--amber-soft);color:var(--fg);position:relative}
+.nav a.is-on::before{content:'';position:absolute;left:-14px;top:8px;bottom:8px;width:2px;background:var(--amber);border-radius:2px}
+.nav a.is-on svg{stroke:var(--amber)}
