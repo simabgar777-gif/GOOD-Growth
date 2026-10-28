@@ -662,6 +662,11 @@
     .ggf-reuse-item button:hover { border-color: rgba(232,165,79,.45); color: var(--ink); }
     @media (max-width: 640px) { .ggf-counter { margin-left: 0; text-align: left; } }
 
+
+    /* пустые пояснения не должны оставлять палочку от рамки */
+    .ggf-adv:empty { display: none; }
+    #ggReuse:not(.open) { display: none; }
+
     /* ── ВОЛНА 4: мастерская в блоках ───────────────────────────
        Меняем ТОЛЬКО вид. Ни один id не тронут: app.js ходит за 43 id,
        все они остались на своих местах внутри секций. */
