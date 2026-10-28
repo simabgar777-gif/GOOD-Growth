@@ -185,6 +185,12 @@ BRIDGE = '''
     .desk-last-go { color:var(--amber); font-size:11.5px; font-weight:600; }
     .desk-empty { color:var(--faint); font-size:12.5px; }
 
+
+    /* ── ДУБЛИ: app.js рисует свой разбор и посты во временные контейнеры.
+       Пока они не переодеты в её классы — не показываем, чтобы не было каши.
+       Шаг 2: переодеть и снять display:none. */
+    #postsRoot, #resultRoot, #journalList .jrow { display: none !important; }
+
     /* показ: Стол или Мастерская */
     body.is-desk .hero, body.is-desk .composer, body.is-desk .subnav,
     body.is-desk #razbor, body.is-desk #postsSec, body.is-desk #journal { display:none !important; }
