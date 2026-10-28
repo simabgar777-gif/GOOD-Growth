@@ -690,7 +690,7 @@ makeBtn.addEventListener('click', async () => {
     const r = await fetch('/api/goals/' + currentGoalId + '/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ count: postCount })
+      body: JSON.stringify({ count: postCount, profile: ggPick.profile, format: ggPick.format })
     });
     const data = await r.json();
     if (!r.ok) throw new Error(data.error || 'Не получилось создать посты');
@@ -809,6 +809,12 @@ form.addEventListener('submit', async (e) => {
     setStatus('Готово. Теперь можно создать посты.');
     postsStatus.textContent = '';
     refreshJournal();
+    ggLastGoalText = goalEl.value.trim();
+    const fblock = document.getElementById('ggFormatBlock');
+    if (fblock) fblock.hidden = false;
+    ggPaintPick();
+    ggFetchAdvice(ggLastGoalText, false);
+    ggFetchReuse(ggLastGoalText);
   } catch (err) {
     setStatus('');
     showError(err.message);
@@ -1160,7 +1166,6 @@ modeSwap.addEventListener('click', () => {
   if (quickMode) goalEl.focus(); else $('d_what').focus();
 });
 applyQuickMode();
-
 /* отправка тёплой формы: детали -> /api/analyze (details) */
 warmForm.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -1194,6 +1199,12 @@ warmForm.addEventListener('submit', async (e) => {
     setStatus('Готово. Теперь можно создать посты.');
     postsStatus.textContent = '';
     refreshJournal();
+    ggLastGoalText = [details.what, details.want].filter(Boolean).join(' ');
+    const fblock = document.getElementById('ggFormatBlock');
+    if (fblock) fblock.hidden = false;
+    ggPaintPick();
+    ggFetchAdvice(ggLastGoalText, false);
+    ggFetchReuse(ggLastGoalText);
   } catch (err) {
     stopHonestProgress();
     showError(err.message);
@@ -1204,6 +1215,32 @@ warmForm.addEventListener('submit', async (e) => {
 });
 
 /* при открытии быстрой формы старая логика остаётся: form submit -> /api/analyze {goal} */
+
+/* Order 81: format & model picker */
+const GG_COSTS = { fast: 10, smart: 30, creative: 50, image: 5, video: 100 };
+const GG_PLAN_MONTH_RUB = 490; /* тариф «Старт»: 490 ₽/мес — счётчик показывает долю от него */
+const ggPick = { profile: 'smart', format: 'text' };
+function ggCost() { return GG_COSTS[ggPick.profile] + (ggPick.format === 'image' ? GG_COSTS.image : 0); }
+function ggPaintCounter() {
+  const rub = document.getElementById('ggCostRub');
+  const pct = document.getElementById('ggCostPct');
+  if (!rub) return;
+  const c = ggCost();
+  rub.textContent = c + ' ₽';
+  const p = Math.round(c * 100 / GG_PLAN_MONTH_RUB);
+  pct.textContent = '≈ ' + p + '% от лимита тарифа · ' + Math.max(1, Math.floor(GG_PLAN_MONTH_RUB / Math.max(c, 1))) + ' such posts в месяц';
+}
+function ggPaintPick() {
+  document.querySelectorAll('#ggProfileRow .ggf-opt').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.profile === ggPick.profile)));
+  document.querySelectorAll('#ggFormatRow .ggf-opt').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.format === ggPick.format)));
+  ggPaintCounter();
+}
+document.addEventListener('click', (e) => {
+  const p = e.target.closest && e.target.closest('#ggProfileRow .ggf-opt');
+  if (p) { ggPick.profile = p.dataset.profile; ggPaintPick(); }
+  const f = e.target.closest && e.target.closest('#ggFormatRow .ggf-opt');
+  if (f) { ggPick.format = f.dataset.format; ggPaintPick(); }
+});
 
 /* Order 70: schedule popover styles (inject once) */
 (function schedStyles() {
@@ -1226,6 +1263,46 @@ warmForm.addEventListener('submit', async (e) => {
   ].join('\n');
   document.head.appendChild(st);
 })();
+
+/* Order 81: advice + reuse (cheap calls only) */
+let ggLastGoalText = '';
+async function ggFetchAdvice(text, reuseHint) {
+  try {
+    const u = '/api/advise?q=' + encodeURIComponent(text.slice(0, 180)) + (reuseHint ? '&reuse=1' : '');
+    const r = await fetch(u);
+    if (!r.ok) return;
+    const d = await r.json();
+    const el = document.getElementById('ggAdvice');
+    if (el && d.advice && d.advice.length) el.textContent = '💡 ' + d.advice.map(a => a.text).join(' ');
+  } catch (e) { /* тихо */ }
+}
+async function ggFetchReuse(text) {
+  const box = document.getElementById('ggReuse');
+  const list = document.getElementById('ggReuseList');
+  if (!box || !list) return;
+  try {
+    const words = text.split(/\s+/).filter(w => w.length >= 4).slice(0, 3).join(' ');
+    if (!words) { box.classList.remove('open'); return; }
+    const r = await fetch('/api/posts/reuse?q=' + encodeURIComponent(words));
+    if (!r.ok) return;
+    const d = await r.json();
+    list.innerHTML = '';
+    if (!d.items || !d.items.length) { box.classList.remove('open'); return; }
+    d.items.forEach((it) => {
+      const row = document.createElement('div');
+      row.className = 'ggf-reuse-item';
+      const b = document.createElement('b');
+      b.textContent = it.title || (it.body || '').slice(0, 60);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = 'Открыть';
+      btn.addEventListener('click', () => { location.href = '/app?goal=' + it.goal_id + '#post-' + it.id; });
+      row.appendChild(b); row.appendChild(btn);
+      list.appendChild(row);
+    });
+    box.classList.add('open');
+  } catch (e) { /* тихо */ }
+}
 
 /* старт */
 refreshHealth();

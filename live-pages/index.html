@@ -640,6 +640,28 @@
     #brandMenu .bmenu-item:hover { background: var(--surface-2); color: var(--ink); }
     #brandMenu .bmenu-item.cur { color: var(--mint); font-weight: 600; }
 
+/* Order 81: формат и модель */
+    .ggf-block { margin-top: 18px; border: 1px solid var(--hair); border-radius: 16px; background: var(--surface); padding: 18px 20px; }
+    .ggf-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .ggf-label { font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin: 0 0 8px; }
+    .ggf-opt { font: inherit; font-size: 13.5px; padding: 8px 14px; border-radius: 10px; cursor: pointer;
+      background: var(--surface-2); color: var(--muted); border: 1px solid var(--hair); transition: border-color 150ms, color 150ms; }
+    .ggf-opt small { display: block; font-size: 11px; color: var(--faint); margin-top: 2px; }
+    .ggf-opt:hover { border-color: rgba(232,165,79,.45); color: var(--ink); }
+    .ggf-opt[aria-pressed="true"] { background: var(--accent-soft); border-color: rgba(232,165,79,.5); color: var(--accent); font-weight: 600; }
+    .ggf-opt[aria-pressed="true"] small { color: var(--accent); opacity: .8; }
+    .ggf-counter { margin-left: auto; text-align: right; font-variant-numeric: tabular-nums; }
+    .ggf-counter b { font-size: 17px; color: var(--copper-2); font-weight: 650; }
+    .ggf-counter span { display: block; font-size: 11.5px; color: var(--faint); }
+    .ggf-adv { margin-top: 12px; font-size: 13px; color: var(--muted); border-left: 2px solid rgba(232,165,79,.4); padding: 4px 0 4px 12px; min-height: 1.2em; }
+    .ggf-reuse { margin-top: 10px; display: none; }
+    .ggf-reuse.open { display: block; }
+    .ggf-reuse-item { display: flex; gap: 10px; align-items: center; padding: 9px 12px; border: 1px solid var(--hair); border-radius: 10px; margin-bottom: 6px; font-size: 13px; }
+    .ggf-reuse-item b { color: var(--ink); font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ggf-reuse-item button { font: inherit; font-size: 12px; padding: 6px 12px; border-radius: 8px; cursor: pointer; background: rgba(255,255,255,.03); color: var(--muted); border: 1px solid var(--hair); }
+    .ggf-reuse-item button:hover { border-color: rgba(232,165,79,.45); color: var(--ink); }
+    @media (max-width: 640px) { .ggf-counter { margin-left: 0; text-align: left; } }
+
     /* ── ВОЛНА 4: мастерская в блоках ───────────────────────────
        Меняем ТОЛЬКО вид. Ни один id не тронут: app.js ходит за 43 id,
        все они остались на своих местах внутри секций. */
@@ -937,6 +959,24 @@
           </div>
           <button class="btn btn-primary" id="makeBtn" type="button" data-i18n="index.ws.make">Создать контент</button>
           <p class="hint" id="workshopHint" data-i18n="index.ws.makeHint">Тексты напишет разум, картинки — за секунды.</p>
+        </div>
+        <div class="ggf-block" id="ggFormatBlock" hidden>
+          <p class="ggf-label" data-i18n="o87.model">Модель</p>
+          <div class="ggf-row" id="ggProfileRow" role="group" aria-label="Модель генерации" data-i18n-attr="aria-label:o87.ariaModel">
+            <button type="button" class="ggf-opt" data-profile="fast" aria-pressed="false"><span data-i18n="o87.fast">Быстрая</span><small data-i18n="o87.fastHint">10 ₽ · просто и быстро</small></button>
+            <button type="button" class="ggf-opt" data-profile="smart" aria-pressed="true"><span data-i18n="o87.smart">Умная</span><small data-i18n="o87.smartHint">30 ₽ · глубоко</small></button>
+            <button type="button" class="ggf-opt" data-profile="creative" aria-pressed="false"><span data-i18n="o87.creative">Креативная</span><small data-i18n="o87.creativeHint">50 ₽ · неожиданно</small></button>
+          </div>
+          <p class="ggf-label" style="margin-top:14px;" data-i18n="o87.format">Формат</p>
+          <div class="ggf-row" id="ggFormatRow" role="group" aria-label="Формат поста" data-i18n-attr="aria-label:o87.ariaFormat">
+            <button type="button" class="ggf-opt" data-format="text" aria-pressed="true"><span data-i18n="o87.text">Только текст</span><small data-i18n="o87.textHint">0 ₽</small></button>
+            <button type="button" class="ggf-opt" data-format="image" aria-pressed="false"><span data-i18n="o87.image">С картинкой</span><small data-i18n="o87.imageHint">+5 ₽ · нарисуем сразу</small></button>
+          </div>
+          <div class="ggf-row" style="margin-top:14px;">
+            <div class="ggf-counter"><b id="ggCostRub">30 ₽</b><span id="ggCostPct" data-i18n="o87.costHint">от месячного лимита</span></div>
+          </div>
+          <p class="ggf-adv" id="ggAdvice" role="status" aria-live="polite"></p>
+          <div class="ggf-reuse" id="ggReuse"><p class="ggf-label" data-i18n="o87.reuse">Находки в твоих старых постах</p><div id="ggReuseList"></div></div>
         </div>
         <div id="postsStatus" class="status-line" role="status" aria-live="polite"></div>
         <div id="postsRoot" class="posts"></div>
