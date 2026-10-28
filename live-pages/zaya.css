@@ -62,16 +62,42 @@ h1, h2, h3, .gg-blk-h h2, .gg-topbar h1 {
   letter-spacing: -.012em;
 }
 
-/* ── РЕЗИНОВЫЙ КОНТЕЙНЕР: никакого центрирующего ограничения ── */
+/* ── ШИРИНЫ ПО СМЫСЛУ (как у Buffer: оболочка во всю, колонка ограничена)
+
+   · оболочка, панель, фон  — 100 %
+   · списки, посты, расписание — до 1440
+   · цель, разбор, текст     — до 1080
+   · абзац внутри блока      — 68ch (≈ 75 знаков в строке)
+
+   Строка длиной 1500 px нечитаема — глаз теряет начало. Это не вкус. */
+:root {
+  --z-w-wide: 1440px;   /* списки и таблицы */
+  --z-w-page: 1080px;   /* формы, разбор, текстовые экраны */
+  --z-w-prose: 68ch;    /* абзац */
+}
+
 .wrap,
 .container,
 main > .wrap {
-  max-width: none !important;
   width: 100% !important;
-  margin: 0 !important;
+  max-width: min(var(--z-w-wide), 100%) !important;
+  margin-inline: auto !important;
   padding-left: var(--z-pad-x) !important;
   padding-right: var(--z-pad-x) !important;
 }
+
+/* экраны-тексты — уже: мастерская (Цель) и профиль */
+body.is-workshop .wrap,
+body[data-narrow] .wrap { max-width: min(var(--z-w-page), 100%) !important; }
+
+/* абзац не растягиваем */
+.gg-blk-b p,
+.gg-blk-b li,
+.hero .lead,
+.hero > p { max-width: var(--z-w-prose); }
+
+/* стратегия и длинные тексты — ровная мера */
+.gg-blk-b { max-width: 100%; }
 
 /* ═══ ПАНЕЛЬ ═══════════════════════════════════════════════ */
 :root { --rail-w: var(--z-rail); }
