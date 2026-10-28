@@ -219,6 +219,21 @@ __BODY__
 <script src="/rail.js" defer></script>
 <script src="/desk.js" defer></script>
 <script>
+/* появление блоков (её анимация .reveal). Если наблюдатель не сработает —
+   через 1.2 с показываем всё принудительно: страница не может остаться пустой. */
+(function(){
+  var nodes = document.querySelectorAll('.reveal:not(.in)');
+  if (!nodes.length) return;
+  function showAll(){ document.querySelectorAll('.reveal:not(.in)').forEach(function(el){ el.classList.add('in'); }); }
+  if ('IntersectionObserver' in window) {
+    var rio = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.01 });
+    nodes.forEach(function(el){ rio.observe(el); });
+    setTimeout(showAll, 1200);
+  } else { showAll(); }
+})();
+
 /* тема: переключатель в панели и в топбаре */
 (function(){
   function pick(mode){ if(window.ggTheme) window.ggTheme.set(mode); }
