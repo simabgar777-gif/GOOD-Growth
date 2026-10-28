@@ -1,1176 +1,779 @@
-<!DOCTYPE html>
-<html lang="ru">
+<!doctype html>
+<html lang="ru" data-theme="dark">
 <head>
-  <meta charset="utf-8" />
-<script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.setAttribute("data-theme-src","system");}else{d.setAttribute("data-theme",t==="light"?"light":"dark");}}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <title data-i18n="index.meta.title">GOOD Growth — от цели до готовых постов</title>
-  <meta name="description" content="Опиши своё дело — получи стратегию и готовые посты с картинками для Telegram. Локально, быстро, без подписок." />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="GOOD Growth" />
-  <meta property="og:title" content="GOOD Growth — от цели до готовых постов" />
-  <meta property="og:description" content="Опиши своё дело — получи стратегию и готовые посты с картинками для Telegram. Локально, быстро, без подписок." />
-  <meta property="og:url" content="https://growth.go-ood.com/" />
-  <meta property="og:image" content="https://growth.go-ood.com/public/og-cover.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:type" content="image/png" />
-  <meta property="og:locale" content="ru_RU" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="GOOD Growth — от цели до готовых постов" />
-  <meta name="twitter:description" content="Опиши своё дело — получи стратегию и готовые посты с картинками для Telegram." />
-  <meta name="twitter:image" content="https://growth.go-ood.com/public/og-cover.png" />
-  <style>
-    :root {
-      /* == GOOD Growth · «Светлая мастерская» (Приказ №17, 6 окт 2026) ==
-         Тёплый крем + чернильный текст + чёрные пилюли + один ирис-акцент.
-         Настроения: цель(глубокий синий) / создание(зелёный) / публикация(коралл). */
-      --bg:        #f6faf7;
-      --bg-2:      #f4f2ec;
-      --surface:   #ffffff;
-      --surface-2: #eef5f0;
-      --ink:       #122b21;
-      --muted:     #4c6b5c;
-      --faint:     #6b8a7b;
-      --hair:      rgba(18, 43, 33, 0.13);
-      --hair-soft: rgba(18, 43, 33, 0.06);
-      --accent:        #1e7a56;
-      --accent-bright: #2e8f68;
-      --accent-ink:    #ffffff;
-      --accent-soft:   rgba(30, 122, 86, 0.10);
-      --pill:      #1e7a56;
-      --pill-ink:  #ffffff;
-      --danger:  #c74a3c;
-      --ok:      #3f9d63;
-
-      --mood-goal:   #0b3d2e;
-      --mood-goal-soft:  rgba(11, 61, 46, 0.10);
-      --mood-make:   #1e7a56;
-      --mood-make-soft:  rgba(30, 122, 86, 0.10);
-      --mood-publish:#f0b429;
-  --mint:#3f9d63;
-      --mood-publish-soft: rgba(240, 180, 41, 0.14);
-
-      --font-display: Georgia, 'Times New Roman', serif;
-      --font-body: 'Segoe UI', Tahoma, Arial, sans-serif;
-      --font-mono: Consolas, 'Courier New', monospace;
-
-      --w: 1000px;
-      --radius: 10px;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--font-body);
-      font-size: 16px;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-    ::selection { background: var(--accent-soft); }
-    a { color: inherit; }
-
-    .wrap { max-width: var(--w); margin-inline: auto; padding-inline: 24px; }
-
-    /* ============ верхняя лента ============ */
-    .topbar { border-bottom: 1px solid var(--hair); background: var(--bg); }
-    .topbar-inner {
-      display: flex; align-items: center; gap: 18px;
-      padding-block: 10px;
-    }
-    .brand { text-decoration: none; color: inherit; }
-    .brand-text { display: inline-flex; flex-direction: column; line-height: 1.15; }
-    .brand-text .brand-sub { margin-left: 0; }
-    .ws-nav { display: flex; align-items: center; gap: 4px; margin-left: 8px; flex: 1; }
-    .ws-nav a {
-      color: var(--muted); text-decoration: none; font-size: 13.5px; font-weight: 500;
-      padding: 7px 12px; border-radius: 8px; white-space: nowrap;
-      transition: color 150ms linear, background-color 150ms linear;
-    }
-    .ws-nav a:hover { background: rgba(255,255,255,.05); color: var(--ink); }
-    .ws-nav a.on { background: rgba(232,165,79,.10); color: #E8A54F; }
-    .ws-actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
-    .ws-user {
-      font-size: 13.5px; font-weight: 500; color: #E8A54F; text-decoration: none;
-      max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    }
-    .ws-user:hover { color: #F0BC72; }
-    .ws-out {
-      font: 500 13px/1 inherit; letter-spacing: .02em; cursor: pointer;
-      padding: 8px 14px; border-radius: 999px; background: var(--surface);
-      border: 1px solid var(--hair); color: var(--muted); white-space: nowrap;
-      transition: color 150ms linear, border-color 150ms linear;
-    }
-    .ws-out:hover { color: #E88A6F; border-color: rgba(232,138,111,.35); }
-    .ws-burger { display: none; background: rgba(255,255,255,.03); border: 1px solid var(--hair); border-radius: 8px; font-size: 18px; line-height: 1; cursor: pointer; color: var(--ink); padding: 6px 11px; }
-    .ws-mnav { display: none; }
-    @media (max-width: 980px) {
-      .ws-nav { display: none; }
-      .ws-burger { display: block; }
-      .ws-user { max-width: 110px; }
-      .ws-mnav {
-        display: none; flex-direction: column; gap: 2px;
-        border-top: 1px solid var(--hair); padding: 10px 24px 14px;
-      }
-      .ws-mnav.open { display: flex; }
-      .ws-mnav a { color: var(--muted); text-decoration: none; font-size: 15px; padding: 11px 4px; border-bottom: 1px solid rgba(255,255,255,.04); }
-      .ws-mnav a:last-child { border-bottom: 0; }
-      .ws-mnav a.on { color: #E8A54F; }
-    }
-    .brand { font-family: var(--font-display); font-size: 20px; letter-spacing: -0.01em; display: inline-flex; align-items: center; gap: 10px; }
-    .brand-mark {
-      width: 26px; height: 26px; border-radius: 7px; flex: 0 0 auto;
-      background: linear-gradient(145deg, #F2BC73, #E8A54F 45%, #C97B3C); color: #1B1206; font-weight: 800; box-shadow: 0 0 0 1px rgba(255,255,255,.10) inset, 0 6px 18px -8px rgba(232,165,79,.7);
-      display: inline-grid; place-items: center;
-      color: #fff; font-family: var(--font-body); font-weight: 700; font-size: 13px;
-      letter-spacing: 0;
-    }
-    .brand .brand-sub {
-      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.09em;
-      text-transform: uppercase; color: var(--faint); margin-left: 2px;
-    }
-    .mode-chip {
-      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.09em;
-      text-transform: uppercase; color: var(--muted);
-      display: inline-flex; align-items: center; gap: 7px;
-      border: 1px solid var(--hair); padding: 4px 10px; border-radius: 999px;
-      background: var(--surface);
-    }
-    .mode-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--faint); }
-    .mode-chip[data-mode="demo"] .dot { background: var(--accent); }
-    .mode-chip[data-mode="live"] .dot { background: var(--ok); }
-
-    /* ============ лендинг ============ */
-    .landing { padding-block: 20px 10px; }
-    .land-hero {
-      padding-block: clamp(48px, 8vw, 92px) 40px;
-      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center;
-    }
-    @media (max-width: 960px) { .land-hero { grid-template-columns: 1fr; gap: 40px; } }
-    .hero-copy { min-width: 0; }
-    .hero-visual { position: relative; min-width: 0; }
-    .hero-visual::before {
-      content: ""; position: absolute; right: -6%; top: -10%; width: 72%; height: 84%;
-      background: radial-gradient(closest-side, rgba(91, 91, 214, 0.13), transparent 72%);
-      filter: blur(6px); pointer-events: none;
-    }
-    .mock-post {
-      margin: 0; background: var(--surface); border: 1px solid var(--hair-soft);
-      border-radius: 14px; box-shadow: 0 18px 44px rgba(31, 30, 28, 0.12);
-      padding: 12px; position: relative; z-index: 1;
-    }
-    .mock-post svg { width: 100%; display: block; border-radius: 8px; }
-    .mock-title { font-family: var(--font-display); font-size: 16.5px; margin: 12px 4px 9px; }
-    .mock-line { height: 8px; border-radius: 4px; background: var(--surface-2); margin: 0 4px 7px; }
-    .mock-line.short { width: 62%; }
-    .mock-actions { display: flex; gap: 8px; margin: 12px 4px 4px; }
-    .mock-pill { font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 999px; }
-    .mock-pill.dark { background: var(--pill); color: var(--pill-ink); }
-    .mock-pill.coral { background: var(--mood-publish); color: #fff; }
-    .mock-float {
-      position: absolute; right: -10px; top: -20px; z-index: 2;
-      background: var(--surface); border: 1px solid var(--hair-soft); border-radius: 12px;
-      box-shadow: 0 14px 30px rgba(31, 30, 28, 0.12); padding: 12px 14px; width: 190px;
-      animation: floaty 7s ease-in-out infinite;
-    }
-    @keyframes floaty { 0%, 100% { transform: rotate(2.5deg) translateY(0); } 50% { transform: rotate(2.5deg) translateY(-7px); } }
-    .mf-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-    .mf-dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
-    .mf-dot.iris { background: var(--accent); }
-    .mf-dot.green { background: var(--mood-make); }
-    .mf-dot.coral { background: var(--mood-publish); }
-    .mf-line { height: 7px; border-radius: 4px; background: var(--surface-2); flex: 1; }
-    .mf-line.w40 { flex-basis: 40%; } .mf-line.w60 { flex-basis: 60%; } .mf-line.w80 { flex-basis: 80%; }
-    .mf-cap { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); margin-top: 2px; }
-    @media (max-width: 960px) { .mock-float { right: 4px; top: -14px; } }
-    @media (max-width: 620px) { .mock-float { display: none; } }
-    .land-card, .land-step { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
-    .land-card:hover, .land-step:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(31, 30, 28, 0.09); border-color: var(--hair); }
-    .card-ico {
-      width: 36px; height: 36px; border-radius: 11px; background: var(--accent-soft);
-      color: var(--accent); display: inline-grid; place-items: center; margin-bottom: 12px;
-    }
-    .card-ico svg { width: 19px; height: 19px; }
-    .card-ico.green { background: var(--mood-make-soft); color: var(--mood-make); }
-    .card-ico.coral { background: var(--mood-publish-soft); color: var(--mood-publish); }
-    .js-rv .rv { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
-    .js-rv .rv.on { opacity: 1; transform: none; }
-    @media (prefers-reduced-motion: reduce) {
-      .js-rv .rv { opacity: 1; transform: none; transition: none; }
-      .mock-float { animation: none !important; }
-      .btn-mic[aria-pressed="true"] { animation: none !important; }
-    }
-    .land-kicker {
-      font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--accent); margin: 0 0 18px;
-    }
-    .land-hero h1 {
-      font-family: var(--font-display); font-weight: 400;
-      font-size: clamp(32px, 5vw, 54px); line-height: 1.06; letter-spacing: -0.02em;
-      margin: 0 0 18px; text-wrap: balance; max-width: 24ch;
-    }
-    .land-lede { color: var(--muted); font-size: 17.5px; max-width: 62ch; margin: 0 0 30px; }
-    .land-cta-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
-    .land-note { color: var(--faint); font-size: 13px; margin: 10px 0 0; }
-
-    .land-section { border-top: 1px solid var(--hair-soft); padding-block: 34px; }
-    .land-section > h2 {
-      font-family: var(--font-display); font-weight: 400; font-size: 26px;
-      letter-spacing: -0.01em; margin: 0 0 14px;
-    }
-    .land-section > p { color: var(--muted); max-width: 70ch; margin: 0 0 10px; }
-
-    .land-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px; }
-    @media (max-width: 860px) { .land-grid { grid-template-columns: 1fr; } }
-    .land-card {
-      background: var(--surface); border: 1px solid var(--hair-soft); border-radius: var(--radius);
-      padding: 18px 18px 16px;
-    }
-    .land-card h3 { font-family: var(--font-display); font-weight: 400; font-size: 18px; margin: 0 0 6px; }
-    .land-card p { color: var(--muted); font-size: 14.5px; margin: 0; }
-
-    .land-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 18px; }
-    @media (max-width: 960px) { .land-steps { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 620px) { .land-steps { grid-template-columns: 1fr; } }
-    .land-step { background: var(--surface); border: 1px solid var(--hair-soft); border-radius: var(--radius); padding: 16px; }
-    .land-step .no {
-      font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent);
-      display: block; margin-bottom: 6px;
-    }
-    .land-step h3 { font-family: var(--font-display); font-weight: 400; font-size: 17.5px; margin: 0 0 5px; }
-    .land-step p { color: var(--muted); font-size: 14px; margin: 0; }
-
-    .land-cta-band {
-      border-top: 1px solid var(--hair-soft); padding-block: 44px; text-align: center;
-    }
-    .land-cta-band h2 { font-family: var(--font-display); font-weight: 400; font-size: 30px; margin: 0 0 10px; letter-spacing: -0.01em; }
-    .land-cta-band p { color: var(--muted); max-width: 60ch; margin: 0 auto 24px; }
-    .land-cta-band .land-cta-row { justify-content: center; }
-
-    /* ============ герой: цель ============ */
-    .backline { margin: 18px 0 -8px; }
-    .backline .linkish { font-size: 14px; }
-    .hero { padding-block: clamp(28px, 4vw, 44px) 36px; }
-    .kicker {
-      font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--accent); margin: 0 0 18px;
-    }
-    h1 {
-      font-family: var(--font-display); font-weight: 400;
-      font-size: clamp(28px, 4.2vw, 44px); line-height: 1.08; letter-spacing: -0.02em;
-      margin: 0 0 16px; text-wrap: balance; max-width: 22ch;
-    }
-    .lede { color: var(--muted); font-size: 17px; max-width: 62ch; margin: 0 0 30px; }
-
-    .ask { border-top: 1px solid var(--hair-soft); padding-top: 26px; }
-    .ask label {
-      display: block; font-family: var(--font-mono); font-size: 11px;
-      letter-spacing: 0.09em; text-transform: uppercase; color: var(--faint);
-      margin-bottom: 10px;
-    }
-    textarea#goal {
-      width: 100%; min-height: 100px; resize: vertical;
-      background: var(--surface); color: var(--ink);
-      border: 1px solid var(--hair); border-radius: var(--radius);
-      padding: 14px 16px; font: inherit; line-height: 1.55;
-    }
-    textarea#goal::placeholder { color: var(--faint); }
-    textarea#goal:focus-visible {
-      outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent);
-    }
-    .ask-row { display: flex; align-items: center; gap: 18px; margin-top: 16px; flex-wrap: wrap; }
-
-    /* ---- кнопки: чёрная пилюля + прозрачная обводка ---- */
-    .btn {
-      display: inline-flex; align-items: center; gap: 9px;
-      font: inherit; font-weight: 600; font-size: 15px; letter-spacing: 0.01em;
-      padding: 11px 22px; border-radius: 999px; cursor: pointer;
-      border: 1px solid transparent; transition: background .15s ease, transform .05s ease, border-color .15s ease, color .15s ease;
-    }
-    .btn:active { transform: translateY(1px); }
-    .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .btn-primary { background: var(--pill); color: var(--pill-ink); }
-    .btn-primary:hover { background: linear-gradient(180deg,#F7C987,#EDAB5D 55%,#E8A54F); }
-    .btn-primary:disabled { opacity: .55; cursor: wait; }
-    .btn-quiet { background: transparent; color: var(--muted); border-color: var(--hair); }
-    .btn-quiet:hover { color: var(--ink); border-color: var(--muted); }
-    .btn-quiet:disabled { opacity: .5; cursor: wait; }
-    .btn-mini {
-      font-size: 13px; padding: 7px 14px; font-weight: 500;
-      background: transparent; color: var(--muted); border: 1px solid var(--hair);
-      border-radius: 999px; cursor: pointer;
-    }
-    .btn-mini:hover { color: var(--ink); border-color: var(--muted); }
-    .btn-mini:disabled { opacity: .5; cursor: wait; }
-    .btn-mini.danger:hover { color: var(--danger); border-color: var(--danger); }
-    .btn-mini.approve { background: var(--accent-soft, rgba(63,157,99,.12)); color: var(--mint, #3f9d63); border-color: var(--mint, #3f9d63); }
-  .btn-mini.approve:hover:not(:disabled) { background: var(--mint, #3f9d63); color: #fff; }
-  .approve-status { font-family: ui-monospace,Consolas,monospace; font-size: 11px; letter-spacing: .05em; color: var(--mint,#3f9d63); font-weight: 700; align-self: center; }
-  @media (max-width: 480px) { .post-tools { gap: 6px; } .btn-mini { padding: 6px 11px; font-size: 12.5px; } }
-  .btn-mini.publish { background: var(--mood-publish-soft); color: var(--mood-publish); border-color: var(--mood-publish); }
-    .btn-mini.publish:hover:not(:disabled) { background: var(--mood-publish); color: #3d2f00; }
-    .btn-mini.publish:disabled { opacity: .8; cursor: default; }
-    .hint { color: var(--faint); font-size: 13.5px; max-width: 52ch; margin: 0; }
-
-    .status-line {
-      margin-top: 14px; min-height: 22px; color: var(--muted); font-size: 14px;
-      font-family: var(--font-mono); letter-spacing: 0.02em; margin-bottom: 0;
-    }
-
-    /* ============ разбор (Дверь 1) ============ */
-    .result { padding-block: 10px 8px; }
-    .panel-empty {
-      border: 1px dashed var(--hair); border-radius: var(--radius);
-      padding: 28px 26px; color: var(--faint); font-size: 15px;
-      max-width: 72ch; margin: 0;
-    }
-    .error-box {
-      border: 1px solid var(--danger); border-radius: var(--radius);
-      padding: 18px 20px; margin: 6px 0 0; max-width: 72ch; color: var(--ink);
-      background: #fdf3f1;
-    }
-
-    .result-head {
-      display: flex; align-items: baseline; justify-content: space-between;
-      gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--hair); padding-top: 24px;
-    }
-    .result-head h2 {
-      font-family: var(--font-display); font-weight: 400; font-size: 25px;
-      letter-spacing: -0.01em; margin: 0;
-    }
-    .result-meta {
-      font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em;
-      text-transform: uppercase; color: var(--faint);
-    }
-    .summary {
-      font-family: var(--font-display); font-size: 19px; line-height: 1.55;
-      max-width: 66ch; margin: 16px 0 6px; color: var(--ink);
-    }
-    .goal-echo { color: var(--faint); font-size: 14px; margin: 8px 0 0; max-width: 66ch; }
-
-    .block { border-top: 1px solid var(--hair-soft); margin-top: 30px; padding-top: 18px; }
-    .block-kicker {
-      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--faint); margin: 0 0 12px;
-    }
-    .block h3 {
-      font-family: var(--font-display); font-weight: 400; font-size: 20px;
-      margin: 0 0 8px; letter-spacing: -0.005em;
-    }
-    ul.plain { margin: 12px 0 0; padding-left: 18px; color: var(--muted); }
-    ul.plain li { margin-bottom: 7px; max-width: 66ch; }
-
-    .duo { display: grid; grid-template-columns: 1.6fr 1fr; gap: 40px; align-items: start; }
-    @media (max-width: 860px) { .duo { grid-template-columns: 1fr; gap: 24px; } }
-
-    .rhythm-num {
-      font-family: var(--font-display); font-size: clamp(40px, 5.5vw, 58px);
-      line-height: 1; letter-spacing: -0.03em; margin: 4px 0 2px;
-    }
-    .rhythm-num .unit { font-size: 0.42em; color: var(--muted); letter-spacing: 0; }
-    .rhythm-label { color: var(--faint); font-size: 13.5px; margin: 6px 0 12px; }
-    .rhythm-plan { color: var(--muted); max-width: 40ch; margin: 0; }
-
-    .topic { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 14px 0; border-top: 1px solid var(--hair-soft); }
-    .topic:first-of-type { border-top: 0; padding-top: 4px; }
-    .topic-no { font-family: var(--font-mono); font-size: 13px; color: var(--faint); padding-top: 3px; }
-    .topic h4 { font-family: var(--font-display); font-weight: 400; font-size: 17.5px; margin: 0 0 4px; }
-    .topic .angle { color: var(--muted); font-size: 14px; margin: 0 0 8px; }
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .chip {
-      font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.03em;
-      color: var(--muted); border: 1px solid var(--hair); border-radius: 999px;
-      padding: 3px 10px; background: var(--surface);
-    }
-
-    .channel { display: grid; grid-template-columns: 170px 1fr; gap: 20px; padding: 13px 0; border-top: 1px solid var(--hair-soft); }
-    .channel:first-of-type { border-top: 0; padding-top: 4px; }
-    .channel .cname { font-weight: 600; letter-spacing: 0.01em; }
-    .channel .crole { color: var(--muted); font-size: 14px; margin: 0 0 8px; }
-    @media (max-width: 700px) { .channel { grid-template-columns: 1fr; gap: 6px; } }
-
-    .step { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 12px 0; border-top: 1px solid var(--hair-soft); }
-    .step:first-of-type { border-top: 0; padding-top: 4px; }
-    .step-marker {
-      font-family: var(--font-mono); font-size: 12px; color: var(--accent);
-      padding-top: 3px; letter-spacing: 0.06em;
-    }
-    .step .stitle { font-weight: 600; margin: 0 0 3px; }
-    .step .sdetail { color: var(--muted); font-size: 14.5px; margin: 0; max-width: 64ch; }
-
-    /* ============ Дверь 2: мастерская ============ */
-    .workshop { margin-top: 8px; }
-    .workshop-bar {
-      border-top: 1px solid var(--hair); margin-top: 34px; padding-top: 22px;
-      display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
-    }
-    .count-group { display: inline-flex; border: 1px solid var(--hair); border-radius: 999px; overflow: hidden; background: var(--surface); }
-    .count-btn {
-      font: inherit; font-size: 14px; font-weight: 500; letter-spacing: 0.02em;
-      background: transparent; color: var(--muted); border: 0; cursor: pointer;
-      padding: 9px 16px; border-right: 1px solid var(--hair-soft);
-    }
-    .count-btn:last-child { border-right: 0; }
-    .count-btn[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
-    .count-btn:hover { color: var(--ink); }
-    .count-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
-
-    .posts { display: grid; grid-template-columns: 1fr; gap: 26px; margin-top: 26px; }
-    @media (min-width: 900px) { .posts { grid-template-columns: 1fr 1fr; } }
-
-    .post-card {
-      border: 1px solid var(--hair-soft); border-radius: var(--radius);
-      background: var(--surface); display: flex; flex-direction: column;
-      overflow: hidden;
-    }
-    .post-img {
-      width: 100%; aspect-ratio: 16 / 9; display: block; object-fit: cover;
-      border-bottom: 1px solid var(--hair-soft); background: var(--surface-2);
-    }
-    .post-img-ph {
-      width: 100%; aspect-ratio: 16 / 9;
-      border-bottom: 1px solid var(--hair-soft); background: var(--surface-2);
-      display: grid; place-items: center; color: var(--faint);
-      font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em;
-    }
-    .post-img-ph.pending::after {
-      content: ""; width: 14px; height: 14px; margin-left: 10px;
-      border: 2px solid var(--hair); border-top-color: var(--accent);
-      border-radius: 50%; animation: spin 1s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .post-body { padding: 18px 20px 14px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
-    .post-title-input, .post-body-textarea, .post-cta-input {
-      width: 100%; background: transparent; color: var(--ink);
-      border: 1px solid transparent; border-radius: var(--radius);
-      font: inherit; padding: 6px 8px; margin: -6px -8px; width: calc(100% + 16px);
-    }
-    .post-title-input {
-      font-family: var(--font-display); font-size: 18.5px; line-height: 1.3;
-      letter-spacing: -0.005em; font-weight: 400;
-    }
-    .post-body-textarea { font-size: 14.8px; line-height: 1.55; resize: vertical; min-height: 120px; color: var(--muted); }
-    .post-cta-input { font-size: 13.5px; color: var(--accent); }
-    .post-title-input:hover, .post-body-textarea:hover, .post-cta-input:hover { border-color: var(--hair-soft); }
-    .post-title-input:focus-visible, .post-body-textarea:focus-visible, .post-cta-input:focus-visible {
-      outline: none; border-color: var(--hair); background: var(--surface-2);
-    }
-    .post-tools {
-      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
-      border-top: 1px solid var(--hair-soft); padding: 12px 16px 14px; margin-top: auto;
-    }
-    .post-tools .spacer { flex: 1; }
-    .post-no {
-      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--faint);
-    }
-    .img-status {
-      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.05em; color: var(--faint);
-    }
-    .img-status.done { color: var(--ok); }
-    .img-status.error { color: var(--danger); }
-    .img-status.pending { color: var(--accent); }
-
-    /* ============ журнал целей ============ */
-    .journal { margin-top: 60px; border-top: 1px solid var(--hair); padding-top: 22px; }
-    .journal h2 { font-family: var(--font-display); font-weight: 400; font-size: 22px; margin: 0 0 6px; }
-    .journal .jsub { color: var(--faint); font-size: 13.5px; margin: 0 0 14px; }
-    .jrow {
-      display: grid; grid-template-columns: 150px 1fr; gap: 16px;
-      padding: 12px 0; border-top: 1px solid var(--hair-soft);
-      cursor: pointer; text-align: left; background: none; border-left: 0; border-right: 0; border-bottom: 0;
-      width: 100%; color: inherit; font: inherit;
-    }
-    .jrow:hover .jtext { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
-    .jrow:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .jdate { font-family: var(--font-mono); font-size: 12px; color: var(--faint); letter-spacing: 0.04em; padding-top: 2px; }
-    .jtext { color: var(--muted); font-size: 15px; }
-    .jrow .jsrc { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
-
-    /* ============ подвал ============ */
-    .pagefoot { border-top: 1px solid var(--hair); margin-top: 68px; padding-block: 22px 40px; }
-    .pagefoot-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: baseline; }
-    .pagefoot, .pagefoot .meta { color: var(--faint); font-size: 12.5px; }
-    .linkish {
-      background: none; border: 0; padding: 0; cursor: pointer; font: inherit;
-      color: var(--muted); text-decoration: underline; text-underline-offset: 3px;
-    }
-    .linkish:hover { color: var(--ink); }
-    .linkish:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-    .key-box { margin-top: 10px; text-align: left; border: 1px solid var(--hair); border-radius: var(--radius); padding: 14px 16px; max-width: 560px; background: var(--surface); }
-    .key-label { display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
-    .key-row { display: flex; gap: 10px; }
-    .key-input { flex: 1; background: var(--surface); color: var(--ink); border: 1px solid var(--hair); border-radius: var(--radius); padding: 10px 12px; font-family: var(--font-mono); font-size: 14px; }
-    .key-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-    .key-note { color: var(--faint); font-size: 12.5px; margin: 8px 0 0; }
-    .key-error { color: var(--danger); font-size: 13px; margin: 8px 0 0; }
-
-    /* ===== тёплый вход (Дверь 3.1) ===== */
-    .warm-form { border-top: 1px solid var(--hair-soft); padding-top: 26px; }
-    .warm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 22px; }
-    @media (max-width: 760px) { .warm-grid { grid-template-columns: 1fr; } }
-    .warm-field { display: flex; flex-direction: column; gap: 7px; }
-    .warm-field.wide { grid-column: 1 / -1; }
-    .warm-field label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--faint); }
-    .warm-field input[type="text"] {
-      background: var(--surface); color: var(--ink);
-      border: 1px solid var(--hair); border-radius: var(--radius);
-      padding: 12px 14px; font: inherit; font-size: 15px;
-    }
-    .warm-field input[type="text"]::placeholder { color: var(--faint); }
-    .warm-field input[type="text"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
-    .warm-hint { color: var(--faint); font-size: 13px; margin: 0; }
-    .warm-photo-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-    .warm-preview { width: 96px; height: 96px; object-fit: cover; border: 1px solid var(--hair); border-radius: var(--radius); background: var(--surface-2); }
-    .warm-preview-ph {
-      width: 96px; height: 96px; border: 1px dashed var(--hair); border-radius: var(--radius);
-      display: grid; place-items: center; color: var(--faint); font-family: var(--font-mono); font-size: 11px;
-      background: var(--surface-2);
-    }
-    .warm-actions { display: flex; align-items: center; gap: 18px; margin-top: 20px; flex-wrap: wrap; }
-    .quick-toggle { margin-top: 14px; }
-    .quick-form-hidden { display: none; }
-
-    /* ===== прогресс-бар (честный отсчёт) ===== */
-    .progress-wrap {
-      display: flex; align-items: center; gap: 12px;
-      margin-top: 6px; max-width: 460px;
-    }
-    .progress-track {
-      flex: 1; height: 8px; border-radius: 999px;
-      background: var(--surface-2); border: 1px solid var(--hair-soft);
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%; width: 0%;
-      background: linear-gradient(90deg, var(--accent) 0%, var(--accent-bright) 100%);
-      border-radius: 999px; transition: width .6s ease;
-    }
-    .progress-label {
-      font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em;
-      color: var(--muted); white-space: nowrap; min-width: 88px; text-align: right;
-    }
-
-    /* ===== акцентный циферблат на превью картинки ===== */
-    .dial { position: relative; width: 132px; height: 132px; }
-    .dial svg { width: 132px; height: 132px; transform: rotate(-90deg); display: block; }
-    .dial-bg { fill: none; stroke: var(--hair-soft); stroke-width: 6; }
-    .dial-arc {
-      fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round;
-      stroke-dasharray: 283; stroke-dashoffset: 283;
-      transition: stroke-dashoffset 1s linear;
-      filter: drop-shadow(0 0 6px rgba(30, 122, 86, 0.35));
-    }
-    .dial-num {
-      position: absolute; inset: 0; display: grid; place-items: center;
-      font-family: var(--font-mono); font-size: 22px; letter-spacing: 0.02em;
-      color: var(--accent);
-    }
-    .dial-cap {
-      position: absolute; left: 0; right: 0; bottom: -26px; text-align: center;
-      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.05em; color: var(--faint);
-    }
-
-    /* ===== Дверь 3.2: голос ===== */
-    .btn-mic {
-      width: 46px; height: 46px; padding: 0; justify-content: center;
-      border-radius: 10px; flex: 0 0 auto;
-      background: var(--pill); border: 1px solid var(--pill); color: var(--pill-ink);
-      font-size: 18px; line-height: 1;
-      transition: background .2s ease, box-shadow .2s ease, transform 150ms cubic-bezier(.22,1,.36,1);
-    }
-    .btn-mic:hover { background: linear-gradient(180deg,#F7C987,#EDAB5D 55%,#E8A54F); transform: translateY(-1px); }
-    .btn-mic[aria-pressed="true"] {
-      background: rgba(232,105,79,.16); border-color: #E8694F; color: #E88A6F;
-      animation: micPulse 1.4s ease-in-out infinite;
-    }
-    @keyframes micPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(232, 105, 79, 0.35); }
-      50% { box-shadow: 0 0 0 12px rgba(232, 105, 79, 0); }
-    }
-    .mic-row { display: flex; gap: 10px; align-items: center; }
-    .mic-row .field-side { flex: 1; }
-    textarea.field-side.grow-area { width: 100%; background: var(--surface); color: var(--ink); border: 1px solid var(--hair); border-radius: 10px; padding: 12px 14px; font: inherit; line-height: 1.6; resize: vertical; min-height: calc(3 * 1.6em + 24px); max-height: calc(10 * 1.6em + 24px); overflow-y: auto; margin-bottom: 0; }
-    textarea.field-side.grow-area:focus { outline: none; border-color: rgba(232,165,79,.5); }
-    textarea.field-side.grow-area::placeholder { color: var(--faint); }
-    .voice-note { color: var(--faint); font-size: 12.5px; margin: 6px 0 0; }
-    .btn-listen[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
-
-    /* ===== плавные появления и воздух ===== */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .post-card, .result-head, .block, .jrow { animation: fadeUp .45s ease both; }
-    .block, .result-head { animation-delay: .05s; }
-    .post-card:nth-child(2) { animation-delay: .07s; }
-    .post-card:nth-child(3) { animation-delay: .14s; }
-    .post-card:nth-child(4) { animation-delay: .21s; }
-    .post-card:nth-child(5) { animation-delay: .28s; }
-
-    .journal { margin-top: 76px; }
-    .workshop-bar { margin-top: 40px; padding-top: 26px; }
-
-    .kicker { color: var(--mood-goal); }
-    .workshop .block-kicker, .workshop-bar .block-kicker { color: var(--mood-make); }
-
-    .btn, .btn-mini, .count-btn, .chip, .jrow, .mode-chip { transition: background .18s ease, color .18s ease, border-color .18s ease; }
-    textarea#goal, .post-title-input, .post-body-textarea, .post-cta-input { transition: border-color .18s ease, background .18s ease; }
-
-    .btn-primary { padding: 13px 28px; font-size: 16px; }
-
-    .visually-hidden {
-      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
-      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
-    }
-      #brandMenu .bmenu-item {
-      display: block; width: 100%; text-align: left; padding: 9px 14px; border: 0;
-      background: transparent; color: var(--muted); font: 500 14px/1.3 inherit;
-      cursor: pointer; border-radius: 8px;
-    }
-    #brandMenu .bmenu-item:hover { background: var(--surface-2); color: var(--ink); }
-    #brandMenu .bmenu-item.cur { color: var(--mint); font-weight: 600; }
-
-/* Order 81: формат и модель */
-    .ggf-block { margin-top: 18px; border: 1px solid var(--hair); border-radius: 16px; background: var(--surface); padding: 18px 20px; }
-    .ggf-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-    .ggf-label { font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin: 0 0 8px; }
-    .ggf-opt { font: inherit; font-size: 13.5px; padding: 8px 14px; border-radius: 10px; cursor: pointer;
-      background: var(--surface-2); color: var(--muted); border: 1px solid var(--hair); transition: border-color 150ms, color 150ms; }
-    .ggf-opt small { display: block; font-size: 11px; color: var(--faint); margin-top: 2px; }
-    .ggf-opt:hover { border-color: rgba(232,165,79,.45); color: var(--ink); }
-    .ggf-opt[aria-pressed="true"] { background: var(--accent-soft); border-color: rgba(232,165,79,.5); color: var(--accent); font-weight: 600; }
-    .ggf-opt[aria-pressed="true"] small { color: var(--accent); opacity: .8; }
-    .ggf-counter { margin-left: auto; text-align: right; font-variant-numeric: tabular-nums; }
-    .ggf-counter b { font-size: 17px; color: var(--copper-2); font-weight: 650; }
-    .ggf-counter span { display: block; font-size: 11.5px; color: var(--faint); }
-    .ggf-adv { margin-top: 12px; font-size: 13px; color: var(--muted); border-left: 2px solid rgba(232,165,79,.4); padding: 4px 0 4px 12px; min-height: 1.2em; }
-    .ggf-reuse { margin-top: 10px; display: none; }
-    .ggf-reuse.open { display: block; }
-    .ggf-reuse-item { display: flex; gap: 10px; align-items: center; padding: 9px 12px; border: 1px solid var(--hair); border-radius: 10px; margin-bottom: 6px; font-size: 13px; }
-    .ggf-reuse-item b { color: var(--ink); font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .ggf-reuse-item button { font: inherit; font-size: 12px; padding: 6px 12px; border-radius: 8px; cursor: pointer; background: rgba(255,255,255,.03); color: var(--muted); border: 1px solid var(--hair); }
-    .ggf-reuse-item button:hover { border-color: rgba(232,165,79,.45); color: var(--ink); }
-    @media (max-width: 640px) { .ggf-counter { margin-left: 0; text-align: left; } }
-
-
-    /* пустые пояснения не должны оставлять палочку от рамки */
-    .ggf-adv:empty { display: none; }
-    #ggReuse:not(.open) { display: none; }
-
-    /* ── ВОЛНА 4: мастерская в блоках ───────────────────────────
-       Меняем ТОЛЬКО вид. Ни один id не тронут: app.js ходит за 43 id,
-       все они остались на своих местах внутри секций. */
-    .hero, #resultSection, #workshopSection, #journalSection {
-      background: var(--surface);
-      border-radius: 14px;
-      padding: 20px 24px 24px;
-      box-shadow: inset 0 0 0 1px var(--line);
-      margin-bottom: 14px;
-    }
-    #journalSection { margin-top: 0; border-top: 0; }
-    .hero { padding-block: 20px 24px; }
-
-    /* заголовок блока + вопрос курсивом (наш почерк) */
-    .gg-blk-h { display: flex; align-items: baseline; gap: 9px; margin: 0 0 14px; }
-    .gg-blk-h h2 {
-      font-size: 12.5px; font-weight: 700; letter-spacing: .02em;
-      text-transform: uppercase; margin: 0; color: var(--fg);
-    }
-    .gg-blk-q {
-      font-family: Georgia, 'Times New Roman', serif; font-style: italic;
-      font-size: 11.5px; line-height: 1; color: var(--faint);
-    }
-    /* у «Цели» заголовок — уже стоящий kicker; вопрос дописываем стилем */
-    .hero .kicker { margin-bottom: 14px; }
-    .hero .kicker::after { content: " · что ты хочешь достичь?"; text-transform: none;
-      font-family: Georgia, serif; font-style: italic; letter-spacing: 0; color: var(--faint); }
-
-    /* журнал: строка читается как строка, а не как абзац-ссылка */
-    #journalSection .jtext {
-      color: var(--ink); font-size: 13px; text-decoration: none;
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    }
-    #journalSection .jrow:hover .jtext { color: var(--copper-lt); }
-    #journalSection .jheader { margin-bottom: 0; }
-    #journalSection .jsub { margin: 4px 0 14px; color: var(--faint); font-size: 12px; }
-    #journalSection .jdel {
-      font-size: 11px; color: var(--copper);
-      border: 1px solid rgba(232,165,79,.28); border-radius: 999px;
-      padding: 3px 10px; background: none; cursor: pointer;
-    }
-    #journalSection .jdel:hover { background: rgba(232,165,79,.10); }
-
-    /* ── СТОЛ: вход = кабинет, а не верстак ─────────────────────
-       На /app показываем Стол, на /app/strategy — Мастерскую.
-       Переключаем классом на body, чтобы не спорить с app.js. */
-    body.is-desk .hero,
-    body.is-desk #resultSection,
-    body.is-desk #workshopSection,
-    body.is-desk #journalSection { display: none !important; }
-
-    #deskSection { padding-top: 8px; margin-top: 10px; }
-    .desk-row { display: flex; align-items: center; gap: 12px; padding: 12px 0;
-      border-bottom: 1px solid var(--hair-soft); }
-    .desk-row:last-child { border-bottom: 0; }
-    .desk-row-t { font-weight: 600; font-size: 13.5px; }
-    .desk-row-h { color: var(--faint); font-size: 12px; flex: 1; min-width: 0;
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .desk-row-go { flex: none; color: var(--copper); font-size: 12px; font-weight: 600;
-      text-decoration: none; }
-    .desk-row-go:hover { color: var(--copper-lt); }
-
-    .desk-step { display: flex; align-items: center; gap: 14px; text-decoration: none;
-      padding: 16px 18px; border-radius: 12px; background: var(--surface-2);
-      box-shadow: inset 0 0 0 1px var(--hair); color: var(--ink); }
-    .desk-step:hover { box-shadow: inset 0 0 0 1px rgba(232,165,79,.45); }
-    .desk-step-t { font-weight: 650; font-size: 15px; }
-    .desk-step-h { color: var(--faint); font-size: 12.5px; flex: 1; }
-    .desk-step-go { color: var(--copper); font-size: 18px; font-weight: 700; }
-
-    .desk-last { display: flex; align-items: center; gap: 12px; padding: 10px 0;
-      border-bottom: 1px solid var(--hair-soft); text-decoration: none; color: var(--ink); }
-    .desk-last:last-child { border-bottom: 0; }
-    .desk-last-d { width: 84px; flex: none; color: var(--faint); font-size: 11.5px;
-      font-variant-numeric: tabular-nums; }
-    .desk-last-t { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;
-      white-space: nowrap; font-size: 13px; }
-    .desk-last-go { flex: none; color: var(--copper); font-size: 11.5px; font-weight: 600; }
-    .desk-last:hover .desk-last-t { color: var(--copper-lt); }
-    .desk-empty { color: var(--faint); font-size: 12.5px; margin: 0; }
-    .desk-more { margin-left: auto; font-size: 11.5px; color: var(--copper);
-      text-decoration: none; font-weight: 600; }
-  </style>
-<link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"><link rel="stylesheet" href="/blocks.css"><link rel="stylesheet" href="/rail.css">
+<meta charset="utf-8" />
+<script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.removeAttribute("data-theme");d.setAttribute("data-theme-src","system")}else{d.setAttribute("data-theme",t==="light"?"light":"dark")}}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GOOD Growth — от цели до готовых постов</title>
+<meta name="description" content="Опиши своё дело — получи стратегию и готовые посты с картинками для Telegram." />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/zaya.css">
+<link rel="stylesheet" href="/za.css">
+<link rel="stylesheet" href="/i18n/i18n.js.css" onerror="this.remove()">
+<style>
+
+:root{
+  --bg:#0b0b0d; --bg-soft:#101013; --surface:#141418; --surface-2:#191920;
+  --fg:#f3f1ea; --muted:#a09c92; --faint:#6e6a62;
+  --border:rgba(255,255,255,.09); --border-strong:rgba(255,255,255,.18);
+  --amber:#e8a33d; --amber-ink:#171310; --amber-soft:rgba(232,163,61,.12);
+  --violet:#9aa0ff; --danger:#e06c5a;
+  --shadow:0 24px 60px rgba(0,0,0,.45);
+  --font-display:'Playfair Display','Noto Serif Armenian',Georgia,serif;
+  --font-body:'Golos Text','Noto Sans Armenian',-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --fs-hero:clamp(34px,4.6vw,58px);
+  --fs-h2:clamp(22px,2.6vw,30px);
+  --fs-quote:clamp(19px,2.2vw,24px);
+  --fs-body:15.5px;
+  --r-s:10px; --r-m:14px; --r-l:20px;
+  --sidebar:248px; --container:1200px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+html[data-theme="light"]{
+  --bg:#f6f4ee; --bg-soft:#efede6; --surface:#fffdf8; --surface-2:#f3f1e9;
+  --fg:#191713; --muted:#5f5b52; --faint:#8b867b;
+  --border:rgba(25,23,19,.12); --border-strong:rgba(25,23,19,.24);
+  --amber:#b26a12; --amber-ink:#fff; --amber-soft:rgba(178,106,18,.1);
+  --violet:#5a5fd0;
+  --shadow:0 20px 48px rgba(60,50,30,.12);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:var(--fs-body);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;color:inherit}
+p{margin:0}
+h1,h2,h3,h4{margin:0;font-weight:500}
+::selection{background:var(--amber);color:var(--amber-ink)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:4px}
+.shell{display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;border-right:1px solid var(--border);background:var(--bg-soft);padding:22px 14px 16px;gap:6px;z-index:30;overflow-y:auto}
+.brandmark{display:flex;align-items:center;gap:10px;padding:4px 8px 18px}
+.brandmark .g{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--amber);color:var(--amber-ink);font-family:var(--font-display);font-weight:600;font-size:19px}
+.brandmark .t b{display:block;font-size:14.5px;font-weight:600}
+.brandmark .t span{font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
+.brand-chip{margin:0 8px 12px;display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:var(--r-s);padding:8px 10px;background:var(--surface)}
+.brand-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--amber)}
+.brand-chip b{font-size:12.5px;font-weight:600}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav .lbl{font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:14px 10px 6px}
+.nav a{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:var(--r-s);color:var(--muted);font-size:14px;font-weight:500;transition:background .15s ease,color .15s ease}
+.nav a svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:.9;flex-shrink:0}
+.nav a:hover{background:var(--surface-2);color:var(--fg)}
+.nav a[aria-current="page"]{background:var(--amber-soft);color:var(--fg);position:relative}
+.nav a[aria-current="page"]::before{content:'';position:absolute;left:-14px;top:8px;bottom:8px;width:2px;background:var(--amber)}
+.nav a[aria-current="page"] svg{stroke:var(--amber)}
+.side-foot{margin-top:auto;display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--border);padding-top:12px}
+.side-foot .nav a{font-size:13.5px}
+.main{min-width:0;display:flex;flex-direction:column}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 28px;border-bottom:1px solid var(--border);background:color-mix(in oklch,var(--bg) 88%,transparent);backdrop-filter:blur(10px);position:sticky;top:0;z-index:20}
+.topline .crumb{font-family:var(--font-mono);font-size:12px;color:var(--faint)}
+.topline .crumb a:hover{color:var(--fg)}
+.status-chips{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);border-radius:999px;padding:6px 12px;background:var(--surface);font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:var(--muted)}
+.chip .dot{width:6px;height:6px;border-radius:50%;background:var(--amber)}
+.lang-switch{display:inline-flex;border:1px solid var(--border);border-radius:999px;overflow:hidden;background:var(--surface)}
+.lang-switch button{border:0;background:none;padding:6px 11px;font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:var(--muted)}
+.lang-switch button[aria-pressed="true"]{background:var(--amber);color:var(--amber-ink);font-weight:500}
+.icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--surface);display:grid;place-items:center;transition:border-color .15s ease}
+.icon-btn:hover{border-color:var(--border-strong)}
+.icon-btn svg{width:16px;height:16px;stroke:var(--fg);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.canvas{width:100%;max-width:var(--container);margin:0 auto;padding:40px 32px 90px}
+.eyebrow{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--violet);display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.eyebrow em{font-family:var(--font-display);font-style:italic;text-transform:none;letter-spacing:.02em;font-size:14px;color:var(--faint)}
+.hero{padding:26px 0 30px}
+.hero h1{font-family:var(--font-display);font-size:clamp(34px,4.6vw,58px);line-height:1.08;letter-spacing:-.01em;max-width:16ch;margin-top:14px}
+.hero .lead{color:var(--muted);max-width:52ch;margin-top:14px;font-size:16.5px}
+.composer{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-l);padding:26px;box-shadow:var(--shadow);margin-top:26px}
+.composer .field-lbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:10px;display:block}
+.composer textarea{width:100%;min-height:96px;resize:vertical;border:1px solid var(--border);border-radius:var(--r-m);background:var(--bg-soft);color:var(--fg);font:inherit;font-size:16px;line-height:1.55;padding:16px 18px;transition:border-color .15s ease}
+.composer textarea::placeholder{color:var(--faint)}
+.composer textarea:focus{outline:none;border-color:var(--amber);box-shadow:0 0 0 3px var(--amber-soft)}
+.composer .row{display:flex;align-items:center;gap:12px;margin-top:16px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:9px;border-radius:12px;border:1px solid transparent;padding:13px 22px;font-size:15px;font-weight:600;transition:transform .06s ease,background .15s ease,border-color .15s ease}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--amber);color:var(--amber-ink)}
+.btn-primary:hover{background:color-mix(in oklch,var(--amber) 90%,#000)}
+.btn .ic{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mic-btn{width:47px;height:47px;border-radius:12px;border:1px solid var(--border);background:var(--surface-2);display:grid;place-items:center;transition:border-color .15s ease}
+.mic-btn:hover{border-color:var(--amber)}
+.mic-btn svg{width:18px;height:18px;stroke:var(--fg);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.hint{font-family:var(--font-mono);font-size:11.5px;color:var(--faint)}
+.hint a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.hint a:hover{color:var(--amber)}
+.subnav{position:sticky;top:63px;z-index:15;display:flex;gap:8px;flex-wrap:wrap;padding:14px 0;margin-top:34px;border-top:1px solid var(--border);background:color-mix(in oklch,var(--bg) 90%,transparent);backdrop-filter:blur(8px)}
+.subnav a{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);border:1px solid var(--border);border-radius:999px;padding:7px 13px;background:var(--surface);transition:color .15s ease,border-color .15s ease}
+.subnav a:hover{color:var(--fg)}
+.subnav a.on{color:var(--amber);border-color:var(--amber)}
+.sheet{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-l);padding:34px;box-shadow:var(--shadow)}
+.sheet-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.sheet-head h2{font-family:var(--font-display);font-size:clamp(22px,2.6vw,30px)}
+.sheet-head .meta{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+.listen{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:999px;background:var(--bg-soft);padding:9px 16px;font-size:13.5px;font-weight:500;color:var(--muted);transition:color .15s ease,border-color .15s ease}
+.listen:hover{color:var(--fg);border-color:var(--border-strong)}
+.listen[aria-pressed="true"]{color:var(--amber);border-color:var(--amber)}
+.listen svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.strategy-line{font-family:var(--font-display);font-size:clamp(19px,2.2vw,24px);line-height:1.5;max-width:56ch;margin-top:22px}
+.goal-quote{margin-top:18px;padding:14px 18px;border-left:2px solid var(--amber);color:var(--muted);font-size:14px;max-width:70ch;background:var(--amber-soft);border-radius:0 var(--r-s) var(--r-s) 0}
+.goal-quote b{color:var(--fg);font-weight:600}
+.grid-2{display:grid;grid-template-columns:1.2fr .8fr;gap:34px;margin-top:36px}
+.blk .lbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.blk h3{font-family:var(--font-display);font-size:20px;margin-top:10px;line-height:1.35}
+.blk p{color:var(--muted);margin-top:10px;font-size:14.5px}
+.blk ul{margin:12px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.blk ul li{position:relative;padding-left:20px;color:var(--muted);font-size:14px}
+.blk ul li::before{content:'';position:absolute;left:2px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--amber)}
+.rhythm .big{font-family:var(--font-display);font-size:56px;line-height:1;letter-spacing:-.02em;margin-top:12px}
+.rhythm .big small{font-family:var(--font-body);font-size:15px;color:var(--muted);margin-left:8px}
+.rhythm .note{color:var(--muted);font-size:14px;margin-top:12px}
+.rhythm .days{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.rhythm .day{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--border);border-radius:8px;padding:6px 9px;color:var(--muted)}
+.rhythm .day.hot{border-color:var(--amber);color:var(--amber)}
+.topics{margin-top:44px;border-top:1px solid var(--border);padding-top:30px}
+.topics .sec-lbl{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.topics .sec-lbl .lbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.topics .sec-lbl h3{font-family:var(--font-display);font-size:clamp(22px,2.6vw,30px)}
+.topic{display:grid;grid-template-columns:52px 1fr;gap:18px;padding:24px 0;border-bottom:1px solid var(--border)}
+.topic:last-child{border-bottom:0;padding-bottom:4px}
+.topic .no{font-family:var(--font-mono);font-size:12px;color:var(--faint);padding-top:6px}
+.topic h4{font-family:var(--font-display);font-size:19.5px}
+.topic .desc{color:var(--muted);font-size:14px;margin-top:6px;max-width:64ch}
+.idea-chips{display:flex;flex-direction:column;gap:7px;margin-top:13px}
+.idea-chips span{font-family:var(--font-mono);font-size:12px;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:8px 14px;background:var(--bg-soft);transition:color .15s ease,border-color .15s ease}
+.idea-chips span:hover{color:var(--fg);border-color:var(--border-strong)}
+.channels{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.channel{border:1px solid var(--border);border-radius:var(--r-m);padding:18px;background:var(--bg-soft);display:flex;gap:13px;align-items:flex-start}
+.channel .mark{width:36px;height:36px;border-radius:10px;background:var(--surface-2);display:grid;place-items:center;flex-shrink:0}
+.channel .mark svg{width:17px;height:17px;stroke:var(--amber);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.channel b{font-size:14.5px}
+.channel p{color:var(--muted);font-size:13px;margin-top:4px}
+.channel .tag{margin-left:auto;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);border:1px solid var(--amber);border-radius:999px;padding:3px 9px;flex-shrink:0}
+.steps{margin-top:14px}
+.step{display:grid;grid-template-columns:auto auto 1fr;gap:14px;align-items:start;padding:16px 4px;border-bottom:1px solid var(--border);cursor:pointer}
+.step:last-child{border-bottom:0}
+.step input{appearance:none;width:20px;height:20px;border:1.5px solid var(--border-strong);border-radius:6px;margin-top:2px;cursor:pointer;transition:background .15s ease,border-color .15s ease;position:relative;background:transparent}
+.step input:checked{background:var(--amber);border-color:var(--amber)}
+.step input:checked::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23171310' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E") center/12px no-repeat}
+.step .s-no{font-family:var(--font-mono);font-size:11px;color:var(--faint);padding-top:5px}
+.step b{font-size:15px;font-weight:600;display:block}
+.step p{color:var(--muted);font-size:13.5px;margin-top:3px;max-width:66ch}
+.steps-progress{display:flex;align-items:center;gap:12px;margin-top:16px}
+.steps-progress .bar{flex:1;height:3px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.steps-progress .bar i{display:block;height:100%;width:0;background:var(--amber);transition:width .3s var(--ease)}
+.steps-progress .cnt{font-family:var(--font-mono);font-size:11.5px;color:var(--muted)}
+.posts{margin-top:44px;border-top:1px solid var(--border);padding-top:30px}
+.posts-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.posts-head .plbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.posts-head h3{font-family:var(--font-display);font-size:clamp(22px,2.6vw,30px)}
+.count-switch{display:inline-flex;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg-soft)}
+.count-switch button{border:0;background:none;padding:10px 18px;font-family:var(--font-mono);font-size:13px;color:var(--muted)}
+.count-switch button + button{border-left:1px solid var(--border)}
+.count-switch button[aria-pressed="true"]{background:var(--amber);color:var(--amber-ink);font-weight:500}
+.posts .row{display:flex;align-items:center;gap:14px;margin-top:18px;flex-wrap:wrap}
+.posts .hint-line{color:var(--muted);font-size:13.5px}
+.post-card{margin-top:22px;border:1px solid var(--border);border-radius:var(--r-l);overflow:hidden;background:var(--bg-soft);display:grid;grid-template-columns:.9fr 1.1fr}
+.post-media{min-height:280px;position:relative;overflow:hidden;background:radial-gradient(220px 220px at 50% 34%,rgba(232,163,61,.9),rgba(232,163,61,.25) 42%,transparent 70%),radial-gradient(500px 300px at 50% 108%,rgba(232,163,61,.35),transparent 60%),linear-gradient(180deg,#0d0d10 0%,#15120c 100%)}
+html[data-theme="light"] .post-media{background:radial-gradient(220px 220px at 50% 34%,rgba(232,163,61,.85),rgba(232,163,61,.2) 45%,transparent 70%),linear-gradient(180deg,#f2ead9 0%,#e7d5b2 100%)}
+.post-media .flare{position:absolute;inset:auto 0 44px;display:flex;justify-content:center}
+.post-media .flare i{display:block;width:46px;height:20px;border-radius:50% 50% 8px 8px;background:radial-gradient(60% 100% at 50% 0%,#ffd48a,#e8862d 70%,transparent);filter:blur(1px)}
+.post-media .ground{position:absolute;left:8%;right:8%;bottom:40px;height:2px;background:linear-gradient(90deg,transparent,rgba(232,163,61,.5),transparent)}
+.post-media .tag-img{position:absolute;left:14px;top:14px;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,241,234,.8);border:1px solid rgba(243,241,234,.3);border-radius:999px;padding:5px 10px}
+html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-color:rgba(40,30,10,.3)}
+.post-body{padding:26px}
+.post-body .meta{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
+.post-body h4{font-family:var(--font-display);font-size:21px;margin-top:10px}
+.post-body p{color:var(--muted);font-size:14px;margin-top:12px}
+.post-actions{display:flex;gap:9px;margin-top:18px;flex-wrap:wrap}
+.mini-btn{display:inline-flex;align-items:center;gap:7px;border-radius:10px;border:1px solid var(--border);background:var(--surface);padding:9px 14px;font-size:12.5px;font-weight:500;color:var(--muted);transition:color .15s ease,border-color .15s ease}
+.mini-btn:hover{color:var(--fg);border-color:var(--border-strong)}
+.mini-btn.primary{background:var(--amber);color:var(--amber-ink);border-color:var(--amber);font-weight:600}
+.mini-btn.primary:hover{background:color-mix(in oklch,var(--amber) 90%,#000)}
+.mini-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.journal{margin-top:56px}
+.journal-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.journal-head .lbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.journal-head h2{font-family:var(--font-display);font-size:clamp(22px,2.6vw,30px);margin-top:8px}
+.j-search{display:flex;align-items:center;gap:9px;border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:10px 14px;min-width:240px}
+.j-search svg{width:15px;height:15px;stroke:var(--faint);fill:none;stroke-width:1.8;stroke-linecap:round}
+.j-search input{border:0;background:none;color:var(--fg);font:inherit;font-size:13.5px;width:100%;outline:none}
+.j-search input::placeholder{color:var(--faint)}
+.j-list{margin-top:18px;border:1px solid var(--border);border-radius:var(--r-l);overflow:hidden;background:var(--surface)}
+.j-row{display:grid;grid-template-columns:120px 52px 1fr auto;gap:16px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--border);transition:background .15s ease}
+.j-row:last-child{border-bottom:0}
+.j-row:hover{background:var(--bg-soft)}
+.j-row .d{font-family:var(--font-mono);font-size:11.5px;color:var(--faint)}
+.j-row .n{font-family:var(--font-mono);font-size:11.5px;color:var(--amber)}
+.j-row .t{font-size:13.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.j-row.is-open .t{color:var(--fg);font-weight:500}
+.j-row .badges{display:flex;gap:6px;align-items:center}
+.badge-demo{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.14em;color:var(--faint);border:1px solid var(--border);border-radius:999px;padding:3px 8px;text-transform:uppercase}
+.j-del{width:30px;height:30px;border-radius:8px;border:1px solid transparent;background:none;display:grid;place-items:center;opacity:0;transition:opacity .15s ease,border-color .15s ease,background .15s ease}
+.j-row:hover .j-del,.j-del:focus-visible{opacity:1}
+.j-del svg{width:14px;height:14px;stroke:var(--faint);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.j-del:hover{border-color:var(--border-strong)}
+.j-row.confirm .j-del{opacity:1;border-color:var(--danger);background:rgba(224,108,90,.12)}
+.j-row.confirm .j-del svg{stroke:var(--danger)}
+.j-row.removing{opacity:0;transform:translateX(8px);transition:opacity .25s ease,transform .25s ease}
+.j-foot{display:flex;justify-content:space-between;gap:12px;margin-top:14px;flex-wrap:wrap}
+.trust{margin-top:56px;border-top:1px solid var(--border);padding-top:22px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:var(--font-mono);font-size:11.5px;color:var(--faint)}
+.trust b{color:var(--muted);font-weight:500}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media (max-width:1080px){
+  .grid-2{grid-template-columns:1fr}
+  .post-card{grid-template-columns:1fr}
+  .post-media{min-height:220px}
+}
+@media (max-width:960px){
+  .shell{grid-template-columns:1fr}
+  .sidebar{position:sticky;top:0;height:auto;flex-direction:row;align-items:center;padding:10px 14px;gap:8px;overflow-x:auto;border-right:0;border-bottom:1px solid var(--border)}
+  .brandmark{padding:0 6px 0 0}
+  .brandmark .t{display:none}
+  .brand-chip{display:none}
+  .nav{flex-direction:row;gap:4px}
+  .nav .lbl{display:none}
+  .nav a{padding:8px 12px;white-space:nowrap}
+  .nav a[aria-current="page"]::before{display:none}
+  .side-foot{margin-top:0;margin-left:auto;border-top:0;padding-top:0;flex-direction:row}
+  .topline{padding:12px 18px}
+  .canvas{padding:26px 18px 70px}
+  .sheet{padding:24px 20px}
+  .subnav{top:57px}
+  .j-row{grid-template-columns:92px 1fr auto;gap:10px}
+  .j-row .n{display:none}
+}
+@media (max-width:600px){
+  .channels{grid-template-columns:1fr}
+  .topic{grid-template-columns:1fr;gap:6px}
+  .topic .no{padding:0}
+  .composer .row .btn{flex:1;justify-content:center}
+  .step{grid-template-columns:auto 1fr}
+  .step .s-no{display:none}
+  .j-row .d{display:none}
+  .j-row{grid-template-columns:1fr auto}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+}
+
+
+    /* ── МОСТ: наши классы, её язык ──────────────────────────── */
+    .warm-panel[hidden] { display: none !important; }
+    .warm-panel input[type=text], .warm-panel textarea { width:100%; border:1px solid var(--border);
+      border-radius:var(--r-m); background:var(--bg-soft); color:var(--fg); font:inherit;
+      font-size:15px; padding:12px 14px; }
+    .warm-panel .error-box { color:var(--danger); font-size:13px; margin-top:8px; }
+    .status-line { font-size:13px; color:var(--faint); margin-top:10px; min-height:0; }
+    .status-line:empty, .ggf-adv:empty { display:none; }
+    .linkish { background:none; border:0; color:var(--muted); font:inherit; cursor:pointer;
+      text-decoration:underline; text-underline-offset:3px; }
+
+    /* расчёт цены в её языке */
+    .ggf-block { margin-top:18px; border:1px solid var(--border); border-radius:var(--r-m);
+      background:var(--bg-soft); padding:16px 18px; }
+    .ggf-label { font-family:var(--font-mono); font-size:10.5px; letter-spacing:.2em;
+      text-transform:uppercase; color:var(--faint); margin:0 0 8px; }
+    .ggf-row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+    .ggf-opt { font:inherit; font-size:13px; padding:8px 13px; border-radius:10px; cursor:pointer;
+      background:var(--surface-2); color:var(--muted); border:1px solid var(--border); }
+    .ggf-opt small { display:block; font-size:10.5px; color:var(--faint); margin-top:2px; }
+    .ggf-opt[aria-pressed="true"] { background:var(--amber-soft); border-color:var(--amber); color:var(--fg); }
+    .ggf-opt[aria-pressed="true"] small { color:var(--amber); opacity:.85; }
+    .ggf-counter { margin-left:auto; text-align:right; }
+    .ggf-counter b { font-family:var(--font-display); font-size:20px; color:var(--fg); }
+    .ggf-counter span { display:block; font-size:10.5px; color:var(--faint); }
+    .ggf-reuse { display:none; } .ggf-reuse.open { display:block; }
+
+    /* «Стол» */
+    #deskSection { padding-top:8px; }
+    #deskSection .gg-topbar { display:flex; align-items:center; gap:12px; padding-bottom:14px;
+      border-bottom:1px solid var(--border); margin-bottom:22px; }
+    #deskSection .gg-topbar h1 { font-family:var(--font-display); font-size:clamp(24px,2.4vw,34px); margin:0; }
+    .gg-grow { flex:1; }
+    .gg-blk { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-l);
+      padding:22px 24px; margin-bottom:16px; }
+    .gg-blk-h { display:flex; align-items:baseline; gap:10px; margin-bottom:16px; flex-wrap:wrap; }
+    .gg-blk-h h2 { font-family:var(--font-mono); font-size:11px; letter-spacing:.18em;
+      text-transform:uppercase; margin:0; }
+    .gg-blk-q { font-family:var(--font-display); font-style:italic; font-size:13.5px; color:var(--faint); }
+    .gg-tiles { display:grid; gap:12px; }
+    .gg-tile { background:var(--surface-2); border:1px solid var(--border); border-radius:var(--r-m); padding:16px 18px; }
+    .gg-tile .gg-n { font-family:var(--font-display); font-size:clamp(26px,3vw,34px); line-height:1; }
+    .gg-tile .gg-l { font-family:var(--font-mono); font-size:10.5px; letter-spacing:.1em;
+      text-transform:uppercase; color:var(--faint); margin-top:8px; }
+    .desk-step { display:flex; align-items:center; gap:14px; padding:16px 18px; border-radius:12px;
+      background:var(--surface-2); border:1px solid var(--border); text-decoration:none; color:var(--fg); }
+    .desk-step-t { font-weight:600; font-size:15px; }
+    .desk-step-h { color:var(--faint); font-size:12.5px; flex:1; }
+    .desk-step-go { color:var(--amber); font-size:18px; font-weight:700; }
+    .desk-row { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
+    .desk-row:last-child { border-bottom:0; }
+    .desk-row-t { font-weight:600; font-size:13.5px; }
+    .desk-row-h { color:var(--faint); font-size:12px; flex:1; }
+    .desk-row-go, .desk-more { color:var(--amber); font-size:11.5px; font-weight:600; text-decoration:none; }
+    .desk-last { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--border);
+      text-decoration:none; color:var(--fg); }
+    .desk-last:last-child { border-bottom:0; }
+    .desk-last-d { width:84px; flex:none; color:var(--faint); font-size:11.5px; }
+    .desk-last-t { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:13px; }
+    .desk-last-go { color:var(--amber); font-size:11.5px; font-weight:600; }
+    .desk-empty { color:var(--faint); font-size:12.5px; }
+
+    /* показ: Стол или Мастерская */
+    body.is-desk .hero, body.is-desk .composer, body.is-desk .subnav,
+    body.is-desk #razbor, body.is-desk #postsSec, body.is-desk #journal { display:none !important; }
+    body.is-workshop #deskSection { display:none !important; }
+
+</style>
 </head>
-<body class="gg-with-rail">
-<aside class="gg-rail" id="gg-rail" aria-label="Разделы GOOD Growth" data-i18n-attr="aria-label:rail.group"><a class="gg-rail-logo" href="/app"><span class="gg-m">G</span><span class="gg-t"><b>GOOD Growth</b><i data-i18n="rail.tagline">мастерская роста</i></span></a><nav class="gg-rail-nav"><a href="/app" data-k="app"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="11" height="11" rx="2.5"/><path d="M5.5 8h5"/></svg><span data-i18n="rail.app">Стол</span></a><a href="/app/strategy" data-k="strategy"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="2"/></svg><span data-i18n="rail.strategy">Цель</span></a><a href="/app/posts" data-k="posts"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="11" height="10" rx="2"/><path d="M2.5 6.5h11"/></svg><span data-i18n="rail.posts">Контент</span></a><a href="/app/schedule" data-k="schedule"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="11" height="10" rx="2"/><path d="M5 1.8v2.4M11 1.8v2.4M2.5 7h11"/></svg><span data-i18n="rail.schedule">Публикации</span></a><a href="/partner" data-k="brands"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 5.5h11v8h-11z"/><path d="M5.5 5.5V4a2.5 2.5 0 0 1 5 0v1.5"/></svg><span data-i18n="rail.brands">Бренды</span></a><a href="/partner/channels" data-k="channels"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 5.8L3.6 8.4l2.6 2.6"/><path d="M9.8 5.8l2.6 2.6-2.6 2.6"/></svg><span data-i18n="rail.channels">Каналы</span></a><a href="/app/analytics" data-k="analytics"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5h11"/><path d="M4.5 12.5V8M8 12.5V4.2M11.5 12.5V9.6"/></svg><span data-i18n="rail.analytics">Аналитика</span></a><a href="/partner/team" data-k="team"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.8" cy="6.2" r="2"/><circle cx="11.2" cy="7" r="1.5"/><path d="M2.6 13.2c0-2 1.5-3.1 3.2-3.1s3.2 1.1 3.2 3.1"/><path d="M10.1 13.2c0-1.5.9-2.4 2.1-2.4s2.1.9 2.1 2.4"/></svg><span data-i18n="rail.team">Команда</span></a><a href="/partner/info" data-k="partners"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="4" cy="8" r="1.7"/><circle cx="12" cy="4.6" r="1.7"/><circle cx="12" cy="11.4" r="1.7"/><path d="M5.5 7.3l4.9-2M5.5 8.7l4.9 2"/></svg><span data-i18n="rail.partners">Партнёрам</span></a><a href="/app/billing" data-k="billing"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1.8" y="3.8" width="12.4" height="8.4" rx="1.6"/><path d="M1.8 6.8h12.4"/><path d="M4.5 9.8h3"/></svg><span data-i18n="rail.billing">Оплата</span></a></nav><div class="gg-rail-foot"><a href="/profile" data-k="profile"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.8v1.6M8 12.6v1.6M1.8 8h1.6M12.6 8h1.6M3.6 3.6l1.1 1.1M11.3 11.3l1.1 1.1M12.4 3.6l-1.1 1.1M4.7 11.3l-1.1 1.1"/></svg><span data-i18n="rail.settings">Настройки</span></a><button type="button" class="gg-rail-theme" id="ggRailTheme"><span class="gg-ico">☾</span><span class="gg-tx" data-i18n="rail.theme.dark">Тёмная</span></button><button type="button" class="gg-rail-out" id="ggRailOut" data-i18n="rail.logout">Выйти</button></div></aside>
-<script src="/i18n/i18n.js"></script>
-    <script>
-(function(){var b=document.getElementById("wsLogout");if(b)b.addEventListener("click",function(){b.disabled=true;fetch("/api/logout",{method:"POST"}).catch(function(){}).then(function(){try{sessionStorage.removeItem("gg_user")}catch(e){}location.href="/"})});})();
-(function(){var p=location.pathname;var prot=(p==="/app"||p.indexOf("/app/")===0)&&p!=="/app/onboard";var u=null;try{u=JSON.parse(sessionStorage.getItem("gg_user")||"null")}catch(e){}if(prot&&!u){try{sessionStorage.setItem("gg_after_login",p+location.search)}catch(e){}location.replace("/login?next="+encodeURIComponent(p+location.search))}})();</script>
-  <header class="topbar">
-    <div class="wrap topbar-inner">
-      <a class="brand" href="/app" aria-label="GOOD Growth — в мастерскую" data-i18n-attr="aria-label:index.aria.brand"><img class="brand-mark" src="/favicon.svg?v=2" alt="" width="26" height="26" style="border-radius:7px;display:block;object-fit:contain;background:none;box-shadow:none"><span class="brand-text">GOOD Growth<span class="brand-sub" data-i18n="index.brandSub">мастерская роста</span></span></a>
-      <nav class="ws-nav" id="wsNav" aria-label="Основная навигация" data-i18n-attr="aria-label:index.aria.nav">
-        <a href="/app" data-nav="/app" data-i18n="index.nav.workshop">Мастерская</a>
-        <a href="/app/posts" data-i18n="profile.myPosts">Мои посты</a>
-        <a href="/app/analytics" data-i18n="common.nav.analytics">Аналитика</a>
-        <a href="/pricing" data-i18n="index.nav.pricing">Тарифы</a>
+<body>
+
+<div class="shell">
+  <aside class="sidebar" id="gg-rail" aria-label="Разделы GOOD Growth">
+    <div class="brandmark">
+      <span class="g" aria-hidden="true">G</span>
+      <span class="t"><b>GOOD Growth</b><span data-i18n="z.brandSub">мастерская роста</span></span>
+    </div>
+    <div class="brand-chip" title="Активный бренд" id="brandPill" style="position:relative">
+      <span class="dot" aria-hidden="true"></span>
+      <b id="brandLabel">—</b><div id="brandMenu" style="display:none;position:absolute;left:10px;right:10px;top:100%;margin-top:4px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:6px;z-index:50"></div>
+    </div>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="/app" data-k="app"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7.4" height="7.4" rx="1.6"/><rect x="13.1" y="3.5" width="7.4" height="7.4" rx="1.6"/><rect x="3.5" y="13.1" width="7.4" height="7.4" rx="1.6"/><rect x="13.1" y="13.1" width="7.4" height="7.4" rx="1.6"/></svg><span data-i18n="z.navDesk">Стол</span></a>
+      <a href="/app/strategy" data-k="strategy" aria-current="page"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.2"/><circle cx="12" cy="12" r="4.4"/><circle cx="12" cy="12" r="1"/></svg><span data-i18n="z.navGoal">Цель</span></a>
+      <a href="/app/posts" data-k="posts"><svg viewBox="0 0 24 24"><rect x="4.5" y="3.5" width="15" height="17" rx="2.4"/><path d="M8.5 8.5h7M8.5 12.2h7M8.5 15.9h4.4"/></svg><span data-i18n="z.navContent">Контент</span></a>
+      <a href="/app/schedule" data-k="schedule"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.4"/><path d="M3.5 9.6h17M8 3v4M16 3v4M9.6 14.4l2.1 2.1 3.4-3.6"/></svg><span data-i18n="z.navPublish">Публикации</span></a>
+      <a href="/partner" data-k="brands"><svg viewBox="0 0 24 24"><path d="M12 3.2 20 7.5v9L12 20.8 4 16.5v-9L12 3.2z"/><path d="M4.4 7.7 12 11.8l7.6-4.1M12 11.8v8.7"/></svg><span data-i18n="z.navBrands">Бренды</span></a>
+      <a href="/app/channels" data-k="channels"><svg viewBox="0 0 24 24"><circle cx="12" cy="12.6" r="2.1"/><path d="M7.8 8.4a6 6 0 0 0 0 8.4M16.2 8.4a6 6 0 0 1 0 8.4M5 5.6a9.8 9.8 0 0 0 0 14M19 5.6a9.8 9.8 0 0 1 0 14"/></svg><span data-i18n="z.navChannels">Каналы</span></a>
+      <a href="/app/analytics" data-k="analytics"><svg viewBox="0 0 24 24"><path d="M4 20h16M7 16.5v-5M12 16.5v-9M17 16.5v-3.4"/></svg><span data-i18n="z.navAnalytics">Аналитика</span></a>
+      <span class="lbl" data-i18n="z.navGroupGrow">развитие</span>
+      <a href="/partner/team" data-k="team"><svg viewBox="0 0 24 24"><circle cx="9" cy="8.4" r="3.1"/><path d="M3.6 19.4c.6-3.1 2.8-4.9 5.4-4.9s4.8 1.8 5.4 4.9M15.4 5.6a3.1 3.1 0 0 1 0 5.7M17.2 14.9c2 .5 3.4 2 3.9 4.5"/></svg><span data-i18n="z.navTeam">Команда</span></a>
+      <a href="/partner/info" data-k="info"><svg viewBox="0 0 24 24"><path d="M10.4 13.6a4.2 4.2 0 0 0 5.9.4l2.8-2.8a4.2 4.2 0 0 0-5.9-5.9l-1.6 1.5"/><path d="M13.6 10.4a4.2 4.2 0 0 0-5.9-.4l-2.8 2.8a4.2 4.2 0 0 0 5.9 5.9l1.5-1.5"/></svg><span data-i18n="z.navPartners">Партнёрам</span></a>
+      <a href="/app/billing" data-k="billing"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2.4"/><path d="M3.5 10h17M7 14.6h4"/></svg><span data-i18n="z.navBilling">Оплата</span></a>
+    </nav>
+    <div class="side-foot">
+      <nav class="nav" aria-label="Настройки">
+        <button type="button" class="nav-link" id="ggRailTheme" data-theme-pick="dark"
+                style="display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:10px;
+                       background:none;border:0;width:100%;cursor:pointer;color:var(--muted);font:inherit;font-size:13.5px">
+          <span class="gg-ico" aria-hidden="true">◐</span><span class="gg-tx">Тёмная</span>
+        </button>
+        <a href="/profile" data-k="profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.14-1.4l2-1.55-1.9-3.3-2.36.95a7 7 0 0 0-2.42-1.4L13.8 2.8h-3.6l-.38 2.5a7 7 0 0 0-2.42 1.4l-2.36-.95-1.9 3.3 2 1.55A7 7 0 0 0 5 12c0 .47.05.94.14 1.4l-2 1.55 1.9 3.3 2.36-.95a7 7 0 0 0 2.42 1.4l.38 2.5h3.6l.38-2.5a7 7 0 0 0 2.42-1.4l2.36.95 1.9-3.3-2-1.55c.09-.46.14-.93.14-1.4z"/></svg><span data-i18n="z.navSettings">Настройки</span></a>
+        <a href="/login" data-k="logout" id="ggRailOut"><svg viewBox="0 0 24 24"><path d="M14.5 4.5H7A2.5 2.5 0 0 0 4.5 7v10A2.5 2.5 0 0 0 7 19.5h7.5M10 12h10.2M17 8.8l3.2 3.2-3.2 3.2"/></svg><span data-i18n="z.navLogout">Выйти</span></a>
       </nav>
-      <div class="ws-actions">
-        <div id="brandPill" style="display:none;position:relative;">
-          <button id="brandLabel" type="button" style="font:500 13px/1 inherit;letter-spacing:.02em;padding:8px 16px;border-radius:999px;background:var(--surface);border:1px solid var(--hair);color:var(--muted);cursor:pointer">—</button>
-          <div id="brandMenu" style="display:none;position:absolute;top:110%;right:0;min-width:220px;background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:6px;z-index:50;box-shadow:0 12px 30px rgba(0,0,0,.35)">
-          </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topline">
+      <div class="crumb"><a href="#about" data-i18n="z.aboutLink">← О сервисе</a></div>
+      <div class="status-chips">
+        <span class="chip" id="modeChip" title="Режим разбора"><span class="dot"></span><span id="modeText" data-i18n="z.aiMode">ИИ · не подключён</span></span>
+        <div class="lang-switch" role="group" aria-label="Язык интерфейса">
+          <button type="button" data-lang="ru" aria-pressed="true">RU</button>
+          <button type="button" data-lang="en" aria-pressed="false">EN</button>
+          <button type="button" data-lang="hy" aria-pressed="false">ՀԱ</button>
         </div>
-        <span class="mode-chip" id="modeChip" data-mode="unknown" title="Режим разбора" data-i18n-attr="title:index.title.mode">
-          <span class="dot" aria-hidden="true"></span><span id="modeText">проверяю…</span>
-        </span>
-        <a class="ws-user" id="wsUser" href="/profile" title="Профиль" data-i18n-attr="title:index.profile" data-i18n="index.profile">Профиль</a>
-        <button id="wsLogout" type="button" class="ws-out" data-i18n="index.logout">Выйти</button>
-        <button id="wsBurger" type="button" class="ws-burger" aria-label="Меню" data-i18n-attr="aria-label:index.aria.menu" aria-expanded="false">☰</button>
+        <button type="button" class="icon-btn" id="themeBtn" aria-label="Переключить тему">
+          <svg id="themeIcon" viewBox="0 0 24 24"><path d="M20 13.2A8.2 8.2 0 0 1 10.8 4 8.2 8.2 0 1 0 20 13.2z"/></svg>
+        </button>
       </div>
     </div>
-    <nav class="ws-mnav" id="wsMnav" aria-label="Мобильная навигация" data-i18n-attr="aria-label:index.aria.mnav">
-      <a href="/app" data-nav="/app" data-i18n="index.nav.workshop">Мастерская</a>
-      <a href="/app/posts" data-i18n="profile.myPosts">Мои посты</a>
-      <a href="/app/analytics" data-i18n="common.nav.analytics">Аналитика</a>
-      <a href="/pricing" data-i18n="index.nav.pricing">Тарифы</a>
-    </nav>
-  </header>
 
-  <main class="wrap">
-    <!-- ======== ЛЕНДИНГ (Приказ №17) ======== -->
-    <section class="landing" id="landing" aria-label="О GOOD Growth" data-i18n-attr="aria-label:index.aria.about">
-      <div class="land-hero" id="land-hero">
-        <div class="hero-copy">
-          <p class="land-kicker" data-i18n="index.kicker">GOOD GROWTH · МАСТЕРСКАЯ РОСТА</p>
-          <h1 data-i18n="index.h1">От цели — до готовых постов. За один вечер.</h1>
-          <p class="land-lede" data-i18n="index.lede">GOOD Growth — тихий инструмент для небольших дел и мастеров. Опиши, чем ты занимаешься, — он разложит цель на стратегию, напишет посты и нарисует к ним картинки. Останется нажать «Опубликовать».</p>
-          <div class="land-cta-row">
-            <button class="btn btn-primary" id="ctaStart" type="button" data-i18n="index.cta.try">Попробовать бесплатно</button>
-            <button class="btn btn-quiet" id="ctaEnter" type="button" data-i18n="index.cta.enter">Сразу в мастерскую</button>
-          </div>
-          <p class="land-note" data-i18n="index.note">Бесплатно. Регистрация за 30 секунд — и первый пост за 10 минут.</p>
-        </div>
-        <div class="hero-visual" aria-hidden="true">
-          <div class="mock-float">
-            <div class="mf-row"><span class="mf-dot iris"></span><span class="mf-line w80"></span></div>
-            <div class="mf-row"><span class="mf-dot green"></span><span class="mf-line w60"></span></div>
-            <div class="mf-row"><span class="mf-dot coral"></span><span class="mf-line w40"></span></div>
-            <div class="mf-cap" data-i18n="index.mock.cap">стратегия готова</div>
-          </div>
-          <figure class="mock-post">
-            <svg viewBox="0 0 320 180" role="img" aria-label="Иллюстрация: пост с картинкой" data-i18n-attr="aria-label:index.aria.illustration">
-              <defs>
-                <linearGradient id="ggSky" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#1e7a56"/><stop offset="1" stop-color="#7ccb7a"/>
-                </linearGradient>
-              </defs>
-              <rect width="320" height="180" fill="url(#ggSky)"/>
-              <circle cx="252" cy="52" r="26" fill="#f8f66f" opacity="0.94"/>
-              <path d="M0 132 Q80 98 160 128 T320 122 V180 H0 Z" fill="#1f1e1c" opacity="0.85"/>
-              <path d="M0 152 Q90 128 180 148 T320 144 V180 H0 Z" fill="#3f8f6b" opacity="0.35"/>
-            </svg>
-            <figcaption>
-              <div class="mock-title" data-i18n="index.mock.title">Мастерская «Велодело»</div>
-              <div class="mock-line"></div>
-              <div class="mock-line short"></div>
-              <div class="mock-actions">
-                <span class="mock-pill dark" data-i18n="index.mock.create">Создать</span>
-                <span class="mock-pill coral" data-i18n="index.mock.publish">Опубликовать</span>
-              </div>
-            </figcaption>
-          </figure>
-        </div>
-      </div>
+    <main class="canvas" id="goalPage">
 
-      <div class="land-section" id="land-problem">
-        <h2 data-i18n="index.problem.title">Знакомая боль</h2>
-        <p data-i18n="index.problem.text">Делом занимаешься вечером, а на тексты и картинки сил не остаётся. Пустой канал не приводит клиентов, а копирайтер и дизайнер — это бюджет и объяснения. В итоге страница молчит, дело живёт только сарафаном.</p>
-      </div>
-
-      <div class="land-section" id="land-solution">
-        <h2 data-i18n="index.solution.title">Что делает GOOD Growth</h2>
-        <p data-i18n="index.solution.text">Один экран вместо пяти сервисов. Ты отвечаешь на пять коротких вопросов о своём деле — дальше система работает сама.</p>
-        <div class="land-grid">
-          <div class="land-card">
-            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2"/></svg></span>
-            <h3 data-i18n="index.card1.h">Стратегия из цели</h3>
-            <p data-i18n="index.card1.p">Разбирает «что, где, для кого» на аудиторию, темы и каналы — понятный план вместо пустого листа.</p>
-          </div>
-          <div class="land-card">
-            <span class="card-ico green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M3.5 17.5l5-5 4 4 3-3 5 4.5"/></svg></span>
-            <h3 data-i18n="index.card2.h">Посты с картинками</h3>
-            <p data-i18n="index.card2.p">Готовые тексты с заголовками и иллюстрациями за секунды. Правь как хочешь — это черновик, не клетка.</p>
-          </div>
-          <div class="land-card">
-            <span class="card-ico coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.5L11 13"/><path d="M21.5 2.5L14.5 21.5l-3.5-8.5-8.5-3.5 19-7z"/></svg></span>
-            <h3 data-i18n="index.card3.h">Публикация в Telegram</h3>
-            <p data-i18n="index.card3.p">Кнопка «Опубликовать» отправляет пост в твой канал. Без копирования, без лишних окон.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="land-section" id="land-how">
-        <h2 data-i18n="index.how.title">Как это работает</h2>
-        <div class="land-steps">
-          <div class="land-step"><span class="no">01</span><h3 data-i18n="index.step1.h">Опиши дело</h3><p data-i18n="index.step1.p">Пять вопросов или одна фраза — как удобнее. Можно голосом.</p></div>
-          <div class="land-step"><span class="no">02</span><h3 data-i18n="index.step2.h">Получи стратегию</h3><p data-i18n="index.step2.p">Аудитория, темы, каналы и ритм публикаций — сразу на экране.</p></div>
-          <div class="land-step"><span class="no">03</span><h3 data-i18n="index.step3.h">Создай посты</h3><p data-i18n="index.step3.p">Один, три, пять или десять — с картинками под каждый.</p></div>
-          <div class="land-step"><span class="no">04</span><h3 data-i18n="index.step4.h">Опубликуй</h3><p data-i18n="index.step4.p">Проверил заголовок — нажал кнопку — пост в канале.</p></div>
-        </div>
-      </div>
-
-      <div class="land-section" id="land-benefits">
-        <h2 data-i18n="index.benefits.title">Почему это работает</h2>
-        <div class="land-grid">
-          <div class="land-card">
-            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.2c0 4.9-3.2 8.4-7.5 10.3-4.3-1.9-7.5-5.4-7.5-10.3V6L12 3z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg></span>
-            <h3 data-i18n="index.ben1.h">Твои данные — твои</h3>
-            <p data-i18n="index.ben1.p">Всё хранится локально, ключи шифрования не покидают компьютер. Никаких облачных досье.</p>
-          </div>
-          <div class="land-card">
-            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2.5L4.5 13.5h5.5l-1 8 8.5-11h-5.5l1-8z"/></svg></span>
-            <h3 data-i18n="index.ben2.h">Скорость как свойство</h3>
-            <p data-i18n="index.ben2.p">Картинка рисуется за ~15 секунд, стратегия собирается за полминуты. Идея не успевает остыть.</p>
-          </div>
-          <div class="land-card">
-            <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6.5" width="19" height="11" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/></svg></span>
-            <h3 data-i18n="index.ben3.h">Без ловушек подписки</h3>
-            <p data-i18n="index.ben3.p">Никаких «первый месяц бесплатно, потом списание». Платишь только за то, что реально рисуешь.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="land-cta-band" id="land-cta">
-        <h2 data-i18n="index.cta.title">Готовы рассказать о своём деле?</h2>
-        <p data-i18n="index.cta.text">Первый разбор — бесплатный. Регистрация займёт полминуты. Дальше решишь сам.</p>
-        <div class="land-cta-row">
-          <button class="btn btn-primary" id="ctaStart2" type="button" data-i18n="index.cta.start">Начать сейчас</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ======== МАСТЕРСКАЯ ======== -->
-    <div id="appRoot" hidden>
-      <p class="backline"><button class="linkish" id="backToLanding" type="button" data-i18n="index.back">← О сервисе</button></p>
-      <section id="deskSection" hidden aria-label="Стол" data-i18n-attr="aria-label:desk.ariaDesk">
-        <div class="gg-topbar">
-          <h1 data-i18n="desk.h1">Стол</h1>
-          <div class="gg-grow"></div>
-          <a class="desk-more" href="/app/strategy" data-i18n="desk.toWorkshop">В мастерскую →</a>
-        </div>
+      <section id="deskSection" hidden aria-label="Стол">
+        <div class="gg-topbar"><h1>Стол</h1><div class="gg-grow"></div>
+          <a class="desk-more" href="/app/strategy">В мастерскую →</a></div>
 
         <div class="gg-blk">
-          <div class="gg-blk-h"><h2 data-i18n="desk.today">Сегодня</h2>
-            <span class="gg-blk-q" data-i18n="desk.q.today">что происходит?</span></div>
+          <div class="gg-blk-h"><h2>Сегодня</h2><span class="gg-blk-q">что происходит?</span></div>
           <div class="gg-blk-b">
             <div class="gg-tiles" style="grid-template-columns:repeat(3,1fr)">
-              <div class="gg-tile"><div class="gg-n" id="deskGoals">—</div>
-                <div class="gg-l" data-i18n="desk.goals">целей разобрано</div></div>
-              <div class="gg-tile"><div class="gg-n" id="deskPosts">—</div>
-                <div class="gg-l" data-i18n="desk.posts">постов создано</div></div>
-              <div class="gg-tile"><div class="gg-n" id="deskPublished">—</div>
-                <div class="gg-l" data-i18n="desk.published">опубликовано</div></div>
+              <div class="gg-tile"><div class="gg-n" id="deskGoals">—</div><div class="gg-l">целей разобрано</div></div>
+              <div class="gg-tile"><div class="gg-n" id="deskPosts">—</div><div class="gg-l">постов создано</div></div>
+              <div class="gg-tile"><div class="gg-n" id="deskPublished">—</div><div class="gg-l">опубликовано</div></div>
             </div>
           </div>
         </div>
 
         <div class="gg-blk">
-          <div class="gg-blk-h"><h2 data-i18n="desk.start">С чего начать</h2>
-            <span class="gg-blk-q" data-i18n="desk.q.start">какой шаг сейчас?</span></div>
+          <div class="gg-blk-h"><h2>С чего начать</h2><span class="gg-blk-q">какой шаг сейчас?</span></div>
           <div class="gg-blk-b">
             <a class="desk-step" id="deskStep" href="/app/strategy">
-              <span class="desk-step-t" id="deskStepTitle" data-i18n="desk.stepDefault">Задать цель</span>
-              <span class="desk-step-h" id="deskStepHint" data-i18n="desk.stepDefaultHint">С этого начинается всё</span>
+              <span class="desk-step-t" id="deskStepTitle">Задать цель</span>
+              <span class="desk-step-h" id="deskStepHint">С этого начинается всё</span>
               <span class="desk-step-go">→</span>
             </a>
           </div>
         </div>
 
         <div class="gg-blk" id="deskWaitBlk" hidden>
-          <div class="gg-blk-h"><h2 data-i18n="desk.wait">Что ждёт</h2>
-            <span class="gg-blk-q" data-i18n="desk.q.wait">что само не сделается?</span></div>
+          <div class="gg-blk-h"><h2>Что ждёт</h2><span class="gg-blk-q">что само не сделается?</span></div>
           <div class="gg-blk-b" id="deskWait"></div>
         </div>
 
         <div class="gg-blk">
-          <div class="gg-blk-h"><h2 data-i18n="desk.last">Последнее</h2>
-            <span class="gg-blk-q" data-i18n="desk.q.last">что уже было?</span>
-            <a class="desk-more" href="/app/strategy" data-i18n="desk.openAll">Открыть всё</a></div>
+          <div class="gg-blk-h"><h2>Последнее</h2><span class="gg-blk-q">что уже было?</span>
+            <a class="desk-more" href="/app/strategy">Открыть всё</a></div>
           <div class="gg-blk-b" id="deskLast"></div>
         </div>
       </section>
 
-      <section class="hero">
-        <p class="kicker" data-i18n="index.ws.kicker">Система, которая управляет ростом</p>
-        <h1 data-i18n="index.ws.h1">Какую цель ты хочешь достичь?</h1>
+      <header class="hero reveal in">
+        <p class="eyebrow"><span data-i18n="z.eyebrow1">Система, которая управляет ростом</span><em>· что ты хочешь достичь?</em></p>
+        <h1 data-i18n="z.heroTitle">Какую цель ты хочешь достичь?</h1>
+        <p class="lead" data-i18n="z.heroLead">Напиши цель — GOOD Growth разложит её на стратегию, а из стратегии создаст готовые посты с картинками.</p>
+      </header>
 
-        <p class="lede" data-i18n="index.ws.lede">Напиши цель — GOOD Growth разложит её на стратегию, а из стратегии создаст готовые посты с картинками.</p>
-
-        <div class="quick-toggle">
-          <span class="hint" id="warmIntro" data-i18n="index.ws.warmIntro">Ответь на пять коротких вопросов — чем больше расскажешь, тем точнее будет стратегия.</span>
-          <button class="linkish" id="modeSwap" type="button" style="margin-left:12px;">Рассказать о деле (пять вопросов)</button>
-        </div>
-
-        <form class="warm-form" id="warmForm" novalidate>
-          <div class="warm-grid">
-            <div class="warm-field wide">
-              <label for="d_what" data-i18n="onboard.label.what">Что ты делаешь?</label>
-              <div class="mic-row">
-                <textarea id="d_what" class="field-side grow-area" maxlength="120" rows="3" placeholder="Например: «Мастерская ремонта велосипедов»" data-i18n-attr="placeholder:index.ws.ph.what" autocomplete="off"></textarea>
-                <button class="btn btn-mic" id="micWarm" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом" data-i18n-attr="title:onboard.mic,aria-label:onboard.mic">🎙</button>
-              </div>
-              <p class="warm-hint" id="micWarmHint" data-i18n="index.ws.hint.what">Напиши в двух словах — как ты сам это называешь. Или нажми микрофон и скажи.</p>
-            </div>
-            <div class="warm-field">
-              <label for="d_where" data-i18n="onboard.label.where">Где ты находишься?</label>
-              <div class="mic-row">
-                <input type="text" id="d_where" class="field-side" maxlength="120" placeholder="«Москва, район Хамовники» или «Онлайн по России»" data-i18n-attr="placeholder:index.ws.ph.where" autocomplete="off">
-                <button class="btn btn-mic" id="micWhere" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: где ты находишься" data-i18n-attr="title:onboard.mic,aria-label:index.ws.aria.micWhere">🎙</button>
-              </div>
-              <p class="warm-hint" data-i18n="index.ws.hint.where">Чем точнее место — тем легче найти твоих людей.</p>
-            </div>
-            <div class="warm-field">
-              <label for="d_who" data-i18n="onboard.label.who">Кто твой клиент?</label>
-              <div class="mic-row">
-                <input type="text" id="d_who" class="field-side" maxlength="120" placeholder="«Взрослые, которые хотят научиться играть»" data-i18n-attr="placeholder:onboard.ph.who" autocomplete="off">
-                <button class="btn btn-mic" id="micWho" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: кто твой клиент" data-i18n-attr="title:onboard.mic,aria-label:index.ws.aria.micWho">🎙</button>
-              </div>
-              <p class="warm-hint" data-i18n="index.ws.hint.who">Опиши одного человека, которому ты помогаешь.</p>
-            </div>
-            <div class="warm-field wide">
-              <label for="d_want" data-i18n="onboard.label.want">Чего ты хочешь?</label>
-              <div class="mic-row">
-                <input type="text" id="d_want" class="field-side" maxlength="120" placeholder="«Чтобы узнали», «Чтобы записались», «Чтобы пришли в мастерскую»" data-i18n-attr="placeholder:index.ws.ph.want" autocomplete="off">
-                <button class="btn btn-mic" id="micWant" type="button" aria-pressed="false" title="Сказать голосом" aria-label="Сказать голосом: чего ты хочешь" data-i18n-attr="title:onboard.mic,aria-label:index.ws.aria.micWant">🎙</button>
-              </div>
-              <p class="warm-hint" data-i18n="index.ws.hint.want">Что должно случиться, чтобы ты сказал: «Да, это сработало»?</p>
-            </div>
-            <div class="warm-field wide">
-              <label for="d_photo" data-i18n="index.ws.label.photo">Фото твоего дела (по желанию)</label>
-              <div class="warm-photo-row">
-                <img id="photoPreview" class="warm-preview" alt="Предпросмотр фото" data-i18n-attr="alt:index.ws.alt.preview" hidden>
-                <div id="photoPreviewPh" class="warm-preview-ph" data-i18n="index.ws.noPhoto">нет фото</div>
-                <input type="file" id="d_photo" accept="image/*" capture="environment" hidden>
-                <button type="button" class="btn btn-mini" id="photoBtn" data-i18n="index.ws.upload">Загрузить фото</button>
-                <button type="button" class="btn btn-mini danger" id="photoClear" hidden data-i18n="index.ws.remove">Убрать</button>
-              </div>
-              <p class="warm-hint" data-i18n="index.ws.hint.photo">Фото помогает понять твоё дело — и его можно будет использовать в постах. Голос здесь не нужен: фото выбирается кнопкой, слов его не расскажешь.</p>
-            </div>
-          </div>
-          <div class="warm-actions">
-            <button class="btn btn-primary" id="warmBtn" type="submit" data-i18n="index.ws.submit">Рассказать о деле</button>
-            <p class="hint" data-i18n="index.ws.submitHint">Разбор появится ниже и сохранится в журнале.</p>
-          </div>
-          <p class="status-line" id="warmStatus" role="status" aria-live="polite"></p>
-        </form>
-
-        <p class="status-line" id="statusLine" role="status" aria-live="polite"></p>
-
-        <form class="ask quick-form-hidden" id="askForm" novalidate aria-label="Написать цель одной фразой" data-i18n-attr="aria-label:index.ws.aria.ask">
-          <label for="goal" data-i18n="index.ws.label.goal">Твоя цель</label>
-          <textarea id="goal" name="goal" rows="4"
-            placeholder="Например: «Хочу, чтобы о нашей юридической помощи узнали в Telegram»" data-i18n-attr="placeholder:index.ws.ph.goal"
-            aria-describedby="goal-hint goal-error" maxlength="2000"></textarea>
-          <span id="goal-hint" class="visually-hidden" data-i18n="index.ws.hint.goal">Опиши цель в одном-двух предложениях. Система разберёт её на стратегию и создаст посты.</span>
-<div class="ask-row">
-            <button class="btn btn-primary" id="goBtn" type="submit" data-i18n="index.ws.go">Разобрать цель</button>
-            <button class="btn btn-mic" id="micQuick" type="button" aria-pressed="false" title="Сказать цель голосом" aria-label="Сказать цель голосом" data-i18n-attr="title:index.ws.aria.micQuick,aria-label:index.ws.aria.micQuick">🎙</button>
-            <p class="hint" id="micQuickHint" data-i18n="index.ws.hint.quick">Просто напиши цель — для тех, кто торопится.</p>
-          </div>
-          <p id="goal-error" class="error-box" role="alert" hidden></p>
-        </form>
-
+      <section class="composer reveal in" id="askForm" aria-label="Форма цели">
+        <label class="field-lbl" for="goalInput" data-i18n="z.yourGoal">Твоя цель</label>
+        <textarea id="goal" name="goal" maxlength="2000" data-i18n-attr="placeholder:z.ph.goalPlaceholder" placeholder="Например: «Хочу, чтобы о нашей юридической помощи узнали в Telegram»"></textarea>
         <div class="ggf-block" id="ggFormatBlock">
-          <p class="ggf-label" data-i18n="o87.model">Модель</p>
-          <div class="ggf-row" id="ggProfileRow" role="group" aria-label="Модель генерации" data-i18n-attr="aria-label:o87.ariaModel">
-            <button type="button" class="ggf-opt" data-profile="fast" aria-pressed="false"><span data-i18n="o87.fast">Быстрая</span><small data-i18n="o87.fastHint">10 ₽ · просто и быстро</small></button>
-            <button type="button" class="ggf-opt" data-profile="smart" aria-pressed="true"><span data-i18n="o87.smart">Умная</span><small data-i18n="o87.smartHint">30 ₽ · глубоко</small></button>
-            <button type="button" class="ggf-opt" data-profile="creative" aria-pressed="false"><span data-i18n="o87.creative">Креативная</span><small data-i18n="o87.creativeHint">50 ₽ · неожиданно</small></button>
+          <p class="ggf-label">Модель</p>
+          <div class="ggf-row" id="ggProfileRow" role="group" aria-label="Модель генерации">
+            <button type="button" class="ggf-opt" data-profile="fast" aria-pressed="false"><span data-i18n="z.o87.fast">Быстрая</span><small data-i18n="z.o87.fastHint">10 ₽ · просто и быстро</small></button>
+            <button type="button" class="ggf-opt" data-profile="smart" aria-pressed="true"><span data-i18n="z.o87.smart">Умная</span><small data-i18n="z.o87.smartHint">30 ₽ · глубоко</small></button>
+            <button type="button" class="ggf-opt" data-profile="creative" aria-pressed="false"><span data-i18n="z.o87.creative">Креативная</span><small data-i18n="z.o87.creativeHint">50 ₽ · неожиданно</small></button>
           </div>
-          <p class="ggf-label" style="margin-top:14px;" data-i18n="o87.format">Формат</p>
-          <div class="ggf-row" id="ggFormatRow" role="group" aria-label="Формат поста" data-i18n-attr="aria-label:o87.ariaFormat">
-            <button type="button" class="ggf-opt" data-format="text" aria-pressed="true"><span data-i18n="o87.text">Только текст</span><small data-i18n="o87.textHint">0 ₽</small></button>
-            <button type="button" class="ggf-opt" data-format="image" aria-pressed="false"><span data-i18n="o87.image">С картинкой</span><small data-i18n="o87.imageHint">+5 ₽ · нарисуем сразу</small></button><button type="button" class="ggf-opt" data-format="video" aria-pressed="false"><span data-i18n="o87.video">С видео</span><small data-i18n="o87.videoHint">+100 ₽ · 5 сек · в сборке</small></button>
+          <p class="ggf-label" style="margin-top:14px;">Формат</p>
+          <div class="ggf-row" id="ggFormatRow" role="group" aria-label="Формат поста">
+            <button type="button" class="ggf-opt" data-format="text" aria-pressed="true"><span data-i18n="z.o87.text">Только текст</span><small data-i18n="z.o87.textHint">0 ₽</small></button>
+            <button type="button" class="ggf-opt" data-format="image" aria-pressed="false"><span data-i18n="z.o87.image">С картинкой</span><small data-i18n="z.o87.imageHint">+5 ₽ · нарисуем сразу</small></button>
+            <button type="button" class="ggf-opt" data-format="video" aria-pressed="false"><span data-i18n="z.o87.video">С видео</span><small data-i18n="z.o87.videoHint">+100 ₽ · 5 сек · в сборке</small></button>
           </div>
           <div class="ggf-row" style="margin-top:14px;">
-            <div class="ggf-counter"><b id="ggCostRub">30 ₽</b><span id="ggCostPct" data-i18n="o87.costHint">от месячного лимита</span></div>
+            <div class="ggf-counter"><b id="ggCostRub">30 ₽</b><span id="ggCostPct" data-i18n="z.o87.costHint">от месячного лимита</span></div>
           </div>
           <p class="ggf-adv" id="ggAdvice" role="status" aria-live="polite"></p>
-          <div class="ggf-reuse" id="ggReuse"><p class="ggf-label" data-i18n="o87.reuse">Находки в твоих старых постах</p><div id="ggReuseList"></div></div>
+          <div class="ggf-reuse" id="ggReuse"><p class="ggf-label">Находки в твоих старых постах</p><div id="ggReuseList"></div></div>
         </div>
+        <div class="row">
+          <button type="submit" class="btn btn-primary" id="goBtn">
+            <svg class="ic" viewBox="0 0 24 24"><path d="M12 3.5v13M7.2 11.5 12 16.3l4.8-4.8M5 20.5h14"/></svg>
+            <span data-i18n="z.breakGoal">Разобрать цель</span>
+          </button>
+          <button type="button" class="mic-btn" id="micQuick" aria-label="Сказать цель голосом" title="Голосом">
+            <svg viewBox="0 0 24 24"><rect x="9.2" y="3.2" width="5.6" height="11" rx="2.8"/><path d="M5.8 11.4a6.2 6.2 0 0 0 12.4 0M12 17.6v3.2"/></svg>
+          </button>
+          <p class="hint" id="micQuickHint"><a href="#five" id="modeSwap" data-i18n="z.fiveQuestions">Рассказать о деле — пять вопросов</a><span data-i18n="z.hurryHint"> · просто напиши цель, если торопишься</span></p>
+        </div>
+        <p class="status-line" id="statusLine" role="status" aria-live="polite"></p>
+        <p id="goal-error" class="error-box" role="alert" hidden></p>
       </section>
 
-      <section class="result" id="resultSection" aria-label="Разбор цели" data-i18n-attr="aria-label:index.aria.result">
-        <div class="gg-blk-h"><h2 data-i18n="index.blk.result">Разбор</h2><span class="gg-blk-q" data-i18n="index.q.result">что получилось?</span></div>
-        <div id="emptyState" class="panel-empty" data-i18n="index.ws.empty">Пока пусто. Впиши цель и нажми «Разобрать цель».</div>
-        <div id="resultRoot" hidden></div>
-      </section>
 
-      <section class="workshop" id="workshopSection" aria-label="Мастерская постов" data-i18n-attr="aria-label:index.aria.workshop" hidden>
-        <div class="gg-blk-h"><h2 data-i18n="index.blk.posts">Посты</h2><span class="gg-blk-q" data-i18n="index.q.posts">что напишем?</span></div>
-        <div class="workshop-bar">
-          <span class="block-kicker" style="margin:0;" data-i18n="index.ws.count">Сколько постов создать</span>
-          <div class="count-group" role="group" aria-label="Количество постов" data-i18n-attr="aria-label:index.aria.count">
-            <button type="button" class="count-btn" data-count="1" aria-pressed="true">1</button>
-            <button type="button" class="count-btn" data-count="3" aria-pressed="false">3</button>
-            <button type="button" class="count-btn" data-count="5" aria-pressed="false">5</button>
-            <button type="button" class="count-btn" data-count="10" aria-pressed="false">10</button>
+      <!-- наши поля пяти вопросов: скрыты, открываются ссылкой -->
+      <section class="composer warm-panel" id="warmForm" hidden style="margin-top:18px">
+        <p class="hint" id="warmIntro">Ответь на пять коротких вопросов — чем больше расскажешь, тем точнее будет стратегия.</p>
+
+        <label class="field-lbl" for="d_what">что ты делаешь?</label>
+        <textarea id="d_what" name="d_what" rows="3" placeholder="Например: «Мастерская ремонта велосипедов»"></textarea>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+          <div>
+            <label class="field-lbl" for="d_where">где ты находишься?</label>
+            <input id="d_where" name="d_where" type="text" placeholder="«Москва, район Хамовники»">
           </div>
-          <button class="btn btn-primary" id="makeBtn" type="button" data-i18n="index.ws.make">Создать контент</button>
-          <p class="hint" id="workshopHint" data-i18n="index.ws.makeHint">Тексты напишет разум, картинки — за секунды.</p>
+          <div>
+            <label class="field-lbl" for="d_who">кто твой клиент?</label>
+            <input id="d_who" name="d_who" type="text" placeholder="«Взрослые, которые хотят научиться играть»">
+          </div>
         </div>
-        <div id="postsStatus" class="status-line" role="status" aria-live="polite"></div>
-        <div id="postsRoot" class="posts"></div>
+
+        <label class="field-lbl" for="d_want" style="margin-top:12px">чего ты хочешь?</label>
+        <textarea id="d_want" name="d_want" rows="2" placeholder="«Чтобы узнали», «Чтобы записались»"></textarea>
+
+        <label class="field-lbl" style="margin-top:12px">фото твоего дела (по желанию)</label>
+        <div class="row" style="margin-top:6px">
+          <img id="photoPreview" alt="" hidden style="width:64px;height:64px;border-radius:10px;object-fit:cover">
+          <span id="photoPreviewPh" class="hint">нет фото</span>
+          <input type="file" id="d_photo" accept="image/*" hidden>
+          <button type="button" class="btn" id="photoBtn" style="padding:9px 14px;font-size:13px">Загрузить фото</button>
+          <button type="button" class="btn" id="photoClear" hidden style="padding:9px 14px;font-size:13px">Убрать</button>
+        </div>
+
+        <input type="hidden" id="micWarm"><input type="hidden" id="micWhere">
+        <input type="hidden" id="micWho"><input type="hidden" id="micWant">
+        <input type="hidden" id="micWarmHint"><input type="hidden" id="micQuickHintHidden">
+
+        <div class="row" style="margin-top:16px">
+          <button type="submit" class="btn btn-primary" id="warmBtn">Рассказать о деле</button>
+          <p class="hint" id="warmStatus" role="status" aria-live="polite">Разбор появится ниже и сохранится в журнале.</p>
+        </div>
       </section>
 
-      <section class="journal" id="journalSection" aria-label="Журнал целей" data-i18n-attr="aria-label:index.aria.journal">
-        <div class="gg-blk-h"><h2 data-i18n="index.journal.title">Журнал целей</h2><span class="gg-blk-q" data-i18n="index.q.journal">что уже было?</span></div>
-        <p class="jsub" data-i18n="index.journal.sub">Каждый разбор сохраняется локально. Нажми на строку, чтобы открыть разбор и посты.</p>
-        <div id="journalList"><p class="jsub" id="journalEmpty" data-i18n="index.journal.empty">Журнал пока пуст.</p></div>
+      <nav class="subnav" aria-label="Разделы разбора">
+        <a href="#razbor" class="on" data-i18n="z.snOverview">Обзор</a>
+        <a href="#audience" data-i18n="z.snAudience">Аудитория</a>
+        <a href="#rhythm" data-i18n="z.snRhythm">Ритм</a>
+        <a href="#topics" data-i18n="z.snTopics">Темы</a>
+        <a href="#chans" data-i18n="z.snChannels">Каналы</a>
+        <a href="#steps" data-i18n="z.snSteps">Шаги</a>
+        <a href="#postsSec" data-i18n="z.snPosts">Посты</a>
+      </nav>
+      <article class="sheet reveal" id="razbor" aria-label="Живой разбор цели">
+        <div class="sheet-head">
+          <div>
+            <h2 data-i18n="z.razborTitle">Разбор цели</h2>
+            <p class="meta" style="margin-top:8px;"><span data-i18n="z.razborLive">живой разбор</span> · 19 октября · № 35</p>
+          </div>
+          <button type="button" class="listen" id="listenBtn" aria-pressed="false">
+            <svg id="listenIcon" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5-10-6.5z"/></svg>
+            <span id="listenText" data-i18n="z.listen">Прослушать</span>
+          </button>
+        </div>
+
+        <p class="strategy-line">Стратегия строится на полезном и вовлекающем контенте в Telegram и VK, который помогает мамам и бабушкам решать повседневные задачи, связанные с одеждой для детей. Через советы, закулисье и акции мы формируем доверие и стимулируем покупки, а локальные чаты и UGC усиливают охват среди родителей Тбилиси.</p>
+        <blockquote class="goal-quote"><b>Цель:</b> «Магазин детской одежды в Тбилиси. Клиенты — мамы и бабушки. Хочу, чтобы о нас узнали местные родители через Telegram и приходили за покупками.»</blockquote>
+
+        <div class="grid-2">
+          <div class="blk" id="audience">
+            <p class="lbl" data-i18n="z.audience">Аудитория</p>
+            <h3>Мамы и бабушки детей от 0 до 10 лет, проживающие в Тбилиси, преимущественно русскоязычные и грузиноязычные, активные пользователи Telegram и VK.</h3>
+            <ul>
+              <li>Ищут не просто одежду, а удобные и безопасные вещи для детей — часто советуются в родительских чатах.</li>
+              <li>Ценят локальные бренды и магазины, где можно потрогать товар и быстро обменять размер.</li>
+              <li>Покупают сезонно: к школе, к праздникам, к смене погоды.</li>
+            </ul>
+          </div>
+          <div class="blk rhythm" id="rhythm">
+            <p class="lbl" data-i18n="z.rhythm">Ритм публикаций</p>
+            <p class="big">3 <small>/ <span data-i18n="z.perWeek">неделю</span> · рекомендуемый темп</small></p>
+            <div class="days">
+              <span class="day hot">Вт · <span data-i18n="z.dayUseful">полезный</span></span>
+              <span class="day hot">Чт · <span data-i18n="z.dayEngage">вовлекающий</span></span>
+              <span class="day hot">Сб · <span data-i18n="z.daySell">продающий</span></span>
+            </div>
+            <p class="note">Вторник — советы или гид, четверг — опрос, UGC и закулисье, суббота — подборка или акция. В Telegram добавляем сторис с анонсами между постами.</p>
+          </div>
+        </div>
+
+        <div class="topics" id="topics">
+          <div class="sec-lbl"><span class="lbl" data-i18n="z.topicsLbl">темы</span><h3 data-i18n="z.topicsTitle">Пять тем, на которых держим контент</h3></div>
+          <div class="topic">
+            <span class="no">01</span>
+            <div>
+              <h4>Гид по размерам и посадке</h4>
+              <p class="desc">Помогаем подобрать размер без примерки, учитывая особенности разных брендов и возрастов.</p>
+              <div class="idea-chips">
+                <span>Пост-таблица с размерами для детей разного возраста и советы по снятию мерок.</span>
+                <span>Видео-обзор: как одежда сидит на детях разного телосложения.</span>
+                <span>Истории мам: как мы подбирали размер и что подошло.</span>
+              </div>
+            </div>
+          </div>
+          <div class="topic">
+            <span class="no">02</span>
+            <div>
+              <h4>Сезонные подборки и капсулы</h4>
+              <p class="desc">Готовые комплекты одежды для прогулок, садика и праздников, с акцентом на местную погоду.</p>
+              <div class="idea-chips">
+                <span>Подборка «3 капсулы на весну для мальчика и девочки» с ценами.</span>
+                <span>Пост-рекомендация: что надеть на прогулку в дождливый Тбилиси.</span>
+                <span>Фото-карусель с образами от подписчиков (UGC).</span>
+              </div>
+            </div>
+          </div>
+          <div class="topic">
+            <span class="no">03</span>
+            <div>
+              <h4>За кулисами магазина</h4>
+              <p class="desc">Показываем процесс выбора товара, контроль качества и заботу о клиентах.</p>
+              <div class="idea-chips">
+                <span>Видео с распаковкой новой коллекции и комментариями владельца.</span>
+                <span>Пост о том, как мы проверяем одежду на безопасность и гипоаллергенность.</span>
+                <span>История одного дня из жизни магазина (сторис).</span>
+              </div>
+            </div>
+          </div>
+          <div class="topic">
+            <span class="no">04</span>
+            <div>
+              <h4>Советы по уходу и воспитанию</h4>
+              <p class="desc">Полезный контент для мам: как стирать детские вещи, приучать к опрятности, экономить на гардеробе.</p>
+              <div class="idea-chips">
+                <span>Инструкция: как вывести пятна от еды и краски с детской одежды.</span>
+                <span>Чек-лист: сколько комплектов одежды нужно ребенку в садик.</span>
+                <span>Пост-опрос: какие трудности с одеждой для детей вы испытываете?</span>
+              </div>
+            </div>
+          </div>
+          <div class="topic">
+            <span class="no">05</span>
+            <div>
+              <h4>Акции и специальные предложения</h4>
+              <p class="desc">Стимулируем покупки через ограниченные по времени предложения и бонусы для подписчиков.</p>
+              <div class="idea-chips">
+                <span>Анонс скидки на зимние куртки только для подписчиков канала.</span>
+                <span>Пост с промокодом на первый заказ для новых клиентов.</span>
+                <span>Розыгрыш сертификата среди активных комментаторов.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topics" id="chans" style="margin-top:36px;">
+          <div class="sec-lbl"><span class="lbl" data-i18n="z.channelsLbl">каналы — 2</span><h3 data-i18n="z.channelsTitle">Публикуемся там, где живёт аудитория</h3></div>
+          <div class="channels">
+            <div class="channel">
+              <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 4.6 2.9 11.4c-.8.3-.77 1.4.05 1.68l4.55 1.53 1.73 5.2c.26.77 1.26.9 1.7.22l2.44-3.72 4.6 3.38c.66.48 1.6.12 1.76-.68L22.4 5.6c.17-.83-.64-1.5-1.4-1z"/></svg></span>
+              <div>
+                <b>Telegram</b>
+                <p>Основной канал для прямого общения с аудиторией, анонсов и быстрой обратной связи.</p>
+              </div>
+              <span class="tag" data-i18n="z.chMain">основной</span>
+            </div>
+            <div class="channel">
+              <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><path d="M8.2 12.6c.9-2.3 2.2-3.4 3.8-3.4 1.7 0 2.9 1.1 3.8 3.4M9.7 15.4c.8-.8 1.5-1.2 2.3-1.2s1.5.4 2.3 1.2"/></svg></span>
+              <div>
+                <b>VK</b>
+                <p>Дополнительная площадка для привлечения русскоязычных мам и бабушек, особенно старшего поколения.</p>
+              </div>
+              <span class="tag" data-i18n="z.chExtra">доп.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="topics" id="steps" style="margin-top:36px;">
+          <div class="sec-lbl"><span class="lbl" data-i18n="z.stepsLbl">первые шаги</span><h3 data-i18n="z.stepsTitle">Что сделать в первую неделю</h3></div>
+          <div class="steps">
+            <label class="step"><input type="checkbox" /><span class="s-no">01</span><span><b>Создать контент-план на месяц</b><p>Расписать 12 постов (по 3 в неделю) по темам, с учётом сезонности и акций, подготовить тексты и подобрать фото.</p></span></label>
+            <label class="step"><input type="checkbox" /><span class="s-no">02</span><span><b>Оформить шапку профиля и закреп</b><p>В Telegram и VK обновить аватар, описание с преимуществами, контакты и закреплённое сообщение с акцией для новых подписчиков.</p></span></label>
+            <label class="step"><input type="checkbox" /><span class="s-no">03</span><span><b>Запустить первую акцию для подписчиков</b><p>Скидка 10% на первый заказ и промокод, чтобы отследить эффективность канала.</p></span></label>
+            <label class="step"><input type="checkbox" /><span class="s-no">04</span><span><b>Наладить сбор обратной связи</b><p>Опрос о темах, которые интересны, и просьба поделиться историями покупок для UGC.</p></span></label>
+            <label class="step"><input type="checkbox" /><span class="s-no">05</span><span><b>Анонсировать канал в родительских чатах</b><p>Найти 3–5 активных чатов Тбилиси, договориться о посте или предложить эксклюзивную скидку участникам.</p></span></label>
+          </div>
+          <div class="steps-progress">
+            <span class="cnt" id="stepsCnt">0 / 5</span>
+            <div class="bar" aria-hidden="true"><i id="stepsBar"></i></div>
+          </div>
+        </div>
+        <div class="posts" id="postsSec">
+          <div class="posts-head">
+            <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;">
+              <span class="plbl" data-i18n="z.postsLbl">посты</span>
+              <h3 data-i18n="z.postsTitle">Из стратегии — в готовое</h3><div id="postsStatus" class="status-line" role="status" aria-live="polite"></div><div id="postsRoot" class="posts"></div>
+            </div>
+            <div class="count-switch" role="group" aria-label="Сколько постов создать">
+              <button type="button" aria-pressed="true">1</button>
+              <button type="button" aria-pressed="false">3</button>
+              <button type="button" aria-pressed="false">5</button>
+              <button type="button" aria-pressed="false">10</button>
+            </div>
+          </div>
+          <div class="row">
+            <button type="button" class="btn btn-primary" id="makeBtn" style="padding:12px 20px;">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M12 3.8 13.9 9l5.3.2-4.2 3.3 1.5 5.1L12 14.6l-4.5 3 1.5-5.1L4.8 9.2 10.1 9 12 3.8z"/></svg>
+              <span data-i18n="z.createContent">Создать контент</span>
+            </button>
+            <p class="hint-line" data-i18n="z.postsHint" id="workshopHint">Тексты напишет разум, картинки — за секунды.</p>
+          </div>
+
+          <div class="post-card" id="workshopSection">
+            <div class="post-media" aria-hidden="true">
+              <span class="tag-img" data-i18n="z.imgReady">картинка готова</span>
+              <span class="ground"></span>
+              <span class="flare"><i></i></span>
+            </div>
+            <div class="post-body">
+              <p class="meta">Пост № 73 · Telegram</p>
+              <h4>Гид по размерам и посадке — 1</h4>
+              <p>Знаете, с чего всё начинается? С размера. Помогаем подобрать его без примерки — учитывая особенности разных брендов и возрастов. Сохрани таблицу: в ней размеры для детей от 0 до 10 лет и три замера, которые нужно снять сантиметром. Если сомневаетесь — напишите в комментариях, подберём вместе.</p>
+              <div class="post-actions">
+                <button type="button" class="mini-btn primary">
+                  <svg viewBox="0 0 24 24"><path d="M10.4 13.6a4.2 4.2 0 0 0 5.9.4l2.8-2.8a4.2 4.2 0 0 0-5.9-5.9l-1.6 1.5"/><path d="M13.6 10.4a4.2 4.2 0 0 0-5.9-.4l-2.8 2.8a4.2 4.2 0 0 0 5.9 5.9l1.5-1.5"/></svg>
+                  <span data-i18n="z.postPublish">Опубликовать</span>
+                </button>
+                <button type="button" class="mini-btn">
+                  <svg viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 0 1 12.8-5.3L20 9.4M20 4.5v5h-5M19.5 12a7.5 7.5 0 0 1-12.8 5.3L4 14.6M4 19.5v-5h5"/></svg>
+                  <span data-i18n="z.postRegen">Перегенерировать</span>
+                </button>
+                <button type="button" class="mini-btn">
+                  <svg viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="12" height="12" rx="2.4"/><path d="M5.5 15.5h-1A2 2 0 0 1 2.5 13.5v-9A2 2 0 0 1 4.5 2.5h9A2 2 0 0 1 15.5 4.5v1"/></svg>
+                  <span data-i18n="z.postCopy">Скопировать</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="resultRoot"></div>
+      </article>
+
+      <section class="journal reveal" id="journal" aria-label="Журнал целей">
+        <div class="journal-head">
+          <div>
+            <p class="lbl" data-i18n="z.journalLbl">журнал целей</p>
+            <h2 data-i18n="z.journalTitle">Каждый разбор сохраняется</h2>
+          </div>
+          <label class="j-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.4"/><path d="m16 16 4.6 4.6"/></svg>
+            <input type="search" data-i18n-attr="placeholder:z.ph.searchPh" placeholder="Поиск по целям" aria-label="Поиск по целям" />
+          </label>
+        </div>
+        <div class="j-list" id="journalList"><p class="hint" id="journalEmpty" hidden>Журнал пока пуст.</p>
+          <div class="j-row is-open"><span class="d">19.10.26 · 05:22</span><span class="n">№ 35</span><span class="t">Магазин детской одежды в Тбилиси. Клиенты — мамы и бабушки. Хочу, чтобы о нас узнали местные родители…</span><span class="badges"><button type="button" class="j-del" aria-label="Удалить разбор"><svg viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V4.8A1.3 1.3 0 0 1 10.8 3.5h2.4a1.3 1.3 0 0 1 1.3 1.3v1.7M7 6.5l.8 12.2A1.6 1.6 0 0 0 9.4 20.2h5.2a1.6 1.6 0 0 0 1.6-1.5l.8-12.2"/></svg></button></span></div>
+          <div class="j-row"><span class="d">19.10.26 · 22:01</span><span class="n">№ 38</span><span class="t">Моё дело: Проверка планировщика O75 v2. Место: Telegram. Чего хочу: автопубликация</span><span class="badges"><button type="button" class="j-del" aria-label="Удалить разбор"><svg viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V4.8A1.3 1.3 0 0 1 10.8 3.5h2.4a1.3 1.3 0 0 1 1.3 1.3v1.7M7 6.5l.8 12.2A1.6 1.6 0 0 0 9.4 20.2h5.2a1.6 1.6 0 0 0 1.6-1.5l.8-12.2"/></svg></button></span></div>
+          <div class="j-row"><span class="d">19.10.26 · 22:00</span><span class="n">№ 37</span><span class="t">Моё дело: Проверка планировщика O75. Место: Telegram. Чего хочу: автопубликация</span><span class="badges"><button type="button" class="j-del" aria-label="Удалить разбор"><svg viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V4.8A1.3 1.3 0 0 1 10.8 3.5h2.4a1.3 1.3 0 0 1 1.3 1.3v1.7M7 6.5l.8 12.2A1.6 1.6 0 0 0 9.4 20.2h5.2a1.6 1.6 0 0 0 1.6-1.5l.8-12.2"/></svg></button></span></div>
+          <div class="j-row"><span class="d">17.10.26 · 20:53</span><span class="n">№ 32</span><span class="t">Магазин детской одежды в Тбилиси — чтобы узнали о магазине и приходили за покупками</span><span class="badges"><button type="button" class="j-del" aria-label="Удалить разбор"><svg viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V4.8A1.3 1.3 0 0 1 10.8 3.5h2.4a1.3 1.3 0 0 1 1.3 1.3v1.7M7 6.5l.8 12.2A1.6 1.6 0 0 0 9.4 20.2h5.2a1.6 1.6 0 0 0 1.6-1.5l.8-12.2"/></svg></button></span></div>
+          <div class="j-row"><span class="d">17.10.26 · 19:38</span><span class="n">№ 31</span><span class="t">Да я хочу создать Мой бренд. Место: Ереван</span><span class="badges"><button type="button" class="j-del" aria-label="Удалить разбор"><svg viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V4.8A1.3 1.3 0 0 1 10.8 3.5h2.4a1.3 1.3 0 0 1 1.3 1.3v1.7M7 6.5l.8 12.2A1.6 1.6 0 0 0 9.4 20.2h5.2a1.6 1.6 0 0 0 1.6-1.5l.8-12.2"/></svg></button></span></div>
+          <div class="j-row"><span class="d">15.10.26 · 21:42</span><span class="n">№ 30</span><span class="t">Мастерская ремонта велосипедов. Место: Москва</span><span class="badges"><button type="button" class="j-del" aria-label="Удалить разбор"><svg viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V4.8A1.3 1.3 0 0 1 10.8 3.5h2.4a1.3 1.3 0 0 1 1.3 1.3v1.7M7 6.5l.8 12.2A1.6 1.6 0 0 0 9.4 20.2h5.2a1.6 1.6 0 0 0 1.6-1.5l.8-12.2"/></svg></button></span></div>
+          <div class="j-row"><span class="d">11.10.26 · 01:54</span><span class="n">№ 20</span><span class="t">У меня академия, школа. Буду давать уроки по профессии</span><span class="badges"><span class="badge-demo">демо</span><button type="button" class="j-del" aria-label="Удалить разбор"><svg viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V4.8A1.3 1.3 0 0 1 10.8 3.5h2.4a1.3 1.3 0 0 1 1.3 1.3v1.7M7 6.5l.8 12.2A1.6 1.6 0 0 0 9.4 20.2h5.2a1.6 1.6 0 0 0 1.6-1.5l.8-12.2"/></svg></button></span></div>
+          <div class="j-row"><span class="d">08.10.26 · 00:23</span><span class="n">№ 18</span><span class="t">Тест цели цеха Б: ремонт квартир</span><span class="badges"><span class="badge-demo">демо</span><button type="button" class="j-del" aria-label="Удалить разбор"><svg viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V4.8A1.3 1.3 0 0 1 10.8 3.5h2.4a1.3 1.3 0 0 1 1.3 1.3v1.7M7 6.5l.8 12.2A1.6 1.6 0 0 0 9.4 20.2h5.2a1.6 1.6 0 0 0 1.6-1.5l.8-12.2"/></svg></button></span></div>
+          <div class="j-row"><span class="d">02.10.26 · 20:39</span><span class="n">№ 12</span><span class="t">Хочу, чтобы о нашей юридической помощи узнали в Телеграме</span><span class="badges"><button type="button" class="j-del" aria-label="Удалить разбор"><svg viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V4.8A1.3 1.3 0 0 1 10.8 3.5h2.4a1.3 1.3 0 0 1 1.3 1.3v1.7M7 6.5l.8 12.2A1.6 1.6 0 0 0 9.4 20.2h5.2a1.6 1.6 0 0 0 1.6-1.5l.8-12.2"/></svg></button></span></div>
+          <div class="j-row"><span class="d">02.10.26 · 12:40</span><span class="n">№ 10</span><span class="t">Антикафе «Завтра». Место: Казань, центр. Клиенты: студенты и фрилансеры</span><span class="badges"><button type="button" class="j-del" aria-label="Удалить разбор"><svg viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V4.8A1.3 1.3 0 0 1 10.8 3.5h2.4a1.3 1.3 0 0 1 1.3 1.3v1.7M7 6.5l.8 12.2A1.6 1.6 0 0 0 9.4 20.2h5.2a1.6 1.6 0 0 0 1.6-1.5l.8-12.2"/></svg></button></span></div>
+          <div class="j-row"><span class="d">29.09.26 · 06:25</span><span class="n">№ 1</span><span class="t">Здравствуйте. Я хочу, чтобы моя компания Good узнали много людей</span><span class="badges"><span class="badge-demo">демо</span><button type="button" class="j-del" aria-label="Удалить разбор"><svg viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V4.8A1.3 1.3 0 0 1 10.8 3.5h2.4a1.3 1.3 0 0 1 1.3 1.3v1.7M7 6.5l.8 12.2A1.6 1.6 0 0 0 9.4 20.2h5.2a1.6 1.6 0 0 0 1.6-1.5l.8-12.2"/></svg></button></span></div>
+        </div>
+        <div class="j-foot">
+          <p class="hint"><span data-i18n="z.journalFoot">нажми на строку, чтобы открыть разбор · удаление — по наведению, с подтверждением</span></p>
+          <p class="hint">32 <span data-i18n="z.journalCount">разбора в журнале</span></p>
+        </div>
       </section>
-    </div>
-  </main>
 
-  <footer class="pagefoot">
-    <div class="wrap pagefoot-inner">
-      <span data-i18n="index.footer">GOOD Growth · локальный инструмент · данные хранятся только на этом компьютере</span>
-      <span class="meta">
-        <span id="footMeta"><span data-i18n="index.footer.mode">Режим: </span><span id="footMode">—</span> ·
-        <button class="linkish" id="demoToggle" type="button" data-i18n="index.footer.demo">переключить демо</button></span>
-      </span>
-    </div>
-  </footer>
+      <p id="emptyState" hidden></p>
+      <footer class="trust">
+        <span id="footMeta"><b>GOOD Growth</b> · <span data-i18n="z.trustLocal">локальный инструмент · данные хранятся только на этом компьютере</span></span>
+        <span id="footMode">—</span> <button id="demoToggle" type="button" class="linkish">переключить демо</button>
+      </footer>
+    </main>
+  </div>
+</div>
 
-  <script src="/public/app.js"></script>
-  <script>
-    /* Лендинг: вход в мастерскую (Приказ №17). Логика приложения — в app.js. */
-    (function () {
-      const landing = document.getElementById('landing');
-      const appRoot = document.getElementById('appRoot');
-      function enterApp(focusId) {
-        landing.style.display = 'none';
-        appRoot.hidden = false;
-        window.scrollTo({ top: 0, behavior: 'instant' in document.documentElement.style ? 'instant' : 'auto' });
-        const t = focusId ? document.getElementById(focusId) : null;
-        if (t) { try { t.focus({ preventScroll: true }); } catch (e) {} }
-        try { sessionStorage.setItem('gg_entered', '1'); } catch (e) {}
-      }
-      ['ctaStart', 'ctaStart2'].forEach((id) => {
-        const b = document.getElementById(id);
-        if (b) b.addEventListener('click', () => enterApp('d_what'));
-      });
-      const ce = document.getElementById('ctaEnter');
-      if (ce) ce.addEventListener('click', () => enterApp('d_what'));
-      /* вернувшийся в этой сессии — сразу в мастерскую */
-      let seen = null;
-      try { seen = sessionStorage.getItem('gg_entered'); } catch (e) {}
-      if (seen === '1') enterApp(null);
-
-      /* возврат на лендинг */
-      const backBtn = document.getElementById('backToLanding');
-      if (backBtn) backBtn.addEventListener('click', () => {
-        appRoot.hidden = true;
-        landing.style.display = '';
-        try { sessionStorage.removeItem('gg_entered'); } catch (e) {}
-        window.scrollTo(0, 0);
-      });
-
-      /* появление секций при прокрутке */
-      document.body.classList.add('js-rv');
-      const rvNodes = document.querySelectorAll('.land-section, .land-cta-band, .land-hero');
-      rvNodes.forEach((n) => n.classList.add('rv'));
-      if ('IntersectionObserver' in window) {
-        const io = new IntersectionObserver((es) => {
-          es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('on'); io.unobserve(en.target); } });
-        }, { threshold: 0.12 });
-        rvNodes.forEach((n) => io.observe(n));
-      } else {
-        rvNodes.forEach((n) => n.classList.add('on'));
-      }
-    })();
-  </script>
+<script src="/i18n/i18n.js"></script>
+<script src="/public/app.js"></script>
+<script src="/theme.js" defer></script>
+<script src="/rail.js" defer></script>
+<script src="/desk.js" defer></script>
 <script>
+/* тема: переключатель в панели и в топбаре */
 (function(){
-  var p = location.pathname;
-  function isOn(h) {
-    if (h === '/app') return p === '/app' || p === '/app/' || p.indexOf('/app/strategy') === 0 || p.indexOf('/app/onboard') === 0;
-    return p === h || p.indexOf(h + '/') === 0;
+  function pick(mode){ if(window.ggTheme) window.ggTheme.set(mode); }
+  function boot(){
+    var b = document.getElementById('ggRailTheme');
+    if (b) b.addEventListener('click', function(){
+      var now = window.ggTheme ? window.ggTheme.get() : 'dark';
+      var next = now === 'light' ? 'dark' : 'light';
+      pick(next);
+      var tx = b.querySelector('.gg-tx'); if (tx) tx.textContent = next === 'light' ? 'Светлая' : 'Тёмная';
+    });
+    var t = document.getElementById('themeBtn');
+    if (t) t.addEventListener('click', function(){
+      var now = window.ggTheme ? window.ggTheme.get() : 'dark';
+      pick(now === 'light' ? 'dark' : 'light');
+    });
+    if (window.ggTheme) {
+      var cur = window.ggTheme.get();
+      var tx = document.querySelector('#ggRailTheme .gg-tx');
+      if (tx) tx.textContent = cur === 'light' ? 'Светлая' : 'Тёмная';
+    }
   }
-  var links = document.querySelectorAll('#wsNav a, #wsMnav a');
-  for (var i = 0; i < links.length; i++) {
-    var h = links[i].getAttribute('href');
-    if (h && isOn(h)) { links[i].classList.add('on'); links[i].setAttribute('aria-current', 'page'); }
-  }
-  try {
-    var u = JSON.parse(sessionStorage.getItem('gg_user') || 'null');
-    var slot = document.getElementById('wsUser');
-    if (u && slot) slot.textContent = u.name || u.email || ggT('index.profile','Профиль');
-  } catch (e) {}
-  var b = document.getElementById('wsBurger'), m = document.getElementById('wsMnav');
-  if (b && m) b.addEventListener('click', function () {
-    var open = m.classList.toggle('open');
-    b.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script>
-<script src="/desk.js" defer><script src="/theme.js" defer></script>
-<script src="/rail.js" defer></script>
 </body>
 </html>
