@@ -68,14 +68,18 @@
     var bar = document.getElementById('stepsBar');
     if (!inputs.length) return;
 
-    /* ключ: какой разбор открыт. Пока — общий, позже привяжем к цели. */
-    var KEY = 'gg_steps:' + (location.pathname + '|' + (document.body.dataset.goal || 'current'));
+    /* ключ = КОНКРЕТНАЯ цель. У разных целей разные отметки,
+       иначе шаги одной цели показывались бы под другой. */
+    function key() {
+      var g = document.body.dataset.goal || '';
+      return 'gg_steps:' + (g ? ('goal' + g) : 'none');
+    }
 
     function load() {
-      try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; }
+      try { return JSON.parse(localStorage.getItem(key()) || '[]'); } catch (e) { return []; }
     }
     function save(list) {
-      try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {}
+      try { localStorage.setItem(key(), JSON.stringify(list)); } catch (e) {}
     }
 
     function paint() {
@@ -104,6 +108,13 @@
       }
     });
     paint();
+
+    /* открыли другую цель — показываем ЕЁ отметки */
+    document.addEventListener('gg:goal', function () {
+      var list = load();
+      inputs.forEach(function (input, i) { input.checked = !!list[i]; });
+      paint();
+    });
   })();
 
   /* ── 3. СКОЛЬКО ПОСТОВ ───────────────────────────────────── */

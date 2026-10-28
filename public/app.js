@@ -201,6 +201,12 @@ function renderResult(data) {
   resultRoot.textContent = '';
   const s = data.strategy || {};
   currentGoalId = data.id;
+  /* сообщаем странице, ЧЬИ шаги сейчас показываются: отметки
+     в журнале шагов должны быть привязаны к конкретной цели */
+  try {
+    document.body.dataset.goal = String(data.id);
+    document.dispatchEvent(new CustomEvent('gg:goal', { detail: { id: data.id } }));
+  } catch (e) {}
 
   const head = el('div', 'result-head');
   head.appendChild(el('h2', null, 'Разбор цели'));
