@@ -59,7 +59,11 @@
     }, { passive: true });
   })();
 
-  /* ── 2. ПЕРВЫЕ ШАГИ: галочки и прогресс ──────────────────── */
+  /* ── 2. ПЕРВЫЕ ШАГИ: галочки и прогресс ────────────────────
+     Отметки хранятся В БАЗЕ (приказ Капитана, вариант A):
+       GET  /api/goals/:id/steps
+       POST /api/goals/:id/steps  { done: [0,2] }
+     Пока разбора нет — копим на устройстве и один раз переносим. */
   (function steps() {
     var box = document.getElementById('steps');
     if (!box) return;
@@ -68,53 +72,87 @@
     var bar = document.getElementById('stepsBar');
     if (!inputs.length) return;
 
-    /* ключ = КОНКРЕТНАЯ цель. У разных целей разные отметки,
-       иначе шаги одной цели показывались бы под другой. */
-    function key() {
-      var g = document.body.dataset.goal || '';
-      return 'gg_steps:' + (g ? ('goal' + g) : 'none');
+    var LOCAL = 'gg_steps:pending';
+
+    function goalId() {
+      var g = document.body.dataset.goal;
+      return g ? String(g) : '';
+    }
+    function local() {
+      try { return JSON.parse(localStorage.getItem(LOCAL) || '[]'); } catch (e) { return []; }
+    }
+    function setLocal(list) {
+      try { localStorage.setItem(LOCAL, JSON.stringify(list)); } catch (e) {}
     }
 
-    function load() {
-      try { return JSON.parse(localStorage.getItem(key()) || '[]'); } catch (e) { return []; }
-    }
-    function save(list) {
-      try { localStorage.setItem(key(), JSON.stringify(list)); } catch (e) {}
-    }
-
-    function paint() {
-      var done = inputs.filter(function (i) { return i.checked; }).length;
+    function paint(list) {
+      inputs.forEach(function (i, n) { i.checked = (list || []).indexOf(n) > -1; });
+      var done = (list || []).length;
       if (cnt) cnt.textContent = done + ' / ' + inputs.length;
       if (bar) bar.style.width = Math.round(done / inputs.length * 100) + '%';
     }
+    function current() {
+      return inputs.map(function (x, n) { return x.checked ? n : -1; })
+                   .filter(function (n) { return n > -1; });
+    }
 
-    var saved = load();
-    inputs.forEach(function (input, i) {
-      input.checked = !!saved[i];
-      input.addEventListener('change', function () {
-        var list = inputs.map(function (x) { return x.checked; });
-        save(list);
-        paint();
-      });
-      /* клик по всей строке — тоже отметка (удобно на телефоне) */
+    function loadFromServer(id) {
+      return fetch('/api/goals/' + id + '/steps', { credentials: 'same-origin' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) { return d && Array.isArray(d.done) ? d.done : null; })
+        .catch(function () { return null; });
+    }
+    function saveToServer(id, list) {
+      return fetch('/api/goals/' + id + '/steps', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ done: list })
+      }).catch(function () {});
+    }
+
+    var timer = null;
+    function changed() {
+      var list = current();
+      var id = goalId();
+      paint(list);
+      if (!id) { setLocal(list); return; }
+      clearTimeout(timer);
+      timer = setTimeout(function () { saveToServer(id, list); }, 300);
+    }
+
+    inputs.forEach(function (input) {
+      input.addEventListener('change', changed);
       var label = input.closest('label');
       if (label) {
         label.addEventListener('click', function (e) {
-          if (e.target === input) return;      /* браузер сам переключит */
+          if (e.target === input) return;
           e.preventDefault();
           input.checked = !input.checked;
           input.dispatchEvent(new Event('change'));
         });
       }
     });
-    paint();
 
-    /* открыли другую цель — показываем ЕЁ отметки */
+    /* пришла цель: сначала показываем пусто, потом её отметки из базы */
     document.addEventListener('gg:goal', function () {
-      var list = load();
-      inputs.forEach(function (input, i) { input.checked = !!list[i]; });
-      paint();
+      var id = goalId();
+      if (!id) return;
+      loadFromServer(id).then(function (fromBase) {
+        var pending = local();
+        if ((fromBase === null || fromBase.length === 0) && pending.length) {
+          /* переносим то, что наотмечали до появления разбора */
+          saveToServer(id, pending).then(function () { setLocal([]); paint(pending); });
+          return;
+        }
+        paint(fromBase || []);
+      });
     });
+
+    /* если цель уже известна на момент загрузки */
+    if (goalId()) {
+      loadFromServer(goalId()).then(function (l) { paint(l || []); });
+    }
   })();
 
   /* ── 3. СКОЛЬКО ПОСТОВ ───────────────────────────────────── */
