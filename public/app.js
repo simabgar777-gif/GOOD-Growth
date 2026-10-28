@@ -1159,7 +1159,21 @@ function applyQuickMode() {
     : ggT('index.ws.swapToQuick', 'Написать цель одной фразой');
   const wi = $('warmIntro');
   if (wi) wi.hidden = quickMode;
+  placeCost();
 }
+/* расчёт цены должен стоять в ТОМ режиме, который сейчас открыт,
+   и всегда ВЫШЕ кнопки. Один блок — переносим его, не дублируем. */
+function placeCost() {
+  const f = document.getElementById('ggFormatBlock');
+  if (!f) return;
+  if (quickMode) {
+    const row = document.querySelector('#askForm .ask-row');
+    if (row && row.parentNode) { row.parentNode.insertBefore(f, row); return; }
+  }
+  const act = document.querySelector('#warmForm .warm-actions');
+  if (act && act.parentNode) { act.parentNode.insertBefore(f, act); return; }
+}
+
 modeSwap.addEventListener('click', () => {
   quickMode = !quickMode;
   applyQuickMode();

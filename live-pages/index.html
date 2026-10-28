@@ -1025,7 +1025,15 @@
             placeholder="Например: «Хочу, чтобы о нашей юридической помощи узнали в Telegram»" data-i18n-attr="placeholder:index.ws.ph.goal"
             aria-describedby="goal-hint goal-error" maxlength="2000"></textarea>
           <span id="goal-hint" class="visually-hidden" data-i18n="index.ws.hint.goal">Опиши цель в одном-двух предложениях. Система разберёт её на стратегию и создаст посты.</span>
-<div class="ggf-block" id="ggFormatBlock">
+<div class="ask-row">
+            <button class="btn btn-primary" id="goBtn" type="submit" data-i18n="index.ws.go">Разобрать цель</button>
+            <button class="btn btn-mic" id="micQuick" type="button" aria-pressed="false" title="Сказать цель голосом" aria-label="Сказать цель голосом" data-i18n-attr="title:index.ws.aria.micQuick,aria-label:index.ws.aria.micQuick">🎙</button>
+            <p class="hint" id="micQuickHint" data-i18n="index.ws.hint.quick">Просто напиши цель — для тех, кто торопится.</p>
+          </div>
+          <p id="goal-error" class="error-box" role="alert" hidden></p>
+        </form>
+
+        <div class="ggf-block" id="ggFormatBlock">
           <p class="ggf-label" data-i18n="o87.model">Модель</p>
           <div class="ggf-row" id="ggProfileRow" role="group" aria-label="Модель генерации" data-i18n-attr="aria-label:o87.ariaModel">
             <button type="button" class="ggf-opt" data-profile="fast" aria-pressed="false"><span data-i18n="o87.fast">Быстрая</span><small data-i18n="o87.fastHint">10 ₽ · просто и быстро</small></button>
@@ -1043,14 +1051,6 @@
           <p class="ggf-adv" id="ggAdvice" role="status" aria-live="polite"></p>
           <div class="ggf-reuse" id="ggReuse"><p class="ggf-label" data-i18n="o87.reuse">Находки в твоих старых постах</p><div id="ggReuseList"></div></div>
         </div>
-
-          <div class="ask-row">
-            <button class="btn btn-primary" id="goBtn" type="submit" data-i18n="index.ws.go">Разобрать цель</button>
-            <button class="btn btn-mic" id="micQuick" type="button" aria-pressed="false" title="Сказать цель голосом" aria-label="Сказать цель голосом" data-i18n-attr="title:index.ws.aria.micQuick,aria-label:index.ws.aria.micQuick">🎙</button>
-            <p class="hint" id="micQuickHint" data-i18n="index.ws.hint.quick">Просто напиши цель — для тех, кто торопится.</p>
-          </div>
-          <p id="goal-error" class="error-box" role="alert" hidden></p>
-        </form>
       </section>
 
       <section class="result" id="resultSection" aria-label="Разбор цели" data-i18n-attr="aria-label:index.aria.result">
