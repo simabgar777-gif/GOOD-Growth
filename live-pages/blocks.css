@@ -483,3 +483,12 @@ body.gg-with-rail {
   .gg-band .gg-lang { height: 34px !important; align-items: stretch; }
   .gg-band .gg-lang button { height: 32px !important; padding: 0 11px !important; }
 }
+
+/* ── кнопка-ссылка без подчёркивания ──────────────────────────
+   «+ Новый пост» — это <a class="gg-btn-gold">, а у ссылки
+   по умолчанию подчёркивание. */
+.gg-btn-gold, .gg-btn-ghost, a.gg-btn-gold, a.gg-btn-ghost {
+  text-decoration: none !important;
+}
+.gg-btn-gold:hover, .gg-btn-ghost:hover,
+a.gg-btn-gold:hover, a.gg-btn-ghost:hover { text-decoration: none !important; }
