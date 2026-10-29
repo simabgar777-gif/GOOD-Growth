@@ -4,8 +4,11 @@
    Берёт цель из базы и заполняет ЕЁ блоки:
      Обзор · Аудитория · Ритм · Темы · Каналы · Шаги · Журнал
 
-   Никаких демо-данных: если разбора нет — показываем пустое
-   состояние, а не чужие примеры.
+   Шаги — путеводитель, а не турникет:
+     · порядок свободный, ничего не заперто
+     · 02 (ритм) и 04 (отклик) закрываются САМИ, когда работа
+       действительно сделана
+     · 01 и 03 — галочка вручную: проверить нельзя
    ============================================================ */
 (function () {
   'use strict';
@@ -18,7 +21,6 @@
   }
   var DOW = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
 
-  /* ── 1. какую цель показывать ─────────────────────────────── */
   function goalId() {
     var q = new URLSearchParams(location.search);
     var g = q.get('goal');
@@ -27,13 +29,42 @@
     return null;
   }
 
-  /* ── 2. заполнение блоков ─────────────────────────────────── */
+  /* ── тексты для кнопок шагов ──────────────────────────────── */
+  function textHeader(d) {
+    var st = d.strategy || {};
+    var ch = (st.channels || [])[0] || {};
+    var t = (st.topics || [])[0] || {};
+    return [
+      'О чём канал: ' + (st.summary || '—'),
+      'Для кого: ' + ((st.audience || {}).text || '—'),
+      'Где публикуемся: ' + (ch.name || '—') + (ch.role ? ' — ' + ch.role : ''),
+      'Первая тема: ' + (t.title || '—') + (t.angle ? ' — ' + t.angle : ''),
+      '',
+      'Возьми это как основу для шапки и описания. Своими словами — лучше.'
+    ].join('\n');
+  }
+
+  function textInvite(d) {
+    var st = d.strategy || {};
+    var ch = (st.channels || [])[0] || {};
+    var themes = (st.topics || []).map(function (t) { return t.title; }).filter(Boolean);
+    return [
+      'Привет! Я запускаю ' + (ch.name || 'канал') + ' про своё дело.',
+      '',
+      'О чём: ' + (st.summary || '—'),
+      themes.length ? 'Темы: ' + themes.join(' · ') : '',
+      '',
+      'Мне важна первая обратная связь — загляни и скажи, о чём было бы интересно читать.',
+      'Ссылка: (вставь ссылку на канал)'
+    ].filter(Boolean).join('\n');
+  }
+
+  /* ── заполнение блоков ────────────────────────────────────── */
   function fill(d) {
     var st = d.strategy || {};
     var article = $('razbor');
     if (!article) return;
 
-    /* шапка: № и дата */
     var meta = article.querySelector('.sheet-head .meta');
     if (meta) {
       var dt = d.created_at ? new Date(String(d.created_at).replace(' ', 'T')) : null;
@@ -41,15 +72,12 @@
       meta.textContent = 'разбор № ' + d.id + (when ? ' · ' + when : '') + (d.source === 'demo' ? ' · демо' : '');
     }
 
-    /* цитата цели */
     var quote = article.querySelector('.goal-quote');
     if (quote) quote.innerHTML = '<b>Цель:</b> «' + esc(d.goal_text || d.goal || '') + '»';
 
-    /* обзор */
     var line = article.querySelector('.strategy-line');
-    if (line) line.textContent = st.summary || 'Коротко: ' + (d.goal || '');
+    if (line) line.textContent = st.summary || 'Коротко: ' + (d.goal_text || d.goal || '');
 
-    /* аудитория */
     var aud = $('audience');
     if (aud) {
       var a = st.audience || {};
@@ -63,7 +91,6 @@
       }
     }
 
-    /* ритм */
     var r = $('rhythm');
     if (r) {
       var rh = st.rhythm || {};
@@ -73,10 +100,9 @@
       var note = r.querySelector('.note');
       if (note) note.textContent = rh.plan || 'Ритм можно поменять в «Публикациях».';
       var days = r.querySelector('.days');
-      if (days) days.innerHTML = '';                 /* заполним из сетки слотов */
+      if (days) days.innerHTML = '';
     }
 
-    /* темы */
     var topics = st.topics || [];
     var tp = $('topics');
     if (tp) {
@@ -100,7 +126,6 @@
       });
     }
 
-    /* каналы */
     var chans = st.channels || [];
     var ch = $('chans');
     if (ch) {
@@ -125,7 +150,6 @@
       }
     }
 
-    /* шаги */
     var steps = st.first_steps || [];
     var sp = $('steps');
     if (sp) {
@@ -142,11 +166,8 @@
             '<span><b>' + esc(s.step || '') + '</b><p>' + esc(s.detail || '') + '</p></span></label>';
         }).join('');
       }
-      /* отметки и прогресс — заново, после перерисовки */
-      wireSteps(d.id);
     }
 
-    /* посты: демо-карточку убираем, ставим честную пустоту */
     var posts = $('postsSec');
     if (posts) {
       var card = posts.querySelector('.post-card');
@@ -157,21 +178,18 @@
       }
     }
 
-    /* сетка дней в ритме — из слотов */
-    fillDays(perOf(st));
+    fillDays();
+    wireSteps(d);
   }
 
-  function perOf(st) { return (st && st.rhythm && Number(st.rhythm.posting_per_week)) || 3; }
-
-  function fillDays(per) {
+  function fillDays() {
     var r = $('rhythm'); if (!r) return;
     var days = r.querySelector('.days'); if (!days) return;
     fetch('/api/slots', { credentials: 'same-origin' })
       .then(function (x) { return x.ok ? x.json() : null; })
       .then(function (d) {
-        var out = '';
+        var out = '', seen = {};
         if (d && d.slots && d.slots.length) {
-          var seen = {};
           d.slots.forEach(function (s) {
             var nm = DOW[(Number(s.weekday) + 1) % 7];
             if (seen[nm]) return;
@@ -185,62 +203,135 @@
       .catch(function () { days.innerHTML = ''; });
   }
 
-  
-/* ── галочки шагов: своя перевязка после перерисовки ─────────
-   Модуль za-ui.js навешивался на старые (демо) шаги, поэтому
-   после подстановки настоящих он уже не работал. */
-function wireSteps(goalId) {
-  var box = $('steps'); if (!box) return;
-  var inputs = [].slice.call(box.querySelectorAll('.step input[type=checkbox]'));
-  var cnt = $('stepsCnt'), bar = $('stepsBar');
-  if (!inputs.length) return;
+  /* ── шаги: кнопки-действия + автозакрытие ─────────────────── */
+  var ACTIONS = [
+    { label: 'Шапка и описание', kind: 'text', make: textHeader },
+    { label: 'Открыть панель', kind: 'link', href: '/app/schedule' },
+    { label: 'Текст приглашения', kind: 'text', make: textInvite },
+    { label: 'Открыть аналитику', kind: 'link', href: '/app/analytics' }
+  ];
 
-  if (goalId) document.body.dataset.goal = String(goalId);
+  function wireSteps(d) {
+    var box = $('steps'); if (!box) return;
+    var labels = [].slice.call(box.querySelectorAll('.step'));
+    var inputs = [].slice.call(box.querySelectorAll('.step input[type=checkbox]'));
+    var cnt = $('stepsCnt'), bar = $('stepsBar');
+    if (!inputs.length) return;
 
-  function paint(list) {
-    inputs.forEach(function (i, n) { i.checked = (list || []).indexOf(n) > -1; });
-    var done = (list || []).length;
-    if (cnt) cnt.textContent = done + ' / ' + inputs.length;
-    if (bar) bar.style.width = (inputs.length ? Math.round(done / inputs.length * 100) : 0) + '%';
-  }
-  function current() {
-    return inputs.map(function (x, n) { return x.checked ? n : -1; })
-                 .filter(function (n) { return n > -1; });
-  }
-  function save(list) {
-    if (!goalId) return;
-    fetch('/api/goals/' + goalId + '/steps', {
-      method: 'POST', credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ done: list })
-    }).catch(function () {});
-  }
+    var gid = d && d.id ? String(d.id) : '';
+    if (gid) document.body.dataset.goal = gid;
 
-  inputs.forEach(function (input) {
-    input.addEventListener('change', function () {
-      var list = current();
-      paint(list);
-      save(list);
-    });
-    var label = input.closest('label');
-    if (label) {
-      label.addEventListener('click', function (e) {
-        if (e.target === input) return;
-        e.preventDefault();
-        input.checked = !input.checked;
-        input.dispatchEvent(new Event('change'));
+    function toggleText(label, text) {
+      var old = label.querySelector('.step-text');
+      if (old) { old.remove(); return; }
+      var wrap = document.createElement('div');
+      wrap.className = 'step-text';
+      wrap.innerHTML = '<pre>' + esc(text) + '</pre>' +
+        '<button type="button" class="step-copy">Скопировать</button>';
+      label.appendChild(wrap);
+      var cp = wrap.querySelector('.step-copy');
+      cp.addEventListener('click', function (e) {
+        e.preventDefault(); e.stopPropagation();
+        var ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } catch (err) {}
+        ta.remove();
+        cp.textContent = 'Скопировано ✓';
+        setTimeout(function () { cp.textContent = 'Скопировать'; }, 1800);
       });
     }
-  });
 
-  if (!goalId) { paint([]); return; }
-  fetch('/api/goals/' + goalId + '/steps', { credentials: 'same-origin' })
-    .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (d) { paint(d && Array.isArray(d.done) ? d.done : []); })
-    .catch(function () { paint([]); });
-}
+    labels.forEach(function (label, i) {
+      var act = ACTIONS[i];
+      if (!act || label.querySelector('.step-go')) return;
+      var go = document.createElement('button');
+      go.type = 'button';
+      go.className = 'step-go';
+      go.textContent = act.label;
+      label.appendChild(go);
 
-/* ── 3. журнал: настоящие разборы ─────────────────────────── */
+      go.addEventListener('click', function (e) {
+        e.preventDefault(); e.stopPropagation();
+        if (act.kind === 'link') { location.href = act.href; return; }
+        toggleText(label, act.make(d));
+      });
+    });
+
+    function paint(list) {
+      inputs.forEach(function (inp, n) { inp.checked = (list || []).indexOf(n) > -1; });
+      labels.forEach(function (l, n) { l.classList.toggle('is-done', (list || []).indexOf(n) > -1); });
+      var done = (list || []).length;
+      if (cnt) cnt.textContent = done + ' / ' + inputs.length;
+      if (bar) bar.style.width = (inputs.length ? Math.round(done / inputs.length * 100) : 0) + '%';
+    }
+    function current() {
+      return inputs.map(function (x, n) { return x.checked ? n : -1; })
+                   .filter(function (n) { return n > -1; });
+    }
+    function save(list) {
+      if (!gid) return;
+      fetch('/api/goals/' + gid + '/steps', {
+        method: 'POST', credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ done: list })
+      }).catch(function () {});
+    }
+
+    inputs.forEach(function (input) {
+      input.addEventListener('change', function () { var l = current(); paint(l); save(l); });
+      var label = input.closest('label');
+      if (label) {
+        label.addEventListener('click', function (e) {
+          if (e.target === input || e.target.closest('.step-go') || e.target.closest('.step-text')) return;
+          e.preventDefault();
+          input.checked = !input.checked;
+          input.dispatchEvent(new Event('change'));
+        });
+      }
+    });
+
+    if (!gid) { paint([]); return; }
+
+    /* 1. что уже отмечено */
+    fetch('/api/goals/' + gid + '/steps', { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (res) { paint(res && Array.isArray(res.done) ? res.done : []); autoCheck(); })
+      .catch(function () { paint([]); autoCheck(); });
+
+    /* 2. что система видит сама: задан ритм → 02, есть 3 публикации → 04 */
+    function autoCheck() {
+      var jobs = [
+        fetch('/api/slots', { credentials: 'same-origin' })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (s) { return s && s.slots && s.slots.length ? 1 : -1; })
+          .catch(function () { return -1; }),
+        fetch('/api/analytics', { credentials: 'same-origin' })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (a) {
+            var pub = a && a.totals ? Number(a.totals.published) : 0;
+            return pub >= 3 ? 3 : -1;
+          })
+          .catch(function () { return -1; })
+      ];
+      Promise.all(jobs).then(function (res) {
+        var extra = res.filter(function (n) { return n > -1; });
+        if (!extra.length) return;
+        var already = current();
+        var merged = already.slice();
+        extra.forEach(function (n) { if (merged.indexOf(n) < 0) merged.push(n); });
+        merged.sort();
+        if (merged.length === already.length) return;
+        paint(merged);
+        save(merged);
+        var note = document.createElement('p');
+        note.className = 'steps-auto';
+        note.textContent = 'Система увидела, что работа сделана — и закрыла шаг сама.';
+        if (cnt && cnt.parentNode) cnt.parentNode.appendChild(note);
+      });
+    }
+  }
+
+  /* ── журнал ───────────────────────────────────────────────── */
   function fillJournal(currentId) {
     var list = $('journalList');
     if (!list) return;
@@ -249,7 +340,7 @@ function wireSteps(goalId) {
       .then(function (d) {
         var items = (d && d.goals) || [];
         if (!items.length) {
-          list.innerHTML = '<p class="hint">Журнал пока пуст. Первый разбор появится здесь.</p>';
+          list.innerHTML = '<p class="hint" id="journalEmpty">Журнал пока пуст. Первый разбор появится здесь.</p>';
           return;
         }
         list.innerHTML = items.slice(0, 30).map(function (g) {
@@ -275,12 +366,11 @@ function wireSteps(goalId) {
       .catch(function () {});
   }
 
-  /* ── 4. пустое состояние ──────────────────────────────────── */
+  /* ── пустое состояние ─────────────────────────────────────── */
   function empty(message) {
     var art = $('razbor');
     if (!art) return;
-    var kids = art.querySelectorAll('.grid-2, .topics, .strategy-line');
-    kids.forEach(function (k) { k.hidden = true; });
+    art.querySelectorAll('.grid-2, .topics, .strategy-line').forEach(function (k) { k.hidden = true; });
     var head = art.querySelector('.sheet-head');
     if (head) {
       var line = document.createElement('p');
@@ -290,14 +380,13 @@ function wireSteps(goalId) {
     }
   }
 
-  /* ── 5. запуск ────────────────────────────────────────────── */
+  /* ── запуск ───────────────────────────────────────────────── */
   function boot() {
     var id = goalId();
     if (!id) { empty('Разбора пока нет. Напиши цель выше — и он появится здесь.'); fillJournal(null); return; }
     fetch('/api/goals/' + id, { credentials: 'same-origin' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
-        /* сервер отдаёт поле goal (не goal_text) — принимаем оба */
         if (!d || (d.goal === undefined && d.goal_text === undefined)) {
           empty('Этот разбор не найден. Выбери другой в журнале.');
           fillJournal(null);
@@ -309,7 +398,6 @@ function wireSteps(goalId) {
         fill(d);
         fillJournal(d.id);
         try { sessionStorage.setItem('gg_last_goal', String(d.id)); } catch (e) {}
-        /* заголовок вкладки — по цели */
         var gtext = d.goal_text || d.goal || '';
         if (gtext) document.title = 'Разбор № ' + d.id + ' · GOOD Growth';
       })

@@ -390,3 +390,40 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 .j-row .j-open { color: var(--copper); text-decoration: none; font-size: 11.5px; font-weight: 600; }
 .j-row .j-open:hover { color: var(--copper-lt, #F3C583); }
 .j-row.is-open { background: rgba(232,165,79,.06); }
+
+/* ── КНОПКИ В ШАГАХ ──────────────────────────────────────────
+   Шаг — это дело плюс кнопка, которая его делает.
+   Ничего не заперто: шаги лишь показывают, с чего начать. */
+.step { grid-template-columns: auto auto 1fr auto; }
+.step-go {
+  grid-column: 4; grid-row: 1; align-self: center; justify-self: end;
+  padding: 7px 13px; border-radius: 999px; cursor: pointer; white-space: nowrap;
+  border: 1px solid rgba(232,165,79,.34); background: rgba(232,165,79,.08);
+  color: var(--copper, #E8A54F); font-family: inherit; font-size: 11.5px; font-weight: 600;
+  transition: background .15s, border-color .15s;
+}
+.step-go:hover { background: rgba(232,165,79,.17); border-color: rgba(232,165,79,.55); }
+.step.is-done .step-go { opacity: .5; }
+
+/* раскрытый текст: шапка канала или приглашение */
+.step-text { grid-column: 1 / -1; margin-top: 12px; }
+.step-text pre {
+  margin: 0 0 10px; padding: 12px 14px; border-radius: 10px;
+  background: var(--surface-2, #14161B); border: 1px solid var(--border);
+  white-space: pre-wrap; word-break: break-word;
+  font-family: inherit; font-size: 13px; line-height: 1.55; color: var(--ink-2, #C8C4BA);
+}
+.step-copy {
+  padding: 7px 14px; border-radius: 999px; cursor: pointer;
+  border: 1px solid rgba(232,165,79,.34); background: rgba(232,165,79,.10);
+  color: var(--copper, #E8A54F); font-family: inherit; font-size: 12px; font-weight: 600;
+}
+.step-copy:hover { background: rgba(232,165,79,.18); }
+
+/* система закрыла шаг сама — тихая пометка, без фанфар */
+.steps-auto { margin: 8px 0 0; font-size: 12px; color: var(--faint); }
+
+@media (max-width: 700px) {
+  .step { grid-template-columns: auto auto 1fr; }
+  .step-go { grid-column: 1 / -1; grid-row: auto; justify-self: start; margin-top: 10px; }
+}
