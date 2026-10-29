@@ -427,3 +427,14 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
   .step { grid-template-columns: auto auto 1fr; }
   .step-go { grid-column: 1 / -1; grid-row: auto; justify-self: start; margin-top: 10px; }
 }
+
+/* модель и формат живут там, где рождается контент */
+#postsSec .ggf-block {
+  display: block; width: 100%; max-width: none;
+  flex-basis: 100%; grid-column: 1 / -1;
+  margin: 20px 0 6px;
+}
+#postsSec .ggf-block .ggf-label { margin-bottom: 8px; }
+#postsSec .ggf-row { flex-wrap: wrap; }
+#postsSec .ggf-opt { flex: 1 1 160px; min-width: 140px; }
+#postsSec .ggf-block + .count-switch { margin-top: 16px; }

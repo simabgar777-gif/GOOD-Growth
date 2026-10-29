@@ -442,25 +442,6 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
       <section class="composer reveal in" id="askForm" aria-label="Форма цели">
         <label class="field-lbl" for="goalInput" data-i18n="z.yourGoal">Твоя цель</label>
         <textarea id="goal" name="goal" maxlength="2000" data-i18n-attr="placeholder:z.ph.goalPlaceholder" placeholder="Например: «Хочу, чтобы о нашей юридической помощи узнали в Telegram»"></textarea>
-        <div class="ggf-block" id="ggFormatBlock">
-          <p class="ggf-label">Модель</p>
-          <div class="ggf-row" id="ggProfileRow" role="group" aria-label="Модель генерации">
-            <button type="button" class="ggf-opt" data-profile="fast" aria-pressed="false"><span data-i18n="z.o87.fast">Быстрая</span><small data-i18n="z.o87.fastHint">10 ₽ · просто и быстро</small></button>
-            <button type="button" class="ggf-opt" data-profile="smart" aria-pressed="true"><span data-i18n="z.o87.smart">Умная</span><small data-i18n="z.o87.smartHint">30 ₽ · глубоко</small></button>
-            <button type="button" class="ggf-opt" data-profile="creative" aria-pressed="false"><span data-i18n="z.o87.creative">Креативная</span><small data-i18n="z.o87.creativeHint">50 ₽ · неожиданно</small></button>
-          </div>
-          <p class="ggf-label" style="margin-top:14px;">Формат</p>
-          <div class="ggf-row" id="ggFormatRow" role="group" aria-label="Формат поста">
-            <button type="button" class="ggf-opt" data-format="text" aria-pressed="true"><span data-i18n="z.o87.text">Только текст</span><small data-i18n="z.o87.textHint">0 ₽</small></button>
-            <button type="button" class="ggf-opt" data-format="image" aria-pressed="false"><span data-i18n="z.o87.image">С картинкой</span><small data-i18n="z.o87.imageHint">+5 ₽ · нарисуем сразу</small></button>
-            <button type="button" class="ggf-opt" data-format="video" aria-pressed="false"><span data-i18n="z.o87.video">С видео</span><small data-i18n="z.o87.videoHint">+100 ₽ · 5 сек · в сборке</small></button>
-          </div>
-          <div class="ggf-row" style="margin-top:14px;">
-            <div class="ggf-counter"><b id="ggCostRub">30 ₽</b><span id="ggCostPct" data-i18n="z.o87.costHint">от месячного лимита</span></div>
-          </div>
-          <p class="ggf-adv" id="ggAdvice" role="status" aria-live="polite"></p>
-          <div class="ggf-reuse" id="ggReuse"><p class="ggf-label">Находки в твоих старых постах</p><div id="ggReuseList"></div></div>
-        </div>
         <div class="row">
           <button type="submit" class="btn btn-primary" id="goBtn">
             <svg class="ic" viewbox="0 0 24 24"><path d="M12 3.5v13M7.2 11.5 12 16.3l4.8-4.8M5 20.5h14"></path></svg>
@@ -575,7 +556,7 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
             <div class="bar" aria-hidden="true"><i id="stepsBar"></i></div>
           </div>
         </div>
-        <div class="posts" id="workshopSection" data-workshop="1">
+        <div id="workshopSection"><div class="posts" id="postsSec">
           <div class="posts-head">
             <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;">
               <span class="plbl" data-i18n="z.postsLbl">посты</span>
@@ -588,7 +569,26 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
               <button type="button" aria-pressed="false">10</button>
             </div>
           </div>
-          <div class="row">
+          <div class="ggf-block" id="ggFormatBlock">
+          <p class="ggf-label">Модель</p>
+          <div class="ggf-row" id="ggProfileRow" role="group" aria-label="Модель генерации">
+            <button type="button" class="ggf-opt" data-profile="fast" aria-pressed="false"><span data-i18n="z.o87.fast">Быстрая</span><small data-i18n="z.o87.fastHint">10 ₽ · просто и быстро</small></button>
+            <button type="button" class="ggf-opt" data-profile="smart" aria-pressed="true"><span data-i18n="z.o87.smart">Умная</span><small data-i18n="z.o87.smartHint">30 ₽ · глубоко</small></button>
+            <button type="button" class="ggf-opt" data-profile="creative" aria-pressed="false"><span data-i18n="z.o87.creative">Креативная</span><small data-i18n="z.o87.creativeHint">50 ₽ · неожиданно</small></button>
+          </div>
+          <p class="ggf-label" style="margin-top:14px;">Формат</p>
+          <div class="ggf-row" id="ggFormatRow" role="group" aria-label="Формат поста">
+            <button type="button" class="ggf-opt" data-format="text" aria-pressed="true"><span data-i18n="z.o87.text">Только текст</span><small data-i18n="z.o87.textHint">0 ₽</small></button>
+            <button type="button" class="ggf-opt" data-format="image" aria-pressed="false"><span data-i18n="z.o87.image">С картинкой</span><small data-i18n="z.o87.imageHint">+5 ₽ · нарисуем сразу</small></button>
+            <button type="button" class="ggf-opt" data-format="video" aria-pressed="false"><span data-i18n="z.o87.video">С видео</span><small data-i18n="z.o87.videoHint">+100 ₽ · 5 сек · в сборке</small></button>
+          </div>
+          <div class="ggf-row" style="margin-top:14px;">
+            <div class="ggf-counter"><b id="ggCostRub">30 ₽</b><span id="ggCostPct" data-i18n="z.o87.costHint">от месячного лимита</span></div>
+          </div>
+          <p class="ggf-adv" id="ggAdvice" role="status" aria-live="polite"></p>
+          <div class="ggf-reuse" id="ggReuse"><p class="ggf-label">Находки в твоих старых постах</p><div id="ggReuseList"></div></div>
+        </div>
+        <div class="row">
             <button type="button" class="btn btn-primary" id="makeBtn" style="padding:12px 20px;">
               <svg class="ic" viewbox="0 0 24 24"><path d="M12 3.8 13.9 9l5.3.2-4.2 3.3 1.5 5.1L12 14.6l-4.5 3 1.5-5.1L4.8 9.2 10.1 9 12 3.8z"></path></svg>
               <span data-i18n="z.createContent">Создать контент</span>
@@ -597,7 +597,7 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
           </div>
 
           </div>
-        <div id="resultRoot"></div>
+        </div><div id="resultRoot"></div>
       </article>
 
       <section class="journal reveal" id="journal" aria-label="Журнал целей">

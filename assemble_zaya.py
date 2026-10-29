@@ -355,12 +355,15 @@ def strip_demo(body):
             el.remove(ch)
         el.text = ""
 
-    # workshopSection жил на демо-карточке — переносим на сам блок постов
+    # workshopSection жил на демо-карточке. Оборачиваем блок постов,
+    # чтобы и #postsSec, и #workshopSection остались на месте
     if not frag.xpath('//*[@id="workshopSection"]'):
         ps = frag.xpath('//div[@id="postsSec"]')
         if ps:
-            ps[0].set("id", "workshopSection")
-            ps[0].set("data-workshop", "1")
+            wrap = _lh.Element("div")
+            wrap.set("id", "workshopSection")
+            ps[0].addprevious(wrap)
+            wrap.append(ps[0])
 
     if not frag.xpath('//p[@id="journalEmpty"]'):
         jl = frag.xpath('//div[@id="journalList"]')
@@ -375,7 +378,26 @@ def strip_demo(body):
     return b"".join(_lh.tostring(ch, encoding="utf-8") for ch in frag).decode("utf-8")
 
 
+def relocate_pickers(body):
+    """Модель, формат и цена переезжают туда, где рождается контент.
+    В момент цели человек думает о деле, а не о прайсе."""
+    from lxml import html as _lh
+
+    frag = _lh.fragment_fromstring(body, create_parent="div")
+    frag.set("id", "__wrap__")
+    blk = frag.xpath('//div[@id="ggFormatBlock"]')
+    # ставим ПОСЛЕ строки с заголовком, иначе он встаёт в неё правой колонкой
+    target = frag.xpath('//div[@id="postsSec"]/div[@class="posts-head"]')
+    if blk and target:
+        target[0].addnext(blk[0])
+    elif blk and frag.xpath('//div[@class="count-switch"]'):
+        t = frag.xpath('//div[@class="count-switch"]')[0]
+        t.getparent().insert(t.getparent().index(t), blk[0])
+    return b"".join(_lh.tostring(ch, encoding="utf-8") for ch in frag).decode("utf-8")
+
+
 body = strip_demo(body)
+body = relocate_pickers(body)
 
 body = prepare_body(body)
 
