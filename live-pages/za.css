@@ -353,3 +353,14 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
   /* такой же зазор между знаком и бургером, как на остальных страницах */
   .topline { gap: 14px !important; }
 }
+
+/* один размер у кнопок её шапки: бургер, языки, тема */
+@media (max-width: 960px) {
+  .topline .gg-burger-inline {
+    width: 34px !important; height: 34px !important; padding: 0 !important;
+    display: inline-grid !important; place-items: center; border-radius: 9px;
+  }
+  .topline .icon-btn { width: 34px !important; height: 34px !important; }
+  .topline .lang-switch { height: 34px !important; align-items: stretch; }
+  .topline .lang-switch button { height: 32px !important; padding: 0 11px !important; }
+}

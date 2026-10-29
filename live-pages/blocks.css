@@ -467,3 +467,19 @@ body.gg-with-rail {
   .gg-topbar .gg-grow { flex-basis: 100%; height: 0; }
   .gg-topbar > button, .gg-topbar > .gg-btn-gold { margin-left: 0; }
 }
+
+/* ── ОДИН РАЗМЕР У КНОПОК ШАПКИ ──────────────────────────────
+   Бургер, языки и тема были разной высоты и ширины (38×34, 90×25,
+   38×30) — от этого «криво». Теперь всё 34 в высоту. */
+@media (max-width: 768px) {
+  .gg-band #ggBurger, .gg-band .gg-burger {
+    width: 34px !important; height: 34px !important; padding: 0 !important;
+    display: inline-grid; place-items: center; border-radius: 9px;
+  }
+  .gg-band #ggThemeBtn, .gg-band .gg-icon {
+    width: 34px !important; height: 34px !important; padding: 0 !important;
+    display: inline-grid; place-items: center;
+  }
+  .gg-band .gg-lang { height: 34px !important; align-items: stretch; }
+  .gg-band .gg-lang button { height: 32px !important; padding: 0 11px !important; }
+}
