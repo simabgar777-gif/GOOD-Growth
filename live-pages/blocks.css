@@ -364,7 +364,8 @@ html[data-theme="light"] .gg-bcard .gg-foot a { color: #9A5518; }
 .gg-band {
   display: flex; align-items: center; justify-content: space-between; gap: 14px;
   padding: 13px var(--pad-x, clamp(18px, 2.4vw, 44px));
-  border-bottom: 1px solid var(--hair);
+  /* цвет прямой: переменная --hair на части страниц пустая, и линия пропадала */
+  border-bottom: 1px solid rgba(255, 255, 255, .10);
   background: color-mix(in oklch, var(--bg, #08090A) 86%, transparent);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   position: sticky; top: 0; z-index: 60;
@@ -378,4 +379,9 @@ html[data-theme="light"] .gg-bcard .gg-foot a { color: #9A5518; }
 @media (max-width: 768px) {
   .gg-band { padding: 10px 16px; }
   .gg-band .gg-chip { display: none; }
+}
+
+html[data-theme="light"] .gg-band {
+  border-bottom-color: rgba(20, 32, 26, .14);
+  background: rgba(244, 241, 234, .92);
 }
