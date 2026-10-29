@@ -335,3 +335,31 @@ html[data-theme="light"] .gg-bcard .gg-foot a { color: #9A5518; }
   .rt-line { position: sticky; top: 0; z-index: 25; background: var(--surface);
     margin: -22px -24px 0; padding: 11px 24px; border-bottom: 1px solid var(--hair); }
 }
+/* ── правый блок топбара: режим · языки · тема (как в дизайне) ── */
+.gg-sys { display: flex; align-items: center; gap: 8px; margin-left: 12px; }
+.gg-chip { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--hair);
+  border-radius: 999px; padding: 6px 12px; background: var(--surface);
+  font: 500 10.5px/1 var(--font-mono, monospace); letter-spacing: .08em; color: var(--muted); }
+.gg-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--copper); }
+.gg-lang { display: inline-flex; border: 1px solid var(--hair); border-radius: 999px;
+  overflow: hidden; background: var(--surface); }
+.gg-lang button { border: 0; background: none; padding: 6px 10px; cursor: pointer;
+  font: 500 10.5px/1 var(--font-mono, monospace); letter-spacing: .08em; color: var(--muted); }
+.gg-lang button[aria-pressed="true"] { background: var(--copper); color: #1B1206; font-weight: 700; }
+.gg-lang button:not([aria-pressed="true"]):hover { color: var(--ink, #F3F1EA); }
+.gg-icon { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--hair);
+  background: var(--surface); color: var(--muted); cursor: pointer; display: grid; place-items: center;
+  font-size: 14px; line-height: 1; }
+.gg-icon:hover { border-color: rgba(232,165,79,.45); color: var(--copper); }
+@media (max-width: 768px) {
+  .gg-sys { margin-left: auto; gap: 6px; }
+  .gg-chip { display: none; }
+  .gg-lang button { padding: 6px 8px; }
+}
+
+/* ── своя полоса для страниц без топбара ── */
+.gg-band { display: flex; align-items: center; gap: 10px; justify-content: flex-end;
+  padding: 10px clamp(16px, 2.4vw, 44px); border-bottom: 1px solid var(--hair);
+  background: rgba(255,255,255,.02); }
+.gg-band .gg-sys { margin-left: 0; }
+@media (max-width: 768px) { .gg-band { padding: 8px 16px; } }

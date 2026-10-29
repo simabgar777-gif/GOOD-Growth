@@ -263,3 +263,9 @@ html[data-theme="light"] .gg-rail-out { color: #5C665F !important; }
   width: 2px; border-radius: 2px;
   background: var(--copper, #E8A54F);
 }
+
+/* ── наш знак в углу панели ──────────────────────────────────── */
+.gg-rail-logo .gg-m, .brandmark .g { background: transparent !important; box-shadow: none !important;
+  width: 34px; height: 34px; display: grid; place-items: center; border-radius: 10px;
+  background: rgba(255,255,255,.04) !important; box-shadow: inset 0 0 0 1px rgba(255,255,255,.10) !important; }
+.gg-mark { width: 19px; height: 26px; display: block; }
