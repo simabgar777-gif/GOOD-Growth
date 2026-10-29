@@ -318,3 +318,20 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
   .lang-switch button { padding: 5px 9px !important; font-size: 10.5px !important; }
   .icon-btn { width: 30px !important; height: 30px !important; }
 }
+
+/* ── МОБИЛЬНОЕ МЕНЮ (нужно и здесь: страница не грузит blocks.css) ── */
+.gg-mobmenu[hidden] { display: none !important; }
+.gg-mobmenu {
+  position: fixed; left: 0; right: 0; top: 56px; z-index: 90;
+  background: #0C0D10; border-bottom: 1px solid rgba(255,255,255,.10);
+  padding: 10px 14px 16px; display: grid; gap: 2px;
+  box-shadow: 0 20px 40px rgba(0,0,0,.5);
+  max-height: 70vh; overflow-y: auto;
+}
+.gg-mobmenu a {
+  display: block; padding: 11px 10px; border-radius: 10px; text-decoration: none;
+  color: #A09C92; font-size: 15px; font-family: var(--font-body);
+}
+.gg-mobmenu a:hover { background: rgba(255,255,255,.05); color: #F3F1EA; }
+.gg-mobmenu-out { color: #E8694F !important; }
+@media (min-width: 961px) { .gg-mobmenu { display: none !important; } }
