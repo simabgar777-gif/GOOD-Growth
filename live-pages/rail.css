@@ -268,4 +268,11 @@ html[data-theme="light"] .gg-rail-out { color: #5C665F !important; }
 .gg-rail-logo .gg-m, .brandmark .g { background: transparent !important; box-shadow: none !important;
   width: 34px; height: 34px; display: grid; place-items: center; border-radius: 10px;
   background: rgba(255,255,255,.04) !important; box-shadow: inset 0 0 0 1px rgba(255,255,255,.10) !important; }
-.gg-mark { width: 19px; height: 26px; display: block; }
+.gg-mark { width: 22px; height: 29px; display: block; }
+.gg-rail-logo { gap: 9px !important; padding: 2px 4px 14px !important; }
+.gg-rail-logo .gg-t { display: flex; flex-direction: column; justify-content: center; gap: 1px; }
+.gg-rail-logo b { font-size: 14px !important; line-height: 1.1 !important; }
+.gg-rail-logo i { font-size: 9px !important; letter-spacing: .14em !important; line-height: 1.2 !important; }
+
+/* знак крупнее общего правила для иконок панели (там 16px) */
+.gg-rail-logo .gg-mark { width: 22px; height: 29px; }
