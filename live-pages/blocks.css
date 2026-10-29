@@ -424,3 +424,46 @@ body.gg-with-rail {
   .gg-band-brand { display: flex; }
   .gg-band .gg-crumb { display: none; }
 }
+
+/* ── одна шапка на телефоне ─────────────────────────────────
+   Старая шапка (#gg-header) дублировала новую: два логотипа и
+   два «GOOD Growth». Убираем её совсем, меню — в нашей полосе. */
+#gg-header { display: none !important; }
+
+.gg-burger { display: none; width: 34px; height: 34px; border-radius: 9px; cursor: pointer;
+  border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04);
+  color: var(--ink, #F3F1EA); font-size: 16px; line-height: 1; }
+.gg-mobmenu[hidden] { display: none !important; }
+.gg-mobmenu { position: fixed; left: 0; right: 0; top: 56px; z-index: 90;
+  background: #0C0D10; border-bottom: 1px solid rgba(255,255,255,.10);
+  padding: 10px 14px 16px; display: grid; gap: 2px;
+  box-shadow: 0 20px 40px rgba(0,0,0,.5); }
+.gg-mobmenu a { display: block; padding: 11px 10px; border-radius: 10px; text-decoration: none;
+  color: #A09C92; font-size: 15px; }
+.gg-mobmenu a:hover { background: rgba(255,255,255,.05); color: #F3F1EA; }
+.gg-mobmenu-out { color: #E8694F !important; }
+@media (max-width: 768px) {
+  .gg-burger { display: block; }
+  .gg-band { justify-content: space-between; }
+}
+
+/* ── таблицы на телефоне: свой скролл, страница не едет ───────
+   Таблица сравнения на «Партнёрам» была 484px при экране 390
+   и растягивала всю страницу. */
+@media (max-width: 768px) {
+  .wrap table, table.compare {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ── перенос кнопок в топбаре на телефоне ────────────────────
+   Кнопка «Добавить» на «Брендах» уезжала за экран на 40px. */
+@media (max-width: 768px) {
+  .gg-topbar { flex-wrap: wrap; row-gap: 10px; }
+  .gg-topbar .gg-grow { flex-basis: 100%; height: 0; }
+  .gg-topbar > button, .gg-topbar > .gg-btn-gold { margin-left: 0; }
+}

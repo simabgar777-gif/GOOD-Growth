@@ -30,6 +30,7 @@
       '<a class="gg-band-brand" href="/app" aria-label="GOOD Growth">' + '<svg class="gg-mark" viewBox="238 162 74 101" aria-hidden="true" fill="none" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M256 193 244 180 244 252" stroke="#F8961D"/><path d="M306 168 263 209" stroke="#28A992"/><path d="M287 216 245 257" stroke="#E01F27"/><path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg>' +
         '<b>GOOD Growth</b></a>' +
       '<a class="gg-crumb" href="/">← О сервисе</a>' +
+      '<button type="button" class="gg-burger" id="ggBurger" aria-label="Меню" aria-expanded="false">☰</button>' +
       '<div class="gg-sys">' +
         '<span class="gg-chip" title="Режим разбора">' +
           '<span class="dot"></span><span class="gg-chip-tx">ИИ · не подключён</span>' +
@@ -64,6 +65,34 @@
       btn.addEventListener('click', function () {
         var cur = (window.ggTheme && window.ggTheme.get) ? window.ggTheme.get() : 'dark';
         if (window.ggTheme && window.ggTheme.set) window.ggTheme.set(cur === 'light' ? 'dark' : 'light');
+      });
+    }
+
+    /* ── мобильное меню: одна шапка вместо старой и новой ── */
+    var burger = band.querySelector('#ggBurger');
+    var rail = document.getElementById('gg-rail');
+    if (burger) {
+      var menu = document.createElement('div');
+      menu.className = 'gg-mobmenu';
+      menu.hidden = true;
+      var links = rail ? rail.querySelectorAll('a[data-k]') : [];
+      var html = '';
+      links.forEach(function (a) {
+        if (a.dataset.k === 'logout') return;
+        html += '<a href="' + a.getAttribute('href') + '">' + a.textContent.trim() + '</a>';
+      });
+      html += '<a class="gg-mobmenu-out" href="/login" id="ggMobOut">Выйти</a>';
+      menu.innerHTML = html;
+      band.parentNode.insertBefore(menu, band.nextSibling);
+
+      burger.addEventListener('click', function () {
+        var open = menu.hidden;
+        menu.hidden = !open;
+        burger.setAttribute('aria-expanded', String(open));
+        burger.textContent = open ? '✕' : '☰';
+      });
+      menu.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A') { menu.hidden = true; burger.textContent = '☰'; }
       });
     }
 
