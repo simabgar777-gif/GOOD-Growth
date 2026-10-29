@@ -385,3 +385,24 @@ html[data-theme="light"] .gg-band {
   border-bottom-color: rgba(20, 32, 26, .14);
   background: rgba(244, 241, 234, .92);
 }
+
+/* ── одна мера ширины на всех страницах ───────────────────────
+   До этого: 1120 на большинстве, 1000 на профиле и аналитике.
+   Теперь везде 1120 и одинаковые поля. */
+.wrap {
+  max-width: 1120px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 22px !important;
+  padding-right: 22px !important;
+}
+@media (max-width: 768px) {
+  .wrap { padding-left: 16px !important; padding-right: 16px !important; }
+}
+
+/* ── одинаковые поля у body ───────────────────────────────────
+   На профиле было padding: 24px 24px 60px 232px — из-за этого
+   шапка и контент были уже, чем на других страницах. */
+body.gg-with-rail {
+  padding: 0 0 40px var(--rail-w, 232px) !important;
+}

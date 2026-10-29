@@ -40,9 +40,10 @@
         '<button type="button" class="gg-icon" id="ggThemeBtn" aria-label="Сменить тему" title="Сменить тему">◐</button>' +
       '</div>';
 
-    /* место: перед содержимым страницы */
-    var wrap = document.querySelector('.wrap') || document.querySelector('main');
-    if (wrap && wrap.parentNode) wrap.parentNode.insertBefore(band, wrap);
+    /* место: первым в body — тогда полоса всегда во всю ширину,
+       независимо от отступов контейнера страницы */
+    var rail = document.getElementById('gg-rail');
+    if (rail && rail.parentNode === document.body) rail.insertAdjacentElement('afterend', band);
     else document.body.insertBefore(band, document.body.firstChild);
 
     /* режим ИИ — настоящий */
