@@ -200,13 +200,14 @@
         runAnalyze(pendingDetails);
       } catch (err) {
         var msg = err.message || '';
-        /* такой email уже есть — не заставляем искать ссылку: сразу вход */
+        /* email занят — остаёмся в регистрации и просим другой.
+           Войти можно ссылкой ниже, человека не выдёргиваем. */
         if (authMode === 'signup' && /занят|exists|уже/i.test(msg)) {
-          authMode = 'login';
-          showAuth(pendingDetails);
-          $('aEmail').value = email;
-          $('aPass').value = password;
-          $('authNote').textContent = 'Этот email уже зарегистрирован — войдём?';
+          note.textContent = 'Такой email уже занят. Впиши другой — или войди с этим (ссылка ниже).';
+          var em = $('aEmail');
+          em.focus();
+          try { em.setSelectionRange(0, em.value.length); } catch (e) {}
+          $('authGo').disabled = false;
         } else {
           note.textContent = msg;
           $('authGo').disabled = false;
