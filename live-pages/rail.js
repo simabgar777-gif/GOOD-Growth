@@ -109,3 +109,30 @@
     });
   }
 })();
+
+/* ── вход и выход по факту ─────────────────────────────────────
+   «Выйти» и «Настройки» были зашиты в панель статикой: их видел
+   и гость, который ещё не входил. Спрашиваем, кто перед нами. */
+(function () {
+  fetch('/api/me', { credentials: 'same-origin' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      var u = d && (d.user || (d.id ? d : null));
+      var out = document.getElementById('ggRailOut')
+             || document.querySelector('.gg-rail-out')
+             || document.querySelector('[data-logout]');
+      var prof = document.querySelector('#gg-rail a[data-k="profile"]')
+              || document.querySelector('.sidebar a[data-k="profile"]');
+      if (u) return;   /* вошёл — всё как есть */
+
+      if (out && out.parentNode) {
+        var a = document.createElement('a');
+        a.href = '/login';
+        a.className = 'gg-rail-in';
+        a.textContent = 'Войти';
+        out.parentNode.replaceChild(a, out);
+      }
+      if (prof) prof.style.display = 'none';
+    })
+    .catch(function () {});
+})();

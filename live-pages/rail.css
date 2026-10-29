@@ -276,3 +276,11 @@ html[data-theme="light"] .gg-rail-out { color: #5C665F !important; }
 
 /* знак крупнее общего правила для иконок панели (там 16px) */
 .gg-rail-logo .gg-mark { width: 22px; height: 29px; }
+
+/* «Войти» в панели — медным, как главное действие */
+.gg-rail-in {
+  display: flex; align-items: center; gap: 10px; padding: 9px 11px; border-radius: 9px;
+  color: var(--copper, #E8A54F) !important; text-decoration: none;
+  font-size: 13.5px; font-weight: 600;
+}
+.gg-rail-in:hover { background: rgba(232,165,79,.10); color: var(--copper-lt, #F3C583) !important; }
