@@ -34,12 +34,29 @@
     menu.className = 'gg-mobmenu';
     menu.hidden = true;
 
-    var html = '';
+    var here = location.pathname.replace(/\/+$/, '') || '/';
     var links = rail ? rail.querySelectorAll('a[data-k]') : [];
+
+    /* активным считаем САМОЕ ДЛИННОЕ совпадение: иначе /app подсвечивался
+       на /app/schedule вместе с «Публикациями» */
+    var best = '', bestLen = -1;
+    for (var b = 0; b < links.length; b++) {
+      if (links[b].dataset.k === 'logout') continue;
+      var hp = (links[b].getAttribute('href') || '').replace(/\/+$/, '');
+      if ((hp === here || here.indexOf(hp + '/') === 0) && hp.length > bestLen) {
+        best = hp; bestLen = hp.length;
+      }
+    }
+
+    var html = '';
     for (var i = 0; i < links.length; i++) {
       var a = links[i];
       if (a.dataset.k === 'logout') continue;
-      html += '<a href="' + (a.getAttribute('href') || '#') + '">' + a.textContent.trim() + '</a>';
+      var href = a.getAttribute('href') || '#';
+      var path = href.replace(/\/+$/, '');
+      var on = (path === best);
+      html += '<a href="' + href + '"' + (on ? ' class="is-on" aria-current="page"' : '') + '>' +
+              a.textContent.trim() + '</a>';
     }
     html += '<a class="gg-mobmenu-out" href="/login">Выйти</a>';
     menu.innerHTML = html;

@@ -364,3 +364,10 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
   .topline .lang-switch { height: 34px !important; align-items: stretch; }
   .topline .lang-switch button { height: 32px !important; padding: 0 11px !important; }
 }
+
+/* текущая страница в мобильном меню — как в панели */
+.gg-mobmenu a.is-on {
+  background: rgba(232,165,79,.12);
+  color: #F3C583;
+  font-weight: 600;
+}

@@ -492,3 +492,10 @@ body.gg-with-rail {
 }
 .gg-btn-gold:hover, .gg-btn-ghost:hover,
 a.gg-btn-gold:hover, a.gg-btn-ghost:hover { text-decoration: none !important; }
+
+/* текущая страница в мобильном меню — как в панели */
+.gg-mobmenu a.is-on {
+  background: rgba(232,165,79,.12);
+  color: #F3C583;
+  font-weight: 600;
+}
