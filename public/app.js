@@ -151,8 +151,8 @@ async function loadGoalFromQuery(id) {
     const r = await fetch('/api/goals/' + id);
     if (!r.ok) return;
     const d = await r.json();
-    if (d && d.goal_text !== undefined) {
-      try { const el = document.getElementById('goal'); if (el) el.value = d.goal_text; } catch (e) {}
+    if (d && (d.goal !== undefined || d.goal_text !== undefined)) {
+      try { const el = document.getElementById('goal'); if (el) el.value = (d.goal_text || d.goal || ''); } catch (e) {}
       try { showStrategy(d); } catch (e) {}
       try { sessionStorage.setItem('gg_last_goal', String(d.id)); } catch (e) {}
       /* остаёмся на этой же странице: убираем ?goal из адреса,

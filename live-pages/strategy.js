@@ -297,7 +297,8 @@ function wireSteps(goalId) {
     fetch('/api/goals/' + id, { credentials: 'same-origin' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
-        if (!d || d.goal_text === undefined) {
+        /* сервер отдаёт поле goal (не goal_text) — принимаем оба */
+        if (!d || (d.goal === undefined && d.goal_text === undefined)) {
           empty('Этот разбор не найден. Выбери другой в журнале.');
           fillJournal(null);
           return;
@@ -309,7 +310,8 @@ function wireSteps(goalId) {
         fillJournal(d.id);
         try { sessionStorage.setItem('gg_last_goal', String(d.id)); } catch (e) {}
         /* заголовок вкладки — по цели */
-        if (d.goal_text) document.title = 'Разбор № ' + d.id + ' · GOOD Growth';
+        var gtext = d.goal_text || d.goal || '';
+        if (gtext) document.title = 'Разбор № ' + d.id + ' · GOOD Growth';
       })
       .catch(function () {
         empty('Не удалось открыть разбор. Обнови страницу.');

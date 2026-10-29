@@ -322,6 +322,8 @@ def strip_demo(body):
 
     def clear_text(xp):
         for el in frag.xpath(xp):
+            for ch in list(el):
+                el.remove(ch)     # иначе остаются span с подписями
             el.text = ""
 
     def clear_kids(xp):
