@@ -269,3 +269,13 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
   font-size: 14px; line-height: 1; }
 .gg-band { display: flex; align-items: center; justify-content: flex-end; gap: 10px;
   padding: 10px 28px; border-bottom: 1px solid var(--border); }
+
+/* ── наш знак в углу панели (страница Заи) ─────────────────────
+   Размер задаём явно: без этого SVG внутри плитки обрезается. */
+.brandmark .g {
+  background: rgba(255,255,255,.04) !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.10) !important;
+  width: 34px; height: 34px; border-radius: 10px;
+  display: grid; place-items: center; overflow: hidden;
+}
+.brandmark .g .gg-mark { width: 19px; height: 26px; display: block; }
