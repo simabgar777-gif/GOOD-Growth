@@ -252,3 +252,20 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 .nav a.is-on{background:var(--amber-soft);color:var(--fg);position:relative}
 .nav a.is-on::before{content:'';position:absolute;left:-14px;top:8px;bottom:8px;width:2px;background:var(--amber);border-radius:2px}
 .nav a.is-on svg{stroke:var(--amber)}
+
+/* правый блок (на случай, если попадёт на страницу с её CSS) */
+.gg-sys { display: flex; align-items: center; gap: 8px; margin-left: 12px; }
+.gg-chip { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--border);
+  border-radius: 999px; padding: 6px 12px; background: var(--surface);
+  font: 500 10.5px/1 var(--font-mono); letter-spacing: .08em; color: var(--muted); }
+.gg-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); }
+.gg-lang { display: inline-flex; border: 1px solid var(--border); border-radius: 999px;
+  overflow: hidden; background: var(--surface); }
+.gg-lang button { border: 0; background: none; padding: 6px 10px; cursor: pointer;
+  font: 500 10.5px/1 var(--font-mono); letter-spacing: .08em; color: var(--muted); }
+.gg-lang button[aria-pressed="true"] { background: var(--amber); color: var(--amber-ink); font-weight: 700; }
+.gg-icon { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border);
+  background: var(--surface); color: var(--muted); cursor: pointer; display: grid; place-items: center;
+  font-size: 14px; line-height: 1; }
+.gg-band { display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+  padding: 10px 28px; border-bottom: 1px solid var(--border); }

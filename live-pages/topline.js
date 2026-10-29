@@ -20,6 +20,9 @@
   }
 
   ready(function () {
+    /* на странице Заи уже есть свой блок (языки + тема) — не дублируем */
+    if (document.querySelector('.status-chips') || document.querySelector('.lang-switch')) return;
+
     /* 1) топбар страницы, 2) шапка #gg-header, 3) своя полоса сверху */
     var bar = document.querySelector('.gg-topbar') || document.getElementById('gg-header');
     if (!bar) {
