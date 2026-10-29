@@ -155,7 +155,10 @@ async function loadGoalFromQuery(id) {
       try { const el = document.getElementById('goal'); if (el) el.value = d.goal_text; } catch (e) {}
       try { showStrategy(d); } catch (e) {}
       try { sessionStorage.setItem('gg_last_goal', String(d.id)); } catch (e) {}
-      try { location.replace('/app'); } catch (e) { location.hash = ''; }
+      /* остаёмся на этой же странице: убираем ?goal из адреса,
+         но НЕ уводим человека на «Стол» — иначе он теряет разбор */
+      try { history.replaceState(null, '', location.pathname); }
+      catch (e) { location.hash = ''; }
     }
   } catch (e) {}
 }

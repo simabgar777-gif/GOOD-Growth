@@ -43,7 +43,31 @@
     .or { text-align:center; color: var(--faint); font-size: 13px; margin: 14px 0; }
     .quick-link { text-align:center; }
     .quick-link a { color: var(--green); font-size: 14.5px; }
-  </style>
+  
+    .auth-panel { margin-top: 16px; padding: 18px; border: 1px solid var(--hair);
+      border-radius: 14px; background: var(--surface-2); display: grid; gap: 8px; }
+    .auth-panel[hidden] { display: none !important; }
+    .auth-lead { margin: 0 0 4px; color: var(--ink); font-size: 14px; font-weight: 600; }
+    .auth-lbl { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); margin-top: 4px; }
+    .auth-panel input { width: 100%; padding: 11px 13px; border-radius: 10px;
+      border: 1px solid var(--hair); background: var(--surface); color: var(--ink); font: inherit; font-size: 15px; }
+    .auth-panel input:focus { outline: none; border-color: rgba(232,165,79,.55); }
+    .auth-row { margin-top: 8px; }
+    .auth-row .btn {
+      width: 100%;
+      background: var(--copper, #E8A54F) !important;
+      color: #1B1206 !important;
+      border: 0 !important;
+      font-weight: 700;
+      border-radius: 12px;
+      padding: 13px 18px;
+    }
+    .auth-row .btn:hover { background: #F3C583 !important; }
+    .auth-row .btn[disabled] { opacity: .6; }
+    .auth-switch { margin: 4px 0 0; font-size: 13px; }
+    .auth-switch a { color: var(--copper); text-decoration: none; }
+    .auth-note { margin: 0; font-size: 12.5px; color: #E8694F; min-height: 0; }
+</style>
 <link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"><link rel="stylesheet" href="/rail.css"><link rel="stylesheet" href="/blocks.css">
 </head>
 <body class="gg-with-rail">
@@ -70,7 +94,21 @@
       <label for="d_want" data-i18n="onboard.label.want">Чего ты хочешь?</label>
       <input type="text" id="d_want" maxlength="120" placeholder="«Чтобы узнали и записались»" data-i18n-attr="placeholder:onboard.ph.want" autocomplete="off" />
       <button class="btn" id="go" type="submit" data-i18n="onboard.go">Получить стратегию →</button>
-      <p class="status" id="status" role="status" aria-live="polite"></p>
+      <div id="authPanel" class="auth-panel" hidden>
+      <p class="auth-lead" id="authLead">Почти готово. Назови себя — и стратегия появится.</p>
+      <label class="auth-lbl" for="aName" id="aNameWrap">Как тебя зовут</label>
+      <input id="aName" type="text" autocomplete="name" placeholder="Например: Альберт" />
+      <label class="auth-lbl" for="aEmail">Email</label>
+      <input id="aEmail" type="email" autocomplete="email" placeholder="you@example.com" />
+      <label class="auth-lbl" for="aPass">Пароль</label>
+      <input id="aPass" type="password" autocomplete="new-password" placeholder="не меньше 6 знаков" />
+      <div class="auth-row">
+        <button type="button" class="btn" id="authGo">Создать аккаунт и получить стратегию →</button>
+      </div>
+      <p class="auth-switch"><a href="#" id="authToggle">Уже есть аккаунт — войти</a></p>
+      <p class="auth-note" id="authNote"></p>
+    </div>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
     </form>
     <p class="or" data-i18n="onboard.or">— или —</p>
     <p class="quick-link"><a id="quickLink" href="/app" data-i18n="onboard.quick">Написать цель одной фразой →</a></p>
@@ -96,23 +134,89 @@
       sessionStorage.setItem('gg_onboard_quick', JSON.stringify(d));
     });
 
+    let pendingDetails = null;
+    let authMode = 'signup';
+
+    function showAuth(details) {
+      pendingDetails = details;
+      var p = $('authPanel');
+      p.hidden = false;
+      $('authLead').textContent = authMode === 'signup'
+        ? 'Почти готово. Назови себя — и стратегия появится.'
+        : 'Войди — и стратегия появится.';
+      $('authGo').textContent = authMode === 'signup'
+        ? 'Создать аккаунт и получить стратегию →'
+        : 'Войти и получить стратегию →';
+      var showName = authMode === 'signup';
+      $('aNameWrap').hidden = !showName;
+      $('aName').hidden = !showName;
+      $('aPass').setAttribute('autocomplete', showName ? 'new-password' : 'current-password');
+      $('authToggle').textContent = showName
+        ? 'Уже есть аккаунт — войти'
+        : 'Нет аккаунта — зарегистрироваться';
+      $('authNote').textContent = '';
+      status('', false);
+      $('aEmail').focus();
+      p.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    $('authToggle').addEventListener('click', function (e) {
+      e.preventDefault();
+      authMode = authMode === 'signup' ? 'login' : 'signup';
+      showAuth(pendingDetails);
+    });
+
+    $('authGo').addEventListener('click', async function () {
+      var name = $('aName').value.trim();
+      var email = $('aEmail').value.trim();
+      var password = $('aPass').value;
+      var note = $('authNote');
+      if (authMode === 'signup' && name.length < 2) { note.textContent = 'Как тебя зовут?'; return; }
+      if (!email || email.indexOf('@') < 1) { note.textContent = 'Нужен email.'; return; }
+      if (!password || password.length < 6) { note.textContent = 'Пароль — не меньше 6 знаков.'; return; }
+      $('authGo').disabled = true;
+      note.textContent = '';
+      try {
+        var url = authMode === 'signup' ? '/api/signup' : '/api/login';
+        var body = authMode === 'signup' ? { email: email, password: password, name: name }
+                                         : { email: email, password: password };
+        var r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+        var d = await r.json().catch(function () { return {}; });
+        if (!r.ok) throw new Error(d.error || 'Не получилось. Проверь данные.');
+        $('authPanel').hidden = true;
+        runAnalyze(pendingDetails);
+      } catch (err) {
+        note.textContent = err.message;
+        $('authGo').disabled = false;
+      }
+    });
+
+    async function runAnalyze(details) {
+      $('go').disabled = true;
+      status(ggT('onboard.msg.busy','Собираю стратегию… это займёт до минуты.'));
+      try {
+        var r = await fetch('/api/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ details: details, quick: false }) });
+        if (r.status === 401) {
+          $('go').disabled = false;
+          showAuth(details);
+          return;
+        }
+        var d = await r.json();
+        if (!r.ok) throw new Error(d.error || ggT('onboard.msg.fail','Не получилось. Попробуй ещё раз.'));
+        sessionStorage.removeItem('gg_onboard');
+        location.href = '/app/strategy?goal=' + d.id;
+      } catch (err) {
+        status(err.message, true);
+        $('go').disabled = false;
+      }
+    }
+
     $('onboardForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const details = {};
       fields.forEach((k) => { details[k.slice(2)] = $(k).value.trim(); });
       if (!details.what || details.what.length < 2) { status(ggT('onboard.msg.what','Расскажи хотя бы, что ты делаешь.'), true); return; }
-      $('go').disabled = true;
-      status(ggT('onboard.msg.busy','Собираю стратегию… это займёт до минуты.'));
-      try {
-        const r = await fetch('/api/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ details, quick: false }) });
-        const d = await r.json();
-        if (!r.ok) throw new Error(d.error || ggT('onboard.msg.fail','Не получилось. Попробуй ещё раз.'));
-        sessionStorage.removeItem('gg_onboard');
-        location.href = '/app?goal=' + d.id;
-      } catch (err) {
-        status(err.message, true);
-        $('go').disabled = false;
-      }
+      runAnalyze(details);
     });
     function status(t, isErr) { const el = $('status'); el.textContent = t; el.className = 'status' + (isErr ? ' err' : ''); }
     /* simple voice: Web Speech if available (O64: textarea target, stable icon, live interim) */

@@ -384,3 +384,9 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
   color: #E8A54F; font-size: 15px; font-weight: 600;
 }
 .gg-mobmenu .gg-mobmenu-in:hover { background: rgba(232,165,79,.10); }
+
+/* журнал в настоящем виде */
+.j-row { cursor: pointer; }
+.j-row .j-open { color: var(--copper); text-decoration: none; font-size: 11.5px; font-weight: 600; }
+.j-row .j-open:hover { color: var(--copper-lt, #F3C583); }
+.j-row.is-open { background: rgba(232,165,79,.06); }

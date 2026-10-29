@@ -225,6 +225,7 @@ __BRIDGE__
 __BODY__
 <script src="/i18n/i18n.js"></script>
 <script src="/public/app.js"></script>
+<script src="/strategy.js" defer></script>
 <script src="/za-ui.js" defer></script>
 <script src="/theme.js" defer></script>
 <script src="/rail.js" defer></script>
@@ -310,6 +311,69 @@ def prepare_body(body):
                 _json.dumps(dic, ensure_ascii=False, indent=2) + "\n")
     return body
 
+
+def strip_demo(body):
+    """Убирает демо-содержимое Заи (XPath, без cssselect).
+    Остаются пустые блоки: их заполняет strategy.js настоящими данными."""
+    from lxml import html as _lh
+
+    frag = _lh.fragment_fromstring(body, create_parent="div")
+    frag.set("id", "__wrap__")
+
+    def clear_text(xp):
+        for el in frag.xpath(xp):
+            el.text = ""
+
+    def clear_kids(xp):
+        for el in frag.xpath(xp):
+            for ch in list(el):
+                el.remove(ch)
+
+    clear_text('//p[@class="meta"]')
+    clear_text('//p[@class="strategy-line"]')
+    clear_text('//div[@id="audience"]//h3')
+    clear_kids('//div[@id="audience"]//ul')
+    clear_text('//div[@id="rhythm"]//p[@class="big"]')
+    clear_kids('//div[@id="rhythm"]//div[@class="days"]')
+    clear_text('//div[@id="rhythm"]//p[@class="note"]')
+
+    for el in frag.xpath('//div[@id="topics"]//div[@class="topic"]'):
+        el.getparent().remove(el)
+
+    clear_kids('//div[@id="chans"]//div[@class="channels"]')
+    clear_kids('//div[@id="steps"]//div[@class="steps"]')
+    clear_kids('//div[@id="journalList"]')
+
+    for el in frag.xpath('//div[@id="postsSec"]//div[@class="post-card"]'):
+        el.getparent().remove(el)
+
+    # демо-цель в цитате — на её место встанет настоящая
+    for el in frag.xpath('//blockquote[@class="goal-quote"]'):
+        for ch in list(el):
+            el.remove(ch)
+        el.text = ""
+
+    # workshopSection жил на демо-карточке — переносим на сам блок постов
+    if not frag.xpath('//*[@id="workshopSection"]'):
+        ps = frag.xpath('//div[@id="postsSec"]')
+        if ps:
+            ps[0].set("id", "workshopSection")
+            ps[0].set("data-workshop", "1")
+
+    if not frag.xpath('//p[@id="journalEmpty"]'):
+        jl = frag.xpath('//div[@id="journalList"]')
+        if jl:
+            p = _lh.Element("p")
+            p.set("id", "journalEmpty")
+            p.set("class", "hint")
+            p.set("hidden", "hidden")
+            p.text = "Журнал пока пуст."
+            jl[0].append(p)
+
+    return b"".join(_lh.tostring(ch, encoding="utf-8") for ch in frag).decode("utf-8")
+
+
+body = strip_demo(body)
 
 body = prepare_body(body)
 
