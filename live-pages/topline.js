@@ -72,15 +72,15 @@
       b2.setAttribute('aria-label', 'Меню');
       b2.setAttribute('aria-expanded', 'false');
       b2.textContent = '☰';
-      tbar.insertBefore(b2, tbar.firstChild);
 
-      /* знак и имя: панель скрыта на телефоне, логотип иначе пропадает */
+      /* порядок как на остальных страницах: сначала знак, потом бургер */
       var brand = document.createElement('a');
       brand.className = 'gg-band-brand';
       brand.href = '/app';
       brand.setAttribute('aria-label', 'GOOD Growth');
       brand.innerHTML = MARK + '<b>GOOD Growth</b>';
-      b2.insertAdjacentElement('afterend', brand);
+      tbar.insertBefore(brand, tbar.firstChild);
+      brand.insertAdjacentElement('afterend', b2);
 
       buildMenu(b2, document.body);
       return;
