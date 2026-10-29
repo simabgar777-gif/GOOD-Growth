@@ -331,6 +331,88 @@
     }
   }
 
+
+  /* ── посты в дизайне Заи ────────────────────────────────────
+     app.js рисует СВОЮ старую разметку — на её странице она
+     выглядит голой. Перерисовываем карточки её классами. */
+  function postCard(p) {
+    /* подложка в духе Заи есть всегда; картинка ложится сверху,
+       а если файла нет — тихо исчезает, без битого значка */
+    var img = '<div class="ground"></div><div class="flare"><i></i></div>' +
+      (p.image_path
+        ? '<img src="' + esc(p.image_path) + '" alt="" ' +
+          'style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" ' +
+          'onerror="this.remove()">'
+        : '');
+    var tag = p.image_status === 'pending' ? 'рисуем…'
+            : p.image_path ? 'картинка' : 'без картинки';
+    var txt = String(p.text || p.body || '').trim();
+    var lines = txt.split('\n');
+    var title = (p.title || lines[0] || 'Пост').slice(0, 90);
+    var rest = p.title ? txt : lines.slice(1).join(' ').trim();
+    var state = p.published_at ? 'опубликован'
+              : p.scheduled_at ? 'запланирован'
+              : p.approved_at ? 'утверждён' : 'черновик';
+    return '<div class="post-card" data-gg="1" data-post-id="' + p.id + '">' +
+      '<div class="post-media"><span class="tag-img">' + esc(tag) + '</span>' + img + '</div>' +
+      '<div class="post-body">' +
+        '<p class="meta">№ ' + p.id + ' · ' + esc(state) + '</p>' +
+        '<h4>' + esc(title) + '</h4>' +
+        (rest ? '<p>' + esc(rest.slice(0, 400)) + '</p>' : '') +
+        '<div class="post-actions">' +
+          (p.image_path ? '' : '<button type="button" class="step-go" data-img="' + p.id + '">Картинка</button>') +
+          '<button type="button" class="step-go" data-copy="1">Скопировать текст</button>' +
+        '</div>' +
+      '</div></div>';
+  }
+
+  function renderPosts(goalId) {
+    var root = $('postsRoot'); if (!root || !goalId) return;
+    fetch('/api/goals/' + goalId + '/posts', { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var items = (d && d.posts) || [];
+        root.innerHTML = items.map(postCard).join('');
+        var st = $('postsStatus');
+        if (st) st.textContent = items.length ? 'Готово: ' + items.length + ' постов.' : '';
+        root.querySelectorAll('[data-img]').forEach(function (b) {
+          b.addEventListener('click', function () {
+            b.disabled = true; b.textContent = 'рисуем…';
+            fetch('/api/posts/' + b.getAttribute('data-img') + '/image', {
+              method: 'POST', credentials: 'same-origin'
+            }).then(function () { setTimeout(function () { renderPosts(goalId); }, 1500); })
+              .catch(function () { b.disabled = false; b.textContent = 'Картинка'; });
+          });
+        });
+        root.querySelectorAll('[data-copy]').forEach(function (b) {
+          b.addEventListener('click', function () {
+            var card = b.closest('.post-card');
+            var t = card ? card.querySelector('h4').textContent + '\n' + (card.querySelector('p:not(.meta)') || {}).textContent : '';
+            var ta = document.createElement('textarea'); ta.value = t || '';
+            document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); } catch (e) {}
+            ta.remove();
+            b.textContent = 'Скопировано ✓';
+            setTimeout(function () { b.textContent = 'Скопировать текст'; }, 1600);
+          });
+        });
+      })
+      .catch(function () {});
+  }
+
+  /* app.js дописывает свои карточки — заменяем их нашими */
+  function watchPosts(goalId) {
+    var root = $('postsRoot'); if (!root || !goalId) return;
+    var busy = false;
+    new MutationObserver(function () {
+      if (busy) return;
+      var bad = [].slice.call(root.children).some(function (c) { return !c.getAttribute('data-gg'); });
+      if (!bad) return;
+      busy = true;
+      setTimeout(function () { renderPosts(goalId); busy = false; }, 250);
+    }).observe(root, { childList: true });
+  }
+
   /* ── журнал ───────────────────────────────────────────────── */
   function fillJournal(currentId) {
     var list = $('journalList');
@@ -396,6 +478,8 @@
           try { d.strategy = JSON.parse(d.strategy); } catch (e) { d.strategy = {}; }
         }
         fill(d);
+        renderPosts(d.id);
+        watchPosts(d.id);
         fillJournal(d.id);
         try { sessionStorage.setItem('gg_last_goal', String(d.id)); } catch (e) {}
         /* говорим остальным модулям, ЧЬЯ цель открыта: иначе «Создать контент» мёртв */
