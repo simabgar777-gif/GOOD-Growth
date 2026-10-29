@@ -335,3 +335,9 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 .gg-mobmenu a:hover { background: rgba(255,255,255,.05); color: #F3F1EA; }
 .gg-mobmenu-out { color: #E8694F !important; }
 @media (min-width: 961px) { .gg-mobmenu { display: none !important; } }
+
+/* ── знак в шапке её страницы (панель на телефоне скрыта) ──── */
+.gg-band-brand { display: none; align-items: center; gap: 9px; text-decoration: none; margin-right: auto; }
+.gg-band-brand b { font-size: 14px; font-weight: 600; color: var(--fg); letter-spacing: -.01em; }
+.gg-band-brand .gg-mark { width: 20px; height: 27px; display: block; }
+@media (max-width: 960px) { .gg-band-brand { display: flex; } }
