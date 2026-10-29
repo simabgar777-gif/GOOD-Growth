@@ -189,7 +189,7 @@ BRIDGE = '''
     /* ── ДУБЛИ: app.js рисует свой разбор и посты во временные контейнеры.
        Пока они не переодеты в её классы — не показываем, чтобы не было каши.
        Шаг 2: переодеть и снять display:none. */
-    #postsRoot, #resultRoot, #journalList .jrow { display: none !important; }
+    #resultRoot, #journalList .jrow { display: none !important; }
 
     /* показ: Стол или Мастерская */
     body.is-desk .hero, body.is-desk .composer, body.is-desk .subnav,

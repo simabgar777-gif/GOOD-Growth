@@ -398,6 +398,8 @@
         fill(d);
         fillJournal(d.id);
         try { sessionStorage.setItem('gg_last_goal', String(d.id)); } catch (e) {}
+        /* говорим остальным модулям, ЧЬЯ цель открыта: иначе «Создать контент» мёртв */
+        try { document.dispatchEvent(new CustomEvent('gg:goal', { detail: { id: d.id } })); } catch (e) {}
         var gtext = d.goal_text || d.goal || '';
         if (gtext) document.title = 'Разбор № ' + d.id + ' · GOOD Growth';
       })

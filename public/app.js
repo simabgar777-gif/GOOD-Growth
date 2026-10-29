@@ -23,6 +23,11 @@ const footerMeta = $('footMeta');
 
 let mode = { ai: 'unknown' };
 let currentGoalId = null;
+/* цель открыта страницей разбора — запоминаем, чтобы «Создать контент» работал */
+document.addEventListener('gg:goal', (e) => {
+  const id = e && e.detail && e.detail.id;
+  if (id) currentGoalId = Number(id);
+});
 let postCount = 1;
 const pollTimers = new Map(); /* postId -> interval */
 
@@ -718,13 +723,23 @@ makeBtn.addEventListener('click', async () => {
 });
 
 /* счётчик постов */
-document.querySelectorAll('.count-btn').forEach((b) => {
+/* счётчик: в дизайне Заи это .count-switch button без data-count */
+const countBtns = document.querySelectorAll('.count-btn, .count-switch button');
+countBtns.forEach((b) => {
   b.addEventListener('click', () => {
-    document.querySelectorAll('.count-btn').forEach((x) => x.setAttribute('aria-pressed', 'false'));
+    countBtns.forEach((x) => x.setAttribute('aria-pressed', 'false'));
     b.setAttribute('aria-pressed', 'true');
-    postCount = Number(b.dataset.count);
+    const n = Number(b.dataset.count || b.textContent.trim());
+    if (n > 0) postCount = n;
   });
 });
+(() => {
+  const on = document.querySelector('.count-switch button[aria-pressed="true"]');
+  if (on) {
+    const n = Number(on.textContent.trim());
+    if (n > 0) postCount = n;
+  }
+})();
 
 /* ================= журнал ================= */
 
