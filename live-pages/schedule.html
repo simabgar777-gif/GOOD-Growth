@@ -82,6 +82,42 @@ select:focus{border-color:rgba(232,165,79,.5)}
   </div>
   <p class="sub" data-i18n="schedule.sub">Посты, которые уйдут в канал сами — в выбранное время. Часы сервера идут по Москве.</p>
 
+  <div class="gg-blk" id="rhythmPanel">
+    <div class="rt-ask">
+      <div class="gg-blk-h"><h2 data-i18n="rhythm.h">Ритм</h2>
+        <span class="gg-blk-q" data-i18n="rhythm.q">сколько раз в неделю?</span></div>
+      <div class="gg-blk-b">
+        <p class="rt-lead" data-i18n="rhythm.lead">Не «сколько хочешь», а сколько выдержишь — вместе с проверкой и правками.</p>
+        <div class="rt-opts">
+          <div class="rt-opt on" data-n="3" role="button" tabindex="0"><span class="x">3×</span>
+            <span><b data-i18n="rhythm.3">Три раза в неделю</b><p data-i18n="rhythm.3h">12 постов в месяц · самое устойчивое для мастера</p></span><span class="r"></span></div>
+          <div class="rt-opt" data-n="1" role="button" tabindex="0"><span class="x">1×</span>
+            <span><b data-i18n="rhythm.1">Раз в неделю</b><p data-i18n="rhythm.1h">4 поста в месяц · чтобы просто не пропадать</p></span><span class="r"></span></div>
+          <div class="rt-opt" data-n="5" role="button" tabindex="0"><span class="x">5×</span>
+            <span><b data-i18n="rhythm.5">Пять раз в неделю</b><p data-i18n="rhythm.5h">20 постов в месяц · рабочий будний ритм</p></span><span class="r"></span></div>
+          <div class="rt-opt" data-n="own" role="button" tabindex="0"><span class="x">✎</span>
+            <span><b data-i18n="rhythm.own">Своё число</b><p data-i18n="rhythm.ownh">например 3 в день, если идёт раскрутка</p></span><span class="r"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rt-grid" hidden>
+      <div class="gg-blk-h"><h2 data-i18n="rhythm.grid">Сетка</h2>
+        <span class="gg-blk-q" data-i18n="rhythm.gridQ">какие дни и часы?</span></div>
+      <div class="gg-blk-b">
+        <div class="rt-week"></div>
+        <div class="rt-foot">
+          <span class="rt-sum"></span>
+          <button class="gg-btn-gold" type="button" data-save data-i18n="rhythm.save">Сохранить расписание</button>
+          <button class="gg-btn-ghost" type="button" data-cancel data-i18n="rhythm.cancel">Отмена</button>
+          <button class="gg-btn-ghost" type="button" data-back data-i18n="rhythm.back">Другой ритм</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="rt-line" hidden></div>
+  </div>
+
   <div class="gg-blk">
     <div class="gg-blk-h">
       <h2 data-i18n="schedule.blk.queue">Очередь</h2>
@@ -228,6 +264,7 @@ select:focus{border-color:rgba(232,165,79,.5)}
 })();
 </script>
 <script src="/theme.js" defer></script>
+<script src="/slots.js" defer>
 <script src="/rail.js" defer></script>
 </body>
 </html>
