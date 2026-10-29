@@ -60,6 +60,10 @@ button.btn:disabled{opacity:.6;cursor:wait;transform:none}
   .gg-form-panel{padding:28px 18px}
   .gg-mhead h1{font-size:23px}
 }
+
+/* ── наш знак на страницах входа + старая шапка не нужна ────── */
+.ggv-top .gg-mark { width: 26px; height: 35px; display: block; }
+#gg-header { display: none !important; }
 </style>
 <link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"></head>
 <body>
@@ -114,10 +118,7 @@ button.btn:disabled{opacity:.6;cursor:wait;transform:none}
 <aside class="gg-visual">
   <i class="ggv-axis" aria-hidden="true"></i>
   <div class="ggv-top">
-    <svg width="42" height="42" viewBox="0 0 44 44" aria-hidden="true">
-      <circle cx="22" cy="22" r="20.5" fill="none" stroke="rgba(232,165,79,.42)" stroke-width="1.4"/>
-      <path d="M30 14.5A11 11 0 1 0 33 22H22" fill="none" stroke="#E8A54F" stroke-width="2.6" stroke-linecap="round"/>
-    </svg>
+    <svg class="gg-mark" viewBox="238 162 74 101" aria-hidden="true" fill="none" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M256 193 244 180 244 252" stroke="#F8961D"/><path d="M306 168 263 209" stroke="#28A992"/><path d="M287 216 245 257" stroke="#E01F27"/><path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg>
     <span class="ggv-word" data-i18n="common.brand">Good&nbsp;Growth</span>
   </div>
   <div class="ggv-mid">
