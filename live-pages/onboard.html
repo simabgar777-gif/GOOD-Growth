@@ -67,6 +67,18 @@
     .auth-switch { margin: 4px 0 0; font-size: 13px; }
     .auth-switch a { color: var(--copper); text-decoration: none; }
     .auth-note { margin: 0; font-size: 12.5px; color: #E8694F; min-height: 0; }
+
+    /* автозаполнение браузера красило пароль в белый */
+    .auth-panel input:-webkit-autofill,
+    .auth-panel input:-webkit-autofill:hover,
+    .auth-panel input:-webkit-autofill:focus {
+      -webkit-text-fill-color: var(--ink) !important;
+      -webkit-box-shadow: 0 0 0 1000px var(--surface) inset !important;
+      caret-color: var(--ink);
+      transition: background-color 9999s ease-out 0s;
+    }
+
+    .auth-lbl[hidden], .auth-panel input[hidden] { display: none !important; }
 </style>
 <link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"><link rel="stylesheet" href="/rail.css"><link rel="stylesheet" href="/blocks.css">
 </head>
@@ -155,6 +167,7 @@
         ? 'Уже есть аккаунт — войти'
         : 'Нет аккаунта — зарегистрироваться';
       $('authNote').textContent = '';
+      $('authGo').disabled = false;      /* после неудачной попытки кнопка оставалась мёртвой */
       status('', false);
       $('aEmail').focus();
       p.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -186,8 +199,18 @@
         $('authPanel').hidden = true;
         runAnalyze(pendingDetails);
       } catch (err) {
-        note.textContent = err.message;
-        $('authGo').disabled = false;
+        var msg = err.message || '';
+        /* такой email уже есть — не заставляем искать ссылку: сразу вход */
+        if (authMode === 'signup' && /занят|exists|уже/i.test(msg)) {
+          authMode = 'login';
+          showAuth(pendingDetails);
+          $('aEmail').value = email;
+          $('aPass').value = password;
+          $('authNote').textContent = 'Этот email уже зарегистрирован — войдём?';
+        } else {
+          note.textContent = msg;
+          $('authGo').disabled = false;
+        }
       }
     });
 
