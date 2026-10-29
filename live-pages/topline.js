@@ -58,8 +58,36 @@
       html += '<a href="' + href + '"' + (on ? ' class="is-on" aria-current="page"' : '') + '>' +
               a.textContent.trim() + '</a>';
     }
-    html += '<a class="gg-mobmenu-out" href="/login">Выйти</a>';
+    /* выход/вход — по факту: гость не должен видеть «Выйти» */
+    html += '<span id="ggMobAuth"></span>';
     menu.innerHTML = html;
+
+    var authHost = menu.querySelector('#ggMobAuth');
+    fetch('/api/me', { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var u = d && (d.user || (d.id ? d : null));
+        if (u) {
+          var out = document.createElement('button');
+          out.type = 'button';
+          out.className = 'gg-mobmenu-out';
+          out.textContent = 'Выйти';
+          out.addEventListener('click', function () {
+            out.disabled = true;
+            fetch('/api/logout', { method: 'POST', credentials: 'same-origin' })
+              .then(function () { location.href = '/'; })
+              .catch(function () { location.href = '/'; });
+          });
+          authHost.appendChild(out);
+        } else {
+          var enter = document.createElement('a');
+          enter.className = 'gg-mobmenu-in';
+          enter.href = '/login';
+          enter.textContent = 'Войти';
+          authHost.appendChild(enter);
+        }
+      })
+      .catch(function () {});
 
     host.appendChild(menu);
 

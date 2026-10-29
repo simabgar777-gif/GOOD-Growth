@@ -499,3 +499,16 @@ a.gg-btn-gold:hover, a.gg-btn-ghost:hover { text-decoration: none !important; }
   color: #F3C583;
   font-weight: 600;
 }
+
+/* «Выйти» — кнопка, «Войти» — ссылка */
+.gg-mobmenu .gg-mobmenu-out {
+  display: block; width: 100%; text-align: left; padding: 11px 10px; border: 0;
+  border-radius: 10px; background: none; cursor: pointer; color: #E8694F;
+  font: 400 15px var(--font-body, inherit); font-family: inherit;
+}
+.gg-mobmenu .gg-mobmenu-out:hover { background: rgba(232,105,79,.08); }
+.gg-mobmenu .gg-mobmenu-in {
+  display: block; padding: 11px 10px; border-radius: 10px; text-decoration: none;
+  color: #E8A54F; font-size: 15px; font-weight: 600;
+}
+.gg-mobmenu .gg-mobmenu-in:hover { background: rgba(232,165,79,.10); }
