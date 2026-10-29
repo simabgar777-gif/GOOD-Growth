@@ -27,6 +27,8 @@
     var band = document.createElement('div');
     band.className = 'gg-band';
     band.innerHTML =
+      '<a class="gg-band-brand" href="/app" aria-label="GOOD Growth">' + '<svg class="gg-mark" viewBox="238 162 74 101" aria-hidden="true" fill="none" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M256 193 244 180 244 252" stroke="#F8961D"/><path d="M306 168 263 209" stroke="#28A992"/><path d="M287 216 245 257" stroke="#E01F27"/><path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg>' +
+        '<b>GOOD Growth</b></a>' +
       '<a class="gg-crumb" href="/">← О сервисе</a>' +
       '<div class="gg-sys">' +
         '<span class="gg-chip" title="Режим разбора">' +

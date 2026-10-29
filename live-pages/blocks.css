@@ -406,3 +406,21 @@ html[data-theme="light"] .gg-band {
 body.gg-with-rail {
   padding: 0 0 40px var(--rail-w, 232px) !important;
 }
+
+/* ── ТЕЛЕФОН: панель уезжает, значит и левый отступ убираем ────
+   Моё правило выше (body.gg-with-rail) перебивало мобильное
+   правило rail.css, и контент сжимался до 158px на экране 390. */
+@media (max-width: 768px) {
+  body.gg-with-rail { padding: 0 0 32px 0 !important; }
+}
+
+/* ── знак в шапке для телефона ───────────────────────────────
+   На узком экране панель уезжает, и логотип исчезал вместе с ней.
+   Показываем знак прямо в шапке. */
+.gg-band-brand { display: none; align-items: center; gap: 9px; text-decoration: none; }
+.gg-band-brand b { font-size: 14px; font-weight: 600; color: var(--ink, #F3F1EA); letter-spacing: -.01em; }
+.gg-band-brand .gg-mark { width: 20px; height: 27px; display: block; }
+@media (max-width: 768px) {
+  .gg-band-brand { display: flex; }
+  .gg-band .gg-crumb { display: none; }
+}
