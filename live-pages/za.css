@@ -288,3 +288,33 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
   font-size: 9px !important; letter-spacing: .14em !important;
   line-height: 1.2 !important; margin: 0 !important;
 }
+
+/* ── ПАНЕЛЬ НА ТЕЛЕФОНЕ ──────────────────────────────────────
+   В дизайне Заи она превращалась в горизонтальную ленту
+   со скроллом. Убираем её и даём бургер в шапке — как везде. */
+@media (max-width: 960px) {
+  .sidebar { display: none !important; }
+  .shell { grid-template-columns: 1fr !important; }
+  .gg-burger-inline { display: block !important; }
+}
+.gg-burger-inline { display: none; width: 34px; height: 34px; border-radius: 9px; cursor: pointer;
+  border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04);
+  color: var(--fg); font-size: 16px; line-height: 1; margin-right: 10px; }
+
+/* ── ШАПКА НА ТЕЛЕФОНЕ ───────────────────────────────────────
+   В одну строку: [☰] … [RU EN ՀԱ] [◐].
+   Крошка «← О сервисе» и чип режима на узком экране не нужны. */
+@media (max-width: 960px) {
+  .topline {
+    padding: 10px 14px !important;
+    gap: 8px !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+  }
+  .topline .crumb { display: none !important; }
+  .topline .status-chips { gap: 6px !important; flex-wrap: nowrap !important; }
+  .topline .chip { display: none !important; }
+  .gg-burger-inline { margin-right: auto !important; flex: none; }
+  .lang-switch button { padding: 5px 9px !important; font-size: 10.5px !important; }
+  .icon-btn { width: 30px !important; height: 30px !important; }
+}

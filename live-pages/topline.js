@@ -1,33 +1,89 @@
 /* ============================================================
-   GOOD Growth · общая шапка (topline)
+   GOOD Growth · общая шапка и мобильное меню
 
-   Приказ Капитана: шапка одинаковая на всех страницах, как в
-   дизайне Заи:
+   Одна шапка на всех страницах, как в дизайне Заи:
 
-       ← О сервисе                    [● ИИ]  [RU EN ՀԱ]  [◐]
+       ← О сервисе              [● ИИ]  [RU EN ՀԱ]  [◐]
        ─────────────────────────────────────────────────────
-       (ниже — заголовок страницы и содержимое)
 
-   Полоса во всю ширину, липнет к верху, с линией и размытием.
-   На странице Заи (index) своя такая же — там модуль молчит.
+   На странице Заи своя такая же — там добавляем только бургер.
+   На телефоне меню открывается по бургеру и собирается из
+   пунктов панели.
    ============================================================ */
 (function () {
   'use strict';
+
+  var MARK =
+    '<svg class="gg-mark" viewBox="238 162 74 101" aria-hidden="true" fill="none" ' +
+    'stroke-width="11" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M256 193 244 180 244 252" stroke="#F8961D"/>' +
+    '<path d="M306 168 263 209" stroke="#28A992"/>' +
+    '<path d="M287 216 245 257" stroke="#E01F27"/>' +
+    '<path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg>';
 
   function ready(fn) {
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
     else fn();
   }
 
+  /* меню из пунктов панели */
+  function buildMenu(burger, host) {
+    if (!burger || !host) return;
+    var rail = document.getElementById('gg-rail');
+    var menu = document.createElement('div');
+    menu.className = 'gg-mobmenu';
+    menu.hidden = true;
+
+    var html = '';
+    var links = rail ? rail.querySelectorAll('a[data-k]') : [];
+    for (var i = 0; i < links.length; i++) {
+      var a = links[i];
+      if (a.dataset.k === 'logout') continue;
+      html += '<a href="' + (a.getAttribute('href') || '#') + '">' + a.textContent.trim() + '</a>';
+    }
+    html += '<a class="gg-mobmenu-out" href="/login">Выйти</a>';
+    menu.innerHTML = html;
+
+    host.appendChild(menu);
+
+    burger.addEventListener('click', function () {
+      var open = menu.hidden;
+      menu.hidden = !open;
+      burger.setAttribute('aria-expanded', String(open));
+      burger.textContent = open ? '✕' : '☰';
+    });
+    menu.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') { menu.hidden = true; burger.textContent = '☰'; }
+    });
+  }
+
   ready(function () {
-    /* на странице Заи уже есть свой топбар — не дублируем */
-    if (document.querySelector('.status-chips') || document.querySelector('.lang-switch')) return;
+    /* ── страница Заи: свой блок языков и темы. Полосу не дублируем,
+          но бургер для телефона добавляем в её топбар. ── */
+    var nativeTop = document.querySelector('.status-chips') || document.querySelector('.lang-switch');
+    if (nativeTop) {
+      if (document.getElementById('ggBurger')) return;
+      var tbar = document.querySelector('.topline');
+      if (!tbar) return;
+      var b2 = document.createElement('button');
+      b2.type = 'button';
+      b2.id = 'ggBurger';
+      b2.className = 'gg-burger-inline';
+      b2.setAttribute('aria-label', 'Меню');
+      b2.setAttribute('aria-expanded', 'false');
+      b2.textContent = '☰';
+      tbar.insertBefore(b2, tbar.firstChild);
+      buildMenu(b2, document.body);
+      return;
+    }
+
     if (document.querySelector('.gg-band')) return;
 
+    /* ── обычная страница: своя полоса ── */
     var band = document.createElement('div');
     band.className = 'gg-band';
     band.innerHTML =
-      '<a class="gg-band-brand" href="/app" aria-label="GOOD Growth">' + '<svg class="gg-mark" viewBox="238 162 74 101" aria-hidden="true" fill="none" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M256 193 244 180 244 252" stroke="#F8961D"/><path d="M306 168 263 209" stroke="#28A992"/><path d="M287 216 245 257" stroke="#E01F27"/><path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg>' +
+      '<a class="gg-band-brand" href="/app" aria-label="GOOD Growth">' + MARK +
         '<b>GOOD Growth</b></a>' +
       '<a class="gg-crumb" href="/">← О сервисе</a>' +
       '<button type="button" class="gg-burger" id="ggBurger" aria-label="Меню" aria-expanded="false">☰</button>' +
@@ -43,8 +99,6 @@
         '<button type="button" class="gg-icon" id="ggThemeBtn" aria-label="Сменить тему" title="Сменить тему">◐</button>' +
       '</div>';
 
-    /* место: первым в body — тогда полоса всегда во всю ширину,
-       независимо от отступов контейнера страницы */
     var rail = document.getElementById('gg-rail');
     if (rail && rail.parentNode === document.body) rail.insertAdjacentElement('afterend', band);
     else document.body.insertBefore(band, document.body.firstChild);
@@ -68,40 +122,16 @@
       });
     }
 
-    /* ── мобильное меню: одна шапка вместо старой и новой ── */
-    var burger = band.querySelector('#ggBurger');
-    var rail = document.getElementById('gg-rail');
-    if (burger) {
-      var menu = document.createElement('div');
-      menu.className = 'gg-mobmenu';
-      menu.hidden = true;
-      var links = rail ? rail.querySelectorAll('a[data-k]') : [];
-      var html = '';
-      links.forEach(function (a) {
-        if (a.dataset.k === 'logout') return;
-        html += '<a href="' + a.getAttribute('href') + '">' + a.textContent.trim() + '</a>';
-      });
-      html += '<a class="gg-mobmenu-out" href="/login" id="ggMobOut">Выйти</a>';
-      menu.innerHTML = html;
-      band.parentNode.insertBefore(menu, band.nextSibling);
-
-      burger.addEventListener('click', function () {
-        var open = menu.hidden;
-        menu.hidden = !open;
-        burger.setAttribute('aria-expanded', String(open));
-        burger.textContent = open ? '✕' : '☰';
-      });
-      menu.addEventListener('click', function (e) {
-        if (e.target.tagName === 'A') { menu.hidden = true; burger.textContent = '☰'; }
+    /* языки: русский нажат, остальные «скоро» */
+    var langs = band.querySelectorAll('.gg-lang button');
+    for (var k = 0; k < langs.length; k++) {
+      langs[k].addEventListener('click', function (e) {
+        if (this.getAttribute('data-lang') === 'ru') return;
+        e.preventDefault();
       });
     }
 
-    /* языки: русский нажат, остальные «скоро» */
-    band.querySelectorAll('.gg-lang button').forEach(function (b) {
-      b.addEventListener('click', function (e) {
-        if (b.getAttribute('data-lang') === 'ru') return;
-        e.preventDefault();
-      });
-    });
+    /* мобильное меню */
+    buildMenu(band.querySelector('#ggBurger'), band.parentNode);
   });
 })();
