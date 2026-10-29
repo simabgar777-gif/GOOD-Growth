@@ -357,9 +357,25 @@ html[data-theme="light"] .gg-bcard .gg-foot a { color: #9A5518; }
   .gg-lang button { padding: 6px 8px; }
 }
 
-/* ── своя полоса для страниц без топбара ── */
-.gg-band { display: flex; align-items: center; gap: 10px; justify-content: flex-end;
-  padding: 10px clamp(16px, 2.4vw, 44px); border-bottom: 1px solid var(--hair);
-  background: rgba(255,255,255,.02); }
-.gg-band .gg-sys { margin-left: 0; }
-@media (max-width: 768px) { .gg-band { padding: 8px 16px; } }
+
+/* ── общая шапка (topline) ─────────────────────────────────────
+   Одна на всех страницах: слева «← О сервисе», справа режим,
+   языки и тема. Полоса во всю ширину, липнет к верху. */
+.gg-band {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  padding: 13px var(--pad-x, clamp(18px, 2.4vw, 44px));
+  border-bottom: 1px solid var(--hair);
+  background: color-mix(in oklch, var(--bg, #08090A) 86%, transparent);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  position: sticky; top: 0; z-index: 60;
+}
+.gg-band .gg-crumb {
+  font-family: var(--font-mono, monospace); font-size: 12px; letter-spacing: .04em;
+  color: var(--faint); text-decoration: none;
+}
+.gg-band .gg-crumb:hover { color: var(--ink, #F3F1EA); }
+.gg-band .gg-sys { margin-left: auto; }
+@media (max-width: 768px) {
+  .gg-band { padding: 10px 16px; }
+  .gg-band .gg-chip { display: none; }
+}
