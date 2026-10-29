@@ -1,13 +1,7 @@
+# рабочие снимки и служебные файлы
+*.png
+*.before-merge
+*.before-zaya
+_zaya_body.txt
+_zaya_css.txt
 node_modules/
-data/*.db
-.env
-server.pid
-server.log
-public/generated/
-reports/uia-log.txt
-*.lnk
-data/
-*.bak-*
-*-bak-*
-*.bak
-*.tgz
