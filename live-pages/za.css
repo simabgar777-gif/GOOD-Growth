@@ -341,3 +341,15 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 .gg-band-brand b { font-size: 14px; font-weight: 600; color: var(--fg); letter-spacing: -.01em; }
 .gg-band-brand .gg-mark { width: 20px; height: 27px; display: block; }
 @media (max-width: 960px) { .gg-band-brand { display: flex; } }
+
+/* ── выравнивание бургера ────────────────────────────────────
+   На её странице у логотипа стоял margin-right: auto, и бургер
+   уезжал на 37px вместо 14. Отступы шапки тоже были 14 вместо 16. */
+@media (max-width: 960px) {
+  .topline { padding-left: 16px !important; padding-right: 16px !important; }
+  .topline .gg-band-brand { margin-right: 0 !important; }
+  .topline .status-chips { margin-left: auto !important; }
+  .topline .gg-burger-inline { margin-right: 0 !important; }
+  /* такой же зазор между знаком и бургером, как на остальных страницах */
+  .topline { gap: 14px !important; }
+}
