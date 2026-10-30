@@ -339,7 +339,8 @@
     /* подложка в духе Заи есть всегда; картинка ложится сверху,
        а если файла нет — тихо исчезает, без битого значка */
     var pending = p.image_status === 'pending';
-    var img = (pending ? imgStepsHtml(p.id, p.__elapsed || 0) : '') +
+    var many = (window.__ggPending || 0) > 1;   /* много в работе — кольца не нужны */
+    var img = (pending && !many ? imgStepsHtml(p.id, p.__elapsed || 0) : '') +
       '<div class="ground"></div><div class="flare"><i></i></div>' +
       (p.image_path
         ? '<img src="' + esc(p.image_path) + '" alt="" ' +
@@ -358,7 +359,8 @@
     return '<div class="post-card" data-gg="1" data-post-id="' + p.id + '">' +
       '<div class="post-media"><span class="tag-img">' + esc(tag) + '</span>' + img + '</div>' +
       '<div class="post-body">' +
-        '<p class="meta">№ ' + p.id + ' · ' + esc(state) + '</p>' +
+        '<p class="meta">№ ' + p.id + ' · ' + esc(state) +
+          (pending ? ' · <span class="drawing">● рисуется</span>' : '') + '</p>' +
         '<h4>' + esc(title) + '</h4>' +
         (rest ? '<p>' + esc(rest.slice(0, 400)) + '</p>' : '') +
         '<div class="post-actions">' +
@@ -394,13 +396,29 @@
       }).join('') + '</div>';
   }
 
+
+  function imgLineHtml(total, done) {
+    var dots = '';
+    for (var i = 0; i < total; i++) {
+      var cls = i < done ? 'on' : (i === done ? 'now' : '');
+      dots += '<i class="' + cls + '"></i>';
+    }
+    return '<div class="img-line"><span class="lbl">Создаём картинки</span>' +
+      '<span class="dots">' + dots + '</span>' +
+      '<span class="cnt">' + done + ' из ' + total + '</span></div>';
+  }
+
   function renderPosts(goalId) {
     var root = $('postsRoot'); if (!root || !goalId) return;
     fetch('/api/goals/' + goalId + '/posts', { credentials: 'same-origin' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
         var items = (d && d.posts) || [];
-        root.innerHTML = items.map(postCard).join('');
+        var pend = items.filter(function (x) { return x.image_status === 'pending'; }).length;
+        window.__ggPending = pend;                  /* сколько в работе */
+        var doneN = 0;
+        items.forEach(function (x) { if (x.image_path) doneN++; });
+        root.innerHTML = (pend > 1 ? imgLineHtml(pend, doneN) : '') + items.map(postCard).join('');
         var st = $('postsStatus');
         if (st) st.textContent = items.length ? 'Готово: ' + items.length + ' постов.' : '';
         root.querySelectorAll('[data-img]').forEach(function (b) {
