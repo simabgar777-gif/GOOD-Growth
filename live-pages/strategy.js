@@ -338,7 +338,9 @@
   function postCard(p) {
     /* подложка в духе Заи есть всегда; картинка ложится сверху,
        а если файла нет — тихо исчезает, без битого значка */
-    var img = '<div class="ground"></div><div class="flare"><i></i></div>' +
+    var pending = p.image_status === 'pending';
+    var img = (pending ? imgStepsHtml(p.id, p.__elapsed || 0) : '') +
+      '<div class="ground"></div><div class="flare"><i></i></div>' +
       (p.image_path
         ? '<img src="' + esc(p.image_path) + '" alt="" ' +
           'style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" ' +
@@ -366,6 +368,32 @@
       '</div></div>';
   }
 
+
+  /* кольцо + три честных этапа */
+  function ring(filled) {
+    var r = 26, c = 2 * Math.PI * r;
+    return '<span class="ring"><svg width="58" height="58" viewBox="0 0 58 58">' +
+      '<circle class="bg" cx="29" cy="29" r="' + r + '"></circle>' +
+      '<circle class="fg" cx="29" cy="29" r="' + r + '" stroke-dasharray="' + c.toFixed(1) +
+      '" stroke-dashoffset="' + (c * (1 - filled / 3)).toFixed(1) + '"></circle></svg>' +
+      '<b>' + Math.round(filled / 3 * 100) + '%</b></span>';
+  }
+
+  function imgStepsHtml(postId, elapsed) {
+    var st = [['Запрос отправлен', 'ушёл на сервис картинок'],
+              ['Модель рисует', 'обычно 10–20 секунд'],
+              ['Картинка на месте', 'появится здесь же']];
+    var done = 1;                       /* запрос точно ушёл */
+    var now = 1;                        /* рисует */
+    return '<div class="img-steps" data-poll="' + postId + '">' +
+      st.map(function (t, i) {
+        var cls = i < done ? 'done' : (i === done ? 'now' : '');
+        return '<div class="step-row ' + cls + '">' + ring(i < done ? 3 : (i === done ? 2 : 0)) +
+          '<span class="tx"><b>' + t[0] + '</b>' + t[1] +
+          (i === now ? ' <span class="elapsed">' + (elapsed || 0) + ' с</span>' : '') + '</span></div>';
+      }).join('') + '</div>';
+  }
+
   function renderPosts(goalId) {
     var root = $('postsRoot'); if (!root || !goalId) return;
     fetch('/api/goals/' + goalId + '/posts', { credentials: 'same-origin' })
@@ -384,6 +412,25 @@
               .catch(function () { b.disabled = false; b.textContent = 'Картинка'; });
           });
         });
+        root.querySelectorAll('[data-poll]').forEach(function (el) {
+          var pid = el.getAttribute('data-poll');
+          var started = Date.now();
+          (function tick() {
+            setTimeout(function () {
+              fetch('/api/posts/' + pid + '/image', { credentials: 'same-origin' })
+                .then(function (r) { return r.ok ? r.json() : null; })
+                .then(function (d) {
+                  if (d && (d.status === 'done' || d.status === 'error')) { renderPosts(goalId); return; }
+                  var sec = Math.round((Date.now() - started) / 1000);
+                  var lab = el.querySelector('.elapsed');
+                  if (lab) lab.textContent = sec + ' с';
+                  tick();
+                })
+                .catch(function () { tick(); });
+            }, 3000);
+          })();
+        });
+
         root.querySelectorAll('[data-copy]').forEach(function (b) {
           b.addEventListener('click', function () {
             var card = b.closest('.post-card');
