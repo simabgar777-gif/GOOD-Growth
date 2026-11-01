@@ -112,8 +112,10 @@
     legend.className = 'ggpath-legend';
     STEPS.forEach(function (s, i) {
       var st = done[i] ? 'done' : (i === cur ? 'now' : '');
+      var later = done[i] && i > cur;
       var d = document.createElement('div');
-      d.className = 'ggpath-lg ' + st;
+      d.className = 'ggpath-lg ' + st + (later ? ' later' : '');
+      d.title = later ? 'уже есть, хотя предыдущий шаг не закрыт' : '';
       d.style.setProperty('--step', s.c);
       d.innerHTML = '<span class="n">' + s.n +
         (st === 'now' ? ' · сейчас' : st === 'done' ? ' · сделано' : '') + '</span>' +
@@ -178,17 +180,28 @@
     var cnt = document.getElementById('ggPathCnt');
     if (cnt) {
       var n = done.filter(Boolean).length;
-      cnt.textContent = n + ' из ' + STEPS.length + (n === STEPS.length
-        ? ' · весь путь пройден'
-        : ' · дальше — ' + STEPS[Math.min(n, STEPS.length - 1)].nm.toLowerCase());
+      var gap = done.indexOf(false);            /* первый несделанный */
+      if (n === STEPS.length) {
+        cnt.textContent = n + ' из ' + STEPS.length + ' · весь путь пройден';
+      } else if (gap >= 0 && n > gap) {
+        /* есть шаг позади пробела — так и говорим, без вранья */
+        cnt.textContent = n + ' из ' + STEPS.length +
+          ' · не хватает: ' + STEPS[gap].nm.toLowerCase();
+      } else {
+        cnt.textContent = n + ' из ' + STEPS.length +
+          ' · дальше — ' + STEPS[Math.min(n, STEPS.length - 1)].nm.toLowerCase();
+      }
     }
   }
 
   /* ── куда ставить ─────────────────────────────────────────── */
   function boot() {
+    /* лента живёт ТОЛЬКО на «Столе». Привязка к адресу надёжнее,
+       чем к классу или видимости блока: они появляются позже. */
+    var here = location.pathname.replace(/\/+$/, '');
+    if (here !== '/app') return;
+
     var desk = document.getElementById('deskSection');
-    var isDesk = document.body.classList.contains('is-desk') || !!desk;
-    if (!isDesk) return;                       /* лента живёт только на «Столе» */
     if (document.querySelector('.ggpath')) return;
 
     loadStates().then(function (done) {

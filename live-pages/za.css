@@ -540,3 +540,8 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 .gg-trail a.now { color: var(--step, #FFC98A); }
 .gg-trail a.done { color: var(--muted); }
 .gg-trail a.now { color: #FFC98A; font-weight: 600; }
+
+/* шаг сделан, хотя предыдущий не закрыт: показываем честно, но тише */
+.ggpath-lg.later .nm { color: var(--muted); }
+.ggpath-lg.later .n { opacity: .75; }
+.ggpath-lg.later .nm::after { content: " · уже есть"; font-weight: 400; font-size: 10.5px; color: var(--faint); }
