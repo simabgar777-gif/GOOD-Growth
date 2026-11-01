@@ -47,6 +47,15 @@
     });
   }
 
+  /* что предложить, когда шаг стал «следующим» */
+  var ACTIONS = [
+    { label: 'Написать цель',   href: '/app/strategy' },
+    { label: 'Разобрать цель',  href: '/app/strategy' },
+    { label: 'Задать ритм',     href: '/app/schedule' },
+    { label: 'Создать контент', anchor: '#postsSec' },
+    { label: 'Открыть отклик',  href: '/app/analytics' }
+  ];
+
   function currentIndex(done) {
     for (var i = 0; i < done.length; i++) if (!done[i]) return i;
     return done.length;                /* всё пройдено */
@@ -70,7 +79,7 @@
     box.className = 'ggpath-ribbon';
     var svg = document.createElementNS(svgNS, 'svg');
     svg.setAttribute('viewBox', '0 0 1240 300');
-    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
     svg.innerHTML =
       '<defs>' +
         '<linearGradient id="ggPathGrad" x1="0" y1="0" x2="1" y2="0">' +
@@ -94,16 +103,29 @@
 
     var legend = document.createElement('div');
     legend.className = 'ggpath-legend';
+    /* маяк светит туда, куда идти СЕЙЧАС: на первый несделанный шаг */
+    var nxt = (cur < STEPS.length && !done[cur]) ? cur : -1;
+
     STEPS.forEach(function (s, i) {
       var st = done[i] ? 'done' : (i === cur ? 'now' : '');
+      if (i === nxt) st += ' next';
       var later = done[i] && i > cur;
       var d = document.createElement('div');
       d.className = 'ggpath-lg ' + st + (later ? ' later' : '');
-      d.title = later ? 'уже есть, хотя предыдущий шаг не закрыт' : '';
+      if (later) d.title = 'уже есть, хотя предыдущий шаг не закрыт';
       d.style.setProperty('--step', s.c);
+
+      var tail = '';
+      if (i === nxt && ACTIONS[i]) {
+        var a = ACTIONS[i];
+        tail = a.anchor
+          ? '<a class="ggpath-go" href="' + a.anchor + '">' + a.label + ' →</a>'
+          : '<a class="ggpath-go" href="' + a.href + '">' + a.label + ' →</a>';
+      }
+
       d.innerHTML = '<span class="n">' + s.n +
-        (st === 'now' ? ' · сейчас' : st === 'done' ? ' · сделано' : '') + '</span>' +
-        '<span class="nm">' + s.nm + '</span><span class="ex">' + s.ex + '</span>';
+        (st.indexOf('now') > -1 ? ' · сейчас' : st.indexOf('done') > -1 ? ' · сделано' : ' · дальше') + '</span>' +
+        '<span class="nm">' + s.nm + '</span><span class="ex">' + s.ex + '</span>' + tail;
       legend.appendChild(d);
     });
     wrap.appendChild(legend);
@@ -138,7 +160,8 @@
       var st = done[i] ? 'done' : (i === cur ? 'now' : '');
       var pt = p.getPointAtLength(len * (i / (STEPS.length - 1)));
       var col = s.c;                                  /* цвет = номер шага */
-      var r = st === 'now' ? 15 : 11;
+      var isNext = (i === cur);
+      var r = isNext ? 16 : (st === 'now' ? 13 : 10);
       var mk = function (tag, attrs, txt) {
         var e = document.createElementNS('http://www.w3.org/2000/svg', tag);
         for (var k in attrs) e.setAttribute(k, attrs[k]);
@@ -146,8 +169,12 @@
         nodes.appendChild(e);
         return e;
       };
-      if (st === 'now') {
-        mk('circle', { cx: pt.x, cy: pt.y, r: 32, fill: col, opacity: '.22', filter: 'url(#ggPathGlow)' });
+      if (isNext) {
+        /* маяк: самый яркий узел экрана */
+        mk('circle', { cx: pt.x, cy: pt.y, r: 40, fill: col, opacity: '.34', filter: 'url(#ggPathGlow)' });
+        mk('circle', { cx: pt.x, cy: pt.y, r: 26, fill: col, opacity: '.22' });
+      } else if (st === 'now') {
+        mk('circle', { cx: pt.x, cy: pt.y, r: 26, fill: col, opacity: '.16', filter: 'url(#ggPathGlow)' });
       }
       mk('circle', { cx: pt.x, cy: pt.y, r: r + 5, fill: 'none', stroke: col,
         'stroke-width': 1.4, opacity: st ? '.55' : '.3' });
@@ -160,6 +187,9 @@
         fill: st ? '#0B0703' : '#8A867D'
       }, st === 'done' ? '✓' : s.n);
     });
+
+    /* волна — только если впереди есть шаг */
+    if (cur < STEPS.length && !done[cur]) startWave(p, len, cur);
 
     var cnt = document.getElementById('ggPathCnt');
     if (cnt) {
@@ -176,6 +206,44 @@
           ' · дальше — ' + STEPS[Math.min(n, STEPS.length - 1)].nm.toLowerCase();
       }
     }
+  }
+
+  /* ── волна света: раз в 9 секунд идёт к следующему шагу ─────
+     Медленно, вперёд, не зацикливается и уважает «меньше движения». */
+  function startWave(p, len, cur) {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var nodes = document.getElementById('ggNodes');
+    if (!nodes) return;
+
+    var NS = 'http://www.w3.org/2000/svg';
+    var dot = document.createElementNS(NS, 'circle');
+    dot.setAttribute('r', '4.5');
+    dot.setAttribute('fill', '#FFF3DC');
+    dot.setAttribute('opacity', '0');
+    dot.setAttribute('filter', 'url(#ggPathGlow)');
+    nodes.appendChild(dot);
+
+    var steps = STEPS.length - 1;
+    var from = Math.max(0, cur - 1) / steps, to = cur / steps;
+    var t0 = null, phase = 'wait', waitStart = performance.now();
+
+    function frame(now) {
+      if (phase === 'wait') {
+        if (now - waitStart >= 6200) { phase = 'run'; t0 = now; }
+      } else {
+        var k = (now - t0) / 2600;
+        if (k >= 1) { phase = 'wait'; waitStart = now; dot.setAttribute('opacity', '0'); }
+        else {
+          var t = from + (to - from) * k;
+          var pt = p.getPointAtLength(len * t);
+          dot.setAttribute('cx', pt.x);
+          dot.setAttribute('cy', pt.y);
+          dot.setAttribute('opacity', String(Math.sin(Math.PI * k) * 0.95));
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
   }
 
   /* ── куда ставить ─────────────────────────────────────────── */

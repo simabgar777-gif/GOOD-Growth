@@ -632,3 +632,25 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
   .gg-mtrail .now-name { margin-left: auto; font-size: 11.5px; color: #FFC98A; font-weight: 600; }
   .gg-mtrail a[href="/login"], .gg-mtrail a[data-path-retry] { font-size: 11.5px; color: var(--copper, #E8A54F); }
 }
+
+/* ── «СВЕТ ВПЕРЕДИ»: следующий шаг — маяк ─────────────────── */
+.ggpath-lg.next {
+  position: relative; padding: 10px 12px; margin: -10px -12px;
+  border: 1px solid rgba(248,150,29,.28); border-radius: 12px;
+  background: rgba(248,150,29,.055);
+}
+.ggpath-lg.next .nm { color: #FFC98A; font-size: 15.5px; }
+.ggpath-lg.next .n { opacity: 1; font-weight: 600; }
+.ggpath-lg.next .ex { color: #C8A87E; }
+.ggpath-go {
+  display: inline-block; margin-top: 7px; padding: 7px 14px; border-radius: 999px;
+  border: 1px solid rgba(248,150,29,.45); background: rgba(248,150,29,.14);
+  color: #FFB766; font-size: 12px; font-weight: 600; text-decoration: none;
+  white-space: nowrap;
+}
+.ggpath-go:hover { background: rgba(248,150,29,.24); color: #FFD9A8; }
+.ggpath-lg.later .nm::after { content: ""; }
+@media (max-width: 900px) {
+  .ggpath-lg.next { padding: 8px 9px; margin: -8px -9px; }
+  .ggpath-go { font-size: 11.5px; padding: 6px 11px; }
+}
