@@ -734,8 +734,12 @@
     if (window.innerWidth <= 1100) { WIZ_NAV.style.top = ''; return; }
     var head = document.getElementById('ggStepHead');
     if (!head) return;
-    var top = Math.max(70, Math.round(head.getBoundingClientRect().top));
-    WIZ_NAV.style.top = top + 'px';
+    /* первый пункт тропы — по середине шапки шага */
+    var hr = head.getBoundingClientRect();
+    var firstItem = WIZ_NAV.querySelector('.ggstep-i');
+    var ih = firstItem ? firstItem.getBoundingClientRect().height : 60;
+    var top = Math.round(hr.top + hr.height / 2 - ih / 2);
+    WIZ_NAV.style.top = Math.max(64, top) + 'px';
   }
   window.addEventListener('resize', function () { alignTrail(); });
 
@@ -771,6 +775,7 @@
   function paintTrail(nav, done, cur) {
     nav.innerHTML = WIZ.map(function (s, i) {
       var st = done[i] ? (i === cur ? 'done now' : 'done') : (i === cur ? 'now' : '');
+      if (i === CUR_STEP - 1) st += ' is-on';   /* «ты здесь» — сразу в разметке */
       return '<button type="button" class="ggstep-i ' + st + '" data-step="' + (i + 1) + '"' +
         ' style="--step:' + s.c + '"' + (i === cur ? ' aria-current="step"' : '') + '>' +
         '<i class="dot"></i>' +

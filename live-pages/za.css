@@ -1001,3 +1001,11 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
   .ggstep-i .tx b { font-size: 13px; }
   .ggstep::before { display: none; }
 }
+
+/* ── точка залита ТОЛЬКО у шага, где человек стоит ───────────
+   Пройденные и будущие — дыркой: глаз сразу находит «я здесь». */
+.ggstep-i .dot { background: transparent !important; }
+.ggstep-i.is-on .dot { background: var(--step) !important; }
+.ggstep-i.done .dot { border-color: var(--step); opacity: .9; }
+.ggstep-i .n { opacity: .45; }
+.ggstep-i.done .n, .ggstep-i.now .n, .ggstep-i.is-on .n { opacity: 1; }
