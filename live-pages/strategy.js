@@ -533,6 +533,7 @@
       items.forEach(function (x) { if (x.image_path) doneN++; });
       root.innerHTML = (pend > 1 ? imgLineHtml(pend, doneN) : '') + items.map(postCard).join('');
 
+      try { if (window.ggRefreshWizard) window.ggRefreshWizard(); } catch (e) {}
       var st = $('postsStatus');
       if (st) {
         var sched = items.filter(function (x) { return x.scheduled_at; }).length;
@@ -708,7 +709,47 @@
     }).join('');
   }
 
+
+  /* ── «Дальше»: закончил шаг — система ведёт на следующий ──── */
+  var NEXT_TEXT = [
+    { done: 'Цель записана',      go: 'Разбор',  why: 'кому и о чём говорить' },
+    { done: 'Разбор готов',       go: 'Ритм',    why: 'сколько раз в неделю' },
+    { done: 'Ритм задан',         go: 'Посты',   why: 'тексты и картинки' },
+    { done: 'Посты созданы',      go: 'Отклик',  why: 'что сработало' },
+    { done: 'Путь пройден',       go: null,      why: '' }
+  ];
+
+  function paintNext(host, step, done) {
+    if (!host) return;
+    var i = step - 1;
+    var finished = done[i];
+    var t = NEXT_TEXT[i] || {};
+    if (!finished) {
+      host.innerHTML = '<div class="gg-next quiet">' +
+        '<span class="gg-next-tx">Шаг ' + (i + 1) + ' ещё открыт — сделай его, и пойдём дальше.</span>' +
+        '</div>';
+      return;
+    }
+    if (!t.go) {
+      host.innerHTML = '<div class="gg-next done-all">' +
+        '<span class="gg-next-tx">Весь путь пройден. Дальше — только расти.</span>' +
+        '<a class="gg-next-go" href="/app/analytics">Открыть отклик →</a></div>';
+      return;
+    }
+    host.innerHTML = '<div class="gg-next">' +
+      '<span class="gg-check">✓</span>' +
+      '<span class="gg-next-tx"><b>' + t.done + '.</b> Дальше — ' + t.go + ': ' + t.why + '.</span>' +
+      '<button type="button" class="gg-next-go" data-next="' + (step + 1) + '">Продолжить →</button>' +
+      '</div>';
+    var b = host.querySelector('[data-next]');
+    if (b) b.addEventListener('click', function () { showStep(Number(b.getAttribute('data-next'))); });
+  }
+
+  var CUR_STEP = 1;
+  var CUR_DONE = [false, false, false, false, false];
+
   function showStep(n) {
+    CUR_STEP = n;
     var article = $('razbor');
     /* прячем всё */
     ALL.forEach(function (sel) {
@@ -737,6 +778,7 @@
     document.querySelectorAll('.ggstep-i').forEach(function (b) {
       b.classList.toggle('is-on', Number(b.getAttribute('data-step')) === n);
     });
+    paintNext(document.getElementById('ggNext'), n, CUR_DONE);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -752,6 +794,15 @@
     var nav = makeTrail();
     main.insertBefore(nav, main.firstChild);
 
+    if (!document.getElementById('ggNext')) {
+      var host = document.createElement('div');
+      host.id = 'ggNext';
+      host.className = 'gg-next-host';
+      var article = document.getElementById('razbor');
+      if (article && article.parentNode) article.parentNode.insertBefore(host, article.nextSibling);
+      else main.appendChild(host);
+    }
+
     var done = [false, false, false, false, false];
     var cur = 0;
 
@@ -765,12 +816,15 @@
           cur = done.indexOf(false);
           if (cur < 0) cur = done.length - 1;
         }
+        CUR_DONE = done;
         paintTrail(nav, done, cur);
+        paintNext(document.getElementById('ggNext'), CUR_STEP, done);
         nav.querySelectorAll('[data-step]').forEach(function (b) {
           b.addEventListener('click', function () { showStep(Number(b.getAttribute('data-step'))); });
         });
       }).catch(function () { paintTrail(nav, done, cur); });
     }
+    window.ggRefreshWizard = refresh;
     refresh();
     showStep(1);
     } catch (e) { console.warn('buildWizard', e); }
