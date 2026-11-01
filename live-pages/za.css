@@ -493,3 +493,50 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 
 /* компактная метка процесса в карточке */
 .post-body .meta .drawing { color: var(--amber); }
+
+/* ── ПУТЬ: лента со светом на «Столе» ────────────────────────
+   Цвет как навигация: пройдено — зелёный, сейчас — оранжевый,
+   впереди — тихая дорога. Красный в пути не используем. */
+.ggpath {
+  margin: 26px 0 30px; padding: 20px 22px 16px;
+  border: 1px solid var(--border); border-radius: var(--r-l, 18px);
+  background: linear-gradient(180deg, rgba(255,255,255,.022), rgba(255,255,255,0));
+}
+.ggpath-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+.ggpath-head h2 { font-family: var(--font-display); font-size: 20px; margin: 0; }
+.ggpath-q { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--faint); }
+.ggpath-cnt { margin-left: auto; font-family: var(--font-mono); font-size: 11px; color: var(--teal, #28A992); }
+.ggpath-ribbon svg { display: block; width: 100%; height: 190px; }
+.ggpath-legend { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 6px; }
+.ggpath-lg { display: flex; flex-direction: column; gap: 3px; }
+.ggpath-lg .n { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .1em;
+  color: var(--step, #7C786F); opacity: .55; }
+.ggpath-lg .nm { font-size: 14px; font-weight: 600; color: var(--muted); }
+.ggpath-lg .ex { font-size: 11.5px; color: var(--faint); line-height: 1.35; }
+.ggpath-lg.done .n { opacity: 1; } .ggpath-lg.done .nm { color: #C9D8C9; }
+.ggpath-lg.now .n { opacity: 1; font-weight: 600; } .ggpath-lg.now .nm { color: var(--step); }
+.ggpath-lg.now .ex { color: #C8A87E; }
+/* точка-маркер цвета шага */
+.ggpath-lg .nm::before { content: ""; display: inline-block; width: 7px; height: 7px;
+  border-radius: 50%; background: var(--step); margin-right: 7px; vertical-align: 2px; opacity: .9; }
+@media (max-width: 900px) {
+  .ggpath-ribbon svg { height: 120px; }
+  .ggpath-legend { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+}
+
+/* ── ТРОПА в левой панели ──────────────────────────────────── */
+.gg-trail { margin: 18px 10px 6px; padding-top: 14px; border-top: 1px solid var(--border, rgba(255,255,255,.09)); }
+.gg-trail-h { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--faint); padding: 0 6px 8px; }
+.gg-trail a { display: flex; align-items: center; gap: 9px; padding: 5px 6px; border-radius: 8px;
+  text-decoration: none; font-size: 12px; color: var(--faint); }
+.gg-trail a:hover { background: rgba(255,255,255,.04); color: var(--muted); }
+.gg-trail i { width: 9px; height: 9px; border-radius: 50%; border: 1px solid #7C786F; flex: none; }
+.gg-trail a i { border-color: var(--step, #7C786F); }
+.gg-trail a.done i { background: var(--step, #4CB853); border-color: var(--step, #4CB853); }
+.gg-trail a.now i { background: var(--step, #F8961D); border-color: var(--step, #F8961D);
+  box-shadow: 0 0 0 4px rgba(248,150,29,.13); }
+.gg-trail a.now { color: var(--step, #FFC98A); }
+.gg-trail a.done { color: var(--muted); }
+.gg-trail a.now { color: #FFC98A; font-weight: 600; }

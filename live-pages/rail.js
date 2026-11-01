@@ -136,3 +136,54 @@
     })
     .catch(function () {});
 })();
+
+/* ── «Тропа»: маленький компас в панели ────────────────────
+   Пять шагов пути. Состояния — по живым данным, без отметок. */
+(function () {
+  var STEPS = [
+    { nm: 'Цель',   href: '/app/strategy',  c: '#F8961D' },
+    { nm: 'Разбор', href: '/app/strategy',  c: '#E0574B' },
+    { nm: 'Ритм',   href: '/app/schedule',  c: '#A96AB8' },
+    { nm: 'Посты',  href: '/app/posts',     c: '#28A992' },
+    { nm: 'Отклик', href: '/app/analytics', c: '#4CB853' }
+  ];
+  function j(u) { return fetch(u, { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }
+
+  function build(done) {
+    var rail = document.getElementById('gg-rail') || document.querySelector('.sidebar');
+    if (!rail || document.querySelector('.gg-trail')) return;
+    var cur = done.indexOf(false);
+    if (cur < 0) cur = done.length;
+    var box = document.createElement('div');
+    box.className = 'gg-trail';
+    var html = '<div class="gg-trail-h">Путь</div>';
+    STEPS.forEach(function (s, i) {
+      var st = done[i] ? 'done' : (i === cur ? 'now' : '');
+      html += '<a href="' + s.href + '" class="' + st + '" style="--step:' + s.c + '"' +
+        (st === 'now' ? ' aria-current="step"' : '') + '><i></i>' + s.nm + '</a>';
+    });
+    box.innerHTML = html;
+    var nav = rail.querySelector('.gg-rail-nav') || rail.querySelector('nav');
+    if (nav && nav.parentNode) nav.parentNode.insertBefore(box, nav.nextSibling);
+    else rail.appendChild(box);
+  }
+
+  function boot() {
+    if (!document.getElementById('gg-rail') && !document.querySelector('.sidebar')) return;
+    Promise.all([j('/api/analytics'), j('/api/slots'), j('/api/goals')]).then(function (res) {
+      var t = (res[0] && res[0].totals) || {};
+      var slots = (res[1] && res[1].slots) || [];
+      var goals = (res[2] && res[2].goals) || [];
+      var done = [Number(t.goals) > 0, false, slots.length > 0,
+                  Number(t.posts) > 0, Number(t.published) > 0];
+      if (!goals.length) return build(done);
+      j('/api/goals/' + goals[0].id).then(function (g) {
+        var s = (g && g.strategy) || {};
+        done[1] = !!(s.summary || (s.topics && s.topics.length) || (s.audience && s.audience.text));
+        build(done);
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
