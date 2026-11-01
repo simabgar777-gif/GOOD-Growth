@@ -795,14 +795,33 @@
     { done: 'Путь пройден',       go: null,      why: '' }
   ];
 
+
+  /* что именно делать, если шаг ещё открыт — без загадок */
+  var OPEN_HINT = [
+    { tx: 'Шаг 1 открыт: напиши цель в поле выше и нажми «Разобрать цель».',
+      label: null },
+    { tx: 'Шаг 2 откроется сам, когда разбор будет готов.',
+      label: null },
+    { tx: 'Шаг 3 открыт: поставь дни и время — когда выходят посты.',
+      label: 'Задать ритм', href: '/app/schedule' },
+    { tx: 'Шаг 4 открыт: создай посты и поставь им время.',
+      label: 'Создать контент', anchor: '#postsSec' },
+    { tx: 'Шаг 5 откроется, когда выйдет первый пост.',
+      label: 'Открыть аналитику', href: '/app/analytics' }
+  ];
+
   function paintNext(host, step, done) {
     if (!host) return;
     var i = step - 1;
     var finished = done[i];
     var t = NEXT_TEXT[i] || {};
     if (!finished) {
+      var oh = OPEN_HINT[i] || {};
+      var btn = '';
+      if (oh.label && oh.href) btn = '<a class="gg-next-go" href="' + oh.href + '">' + oh.label + ' →</a>';
+      else if (oh.label && oh.anchor) btn = '<a class="gg-next-go" href="' + oh.anchor + '">' + oh.label + ' →</a>';
       host.innerHTML = '<div class="gg-next quiet">' +
-        '<span class="gg-next-tx">Шаг ' + (i + 1) + ' ещё открыт — сделай его, и пойдём дальше.</span>' +
+        '<span class="gg-next-tx">' + (oh.tx || 'Шаг ещё открыт.') + '</span>' + btn +
         '</div>';
       return;
     }
