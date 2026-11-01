@@ -699,7 +699,7 @@
   ];
 
   var SECTIONS = {
-    1: ['.hero', '#askForm'],
+    1: ['#askForm'],
     2: ['.sheet-head', '.goal-quote', '.strategy-line', '#audience', '#steps'],
     3: ['.sheet-head', '#rhythm'],
     4: ['.sheet-head', '#topics', '#chans', '#postsSec'],
@@ -718,11 +718,26 @@
     h = document.createElement('div');
     h.id = 'ggStepHead';
     h.className = 'gghead';
-    var article = document.getElementById('razbor');
-    if (article && article.parentNode) article.parentNode.insertBefore(h, article);
-    else main.appendChild(h);
+    /* всегда в самом верху содержимого: иначе на шаге «Цель»
+       она оказывалась ниже большого заголовка и тропа уезжала вниз */
+    var nav = document.querySelector('.ggstep');
+    if (nav && nav.parentNode === main) nav.insertAdjacentElement('afterend', h);
+    else main.insertBefore(h, main.firstChild);
     return h;
   }
+
+
+  /* тропа начинается ровно там же, где шапка шага —
+     иначе первый пункт «Цель» висит ниже содержимого */
+  function alignTrail() {
+    if (!WIZ_NAV) return;
+    if (window.innerWidth <= 1100) { WIZ_NAV.style.top = ''; return; }
+    var head = document.getElementById('ggStepHead');
+    if (!head) return;
+    var top = Math.max(70, Math.round(head.getBoundingClientRect().top));
+    WIZ_NAV.style.top = top + 'px';
+  }
+  window.addEventListener('resize', function () { alignTrail(); });
 
   function paintStepHead(n, meta) {
     var h = ensureStepHead();
@@ -735,7 +750,8 @@
       '<div class="gghead-tx">' +
         '<h1>' + w.nm + '</h1>' +
         '<p>' + (EXPLAIN[i] || '') + '</p>' +
-        (meta ? '<span class="gghead-meta">' + esc(meta) + '</span>' : '') +
+        /* на шаге «Цель» разбора ещё нет — мета ему не нужна */
+        (meta && n > 1 ? '<span class="gghead-meta">' + esc(meta) + '</span>' : '') +
       '</div>';
   }
 
@@ -842,6 +858,7 @@
       });
     }
     paintStepHead(n, window.__ggMeta || '');
+    alignTrail();
     paintNext(document.getElementById('ggNext'), n, CUR_DONE);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
