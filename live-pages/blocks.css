@@ -598,3 +598,13 @@ a.gg-btn-gold:hover, a.gg-btn-ghost:hover { text-decoration: none !important; }
 [data-theme="light"] .gg-mtrail { background: #FFFDF8; border-bottom-color: rgba(28,24,18,.10); }
 [data-theme="light"] .gg-mtrail .lbl { color: #8C877C; }
 [data-theme="light"] .gg-mtrail .now-name { color: #8A4A00; }
+
+/* ── языки и тема всегда справа ──────────────────────────────
+   Их держала крошка своим отступом. На «Столе» крошки нет —
+   и блок уезжал влево. Теперь он прижат к правому краю сам. */
+.gg-band > .gg-sys,
+.topline > .gg-sys,
+.gg-band .gg-sys,
+.topline .status-chips { margin-left: auto !important; }
+.gg-band > .gg-crumb,
+.gg-band > .crumb { margin-right: auto; }

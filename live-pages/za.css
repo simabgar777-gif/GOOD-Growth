@@ -714,3 +714,13 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 [data-theme="light"] .gg-mtrail { background: #FFFDF8; border-bottom-color: rgba(28,24,18,.10); }
 [data-theme="light"] .gg-mtrail .lbl { color: #8C877C; }
 [data-theme="light"] .gg-mtrail .now-name { color: #8A4A00; }
+
+/* ── языки, тема и режим ИИ всегда справа ────────────────────
+   Их держала крошка. На «Столе» крошки нет — блок уезжал влево.
+   Теперь прижат к правому краю сам, на любой странице. */
+.topline > .status-chips,
+.topline .status-chips,
+.topline > .gg-sys,
+.gg-band > .gg-sys { margin-left: auto !important; }
+.topline > .crumb,
+.gg-band > .gg-crumb { margin-right: auto; }
