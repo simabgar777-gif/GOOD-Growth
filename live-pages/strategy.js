@@ -778,6 +778,10 @@
 
   /* ── запуск ───────────────────────────────────────────────── */
   function boot() {
+    /* тропа стоит ВСЕГДА — даже когда разбора ещё нет.
+       Иначе человек без цели не видит, куда идти. */
+    try { buildWizard(); } catch (e) { console.warn('wizard', e); }
+
     var id = goalId();
     if (!id) { empty('Разбора пока нет. Напиши цель выше — и он появится здесь.'); fillJournal(null); return; }
     fetch('/api/goals/' + id, { credentials: 'same-origin' })
@@ -807,6 +811,7 @@
       })
       .catch(function () {
         empty('Не удалось открыть разбор. Обнови страницу.');
+        try { buildWizard(); } catch (e) {}
         fillJournal(null);
       });
   }
