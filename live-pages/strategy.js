@@ -335,6 +335,62 @@
   /* ── посты в дизайне Заи ────────────────────────────────────
      app.js рисует СВОЮ старую разметку — на её странице она
      выглядит голой. Перерисовываем карточки её классами. */
+  /* ── время публикации ─────────────────────────────────────── */
+  var DOW_FULL = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
+  var MONTH_GEN = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+                   'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function stamp(d) {                      /* для сервера: ГГГГ-ММ-ДД ЧЧ:ММ */
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) +
+           ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+  function localInput(d) {                 /* для <input type=datetime-local> */
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) +
+           'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+  function human(d) {
+    return DOW_FULL[d.getDay()] + ', ' + d.getDate() + ' ' + MONTH_GEN[d.getMonth()] +
+           ' · ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+
+  /* ближайшее свободное время из сетки слотов */
+  function nextFreeSlot(slots, busy) {
+    var now = Date.now();
+    var list = (slots || []).map(function (x) {
+      var t = String(x.time || x.time_hm || '10:00');
+      var p = t.split(':');
+      return { wd: Number(x.weekday), h: Number(p[0]) || 10, m: Number(p[1]) || 0 };
+    }).filter(function (x) { return x.wd >= 0 && x.wd <= 6; })
+      .sort(function (a, b) { return (a.h * 60 + a.m) - (b.h * 60 + b.m); });
+
+    if (!list.length) {                    /* ритма нет — завтра в 10:00 */
+      var d0 = new Date(); d0.setDate(d0.getDate() + 1); d0.setHours(10, 0, 0, 0);
+      return { when: d0, fromRhythm: false };
+    }
+    for (var day = 0; day <= 21; day++) {
+      var base = new Date(); base.setDate(base.getDate() + day);
+      list.forEach(function (sl) {
+        if (sl.wd !== base.getDay()) return;
+        var cand = new Date(base.getFullYear(), base.getMonth(), base.getDate(), sl.h, sl.m, 0, 0);
+        if (cand.getTime() <= now + 5 * 60000) return;
+        if (busy[stamp(cand)]) return;
+        if (!nextFreeSlot.found) nextFreeSlot.found = { when: cand, fromRhythm: true };
+      });
+      if (nextFreeSlot.found) { var f = nextFreeSlot.found; nextFreeSlot.found = null; return f; }
+    }
+    var d1 = new Date(); d1.setDate(d1.getDate() + 1); d1.setHours(10, 0, 0, 0);
+    return { when: d1, fromRhythm: false };
+  }
+
+  function schedChip(p) {
+    if (!p.scheduled_at) return '';
+    var raw = String(p.scheduled_at).replace(' ', 'T').slice(0, 16);
+    var d = new Date(raw);
+    if (isNaN(d.getTime())) return '';
+    return '<span class="sched-chip">⏰ ' + esc(human(d)) + '</span>';
+  }
+
   function postCard(p) {
     /* подложка в духе Заи есть всегда; картинка ложится сверху,
        а если файла нет — тихо исчезает, без битого значка */
@@ -356,113 +412,183 @@
     var state = p.published_at ? 'опубликован'
               : p.scheduled_at ? 'запланирован'
               : p.approved_at ? 'утверждён' : 'черновик';
+
+    var actions = '';
+    if (!p.image_path) {
+      actions += '<button type="button" class="step-go" data-img="' + p.id + '">Картинка</button>';
+    }
+    actions += '<button type="button" class="step-go" data-copy="1">Скопировать текст</button>';
+    if (p.published_at) {
+      actions += '<span class="sched-note">уже вышел</span>';
+    } else if (p.scheduled_at) {
+      actions += '<button type="button" class="step-go" data-sched="' + p.id + '">Перенести</button>' +
+                 '<button type="button" class="step-go ghost" data-unsched="' + p.id + '">Снять план</button>';
+    } else {
+      actions += '<button type="button" class="step-go gold" data-sched="' + p.id + '">Запланировать</button>';
+    }
+
     return '<div class="post-card" data-gg="1" data-post-id="' + p.id + '">' +
       '<div class="post-media"><span class="tag-img">' + esc(tag) + '</span>' + img + '</div>' +
       '<div class="post-body">' +
         '<p class="meta">№ ' + p.id + ' · ' + esc(state) +
-          (pending ? ' · <span class="drawing">● рисуется</span>' : '') + '</p>' +
+          (pending ? ' · <span class="drawing">● рисуется</span>' : '') +
+          (p.scheduled_at ? ' · ' + schedChip(p) : '') + '</p>' +
         '<h4>' + esc(title) + '</h4>' +
         (rest ? '<p>' + esc(rest.slice(0, 400)) + '</p>' : '') +
-        '<div class="post-actions">' +
-          (p.image_path ? '' : '<button type="button" class="step-go" data-img="' + p.id + '">Картинка</button>') +
-          '<button type="button" class="step-go" data-copy="1">Скопировать текст</button>' +
-        '</div>' +
+        '<div class="post-actions">' + actions + '</div>' +
+        '<div class="sched-slot"></div>' +
       '</div></div>';
   }
 
+  /* маленькая панель: когда поставить */
+  function openSched(card, p, goalId, slots, busy) {
+    var box = card.querySelector('.sched-slot');
+    if (!box) return;
+    if (box.getAttribute('data-open') === '1') { box.innerHTML = ''; box.removeAttribute('data-open'); return; }
+    box.setAttribute('data-open', '1');
 
-  /* кольцо + три честных этапа */
-  function ring(filled) {
-    var r = 26, c = 2 * Math.PI * r;
-    return '<span class="ring"><svg width="58" height="58" viewBox="0 0 58 58">' +
-      '<circle class="bg" cx="29" cy="29" r="' + r + '"></circle>' +
-      '<circle class="fg" cx="29" cy="29" r="' + r + '" stroke-dasharray="' + c.toFixed(1) +
-      '" stroke-dashoffset="' + (c * (1 - filled / 3)).toFixed(1) + '"></circle></svg>' +
-      '<b>' + Math.round(filled / 3 * 100) + '%</b></span>';
-  }
+    var cur = p.scheduled_at ? new Date(String(p.scheduled_at).replace(' ', 'T')) : null;
+    var prop = nextFreeSlot(slots, busy);
+    var d = (cur && !isNaN(cur.getTime())) ? cur : prop.when;
+    var hint = prop.fromRhythm && !cur ? ' — из твоего ритма' : '';
 
-  function imgStepsHtml(postId, elapsed) {
-    var st = [['Запрос отправлен', 'ушёл на сервис картинок'],
-              ['Модель рисует', 'обычно 10–20 секунд'],
-              ['Картинка на месте', 'появится здесь же']];
-    var done = 1;                       /* запрос точно ушёл */
-    var now = 1;                        /* рисует */
-    return '<div class="img-steps" data-poll="' + postId + '">' +
-      st.map(function (t, i) {
-        var cls = i < done ? 'done' : (i === done ? 'now' : '');
-        return '<div class="step-row ' + cls + '">' + ring(i < done ? 3 : (i === done ? 2 : 0)) +
-          '<span class="tx"><b>' + t[0] + '</b>' + t[1] +
-          (i === now ? ' <span class="elapsed">' + (elapsed || 0) + ' с</span>' : '') + '</span></div>';
-      }).join('') + '</div>';
-  }
+    box.innerHTML =
+      '<div class="sched-box">' +
+        '<p class="sched-hint">' + esc(human(d)) + '<span>' + hint + '</span></p>' +
+        '<input class="sched-when" type="datetime-local" value="' + localInput(d) + '">' +
+        '<div class="sched-btns">' +
+          '<button type="button" class="step-go gold" data-sched-go="' + p.id + '">Поставить</button>' +
+          '<button type="button" class="step-go ghost" data-sched-cancel="1">Отмена</button>' +
+        '</div>' +
+        '<p class="sched-err"></p>' +
+        '<p class="sched-note-line">Публикуем сами только в Telegram. ' +
+          'Для VK нажми «Скопировать текст» и вставь вручную.</p>' +
+      '</div>';
 
-
-  function imgLineHtml(total, done) {
-    var dots = '';
-    for (var i = 0; i < total; i++) {
-      var cls = i < done ? 'on' : (i === done ? 'now' : '');
-      dots += '<i class="' + cls + '"></i>';
-    }
-    return '<div class="img-line"><span class="lbl">Создаём картинки</span>' +
-      '<span class="dots">' + dots + '</span>' +
-      '<span class="cnt">' + done + ' из ' + total + '</span></div>';
+    var input = box.querySelector('.sched-when');
+    var hintEl = box.querySelector('.sched-hint');
+    input.addEventListener('change', function () {
+      var v = new Date(input.value);
+      if (!isNaN(v.getTime())) hintEl.innerHTML = esc(human(v)) + '<span></span>';
+    });
+    box.querySelector('[data-sched-cancel]').addEventListener('click', function () {
+      box.innerHTML = ''; box.removeAttribute('data-open');
+    });
+    box.querySelector('[data-sched-go]').addEventListener('click', function () {
+      var v = new Date(input.value);
+      var err = box.querySelector('.sched-err');
+      if (isNaN(v.getTime())) { err.textContent = 'Выбери дату и время.'; return; }
+      var btn = this; btn.disabled = true; btn.textContent = 'Ставлю…';
+      fetch('/api/posts/' + p.id + '/schedule', {
+        method: 'POST', credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ when: stamp(v) })
+      }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (res) {
+          if (!res.ok) throw new Error((res.j && res.j.error) || 'Не получилось');
+          renderPosts(goalId);
+        })
+        .catch(function (e) {
+          err.textContent = e.message;
+          btn.disabled = false; btn.textContent = 'Поставить';
+        });
+    });
   }
 
   function renderPosts(goalId) {
     var root = $('postsRoot'); if (!root || !goalId) return;
-    fetch('/api/goals/' + goalId + '/posts', { credentials: 'same-origin' })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) {
-        var items = (d && d.posts) || [];
-        var pend = items.filter(function (x) { return x.image_status === 'pending'; }).length;
-        window.__ggPending = pend;                  /* сколько в работе */
-        var doneN = 0;
-        items.forEach(function (x) { if (x.image_path) doneN++; });
-        root.innerHTML = (pend > 1 ? imgLineHtml(pend, doneN) : '') + items.map(postCard).join('');
-        var st = $('postsStatus');
-        if (st) st.textContent = items.length ? 'Готово: ' + items.length + ' постов.' : '';
-        root.querySelectorAll('[data-img]').forEach(function (b) {
-          b.addEventListener('click', function () {
-            b.disabled = true; b.textContent = 'рисуем…';
-            fetch('/api/posts/' + b.getAttribute('data-img') + '/image', {
-              method: 'POST', credentials: 'same-origin'
-            }).then(function () { setTimeout(function () { renderPosts(goalId); }, 1500); })
-              .catch(function () { b.disabled = false; b.textContent = 'Картинка'; });
-          });
-        });
-        root.querySelectorAll('[data-poll]').forEach(function (el) {
-          var pid = el.getAttribute('data-poll');
-          var started = Date.now();
-          (function tick() {
-            setTimeout(function () {
-              fetch('/api/posts/' + pid + '/image', { credentials: 'same-origin' })
-                .then(function (r) { return r.ok ? r.json() : null; })
-                .then(function (d) {
-                  if (d && (d.status === 'done' || d.status === 'error')) { renderPosts(goalId); return; }
-                  var sec = Math.round((Date.now() - started) / 1000);
-                  var lab = el.querySelector('.elapsed');
-                  if (lab) lab.textContent = sec + ' с';
-                  tick();
-                })
-                .catch(function () { tick(); });
-            }, 3000);
-          })();
-        });
+    Promise.all([
+      fetch('/api/goals/' + goalId + '/posts', { credentials: 'same-origin' })
+        .then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
+      fetch('/api/slots', { credentials: 'same-origin' })
+        .then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
+      fetch('/api/schedule', { credentials: 'same-origin' })
+        .then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
+    ]).then(function (res) {
+      var d = res[0] || {};
+      var slots = (res[1] && res[1].slots) || [];
+      var busy = {};
+      ((res[2] && res[2].scheduled) || []).forEach(function (it) {
+        var w = String(it.scheduled_at || it.when || '').slice(0, 16);
+        if (w) busy[w.replace('T', ' ')] = true;
+      });
 
-        root.querySelectorAll('[data-copy]').forEach(function (b) {
-          b.addEventListener('click', function () {
-            var card = b.closest('.post-card');
-            var t = card ? card.querySelector('h4').textContent + '\n' + (card.querySelector('p:not(.meta)') || {}).textContent : '';
-            var ta = document.createElement('textarea'); ta.value = t || '';
-            document.body.appendChild(ta); ta.select();
-            try { document.execCommand('copy'); } catch (e) {}
-            ta.remove();
-            b.textContent = 'Скопировано ✓';
-            setTimeout(function () { b.textContent = 'Скопировать текст'; }, 1600);
-          });
+      var items = d.posts || [];
+      var pend = items.filter(function (x) { return x.image_status === 'pending'; }).length;
+      window.__ggPending = pend;
+      var doneN = 0;
+      items.forEach(function (x) { if (x.image_path) doneN++; });
+      root.innerHTML = (pend > 1 ? imgLineHtml(pend, doneN) : '') + items.map(postCard).join('');
+
+      var st = $('postsStatus');
+      if (st) {
+        var sched = items.filter(function (x) { return x.scheduled_at; }).length;
+        st.textContent = items.length
+          ? 'Готово: ' + items.length + ' постов' + (sched ? ' · в плане: ' + sched : '')
+          : '';
+      }
+
+      root.querySelectorAll('[data-img]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          b.disabled = true; b.textContent = 'рисуем…';
+          fetch('/api/posts/' + b.getAttribute('data-img') + '/image', {
+            method: 'POST', credentials: 'same-origin'
+          }).then(function () { setTimeout(function () { renderPosts(goalId); }, 1500); })
+            .catch(function () { b.disabled = false; b.textContent = 'Картинка'; });
         });
-      })
-      .catch(function () {});
+      });
+
+      root.querySelectorAll('[data-sched]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var id = b.getAttribute('data-sched');
+          var card = b.closest('.post-card');
+          var post = items.filter(function (x) { return String(x.id) === String(id); })[0] || {};
+          openSched(card, post, goalId, slots, busy);
+        });
+      });
+
+      root.querySelectorAll('[data-unsched]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          b.disabled = true;
+          fetch('/api/posts/' + b.getAttribute('data-unsched') + '/schedule', {
+            method: 'DELETE', credentials: 'same-origin'
+          }).then(function () { renderPosts(goalId); })
+            .catch(function () { b.disabled = false; });
+        });
+      });
+
+      root.querySelectorAll('[data-poll]').forEach(function (el) {
+        var pid = el.getAttribute('data-poll');
+        var started = Date.now();
+        (function tick() {
+          setTimeout(function () {
+            fetch('/api/posts/' + pid + '/image', { credentials: 'same-origin' })
+              .then(function (r) { return r.ok ? r.json() : null; })
+              .then(function (j) {
+                if (j && (j.status === 'done' || j.status === 'error')) { renderPosts(goalId); return; }
+                var sec = Math.round((Date.now() - started) / 1000);
+                var lab = el.querySelector('.elapsed');
+                if (lab) lab.textContent = sec + ' с';
+                tick();
+              })
+              .catch(function () { tick(); });
+          }, 3000);
+        })();
+      });
+
+      root.querySelectorAll('[data-copy]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var card = b.closest('.post-card');
+          var t = card ? card.querySelector('h4').textContent + '\n' + (card.querySelector('p:not(.meta)') || {}).textContent : '';
+          var ta = document.createElement('textarea'); ta.value = t || '';
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); } catch (e) {}
+          ta.remove();
+          b.textContent = 'Скопировано ✓';
+          setTimeout(function () { b.textContent = 'Скопировать текст'; }, 1600);
+        });
+      });
+    }).catch(function () {});
   }
 
   /* app.js дописывает свои карточки — заменяем их нашими */

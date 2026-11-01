@@ -728,3 +728,43 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 .gg-band > .gg-sys { margin-left: auto !important; }
 .topline > .crumb,
 .gg-band > .gg-crumb { margin-right: auto; }
+
+/* ── ВРЕМЯ ПУБЛИКАЦИИ В КАРТОЧКЕ ─────────────────────────────
+   Пост должен получить дату там, где он родился. */
+.post-actions { flex-wrap: wrap; align-items: center; }
+.step-go.gold {
+  border-color: rgba(248,150,29,.5); background: rgba(248,150,29,.16); color: #FFC98A;
+}
+.step-go.gold:hover { background: rgba(248,150,29,.26); }
+.step-go.ghost {
+  border-color: rgba(255,255,255,.14); background: transparent; color: var(--muted);
+}
+.sched-note { font-family: var(--font-mono); font-size: 11px; color: var(--faint); }
+.sched-chip { color: var(--amber); font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .04em; }
+
+.sched-box {
+  margin-top: 14px; padding: 14px 14px 12px;
+  border: 1px solid rgba(248,150,29,.30); border-radius: 12px;
+  background: rgba(248,150,29,.055);
+}
+.sched-hint {
+  margin: 0 0 10px; font-size: 13.5px; color: #FFC98A; font-weight: 600;
+}
+.sched-hint span { font-weight: 400; color: var(--muted); }
+.sched-when {
+  width: 100%; padding: 10px 12px; border-radius: 10px;
+  border: 1px solid var(--border); background: var(--bg-soft);
+  color: var(--ink); font: inherit; font-size: 14px;
+  color-scheme: dark;
+}
+.sched-when:focus { outline: none; border-color: rgba(248,150,29,.55); }
+.sched-btns { display: flex; gap: 9px; margin-top: 10px; flex-wrap: wrap; }
+.sched-err { margin: 8px 0 0; font-size: 12px; color: #E8694F; min-height: 0; }
+
+[data-theme="light"] .sched-box { background: rgba(248,150,29,.09); border-color: rgba(196,116,12,.35); }
+[data-theme="light"] .sched-hint { color: #7A3F00; }
+[data-theme="light"] .sched-when { background: #FFFDF8; color: #2E2B26; color-scheme: light; }
+[data-theme="light"] .step-go.gold { color: #7A3F00; }
+
+.sched-note-line { margin: 10px 0 0; font-size: 11.5px; line-height: 1.5; color: var(--faint); }
+[data-theme="light"] .sched-note-line { color: #7A756B; }
