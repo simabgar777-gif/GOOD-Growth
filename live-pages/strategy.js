@@ -741,6 +741,7 @@
   }
 
   function buildWizard() {
+    try {
     var main = document.getElementById('goalPage');
     if (!main || document.querySelector('.ggstep')) return;
 
@@ -772,6 +773,7 @@
     }
     refresh();
     showStep(1);
+    } catch (e) { console.warn('buildWizard', e); }
   }
 
   /* ── запуск ───────────────────────────────────────────────── */
@@ -789,8 +791,11 @@
         if (typeof d.strategy === 'string') {
           try { d.strategy = JSON.parse(d.strategy); } catch (e) { d.strategy = {}; }
         }
-        fill(d);
-        buildWizard();
+        /* ведущий строится первым: если заполнение где-то споткнётся,
+           тропа всё равно встанет */
+        try { buildWizard(); } catch (e) { console.warn('wizard', e); }
+        try { fill(d); } catch (e) { console.warn('fill', e); }
+        try { buildWizard(); } catch (e) {}
         renderPosts(d.id);
         watchPosts(d.id);
         fillJournal(d.id);
