@@ -993,7 +993,11 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 .ggstep-i .tx em { font-size: 12.5px; }
 .ggstep-i .n { font-size: 15px; }
 .ggstep-i.is-on .tx b { padding: 4px 12px; font-size: 16px; border-radius: 6px; }
-.ggstep::before { left: 27px; top: 22px; bottom: 22px; }
+/* нить идёт ровно через центр точек: dot центрируется в своей
+   колонке (padding 14 + 18/2 = 23px), и начинается/кончается
+   на центре первой и последней точки */
+.ggstep-i .dot { justify-self: center; }
+.ggstep::before { left: 24px; top: 42px; bottom: 42px; }
 .ggstep-i.is-on .dot { box-shadow: 0 0 0 5px #0A0B0D, 0 0 0 9px rgba(255,255,255,.05); }
 [data-theme="light"] .ggstep-i.is-on .dot { box-shadow: 0 0 0 5px #FFFDF8, 0 0 0 9px rgba(28,24,18,.07); }
 
