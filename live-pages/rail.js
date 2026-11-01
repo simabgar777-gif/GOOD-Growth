@@ -137,9 +137,80 @@
     .catch(function () {});
 })();
 
-/* ── «Тропа»: маленький компас в панели ────────────────────
-   Пять шагов пути. Состояния — по живым данным, без отметок. */
+/* ============================================================
+   «Путь» — общий источник состояния + тропа
+
+   ПРАВДА ПРЕЖДЕ ВСЕГО: три честных состояния.
+     loading — ещё не знаем
+     auth    — не вошёл
+     error   — не смогли загрузить (НЕ «0 из 5»)
+     ok      — настоящие данные
+
+   Один расчёт на всю страницу: и тропа, и лента берут отсюда.
+   Кэш 30 секунд — чтобы не гонять до 12 запросов на «Стол».
+   ============================================================ */
 (function () {
+  var TTL = 30000;
+  var cache = null, at = 0, inflight = null;
+
+  function j(u) {
+    return fetch(u, { credentials: 'same-origin' }).then(function (r) {
+      if (r.status === 401) { var e = new Error('auth'); e.auth = true; throw e; }
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.json();
+    });
+  }
+
+  function compute() {
+    return Promise.all([j('/api/analytics'), j('/api/slots'), j('/api/goals')])
+      .then(function (res) {
+        var t = (res[0] && res[0].totals) || {};
+        var slots = (res[1] && res[1].slots) || [];
+        var goals = (res[2] && res[2].goals) || [];
+
+        var done = [
+          Number(t.goals) > 0,
+          false,                                  /* разбор — проверим ниже */
+          slots.length > 0,
+          Number(t.posts) > 0,
+          Number(t.published) > 0
+        ];
+        if (!goals.length) return done;
+
+        return j('/api/goals/' + goals[0].id).then(function (g) {
+          var s = (g && g.strategy) || {};
+          /* «разбор» — это НЕ заглушка: нужны реальные темы или живая сводка */
+          var hasTopics = Array.isArray(s.topics) && s.topics.length > 0;
+          var hasSummary = typeof s.summary === 'string' && s.summary.length > 20 &&
+                           s.summary.indexOf('не описан') < 0;
+          done[1] = hasTopics || hasSummary;
+          return done;
+        }, function () { return done; });
+      });
+  }
+
+  function load(force) {
+    var now = Date.now();
+    if (!force && cache && (now - at) < TTL) return Promise.resolve(cache);
+    if (inflight) return inflight;
+    inflight = compute().then(function (done) {
+      cache = { status: 'ok', done: done };
+      at = Date.now(); inflight = null;
+      return cache;
+    }, function (err) {
+      inflight = null;
+      return { status: err && err.auth ? 'auth' : 'error' };
+    });
+    return inflight;
+  }
+
+  window.ggPathState = {
+    load: load,
+    invalidate: function () { at = 0; },
+    TTL: TTL
+  };
+
+  /* ── тропа: десктоп (в панели) и телефон (в шапке) ────────── */
   var STEPS = [
     { nm: 'Цель',   href: '/app/strategy',  c: '#F8961D' },
     { nm: 'Разбор', href: '/app/strategy',  c: '#E0574B' },
@@ -147,43 +218,102 @@
     { nm: 'Посты',  href: '/app/posts',     c: '#28A992' },
     { nm: 'Отклик', href: '/app/analytics', c: '#4CB853' }
   ];
-  function j(u) { return fetch(u, { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }
 
-  function build(done) {
+  function stateOf(res, i, cur) {
+    if (res.status !== 'ok') return '';
+    return res.done[i] ? 'done' : (i === cur ? 'now' : '');
+  }
+  function currentIdx(res) {
+    if (res.status !== 'ok') return -1;
+    var k = res.done.indexOf(false);
+    return k < 0 ? res.done.length : k;
+  }
+
+  /* панель */
+  function renderRail(res) {
     var rail = document.getElementById('gg-rail') || document.querySelector('.sidebar');
-    if (!rail || document.querySelector('.gg-trail')) return;
-    var cur = done.indexOf(false);
-    if (cur < 0) cur = done.length;
+    if (!rail) return;
+    var old = document.querySelector('.gg-trail');
+    if (old) old.remove();
+
+    var cur = currentIdx(res);
     var box = document.createElement('div');
     box.className = 'gg-trail';
     var html = '<div class="gg-trail-h">Путь</div>';
-    STEPS.forEach(function (s, i) {
-      var st = done[i] ? 'done' : (i === cur ? 'now' : '');
-      html += '<a href="' + s.href + '" class="' + st + '" style="--step:' + s.c + '"' +
-        (st === 'now' ? ' aria-current="step"' : '') + '><i></i>' + s.nm + '</a>';
-    });
+
+    if (res.status === 'loading') {
+      STEPS.forEach(function (s) { html += '<a class="loading" href="' + s.href + '"><i style="--step:' + s.c + '"></i>' + s.nm + '</a>'; });
+    } else if (res.status === 'auth') {
+      html += '<a class="note" href="/login">Войди, чтобы видеть путь</a>';
+    } else if (res.status === 'error') {
+      html += '<a class="note" href="#" data-path-retry>Не удалось загрузить · повторить</a>';
+    } else {
+      STEPS.forEach(function (s, i) {
+        var st = stateOf(res, i, cur);
+        html += '<a href="' + s.href + '" class="' + st + '" style="--step:' + s.c + '"' +
+          (st === 'now' ? ' aria-current="step"' : '') +
+          ' aria-label="' + s.nm + (st === 'done' ? ' — сделано' : st === 'now' ? ' — сейчас' : ' — впереди') + '">' +
+          '<i></i>' + s.nm + '</a>';
+      });
+    }
     box.innerHTML = html;
     var nav = rail.querySelector('.gg-rail-nav') || rail.querySelector('nav');
     if (nav && nav.parentNode) nav.parentNode.insertBefore(box, nav.nextSibling);
     else rail.appendChild(box);
   }
 
-  function boot() {
-    if (!document.getElementById('gg-rail') && !document.querySelector('.sidebar')) return;
-    Promise.all([j('/api/analytics'), j('/api/slots'), j('/api/goals')]).then(function (res) {
-      var t = (res[0] && res[0].totals) || {};
-      var slots = (res[1] && res[1].slots) || [];
-      var goals = (res[2] && res[2].goals) || [];
-      var done = [Number(t.goals) > 0, false, slots.length > 0,
-                  Number(t.posts) > 0, Number(t.published) > 0];
-      if (!goals.length) return build(done);
-      j('/api/goals/' + goals[0].id).then(function (g) {
-        var s = (g && g.strategy) || {};
-        done[1] = !!(s.summary || (s.topics && s.topics.length) || (s.audience && s.audience.text));
-        build(done);
+  /* телефон: компактная полоса в шапке */
+  function renderMobile(res) {
+    /* полоса живёт ПОД шапкой отдельной строкой: в шапке ей тесно */
+    var host = document.querySelector('.gg-band') || document.querySelector('.topline');
+    if (!host || !host.parentNode) return;
+    var old = document.querySelector('.gg-mtrail');
+    if (old) old.remove();
+
+    var cur = currentIdx(res);
+    var box = document.createElement('div');
+    box.className = 'gg-mtrail';
+    if (res.status === 'auth') { box.innerHTML = '<a href="/login">войти</a>'; }
+    else if (res.status === 'error') { box.innerHTML = '<a href="#" data-path-retry>путь: повторить</a>'; }
+    else {
+      var html = '<span class="lbl">Путь</span>';
+      STEPS.forEach(function (s, i) {
+        var st = res.status === 'ok' ? stateOf(res, i, cur) : 'loading';
+        html += '<a href="' + s.href + '" class="' + st + '" style="--step:' + s.c +
+          '" aria-label="' + s.nm + '"><i></i></a>';
       });
+      if (res.status === 'ok' && cur < STEPS.length) {
+        html += '<span class="now-name">' + STEPS[cur].nm + '</span>';
+      }
+      box.innerHTML = html;
+    }
+    host.parentNode.insertBefore(box, host.nextSibling);
+  }
+
+  function paint(res) { renderRail(res); renderMobile(res); }
+
+  function boot() {
+    var hasRail = document.getElementById('gg-rail') || document.querySelector('.sidebar');
+    var hasTop = document.querySelector('.gg-band') || document.querySelector('.topline');
+    if (!hasRail && !hasTop) return;
+
+    paint({ status: 'loading' });
+    load().then(paint);
+
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-path-retry]');
+      if (!b) return;
+      e.preventDefault();
+      paint({ status: 'loading' });
+      load(true).then(paint);
+    });
+
+    /* после действий человека состояния могли измениться */
+    ['gg:goal', 'gg:posts-changed', 'gg:slots-changed'].forEach(function (ev) {
+      document.addEventListener(ev, function () { window.ggPathState.invalidate(); load(true).then(paint); });
     });
   }
+
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();

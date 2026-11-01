@@ -30,36 +30,20 @@
       .catch(function () { return null; });
   }
 
-  /* ── состояния по настоящим данным ───────────────────────── */
-  function loadStates() {
-    return Promise.all([
-      jget('/api/analytics'),
-      jget('/api/slots'),
-      jget('/api/goals')
-    ]).then(function (res) {
-      var an = res[0] || {};
-      var t = an.totals || {};
-      var slots = (res[1] && res[1].slots) || [];
-      var goals = (res[2] && res[2].goals) || [];
-
-      var done = [
-        Number(t.goals) > 0,
-        false,                          /* разбор — проверим ниже */
-        slots.length > 0,
-        Number(t.posts) > 0,
-        Number(t.published) > 0
-      ];
-
-      /* «Разбор» закрыт, если у свежей цели есть стратегия */
-      if (!goals.length) return done;
-      var id = goals[0].id;
-      return jget('/api/goals/' + id).then(function (g) {
-        if (g && g.strategy && typeof g.strategy === 'object') {
-          var s = g.strategy;
-          done[1] = !!(s.summary || (s.topics && s.topics.length) || (s.audience && s.audience.text));
-        }
-        return done;
-      });
+  /* ── состояние берём из ОБЩЕГО источника (rail.js) ─────────
+     он различает «не знаем», «не вошёл», «ошибка» и данные —
+     чтобы лента никогда не показывала ложный «0 из 5». */
+  function loadStates(force) {
+    if (window.ggPathState && window.ggPathState.load) return window.ggPathState.load(force);
+    /* модуль состояния создаёт rail.js; он может подняться на мгновение позже.
+       Ждём его коротко — но честно: если не появился, это ошибка, а не нули. */
+    return new Promise(function (resolve) {
+      var tries = 0;
+      (function wait() {
+        if (window.ggPathState && window.ggPathState.load) return resolve(window.ggPathState.load(force));
+        if (++tries > 40) return resolve({ status: 'error' });
+        setTimeout(wait, 25);
+      })();
     });
   }
 
@@ -196,24 +180,48 @@
 
   /* ── куда ставить ─────────────────────────────────────────── */
   function boot() {
-    /* лента живёт ТОЛЬКО на «Столе». Привязка к адресу надёжнее,
-       чем к классу или видимости блока: они появляются позже. */
     var here = location.pathname.replace(/\/+$/, '');
-    if (here !== '/app') return;
-
-    var desk = document.getElementById('deskSection');
+    if (here !== '/app') return;               /* лента живёт только на «Столе» */
     if (document.querySelector('.ggpath')) return;
 
-    loadStates().then(function (done) {
-      var w = ribbon(done);
-      if (desk && desk.parentNode) desk.parentNode.insertBefore(w, desk);
-      else {
-        var hero = document.querySelector('.hero') || document.querySelector('.gg-band');
-        if (hero && hero.parentNode) hero.parentNode.insertBefore(w, hero.nextSibling);
-        else document.body.appendChild(w);
-      }
+    var desk = document.getElementById('deskSection');
+    if (!desk || !desk.parentNode) return;
+
+    /* скелетон: сразу место, без прыжков контента */
+    var holder = document.createElement('section');
+    holder.className = 'ggpath ggpath-loading';
+    holder.setAttribute('aria-label', 'Путь по продукту');
+    holder.innerHTML = '<div class="ggpath-head"><h2>Твой путь</h2>' +
+      '<span class="ggpath-q">где ты сейчас?</span></div>' +
+      '<div class="ggpath-skel">смотрим, где ты…</div>';
+    desk.parentNode.insertBefore(holder, desk);
+
+    loadStates().then(function (res) {
+      holder.remove();
+      if (res.status === 'auth') return showNote('Войди — и увидишь свой путь.', '/login', 'Войти');
+      if (res.status === 'error') return showNote('Не удалось загрузить путь. Это не «0 из 5» — просто не ответил сервер.', null, null, true);
+      var w = ribbon(res.done);
+      desk.parentNode.insertBefore(w, desk);
       if (w.__ggDraw) w.__ggDraw();
     });
+
+    function showNote(text, href, label, retry) {
+      var box = document.createElement('section');
+      box.className = 'ggpath ggpath-note';
+      box.setAttribute('aria-label', 'Путь по продукту');
+      box.innerHTML = '<div class="ggpath-head"><h2>Твой путь</h2></div>' +
+        '<p class="ggpath-msg">' + text + '</p>' +
+        (href ? '<a class="ggpath-act" href="' + href + '">' + label + '</a>' : '') +
+        (retry ? '<button type="button" class="ggpath-act" data-path-retry>Повторить</button>' : '');
+      desk.parentNode.insertBefore(box, desk);
+      var b = box.querySelector('[data-path-retry]');
+      if (b) b.addEventListener('click', function () {
+        box.remove();
+        if (window.ggPathState) window.ggPathState.invalidate();
+        boot();
+      });
+      return box;
+    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

@@ -512,3 +512,43 @@ a.gg-btn-gold:hover, a.gg-btn-ghost:hover { text-decoration: none !important; }
   color: #E8A54F; font-size: 15px; font-weight: 600;
 }
 .gg-mobmenu .gg-mobmenu-in:hover { background: rgba(232,165,79,.10); }
+
+/* ══ ПУТЬ: тропа и телефонная полоса ═══════════════════════════
+   Эти правила нужны и здесь: страницы панели грузят blocks.css,
+   а не za.css (где живёт лента Стола). */
+
+.gg-trail { margin: 18px 10px 6px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.09); }
+.gg-trail-h { font-family: var(--font-mono, monospace); font-size: 9.5px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--faint, #6E6A62); padding: 0 6px 8px; }
+.gg-trail a { display: flex; align-items: center; gap: 9px; padding: 5px 6px; border-radius: 8px;
+  text-decoration: none; font-size: 12px; color: var(--faint, #6E6A62); }
+.gg-trail a:hover { background: rgba(255,255,255,.04); color: var(--muted, #A09C92); }
+.gg-trail i { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--step, #7C786F); flex: none; }
+.gg-trail a.done i { background: var(--step, #4CB853); border-color: var(--step, #4CB853); }
+.gg-trail a.now i { background: var(--step, #F8961D); border-color: var(--step, #F8961D);
+  box-shadow: 0 0 0 4px rgba(248,150,29,.13); }
+.gg-trail a.done { color: var(--muted, #A09C92); }
+.gg-trail a.now { color: var(--step, #FFC98A); font-weight: 600; }
+.gg-trail a.loading { opacity: .45; }
+.gg-trail a.note { color: var(--copper, #E8A54F); font-size: 12px; }
+
+.gg-mtrail { display: none; }
+@media (max-width: 960px) {
+  .gg-mtrail {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 16px; border-bottom: 1px solid rgba(255,255,255,.09);
+    background: #0B0C0F;
+  }
+  .gg-mtrail .lbl {
+    font-family: var(--font-mono, monospace); font-size: 9.5px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--faint, #6E6A62); margin-right: 2px;
+  }
+  .gg-mtrail a { display: block; text-decoration: none; }
+  .gg-mtrail i { display: block; width: 10px; height: 10px; border-radius: 50%;
+    border: 1px solid var(--step); background: transparent; }
+  .gg-mtrail a.done i { background: var(--step); }
+  .gg-mtrail a.now i { background: var(--step); box-shadow: 0 0 0 4px rgba(248,150,29,.16); }
+  .gg-mtrail a.loading i { opacity: .35; }
+  .gg-mtrail .now-name { margin-left: auto; font-size: 11.5px; color: #FFC98A; font-weight: 600; }
+  .gg-mtrail a[href="/login"], .gg-mtrail a[data-path-retry] { font-size: 11.5px; color: var(--copper, #E8A54F); }
+}
