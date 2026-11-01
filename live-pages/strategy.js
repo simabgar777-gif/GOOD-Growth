@@ -705,9 +705,15 @@
     return t;
   }
 
+  /* маяк стоит ВПЕРЕДИ того шага, где человек стоит:
+     на «Цели» светится «Разбор», на «Ритме» — «Посты» */
+  function lightIndex() {
+    return CUR_STEP < WIZ.length ? CUR_STEP : -1;
+  }
+
   function paintTrail(nav, done, cur) {
     nav.innerHTML = WIZ.map(function (s, i) {
-      var st = done[i] ? 'done' : (i === cur ? 'now' : '');
+      var st = done[i] ? (i === cur ? 'done now' : 'done') : (i === cur ? 'now' : '');
       return '<button type="button" class="ggstep-i ' + st + '" data-step="' + (i + 1) + '"' +
         ' style="--step:' + s.c + '"' + (i === cur ? ' aria-current="step"' : '') + '>' +
         '<i class="dot"></i>' +
@@ -753,6 +759,7 @@
     if (b) b.addEventListener('click', function () { showStep(Number(b.getAttribute('data-next'))); });
   }
 
+  var WIZ_NAV = null;
   var CUR_STEP = 1;
   var CUR_DONE = [false, false, false, false, false];
 
@@ -786,6 +793,13 @@
     document.querySelectorAll('.ggstep-i').forEach(function (b) {
       b.classList.toggle('is-on', Number(b.getAttribute('data-step')) === n);
     });
+    if (WIZ_NAV) {
+      paintTrail(WIZ_NAV, CUR_DONE, lightIndex());
+      WIZ_NAV.querySelectorAll('[data-step]').forEach(function (b) {
+        b.addEventListener('click', function () { showStep(Number(b.getAttribute('data-step'))); });
+        b.classList.toggle('is-on', Number(b.getAttribute('data-step')) === n);
+      });
+    }
     paintNext(document.getElementById('ggNext'), n, CUR_DONE);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -800,6 +814,7 @@
 
     main.classList.add('gg-wizard');
     var nav = makeTrail();
+    WIZ_NAV = nav;
     main.insertBefore(nav, main.firstChild);
 
     if (!document.getElementById('ggNext')) {
@@ -825,7 +840,7 @@
           if (cur < 0) cur = done.length - 1;
         }
         CUR_DONE = done;
-        paintTrail(nav, done, cur);
+        paintTrail(nav, done, lightIndex());
         paintNext(document.getElementById('ggNext'), CUR_STEP, done);
         nav.querySelectorAll('[data-step]').forEach(function (b) {
           b.addEventListener('click', function () { showStep(Number(b.getAttribute('data-step'))); });
