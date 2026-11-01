@@ -301,7 +301,13 @@
     host.parentNode.insertBefore(box, host.nextSibling);
   }
 
-  function paint(res) { renderRail(res); renderMobile(res); }
+  function paint(res) {
+    /* маленькая тропа из панели убрана: её место — большая тропа
+       на странице «Цель». На телефоне полоса остаётся: там нет панели. */
+    var oldTrail = document.querySelector('.gg-trail');
+    if (oldTrail) oldTrail.remove();
+    renderMobile(res);
+  }
 
   function boot() {
     var hasRail = document.getElementById('gg-rail') || document.querySelector('.sidebar');

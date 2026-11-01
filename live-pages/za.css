@@ -768,3 +768,68 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 
 .sched-note-line { margin: 10px 0 0; font-size: 11.5px; line-height: 1.5; color: var(--faint); }
 [data-theme="light"] .sched-note-line { color: #7A756B; }
+
+/* ══ ВЕДУЩИЙ НА СТРАНИЦЕ «ЦЕЛЬ» ══════════════════════════════
+   Большая тропа слева. Стоит на месте — справа меняется шаг.
+   Человека ведут за руку: первый, второй, третий… */
+.gg-hide { display: none !important; }
+
+.ggstep-i {
+  display: grid; grid-template-columns: 14px 1fr auto; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 12px; cursor: pointer; width: 100%;
+  background: transparent; border: 1px solid transparent; text-align: left;
+  color: var(--muted); font-family: inherit;
+}
+.ggstep-i:hover { background: rgba(255,255,255,.04); }
+.ggstep-i .dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--step); }
+.ggstep-i.done .dot { background: var(--step); }
+.ggstep-i.now { background: rgba(248,150,29,.07); border-color: rgba(248,150,29,.22); }
+.ggstep-i.now .dot { background: var(--step); box-shadow: 0 0 0 4px rgba(248,150,29,.18); }
+.ggstep-i.is-on { background: rgba(255,255,255,.055); border-color: rgba(255,255,255,.13); }
+.ggstep-i .tx { display: flex; flex-direction: column; gap: 2px; }
+.ggstep-i .tx b { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+.ggstep-i.now .tx b { color: #FFC98A; }
+.ggstep-i .tx em { font-style: normal; font-size: 11px; color: var(--faint); }
+.ggstep-i .n { font-family: var(--font-mono); font-size: 10px; color: var(--faint); opacity: .6; }
+.ggstep-i.is-on .n { opacity: 1; color: var(--amber); }
+
+@media (min-width: 1101px) {
+  main#goalPage.gg-wizard { padding-left: 232px; }
+  .ggstep {
+    position: fixed; left: calc(var(--rail-w, 232px) + 20px); top: 104px;
+    width: 200px; display: flex; flex-direction: column; gap: 3px; z-index: 20;
+  }
+}
+@media (max-width: 1100px) {
+  .ggstep {
+    position: sticky; top: 60px; z-index: 20; display: flex; gap: 6px;
+    overflow-x: auto; padding: 10px 0 12px; margin-bottom: 8px;
+    background: linear-gradient(180deg, rgba(8,9,10,.97), rgba(8,9,10,.78));
+    backdrop-filter: blur(8px);
+  }
+  .ggstep-i { flex: 0 0 auto; width: auto; padding: 8px 12px; }
+  .ggstep-i .tx em { display: none; }
+  main#goalPage.gg-wizard { padding-left: 0; }
+}
+
+/* блок «Отклик» */
+.gg-outreach {
+  margin-top: 26px; padding: 26px 24px; border-radius: var(--r-l, 18px);
+  border: 1px solid rgba(76,184,83,.28); background: rgba(76,184,83,.06);
+}
+.gg-outreach h3 { font-family: var(--font-display); font-size: 22px; margin: 0 0 8px; }
+.gg-outreach p { margin: 0 0 16px; color: var(--muted); font-size: 14px; line-height: 1.55; max-width: 620px; }
+.gg-outreach-go {
+  display: inline-block; padding: 9px 16px; border-radius: 999px; text-decoration: none;
+  border: 1px solid rgba(76,184,83,.45); background: rgba(76,184,83,.14);
+  color: #8FD9A0; font-size: 12.5px; font-weight: 600;
+}
+.gg-outreach-go:hover { background: rgba(76,184,83,.24); }
+
+[data-theme="light"] .ggstep-i .tx b { color: #2E2B26; }
+[data-theme="light"] .ggstep-i.now .tx b { color: #8A4A00; }
+[data-theme="light"] .ggstep-i.is-on { background: #FFF6E4; border-color: rgba(196,116,12,.3); }
+[data-theme="light"] .ggstep-i .tx em { color: #7A756B; }
+[data-theme="light"] .ggstep { background: linear-gradient(180deg, rgba(255,253,248,.98), rgba(255,253,248,.8)); }
+[data-theme="light"] .gg-outreach { background: rgba(76,184,83,.09); }
+[data-theme="light"] .gg-outreach-go { color: #2F6B3D; }

@@ -666,6 +666,114 @@
     }
   }
 
+
+  /* ══ ВЕДУЩИЙ НА СТРАНИЦЕ «ЦЕЛЬ» ═════════════════════════════
+     Большая вертикальная тропа слева. Стоит на месте, справа
+     меняется содержимое. Человека ведут за руку: шаг 1, 2, 3…
+     Семь старых вкладок сведены к пяти шагам пути. */
+  var WIZ = [
+    { nm: 'Цель',   ex: 'одна фраза о деле',   c: '#F8961D' },
+    { nm: 'Разбор', ex: 'кому и о чём',        c: '#E0574B' },
+    { nm: 'Ритм',   ex: 'сколько раз в неделю', c: '#A96AB8' },
+    { nm: 'Посты',  ex: 'тексты и картинки',   c: '#28A992' },
+    { nm: 'Отклик', ex: 'что сработало',       c: '#4CB853' }
+  ];
+
+  var SECTIONS = {
+    1: ['.hero', '#askForm'],
+    2: ['.sheet-head', '.goal-quote', '.strategy-line', '#audience', '#steps'],
+    3: ['.sheet-head', '#rhythm'],
+    4: ['.sheet-head', '#topics', '#chans', '#postsSec'],
+    5: ['.sheet-head']
+  };
+  var ALL = ['.hero', '#askForm', '.sheet-head', '.goal-quote', '.strategy-line',
+             '#audience', '#rhythm', '#topics', '#chans', '#steps', '#postsSec'];
+
+  function makeTrail() {
+    var t = document.createElement('nav');
+    t.className = 'ggstep';
+    t.setAttribute('aria-label', 'Путь по разбору');
+    return t;
+  }
+
+  function paintTrail(nav, done, cur) {
+    nav.innerHTML = WIZ.map(function (s, i) {
+      var st = done[i] ? 'done' : (i === cur ? 'now' : '');
+      return '<button type="button" class="ggstep-i ' + st + '" data-step="' + (i + 1) + '"' +
+        ' style="--step:' + s.c + '"' + (i === cur ? ' aria-current="step"' : '') + '>' +
+        '<i class="dot"></i>' +
+        '<span class="tx"><b>' + s.nm + '</b><em>' + s.ex + '</em></span>' +
+        '<span class="n">' + ('0' + (i + 1)) + '</span>' +
+        '</button>';
+    }).join('');
+  }
+
+  function showStep(n) {
+    var article = $('razbor');
+    /* прячем всё */
+    ALL.forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el) { el.classList.add('gg-hide'); });
+    });
+    /* показываем нужное */
+    (SECTIONS[n] || []).forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el) { el.classList.remove('gg-hide'); });
+    });
+    /* пятый шаг: живой блок отклика */
+    var pane = document.getElementById('ggOutreach');
+    if (n === 5) {
+      if (!pane) {
+        pane = document.createElement('div');
+        pane.id = 'ggOutreach';
+        pane.className = 'gg-outreach';
+        pane.innerHTML = '<h3>Отклик</h3>' +
+          '<p>Здесь будет видно, что сработало. Пока показываем то, что знаем точно.</p>' +
+          '<a class="gg-outreach-go" href="/app/analytics">Открыть аналитику →</a>';
+        if (article && article.parentNode) article.parentNode.insertBefore(pane, article.nextSibling);
+      }
+      pane.classList.remove('gg-hide');
+    } else if (pane) {
+      pane.classList.add('gg-hide');
+    }
+    document.querySelectorAll('.ggstep-i').forEach(function (b) {
+      b.classList.toggle('is-on', Number(b.getAttribute('data-step')) === n);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function buildWizard() {
+    var main = document.getElementById('goalPage');
+    if (!main || document.querySelector('.ggstep')) return;
+
+    var oldNav = main.querySelector('.subnav');
+    if (oldNav) oldNav.remove();          /* семь вкладок больше не нужны */
+
+    main.classList.add('gg-wizard');
+    var nav = makeTrail();
+    main.insertBefore(nav, main.firstChild);
+
+    var done = [false, false, false, false, false];
+    var cur = 0;
+
+    function refresh() {
+      var load = (window.ggPathState && window.ggPathState.load)
+        ? window.ggPathState.load()
+        : Promise.resolve({ status: 'error' });
+      load.then(function (res) {
+        if (res && res.status === 'ok') {
+          done = res.done;
+          cur = done.indexOf(false);
+          if (cur < 0) cur = done.length - 1;
+        }
+        paintTrail(nav, done, cur);
+        nav.querySelectorAll('[data-step]').forEach(function (b) {
+          b.addEventListener('click', function () { showStep(Number(b.getAttribute('data-step'))); });
+        });
+      }).catch(function () { paintTrail(nav, done, cur); });
+    }
+    refresh();
+    showStep(1);
+  }
+
   /* ── запуск ───────────────────────────────────────────────── */
   function boot() {
     var id = goalId();
@@ -682,6 +790,7 @@
           try { d.strategy = JSON.parse(d.strategy); } catch (e) { d.strategy = {}; }
         }
         fill(d);
+        buildWizard();
         renderPosts(d.id);
         watchPosts(d.id);
         fillJournal(d.id);
