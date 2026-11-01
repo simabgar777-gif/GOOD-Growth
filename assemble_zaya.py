@@ -224,6 +224,7 @@ __BRIDGE__
 <body>
 __BODY__
 <script src="/i18n/i18n.js"></script>
+<script src="/topline.js" defer></script>
 <script src="/public/app.js"></script>
 <script src="/strategy.js" defer></script>
 <script src="/za-ui.js" defer></script>
