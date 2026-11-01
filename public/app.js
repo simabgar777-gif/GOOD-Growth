@@ -830,6 +830,14 @@ form.addEventListener('submit', async (e) => {
     if (!r.ok) throw new Error((data.error || 'Не получилось разобрать цель') + (data.hint ? ' ' + data.hint : ''));
     renderResult(data);
     stopHonestProgress();
+    /* разбор живёт в новом дизайне: показываем его по адресу ?goal=
+       (старый resultRoot скрыт, иначе человек видит «готово» и пустоту) */
+    try {
+      if (data && data.id && /\/app\/strategy/.test(location.pathname)) {
+        location.href = '/app/strategy?goal=' + data.id;
+        return;
+      }
+    } catch (e) {}
     setStatus('Готово. Теперь можно создать посты.');
     postsStatus.textContent = '';
     refreshJournal();
