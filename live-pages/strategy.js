@@ -21,7 +21,15 @@
   }
   var DOW = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
 
+  /* ?goal= запоминаем В МОМЕНТ загрузки скрипта: app.js успевает
+     убрать его из адреса через history.replaceState, и тогда мы
+     видели пустоту и писали «разбора пока нет» при живом разборе */
+  var BOOT_GOAL = (function () {
+    try { return new URLSearchParams(location.search).get('goal'); } catch (e) { return null; }
+  })();
+
   function goalId() {
+    if (BOOT_GOAL && /^\d+$/.test(BOOT_GOAL)) return BOOT_GOAL;
     var q = new URLSearchParams(location.search);
     var g = q.get('goal');
     if (g && /^\d+$/.test(g)) return g;
