@@ -72,6 +72,12 @@
       meta.textContent = 'разбор № ' + d.id + (when ? ' · ' + when : '') + (d.source === 'demo' ? ' · демо' : '');
     }
 
+    /* каналы стратегии — нужны, чтобы честно сказать про VK,
+       но только если VK у человека правда есть */
+    try {
+      window.__ggChannels = (st.channels || []).map(function (c) { return String(c.name || '').toLowerCase(); });
+    } catch (e) { window.__ggChannels = []; }
+
     var quote = article.querySelector('.goal-quote');
     if (quote) quote.innerHTML = '<b>Цель:</b> «' + esc(d.goal_text || d.goal || '') + '»';
 
@@ -383,6 +389,14 @@
     return { when: d1, fromRhythm: false };
   }
 
+  /* если в стратегии есть VK — говорим об этом у поста; если нет — молчим */
+  function vkNote() {
+    var ch = window.__ggChannels || [];
+    var hasVK = ch.some(function (c) { return c.indexOf('vk') > -1 || c.indexOf('вконтакт') > -1; });
+    if (!hasVK) return '';
+    return 'В Telegram публикуем по времени сами. Для VK скопируй текст — вставишь вручную.';
+  }
+
   function schedChip(p) {
     if (!p.scheduled_at) return '';
     var raw = String(p.scheduled_at).replace(' ', 'T').slice(0, 16);
@@ -461,8 +475,7 @@
           '<button type="button" class="step-go ghost" data-sched-cancel="1">Отмена</button>' +
         '</div>' +
         '<p class="sched-err"></p>' +
-        '<p class="sched-note-line">Публикуем сами только в Telegram. ' +
-          'Для VK нажми «Скопировать текст» и вставь вручную.</p>' +
+        (vkNote() ? '<p class="sched-note-line">' + vkNote() + '</p>' : '') +
       '</div>';
 
     var input = box.querySelector('.sched-when');
