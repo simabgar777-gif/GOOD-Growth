@@ -123,6 +123,17 @@
              || document.querySelector('[data-logout]');
       var prof = document.querySelector('#gg-rail a[data-k="profile"]')
               || document.querySelector('.sidebar a[data-k="profile"]');
+
+      /* гость в кабинете: показываем вход, а не пустые цифры */
+      if (!u && !window.ggAuthGuard) {
+        var p = location.pathname.replace(/\/+$/, '');
+        if ((p === '/app' || p.indexOf('/app/') === 0 || p === '/profile' || p.indexOf('/partner') === 0)
+            && p !== '/app/onboard' && p !== '/app/onboard/') {
+          window.ggAuthGuard = true;
+          location.replace('/login?next=' + encodeURIComponent(location.pathname + location.search));
+          return;
+        }
+      }
       if (u) return;   /* вошёл — всё как есть */
 
       if (out && out.parentNode) {

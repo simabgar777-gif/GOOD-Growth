@@ -82,8 +82,13 @@
           out.addEventListener('click', function () {
             out.disabled = true;
             fetch('/api/logout', { method: 'POST', credentials: 'same-origin' })
-              .then(function () { location.href = '/'; })
-              .catch(function () { location.href = '/'; });
+              .then(function () { clean(); location.href = '/'; })
+              .catch(function () { clean(); location.href = '/'; });
+            function clean() {
+              /* за собой убираем: иначе лендинг думает, что человек ещё вошёл */
+              try { sessionStorage.removeItem('gg_user'); } catch (e) {}
+              try { localStorage.removeItem('gg_user'); } catch (e) {}
+            }
           });
           authHost.appendChild(out);
         } else {
