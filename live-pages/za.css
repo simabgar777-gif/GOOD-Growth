@@ -669,3 +669,48 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
   .gg-tiles .gg-n { font-size: 30px; }
 }
 
+/* ══ СВЕТЛАЯ ТЕМА: путь должен быть виден ═════════════════════
+   На белом серая дорога исчезала, а подписи «сделано» были
+   почти прозрачными. Даём тёмные оттенки той же гаммы. */
+[data-theme="light"] .ggpath {
+  background: #FFFDF8;
+  border-color: rgba(28,24,18,.10);
+}
+[data-theme="light"] #ggRoad { stroke: rgba(28,24,18,.16); }
+[data-theme="light"] .ggpath-q { color: #8C877C; }
+[data-theme="light"] .ggpath-cnt { color: #177A68; }
+
+[data-theme="light"] .ggpath-lg .n { opacity: .9; }
+[data-theme="light"] .ggpath-lg .nm { color: #55514A; }
+[data-theme="light"] .ggpath-lg .ex { color: #7A756B; }
+[data-theme="light"] .ggpath-lg.done .nm { color: #2F5A38; }
+[data-theme="light"] .ggpath-lg.later .nm { color: #4E4A43; }
+
+[data-theme="light"] .ggpath-lg.next {
+  background: rgba(248,150,29,.10);
+  border-color: rgba(196,116,12,.38);
+}
+[data-theme="light"] .ggpath-lg.next .nm,
+[data-theme="light"] .ggpath-lg.next .n { color: #8A4A00; }
+[data-theme="light"] .ggpath-lg.next .ex { color: #7A5A2E; }
+[data-theme="light"] .ggpath-go {
+  color: #7A3F00; border-color: rgba(196,116,12,.45);
+  background: rgba(248,150,29,.18);
+}
+[data-theme="light"] .ggpath-go:hover { background: rgba(248,150,29,.28); }
+[data-theme="light"] .ggpath-act { color: #7A3F00; border-color: rgba(196,116,12,.42); }
+[data-theme="light"] .ggpath-msg { color: #4E4A43; }
+[data-theme="light"] .ggpath-skel { color: #8C877C; }
+
+/* тропа в панели на светлой */
+[data-theme="light"] .gg-trail { border-top-color: rgba(28,24,18,.10); }
+[data-theme="light"] .gg-trail-h { color: #8C877C; }
+[data-theme="light"] .gg-trail a { color: #5C5850; }
+[data-theme="light"] .gg-trail a:hover { background: rgba(28,24,18,.05); color: #2E2B26; }
+[data-theme="light"] .gg-trail a.done { color: #2F5A38; }
+[data-theme="light"] .gg-trail a.note { color: #8A4A00; }
+
+/* телефонная полоса на светлой */
+[data-theme="light"] .gg-mtrail { background: #FFFDF8; border-bottom-color: rgba(28,24,18,.10); }
+[data-theme="light"] .gg-mtrail .lbl { color: #8C877C; }
+[data-theme="light"] .gg-mtrail .now-name { color: #8A4A00; }
