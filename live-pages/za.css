@@ -783,8 +783,17 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 .ggstep-i:hover { background: rgba(255,255,255,.04); }
 .ggstep-i .dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--step); }
 .ggstep-i.done .dot { background: var(--step); }
-.ggstep-i.now { background: rgba(248,150,29,.07); border-color: rgba(248,150,29,.22); }
-.ggstep-i.now .dot { background: var(--step); box-shadow: 0 0 0 4px rgba(248,150,29,.18); }
+/* «сейчас» больше НЕ залитая карточка: она спорила с выбранным шагом.
+   Теперь только светящаяся точка и тёплый подзаголовок. */
+.ggstep-i.now { background: transparent; border-color: transparent; }
+.ggstep-i.now .dot {
+  background: var(--step);
+  box-shadow: 0 0 0 4px rgba(248,150,29,.16), 0 0 14px 2px rgba(248,150,29,.5);
+}
+.ggstep-i.now .tx b { color: #FFC98A; }
+.ggstep-i.now .tx em { color: #C8A87E; }
+/* выбранный шаг — единственный «весомый» элемент списка */
+.ggstep-i.is-on { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.10); }
 /* выбранный шаг — цветной полоской слева, без заливки:
    заливку носит только шаг, который делать СЕЙЧАС, иначе они спорят */
 .ggstep-i { position: relative; }
