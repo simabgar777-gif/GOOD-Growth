@@ -77,7 +77,8 @@
     if (meta) {
       var dt = d.created_at ? new Date(String(d.created_at).replace(' ', 'T')) : null;
       var when = dt && !isNaN(dt) ? dt.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) : '';
-      meta.textContent = 'разбор № ' + d.id + (when ? ' · ' + when : '') + (d.source === 'demo' ? ' · демо' : '');
+      window.__ggMeta = 'разбор № ' + d.id + (when ? ' · ' + when : '') + (d.source === 'demo' ? ' · демо' : '');
+      meta.textContent = window.__ggMeta;
     }
 
     /* каналы стратегии — нужны, чтобы честно сказать про VK,
@@ -688,6 +689,15 @@
     { nm: 'Отклик', ex: 'что сработало',       c: '#4CB853' }
   ];
 
+  /* короткое объяснение: что это за этап — для человека, не для отчёта */
+  var EXPLAIN = [
+    'одна фраза о деле — из неё родится всё остальное',
+    'кому и о чём говорить: аудитория, темы, каналы',
+    'сколько раз в неделю и в какие дни выходит пост',
+    'готовые тексты и картинки — их можно публиковать',
+    'что сработало, а что стоит поменять'
+  ];
+
   var SECTIONS = {
     1: ['.hero', '#askForm'],
     2: ['.sheet-head', '.goal-quote', '.strategy-line', '#audience', '#steps'],
@@ -697,6 +707,37 @@
   };
   var ALL = ['.hero', '#askForm', '.sheet-head', '.goal-quote', '.strategy-line',
              '#audience', '#rhythm', '#topics', '#chans', '#steps', '#postsSec'];
+
+
+  /* ── шапка шага: цветной номер, название и объяснение ─────── */
+  function ensureStepHead() {
+    var main = document.getElementById('goalPage');
+    if (!main) return null;
+    var h = document.getElementById('ggStepHead');
+    if (h) return h;
+    h = document.createElement('div');
+    h.id = 'ggStepHead';
+    h.className = 'gghead';
+    var article = document.getElementById('razbor');
+    if (article && article.parentNode) article.parentNode.insertBefore(h, article);
+    else main.appendChild(h);
+    return h;
+  }
+
+  function paintStepHead(n, meta) {
+    var h = ensureStepHead();
+    if (!h) return;
+    var i = n - 1;
+    var w = WIZ[i] || WIZ[0];
+    h.style.setProperty('--step', w.c);
+    h.innerHTML =
+      '<div class="gghead-badge"><span class="num">' + ('0' + n) + '</span></div>' +
+      '<div class="gghead-tx">' +
+        '<h1>' + w.nm + '</h1>' +
+        '<p>' + (EXPLAIN[i] || '') + '</p>' +
+        (meta ? '<span class="gghead-meta">' + esc(meta) + '</span>' : '') +
+      '</div>';
+  }
 
   function makeTrail() {
     var t = document.createElement('nav');
@@ -800,6 +841,7 @@
         b.classList.toggle('is-on', Number(b.getAttribute('data-step')) === n);
       });
     }
+    paintStepHead(n, window.__ggMeta || '');
     paintNext(document.getElementById('ggNext'), n, CUR_DONE);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
