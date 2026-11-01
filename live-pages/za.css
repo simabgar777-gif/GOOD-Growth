@@ -654,3 +654,18 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
   .ggpath-lg.next { padding: 8px 9px; margin: -8px -9px; }
   .ggpath-go { font-size: 11.5px; padding: 6px 11px; }
 }
+
+/* ── СЧЁТЧИКИ НА «СТОЛЕ» ─────────────────────────────────────
+   Было жёстко три колонки инлайн-стилем — на телефоне третья
+   плитка вылезала за край. Теперь сетка сама подстраивается. */
+.gg-tiles {
+  display: grid; gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+.gg-tiles .gg-tile { min-width: 0; }
+@media (max-width: 700px) {
+  .gg-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gg-tiles .gg-tile { padding: 14px 12px; }
+  .gg-tiles .gg-n { font-size: 30px; }
+}
+

@@ -88,7 +88,7 @@ DESK = '''
         <div class="gg-blk">
           <div class="gg-blk-h"><h2>Сегодня</h2><span class="gg-blk-q">что происходит?</span></div>
           <div class="gg-blk-b">
-            <div class="gg-tiles" style="grid-template-columns:repeat(3,1fr)">
+            <div class="gg-tiles">
               <div class="gg-tile"><div class="gg-n" id="deskGoals">—</div><div class="gg-l">целей разобрано</div></div>
               <div class="gg-tile"><div class="gg-n" id="deskPosts">—</div><div class="gg-l">постов создано</div></div>
               <div class="gg-tile"><div class="gg-n" id="deskPublished">—</div><div class="gg-l">опубликовано</div></div>
