@@ -351,6 +351,13 @@ def strip_demo(body):
     for el in frag.xpath('//div[@id="postsSec"]//div[@class="post-card"]'):
         el.getparent().remove(el)
 
+    # композер должен быть НАСТОЯЩЕЙ формой: <section> не рождает submit,
+    # и кнопка «Разобрать цель» молчала
+    for el in frag.xpath('//*[@id="askForm"]'):
+        el.tag = 'form'
+        el.set('method', 'post')
+        el.set('action', '#')
+
     # крошка в углу: дверь домой, в кабинет (было «← О сервисе» → #about)
     for el in frag.xpath('//div[@class="crumb"]'):
         for ch in list(el):

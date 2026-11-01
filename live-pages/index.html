@@ -439,7 +439,7 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
         <p class="lead" data-i18n="heroLead">Напиши цель — GOOD Growth разложит её на стратегию, а из стратегии создаст готовые посты с картинками.</p>
       </header>
 
-      <section class="composer reveal in" id="askForm" aria-label="Форма цели">
+      <form class="composer reveal in" id="askForm" aria-label="Форма цели" method="post" action="#">
         <label class="field-lbl" for="goalInput" data-i18n="yourGoal">Твоя цель</label>
         <textarea id="goal" name="goal" maxlength="2000" data-i18n-ph="goalPlaceholder" placeholder="Например: «Хочу, чтобы о нашей юридической помощи узнали в Telegram»"></textarea>
         <div class="row">
@@ -454,7 +454,7 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
         </div>
         <p class="status-line" id="statusLine" role="status" aria-live="polite"></p>
         <p id="goal-error" class="error-box" role="alert" hidden></p>
-      </section>
+      </form>
 
 
       <!-- наши поля пяти вопросов: скрыты, открываются ссылкой -->
