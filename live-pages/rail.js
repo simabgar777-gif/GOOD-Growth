@@ -317,3 +317,40 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
+
+/* ── КРОШКА «← Стол»: одна на всех страницах ──────────────────
+   Дверь домой в кабинет. На самом Столе не нужна — ты уже дома. */
+(function () {
+  function fix() {
+    if (window.ggCrumbFix) return;
+    window.ggCrumbFix = true;
+
+    var here = location.pathname.replace(/\/+$/, '');
+    var bar = document.querySelector('.topline') || document.querySelector('.gg-band');
+    var existing = document.querySelector('.gg-crumb') || document.querySelector('.crumb a');
+
+    if (here === '/app') {
+      /* дома крошка не нужна */
+      var c = document.querySelector('.crumb');
+      if (c) c.style.display = 'none';
+      if (existing && existing.classList.contains('gg-crumb')) existing.remove();
+      return;
+    }
+
+    if (existing) {
+      existing.setAttribute('href', '/app');
+      existing.textContent = '← Стол';
+      return;
+    }
+    if (!bar) return;
+
+    var a = document.createElement('a');
+    a.className = 'gg-crumb';
+    a.href = '/app';
+    a.textContent = '← Стол';
+    bar.insertBefore(a, bar.firstChild);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fix);
+  else fix();
+})();

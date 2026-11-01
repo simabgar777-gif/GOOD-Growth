@@ -351,6 +351,16 @@ def strip_demo(body):
     for el in frag.xpath('//div[@id="postsSec"]//div[@class="post-card"]'):
         el.getparent().remove(el)
 
+    # крошка в углу: дверь домой, в кабинет (было «← О сервисе» → #about)
+    for el in frag.xpath('//div[@class="crumb"]'):
+        for ch in list(el):
+            el.remove(ch)
+        link = _lh.Element("a")
+        link.set("href", "/app")
+        link.set("data-i18n", "z.toDesk")
+        link.text = "← Стол"
+        el.append(link)
+
     # демо-цель в цитате — на её место встанет настоящая
     for el in frag.xpath('//blockquote[@class="goal-quote"]'):
         for ch in list(el):

@@ -26,6 +26,13 @@
     else fn();
   }
 
+  function crumbHtml() {
+    /* крошка — это дверь домой, в кабинет. На самом Столе она не нужна. */
+    var here = location.pathname.replace(/\/+$/, '');
+    if (here === '/app') return '';
+    return '<a class="gg-crumb" href="/app">← Стол</a>';
+  }
+
   /* меню из пунктов панели */
   function buildMenu(burger, host) {
     if (!burger || !host) return;
@@ -139,7 +146,7 @@
     band.innerHTML =
       '<a class="gg-band-brand" href="/app" aria-label="GOOD Growth">' + MARK +
         '<b>GOOD Growth</b></a>' +
-      '<a class="gg-crumb" href="/">← О сервисе</a>' +
+      '' +
       '<button type="button" class="gg-burger" id="ggBurger" aria-label="Меню" aria-expanded="false">☰</button>' +
       '<div class="gg-sys">' +
         '<span class="gg-chip" title="Режим разбора">' +
