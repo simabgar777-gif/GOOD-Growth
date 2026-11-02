@@ -1022,3 +1022,39 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
   100% { box-shadow: 0 0 0 0 rgba(232,165,79,0); border-color: var(--border); }
 }
 @media (prefers-reduced-motion: reduce) { .gg-flash { animation: none; border-color: rgba(232,165,79,.6); } }
+
+/* ══ ПОКАЗ ПОСТА В КАНАЛЕ ════════════════════════════════════ */
+.ggprev {
+  position: fixed; inset: 0; z-index: 200; display: grid; place-items: center;
+  background: rgba(4,4,6,.72); backdrop-filter: blur(6px); padding: 20px;
+}
+.prev-wrap {
+  width: min(430px, 100%); max-height: 88vh; overflow-y: auto;
+  background: #101116; border: 1px solid rgba(255,255,255,.10);
+  border-radius: 20px; padding: 14px 16px 18px;
+}
+.prev-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.prev-ch { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--amber); }
+.prev-x { border: 0; background: transparent; color: var(--muted); font-size: 16px; cursor: pointer; }
+.prev-phone { background: #17212B; border-radius: 14px; overflow: hidden; }
+.prev-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+  background: #1C2733; border-bottom: 1px solid rgba(255,255,255,.06); }
+.prev-ava { width: 34px; height: 34px; border-radius: 50%; background: #0E1621;
+  display: grid; place-items: center; flex: none; }
+.prev-ava svg { width: 16px; height: 22px; }
+.prev-name { display: flex; flex-direction: column; }
+.prev-name b { color: #F3F1EA; font-size: 13.5px; }
+.prev-name em { color: #7D8B99; font-size: 11px; font-style: normal; }
+.prev-post { padding: 12px 14px 14px; }
+.prev-img { width: 100%; border-radius: 10px; display: block; margin-bottom: 10px; object-fit: cover; }
+.prev-img.ph { height: 150px; display: grid; place-items: center; background: rgba(255,255,255,.04);
+  color: #7D8B99; font-size: 12px; }
+.prev-title { margin: 0 0 6px; color: #F3F1EA; font-weight: 600; font-size: 14.5px; }
+.prev-txt { margin: 0; color: #D5DCE3; font-size: 13.5px; line-height: 1.55; white-space: pre-wrap; }
+.prev-foot { display: flex; justify-content: space-between; margin-top: 10px;
+  color: #7D8B99; font-size: 11px; }
+.prev-note { margin: 12px 2px 0; color: var(--faint); font-size: 11.5px; line-height: 1.5; }
+
+[data-theme="light"] .prev-wrap { background: #FFFDF8; border-color: rgba(28,24,18,.12); }
+[data-theme="light"] .prev-note { color: #7A756B; }

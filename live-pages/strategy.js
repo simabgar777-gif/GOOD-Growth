@@ -441,6 +441,7 @@
       actions += '<button type="button" class="step-go" data-img="' + p.id + '">Картинка</button>';
     }
     actions += '<button type="button" class="step-go" data-copy="1">Скопировать текст</button>';
+    actions += '<button type="button" class="step-go" data-preview="' + p.id + '">Как в Telegram</button>';
     if (p.published_at) {
       actions += '<span class="sched-note">уже вышел</span>';
     } else if (p.scheduled_at) {
@@ -517,6 +518,69 @@
     });
   }
 
+
+  /* ── показ поста так, как он выйдет в канале ────────────────
+     Buffer-приём: человек видит ленту, а не форму. */
+  function channelName() {
+    var ch = window.__ggChannels || [];
+    for (var i = 0; i < ch.length; i++) {
+      if (String(ch[i]).indexOf('telegram') > -1) return 'Telegram';
+    }
+    return 'канал';
+  }
+
+  function openPreview(post) {
+    var old = document.getElementById('ggprev');
+    if (old) old.remove();
+
+    var when = 'только что';
+    if (post.scheduled_at) {
+      var dd = new Date(String(post.scheduled_at).replace(' ', 'T'));
+      if (!isNaN(dd.getTime())) when = human(dd);
+    }
+    var txt = String(post.text || post.body || '').trim();
+    var title = post.title || '';
+    var img = post.image_path
+      ? '<img class="prev-img" src="' + esc(post.image_path) + '" alt="" onerror="this.remove()">'
+      : '<div class="prev-img ph">картинка появится здесь</div>';
+
+    var box = document.createElement('div');
+    box.id = 'ggprev';
+    box.className = 'ggprev';
+    box.innerHTML =
+      '<div class="prev-wrap" role="dialog" aria-label="Как это будет выглядеть">' +
+        '<div class="prev-top">' +
+          '<span class="prev-ch">' + esc(channelName()) + '</span>' +
+          '<button type="button" class="prev-x" aria-label="Закрыть">✕</button>' +
+        '</div>' +
+        '<div class="prev-phone">' +
+          '<div class="prev-head">' +
+            '<span class="prev-ava">' +
+              '<svg viewBox="238 162 74 101" fill="none" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">' +
+              '<path d="M256 193 244 180 244 252" stroke="#F8961D"/><path d="M306 168 263 209" stroke="#28A992"/>' +
+              '<path d="M287 216 245 257" stroke="#E01F27"/><path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg>' +
+            '</span>' +
+            '<span class="prev-name"><b>Мой канал</b><em>подписчики увидят так</em></span>' +
+          '</div>' +
+          '<div class="prev-post">' +
+            img +
+            (title ? '<p class="prev-title">' + esc(title) + '</p>' : '') +
+            (txt ? '<p class="prev-txt">' + esc(txt.slice(0, 600)) + '</p>' : '') +
+            '<div class="prev-foot"><span>' + esc(when) + '</span><span>👁 0</span></div>' +
+          '</div>' +
+        '</div>' +
+        '<p class="prev-note">Так пост увидят в ' + esc(channelName()) + '. Длину и переносы проверь здесь.</p>' +
+      '</div>';
+
+    document.body.appendChild(box);
+    box.addEventListener('click', function (e) {
+      if (e.target === box || e.target.classList.contains('prev-x')) box.remove();
+    });
+    document.addEventListener('keydown', function esc2(e) {
+      if (e.key === 'Escape') { box.remove(); document.removeEventListener('keydown', esc2); }
+    });
+  }
+
   function renderPosts(goalId) {
     var root = $('postsRoot'); if (!root || !goalId) return;
     Promise.all([
@@ -567,6 +631,14 @@
           var card = b.closest('.post-card');
           var post = items.filter(function (x) { return String(x.id) === String(id); })[0] || {};
           openSched(card, post, goalId, slots, busy);
+        });
+      });
+
+      root.querySelectorAll('[data-preview]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var id = b.getAttribute('data-preview');
+          var post = items.filter(function (x) { return String(x.id) === String(id); })[0];
+          if (post) openPreview(post);
         });
       });
 
