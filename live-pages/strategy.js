@@ -455,7 +455,8 @@
     main += '<button type="button" class="step-go" data-preview="' + p.id + '">Как в Telegram</button>';
 
     /* тихие действия — второй строкой, чтобы не спорили с главными */
-    var more = '<button type="button" class="mini" data-copy="1">Скопировать</button>' +
+    var more = '<button type="button" class="mini" data-edit="' + p.id + '">Редактировать</button>' +
+      '<button type="button" class="mini" data-copy="1">Скопировать</button>' +
       '<button type="button" class="mini" data-listen="' + p.id + '">Прослушать</button>' +
       '<button type="button" class="mini" data-regen="' + p.id + '">Перегенерировать</button>' +
       '<button type="button" class="mini danger" data-del="' + p.id + '">Удалить</button>';
@@ -642,6 +643,149 @@
     });
   }
 
+
+  /* ── редактор поста: слева работа, справа живая лента ───────
+     Образец — Buffer: видно и текст, и то, как его встретят. */
+  var NETUI = {
+    tg: { nm: 'Telegram',  r: '16 / 9',   lim: 4096,
+          acts: '👁 0 · просмотры', place: 'Мой канал' },
+    vk: { nm: 'VK',        r: '4 / 3',    lim: 4096,
+          acts: '♡ Нравится   💬 Комментировать   ↗ Поделиться', place: 'Моя группа' },
+    ig: { nm: 'Instagram', r: '1 / 1',    lim: 2200,
+          acts: '♡  ·  💬  ·  ↗', place: 'my_brand' },
+    fb: { nm: 'Facebook',  r: '1.91 / 1', lim: 63206,
+          acts: '♡ Нравится   💬 Комментарий   ↗ Поделиться', place: 'Моя страница' },
+    in: { nm: 'LinkedIn',  r: '1.91 / 1', lim: 3000,
+          acts: '♡ Нравится   💬 Комментарий   ↗ Репост', place: 'Моя компания' }
+  };
+
+  function editorHtml(p) {
+    var chips = Object.keys(NETUI).map(function (k) {
+      return '<button type="button" class="pv-chip' + (k === 'tg' ? ' on' : '') +
+        '" data-net="' + k + '">' + NETUI[k].nm + '</button>';
+    }).join('');
+    return '<div class="gg-e" id="ggEditor" role="dialog" aria-label="Пост">' +
+      '<div class="ge-wrap">' +
+        '<div class="ge-head">' +
+          '<span class="ge-title">Пост № ' + p.id + '</span>' +
+          '<button type="button" class="ge-x" aria-label="Закрыть">✕</button>' +
+        '</div>' +
+        '<div class="ge-body">' +
+          '<div class="ge-left">' +
+            '<label class="ge-lbl">Заголовок</label>' +
+            '<input class="ge-title-in" id="geTitle" value="' + esc(p.title || '') + '">' +
+            '<label class="ge-lbl">Текст</label>' +
+            '<textarea class="ge-text" id="geText" rows="12">' + esc(p.text || p.body || '') + '</textarea>' +
+            '<div class="ge-media">' +
+              (p.image_path ? '<img src="' + esc(p.image_path) + '" alt="">' : '<div class="ge-ph">картинки нет</div>') +
+              '<button type="button" class="mini" data-img="' + p.id + '">Нарисовать другую</button>' +
+            '</div>' +
+            '<div class="ge-acts">' +
+              '<button type="button" class="step-go gold" data-ge-save="' + p.id + '">Сохранить</button>' +
+              '<button type="button" class="step-go" data-ge-close="1">Отмена</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="ge-right">' +
+            '<div class="pv-chips">' + chips + '</div>' +
+            '<div class="ge-feed" id="geFeed"></div>' +
+          '</div>' +
+        '</div>' +
+      '</div></div>';
+  }
+
+  function feedHtml(p, k) {
+    var net = NETUI[k];
+    var txt = String(p.text || p.body || '');
+    var over = txt.length > net.lim;
+    var media = p.image_path
+      ? '<img class="fd-img" style="aspect-ratio:' + net.r + '" src="' + esc(p.image_path) +
+        '" alt="" onerror="this.style.display=\'none\'">'
+      : '<div class="fd-img ph" style="aspect-ratio:' + net.r + '">картинка появится здесь</div>';
+    return '<div class="fd-card">' +
+      '<div class="fd-head">' +
+        '<span class="fd-ava">' +
+          '<svg viewBox="238 162 74 101" fill="none" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">' +
+          '<path d="M256 193 244 180 244 252" stroke="#F8961D"/><path d="M306 168 263 209" stroke="#28A992"/>' +
+          '<path d="M287 216 245 257" stroke="#E01F27"/><path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg>' +
+        '</span>' +
+        '<span class="fd-who"><b>' + esc(net.place) + '</b><em>только что · ' + net.nm + '</em></span>' +
+      '</div>' +
+      '<div class="fd-body">' +
+        media +
+        (p.title ? '<p class="fd-t">' + esc(p.title) + '</p>' : '') +
+        '<p class="fd-x">' + esc(txt.slice(0, 600)) + '</p>' +
+      '</div>' +
+      '<div class="fd-acts"><span>' + net.acts + '</span></div>' +
+      '<div class="fd-foot"><span>' + net.r.replace(/ \/ /g, ':') + '</span>' +
+        '<span class="' + (over ? 'over' : '') + '">' + txt.length + ' / ' + net.lim + ' знаков</span></div>' +
+      '</div>';
+  }
+
+  function openEditor(p, goalId) {
+    var old = document.getElementById('ggEditor');
+    if (old) old.remove();
+    var holder = document.createElement('div');
+    holder.innerHTML = editorHtml(p);
+    var box = holder.firstChild;
+    document.body.appendChild(box);
+
+    var feed = box.querySelector('#geFeed');
+    var curNet = 'tg';
+    var draft = { id: p.id, title: p.title || '', text: p.text || p.body || '', image_path: p.image_path };
+
+    function repaint() { feed.innerHTML = feedHtml(draft, curNet); }
+    repaint();
+
+    box.addEventListener('click', function (e) {
+      var chip = e.target.closest('[data-net]');
+      if (chip) {
+        curNet = chip.getAttribute('data-net');
+        box.querySelectorAll('.pv-chip').forEach(function (c) {
+          c.classList.toggle('on', c.getAttribute('data-net') === curNet);
+        });
+        repaint();
+        return;
+      }
+      if (e.target === box || e.target.classList.contains('ge-x') || e.target.closest('[data-ge-close]')) {
+        box.remove();
+        return;
+      }
+      var img = e.target.closest('[data-img]');
+      if (img) {
+        img.disabled = true; img.textContent = 'Рисую…';
+        fetch('/api/posts/' + draft.id + '/image', { method: 'POST', credentials: 'same-origin' })
+          .then(function () { setTimeout(function () { renderPosts(goalId); box.remove(); }, 1200); })
+          .catch(function () { img.disabled = false; img.textContent = 'Нарисовать другую'; });
+        return;
+      }
+      var save = e.target.closest('[data-ge-save]');
+      if (save) {
+        save.disabled = true; save.textContent = 'Сохраняю…';
+        var t = box.querySelector('#geTitle').value.trim();
+        var x = box.querySelector('#geText').value.trim();
+        fetch('/api/posts/' + draft.id, {
+          method: 'PATCH', credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title: t, body: x })
+        }).then(function (r) { if (!r.ok) throw new Error('Не сохранилось'); box.remove(); renderPosts(goalId); })
+          .catch(function (err) {
+            save.disabled = false; save.textContent = 'Сохранить';
+            alert(err.message);
+          });
+      }
+    });
+
+    box.querySelector('#geTitle').addEventListener('input', function (e) {
+      draft.title = e.target.value; repaint();
+    });
+    box.querySelector('#geText').addEventListener('input', function (e) {
+      draft.text = e.target.value; repaint();
+    });
+    document.addEventListener('keydown', function esc(e) {
+      if (e.key === 'Escape') { box.remove(); document.removeEventListener('keydown', esc); }
+    });
+  }
+
   function renderPosts(goalId) {
     var root = $('postsRoot'); if (!root || !goalId) return;
     Promise.all([
@@ -692,6 +836,14 @@
           var card = b.closest('.post-card');
           var post = items.filter(function (x) { return String(x.id) === String(id); })[0] || {};
           openSched(card, post, goalId, slots, busy);
+        });
+      });
+
+      root.querySelectorAll('[data-edit]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var id = b.getAttribute('data-edit');
+          var post = items.filter(function (x) { return String(x.id) === String(id); })[0];
+          if (post) openEditor(post, goalId);
         });
       });
 
