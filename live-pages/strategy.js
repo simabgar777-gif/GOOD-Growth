@@ -627,6 +627,24 @@
     }).observe(root, { childList: true });
   }
 
+  /* ── посты созданы: показать их человеку ───────────────────
+     кнопка стоит внизу, а посты появляются выше — без прокрутки
+     кажется, что ничего не произошло. */
+  document.addEventListener('gg:posts-created', function (e) {
+    var n = (e && e.detail && e.detail.count) || 0;
+    setTimeout(function () {
+      var root = $('postsRoot');
+      if (!root) return;
+      var card = root.querySelector('.post-card');
+      if (!card) return;
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.classList.add('gg-flash');
+      setTimeout(function () { card.classList.remove('gg-flash'); }, 2200);
+      var st = $('postsStatus');
+      if (st && !st.textContent) st.textContent = 'Готово: ' + n + ' постов.';
+    }, 500);
+  });
+
   /* ── журнал ───────────────────────────────────────────────── */
   function fillJournal(currentId) {
     var list = $('journalList');

@@ -710,7 +710,14 @@ makeBtn.addEventListener('click', async () => {
     if (!r.ok) throw new Error(data.error || 'Не получилось создать посты');
     const fresh = data.posts;
     fresh.forEach((p) => postsRoot.appendChild(renderPostCard(p)));
-    postsStatus.textContent = 'Готово: ' + fresh.length + ' постов.';
+    var nNew = fresh.length;
+    var word = (nNew % 10 === 1 && nNew % 100 !== 11) ? 'пост'
+             : ([2,3,4].indexOf(nNew % 10) > -1 && [12,13,14].indexOf(nNew % 100) < 0) ? 'поста'
+             : 'постов';
+    postsStatus.textContent = 'Готово: ' + nNew + ' ' + word + '.';
+    /* говорим странице: посты появились ВЫШЕ кнопки —
+       без этого человек не замечает, что контент создан */
+    try { document.dispatchEvent(new CustomEvent('gg:posts-created', { detail: { count: fresh.length } })); } catch (e) {}
     stopHonestProgress();
     for (const p of fresh) {
       await startImage(p.id);
