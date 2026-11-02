@@ -463,6 +463,7 @@
     var actions = main;
 
     return '<div class="post-card" data-gg="1" data-post-id="' + p.id + '">' +
+      '<div class="post-work">' +
       '<div class="post-media"><span class="tag-img">' + esc(tag) + '</span>' + img + '</div>' +
       '<div class="post-body">' +
         '<p class="meta">№ ' + p.id + ' · ' + esc(state) +
@@ -473,7 +474,9 @@
         '<div class="post-actions">' + actions + '</div>' +
         '<div class="post-mini">' + more + '</div>' +
         '<div class="sched-slot"></div>' +
-      '</div></div>';
+      '</div></div>' +
+      '<aside class="post-prev" data-prev="' + p.id + '"></aside>' +
+      '</div>';
   }
 
   /* маленькая панель: когда поставить */
@@ -593,6 +596,52 @@
     });
   }
 
+
+  /* ── показ поста в ленте выбранной сети (приём Buffer) ────── */
+  var NETPREV = [
+    { k: 'tg', nm: 'Telegram',  r: '16 / 9',  lim: 4096 },
+    { k: 'vk', nm: 'VK',        r: '4 / 3',   lim: 4096 },
+    { k: 'ig', nm: 'Instagram', r: '1 / 1',   lim: 2200 },
+    { k: 'fb', nm: 'Facebook',  r: '1.91 / 1', lim: 63206 },
+    { k: 'in', nm: 'LinkedIn',  r: '1.91 / 1', lim: 3000 }
+  ];
+
+  function previewHtml(p, key) {
+    var net = NETPREV[0];
+    NETPREV.forEach(function (n) { if (n.k === key) net = n; });
+    var txt = String(p.text || p.body || '');
+    var over = txt.length > net.lim;
+    var media = p.image_path
+      ? '<img class="pv-img" style="aspect-ratio:' + net.r + '" src="' + esc(p.image_path) +
+        '" alt="" onerror="this.style.display=\'none\'">'
+      : '<div class="pv-img ph" style="aspect-ratio:' + net.r + '">картинка появится здесь</div>';
+    var chips = NETPREV.map(function (n) {
+      return '<button type="button" class="pv-chip' + (n.k === net.k ? ' on' : '') +
+        '" data-net="' + n.k + '">' + n.nm + '</button>';
+    }).join('');
+    return '<div class="pv-chips">' + chips + '</div>' +
+      '<div class="pv-box">' + media +
+        (p.title ? '<b class="pv-t">' + esc(String(p.title).slice(0, 90)) + '</b>' : '') +
+        '<p class="pv-x">' + esc(txt.slice(0, 400)) + '</p>' +
+        '<div class="pv-meta"><span>' + net.nm + ' · ' + net.r.replace(/ \/ /g, ':') + '</span>' +
+        '<span class="' + (over ? 'over' : '') + '">' + txt.length + ' / ' + net.lim + ' знаков</span></div>' +
+      '</div>';
+  }
+
+  function wirePreview(card, p) {
+    var host = card.querySelector('.post-prev');
+    if (!host) return;
+    var cur = 'tg';
+    function paint() { host.innerHTML = previewHtml(p, cur); }
+    paint();
+    host.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-net]');
+      if (!b) return;
+      cur = b.getAttribute('data-net');
+      paint();
+    });
+  }
+
   function renderPosts(goalId) {
     var root = $('postsRoot'); if (!root || !goalId) return;
     Promise.all([
@@ -644,6 +693,12 @@
           var post = items.filter(function (x) { return String(x.id) === String(id); })[0] || {};
           openSched(card, post, goalId, slots, busy);
         });
+      });
+
+      root.querySelectorAll('.post-card').forEach(function (card) {
+        var pid = card.getAttribute('data-post-id');
+        var post = items.filter(function (x) { return String(x.id) === String(pid); })[0];
+        if (post) wirePreview(card, post);
       });
 
       root.querySelectorAll('[data-regen]').forEach(function (b) {
