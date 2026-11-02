@@ -436,20 +436,31 @@
               : p.scheduled_at ? 'запланирован'
               : p.approved_at ? 'утверждён' : 'черновик';
 
-    var actions = '';
+    /* главные действия: их немного */
+    var main = '';
     if (!p.image_path) {
-      actions += '<button type="button" class="step-go" data-img="' + p.id + '">Картинка</button>';
+      main += '<button type="button" class="step-go" data-img="' + p.id + '">Картинка</button>';
     }
-    actions += '<button type="button" class="step-go" data-copy="1">Скопировать текст</button>';
-    actions += '<button type="button" class="step-go" data-preview="' + p.id + '">Как в Telegram</button>';
     if (p.published_at) {
-      actions += '<span class="sched-note">уже вышел</span>';
+      main += '<span class="sched-note">уже вышел</span>';
     } else if (p.scheduled_at) {
-      actions += '<button type="button" class="step-go" data-sched="' + p.id + '">Перенести</button>' +
-                 '<button type="button" class="step-go ghost" data-unsched="' + p.id + '">Снять план</button>';
+      main += '<button type="button" class="step-go" data-sched="' + p.id + '">Перенести</button>' +
+              '<button type="button" class="step-go ghost" data-unsched="' + p.id + '">Снять план</button>';
     } else {
-      actions += '<button type="button" class="step-go gold" data-sched="' + p.id + '">Запланировать</button>';
+      main += '<button type="button" class="step-go gold" data-sched="' + p.id + '">Запланировать</button>';
     }
+    if (!p.published_at) {
+      main += '<button type="button" class="step-go" data-publish="' + p.id + '">Опубликовать</button>';
+    }
+    main += '<button type="button" class="step-go" data-preview="' + p.id + '">Как в Telegram</button>';
+
+    /* тихие действия — второй строкой, чтобы не спорили с главными */
+    var more = '<button type="button" class="mini" data-copy="1">Скопировать</button>' +
+      '<button type="button" class="mini" data-listen="' + p.id + '">Прослушать</button>' +
+      '<button type="button" class="mini" data-regen="' + p.id + '">Перегенерировать</button>' +
+      '<button type="button" class="mini danger" data-del="' + p.id + '">Удалить</button>';
+
+    var actions = main;
 
     return '<div class="post-card" data-gg="1" data-post-id="' + p.id + '">' +
       '<div class="post-media"><span class="tag-img">' + esc(tag) + '</span>' + img + '</div>' +
@@ -460,6 +471,7 @@
         '<h4>' + esc(title) + '</h4>' +
         (rest ? '<p>' + esc(rest.slice(0, 400)) + '</p>' : '') +
         '<div class="post-actions">' + actions + '</div>' +
+        '<div class="post-mini">' + more + '</div>' +
         '<div class="sched-slot"></div>' +
       '</div></div>';
   }
@@ -634,6 +646,63 @@
         });
       });
 
+      root.querySelectorAll('[data-regen]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          b.disabled = true; b.textContent = 'Пишу…';
+          fetch('/api/posts/' + b.getAttribute('data-regen') + '/regenerate', {
+            method: 'POST', credentials: 'same-origin'
+          }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+            .then(function (res) {
+              if (!res.ok) throw new Error((res.j && res.j.error) || 'Не получилось');
+              setTimeout(function () { renderPosts(goalId); }, 600);
+            })
+            .catch(function (e) { b.disabled = false; b.textContent = 'Перегенерировать'; alert(e.message); });
+        });
+      });
+
+      root.querySelectorAll('[data-del]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          if (b.getAttribute('data-armed') !== '1') {
+            b.setAttribute('data-armed', '1'); b.textContent = 'Точно удалить?';
+            setTimeout(function () { if (b.isConnected) { b.removeAttribute('data-armed'); b.textContent = 'Удалить'; } }, 4000);
+            return;
+          }
+          b.disabled = true;
+          fetch('/api/posts/' + b.getAttribute('data-del'), { method: 'DELETE', credentials: 'same-origin' })
+            .then(function () { renderPosts(goalId); })
+            .catch(function () { b.disabled = false; });
+        });
+      });
+
+      root.querySelectorAll('[data-publish]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          b.disabled = true; b.textContent = 'Отправляю…';
+          fetch('/api/posts/' + b.getAttribute('data-publish') + '/publish', {
+            method: 'POST', credentials: 'same-origin'
+          }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+            .then(function (res) {
+              if (!res.ok) throw new Error((res.j && res.j.error) || 'Не удалось отправить');
+              renderPosts(goalId);
+            })
+            .catch(function (e) { b.disabled = false; b.textContent = 'Опубликовать'; alert(e.message); });
+        });
+      });
+
+      root.querySelectorAll('[data-listen]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var id = b.getAttribute('data-listen');
+          var post = items.filter(function (x) { return String(x.id) === String(id); })[0];
+          if (!post || !window.speechSynthesis) return;
+          window.speechSynthesis.cancel();
+          var u = new SpeechSynthesisUtterance(
+            (post.title ? post.title + '. ' : '') + String(post.text || post.body || ''));
+          u.lang = 'ru-RU'; u.rate = 0.95;
+          window.speechSynthesis.speak(u);
+          b.textContent = 'Читаю…';
+          u.onend = function () { b.textContent = 'Прослушать'; };
+        });
+      });
+
       root.querySelectorAll('[data-preview]').forEach(function (b) {
         b.addEventListener('click', function () {
           var id = b.getAttribute('data-preview');
@@ -691,11 +760,15 @@
     var root = $('postsRoot'); if (!root || !goalId) return;
     var busy = false;
     new MutationObserver(function () {
+      /* чужие карточки (старая разметка app.js) убираем СРАЗУ,
+         чтобы человек не видел два разных вида рядом */
+      var bad = [].slice.call(root.children).filter(function (c) { return !c.getAttribute('data-gg'); });
+      if (!bad.length) return;
+      bad.forEach(function (c) { c.remove(); });
       if (busy) return;
-      var bad = [].slice.call(root.children).some(function (c) { return !c.getAttribute('data-gg'); });
-      if (!bad) return;
       busy = true;
-      setTimeout(function () { renderPosts(goalId); busy = false; }, 250);
+      setTimeout(function () { renderPosts(goalId); busy = false; }, 300);
+      setTimeout(function () { renderPosts(goalId); }, 1400);
     }).observe(root, { childList: true });
   }
 
