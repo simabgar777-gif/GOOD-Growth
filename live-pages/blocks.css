@@ -608,3 +608,59 @@ a.gg-btn-gold:hover, a.gg-btn-ghost:hover { text-decoration: none !important; }
 .topline .status-chips { margin-left: auto !important; }
 .gg-band > .gg-crumb,
 .gg-band > .crumb { margin-right: auto; }
+
+/* ══ КАНАЛЫ: полный список сетей ═════════════════════════════ */
+.chan-note {
+  margin: 18px 0 22px; padding: 14px 18px; border-radius: 12px;
+  border: 1px solid rgba(232,165,79,.28); background: rgba(232,165,79,.07);
+  color: var(--muted); font-size: 13.5px; line-height: 1.55; max-width: 760px;
+}
+.chan-note b { color: var(--ink); }
+
+.chan-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+.chan-card {
+  display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 12px;
+  padding: 14px 16px; border-radius: 14px;
+  border: 1px solid var(--hair, rgba(255,255,255,.09)); background: var(--surface, #121317);
+}
+.chan-card.ok { border-color: rgba(76,184,83,.35); background: rgba(76,184,83,.06); }
+.chan-ic {
+  width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+  font-family: var(--font-mono, monospace); font-size: 12px; font-weight: 700;
+  background: rgba(255,255,255,.05); color: var(--muted); border: 1px solid rgba(255,255,255,.08);
+}
+.chan-card.ok .chan-ic { background: rgba(76,184,83,.16); color: #8FD9A0; border-color: rgba(76,184,83,.4); }
+.chan-tx { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.chan-tx b { font-size: 14px; color: var(--ink); }
+.chan-tx em { font-style: normal; font-size: 11.5px; color: var(--faint); line-height: 1.35; }
+.chan-st {
+  font-family: var(--font-mono, monospace); font-size: 9.5px; letter-spacing: .1em;
+  text-transform: uppercase; padding: 4px 9px; border-radius: 999px; white-space: nowrap;
+  color: var(--faint); border: 1px solid rgba(255,255,255,.10);
+}
+.chan-card.ok .chan-st { color: #8FD9A0; border-color: rgba(76,184,83,.45); background: rgba(76,184,83,.12); }
+
+.chan-tg {
+  margin-top: 26px; padding: 20px 22px; border-radius: 16px;
+  border: 1px solid var(--hair, rgba(255,255,255,.09)); background: var(--surface, #121317);
+}
+.chan-tg h2 { font-family: var(--font-display, serif); font-size: 20px; margin: 0 0 2px; }
+.chan-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.chan-row input {
+  flex: 1 1 260px; padding: 11px 14px; border-radius: 10px; font: inherit; font-size: 14px;
+  border: 1px solid var(--hair, rgba(255,255,255,.10)); background: var(--bg-soft, #0E0F13); color: var(--ink);
+}
+.chan-row input:focus { outline: none; border-color: rgba(232,165,79,.5); }
+.chan-go {
+  padding: 11px 18px; border-radius: 999px; cursor: pointer; border: 0;
+  background: var(--amber, #E8A54F); color: #1B1206; font: 700 13px inherit; font-weight: 700;
+}
+.chan-go:hover { background: #F3C583; }
+.chan-hint { margin: 10px 0 0; font-size: 12px; color: var(--faint); }
+
+@media (max-width: 640px) {
+  .chan-grid { grid-template-columns: 1fr; }
+  .chan-card { grid-template-columns: 32px 1fr; }
+  .chan-st { grid-column: 2; justify-self: start; margin-top: 4px; }
+}
