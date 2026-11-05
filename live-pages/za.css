@@ -1221,3 +1221,20 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 @media (max-width: 700px) { .gg-rhythm { padding: 15px 16px; } .gg-rhythm h3 { font-size: 18px; } }
 [data-theme="light"] .gg-rhythm { background: rgba(169,106,184,.08); }
 [data-theme="light"] .gg-rhythm-lbl { color: #8A5A99; }
+
+/* ══ СВЁРНУТАЯ ПАНЕЛЬ НА «СТОЛЕ» И «ЦЕЛИ» ═══════════════════
+   Здесь своя раскладка: .shell + --sidebar, а не body padding. */
+body.gg-rail-collapsed { --sidebar: 76px; --rail-w: 76px; }
+
+body.gg-rail-collapsed .sidebar .brandmark { justify-content: center; padding-left: 0; padding-right: 0; }
+body.gg-rail-collapsed .sidebar .brandmark .t { display: none; }
+body.gg-rail-collapsed .sidebar .brand-chip { display: none; }
+body.gg-rail-collapsed .sidebar .nav a { justify-content: center; padding-left: 0; padding-right: 0; gap: 0; }
+body.gg-rail-collapsed .sidebar .nav a span { display: none; }
+body.gg-rail-collapsed .sidebar .side-foot a span { display: none; }
+
+@media (min-width: 1101px) {
+  /* тропа стоит на месте и занимает 252px — контент начинается ПОСЛЕ неё */
+  body.gg-rail-collapsed main#goalPage.gg-wizard { padding-left: 294px; }
+  body.gg-rail-collapsed .ggstep { left: calc(var(--rail-w, 76px) + 18px); }
+}

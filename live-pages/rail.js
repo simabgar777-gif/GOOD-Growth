@@ -372,3 +372,35 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fix);
   else fix();
 })();
+
+/* ── панель открыть / закрыть ─────────────────────────────────
+   Сжимается до иконок; выбор запоминается. */
+(function railCollapse() {
+  var KEY = 'gg_rail';
+  var btn = document.createElement('button');
+  btn.id = 'ggRailToggle';
+  btn.type = 'button';
+  btn.className = 'gg-rail-toggle';
+
+  function apply(collapsed) {
+    document.body.classList.toggle('gg-rail-collapsed', collapsed);
+    btn.textContent = collapsed ? '\u203A' : '\u2039';
+    btn.setAttribute('aria-label', collapsed ? 'Развернуть панель' : 'Свернуть панель');
+    btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+    btn.title = btn.getAttribute('aria-label');
+    try { window.dispatchEvent(new Event('resize')); } catch (e) {}
+  }
+
+  var saved = false;
+  try { saved = localStorage.getItem(KEY) === '1'; } catch (e) {}
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.body.appendChild(btn);
+    apply(saved);
+    btn.addEventListener('click', function () {
+      var next = !document.body.classList.contains('gg-rail-collapsed');
+      try { localStorage.setItem(KEY, next ? '1' : '0'); } catch (e) {}
+      apply(next);
+    });
+  });
+})();

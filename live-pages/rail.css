@@ -284,3 +284,43 @@ html[data-theme="light"] .gg-rail-out { color: #5C665F !important; }
   font-size: 13.5px; font-weight: 600;
 }
 .gg-rail-in:hover { background: rgba(232,165,79,.10); color: var(--copper-lt, #F3C583) !important; }
+
+
+/* ══ ПАНЕЛЬ ОТКРЫТЬ / ЗАКРЫТЬ ════════════════════════════════
+   Свёрнутая — только иконки. Ширина держится на --rail-w,
+   поэтому контент переезжает сам. */
+body.gg-rail-collapsed { --rail-w: 76px; }
+
+body.gg-rail-collapsed .gg-rail { padding-left: 0; padding-right: 0; align-items: center; }
+body.gg-rail-collapsed .gg-rail-logo { justify-content: center; padding: 0; }
+body.gg-rail-collapsed .gg-rail-logo .gg-t { display: none; }
+
+body.gg-rail-collapsed .gg-rail-nav a,
+body.gg-rail-collapsed .gg-rail-foot a {
+  justify-content: center; padding-left: 0; padding-right: 0; gap: 0;
+}
+body.gg-rail-collapsed .gg-rail-nav a span,
+body.gg-rail-collapsed .gg-rail-foot a span,
+body.gg-rail-collapsed .gg-rail-theme .gg-tx { display: none; }
+body.gg-rail-collapsed .gg-rail-theme { justify-content: center; padding-left: 0; padding-right: 0; }
+body.gg-rail-collapsed .gg-rail-out { display: none; }
+
+/* кнопка на шве панели */
+.gg-rail-toggle {
+  position: fixed; top: 16px; left: calc(var(--rail-w) - 15px); z-index: 70;
+  width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+  display: grid; place-items: center; font-size: 15px; line-height: 1;
+  border: 1px solid rgba(255,255,255,.14); background: #0D0E12; color: var(--muted, #8B8B95);
+  transition: left .22s ease, color .18s, border-color .18s;
+}
+.gg-rail-toggle:hover { color: var(--ink, #F4F4F5); border-color: rgba(232,165,79,.5); }
+body.gg-rail-collapsed .gg-rail-toggle { color: var(--amber, #E8A54F); }
+html[data-theme="light"] .gg-rail-toggle { background: #FFFDF8; border-color: rgba(28,24,18,.15); }
+
+body.gg-rail-collapsed .gg-rail { transition: width .22s ease; }
+body.gg-with-rail { transition: padding-left .22s ease; }
+
+@media (max-width: 768px) { .gg-rail-toggle { display: none !important; } }
+@media (prefers-reduced-motion: reduce) {
+  body.gg-rail-collapsed .gg-rail, body.gg-with-rail, .gg-rail-toggle { transition: none; }
+}
