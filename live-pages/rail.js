@@ -383,6 +383,9 @@
   btn.className = 'gg-rail-toggle';
 
   function apply(collapsed) {
+    /* класс на <html> — его ставит ранний скрипт в <head>, поэтому
+       панель не мигает: свёрнутая ширина известна ДО отрисовки */
+    document.documentElement.classList.toggle('gg-rail-collapsed', collapsed);
     document.body.classList.toggle('gg-rail-collapsed', collapsed);
     btn.textContent = collapsed ? '\u203A' : '\u2039';
     btn.setAttribute('aria-label', collapsed ? 'Развернуть панель' : 'Свернуть панель');
@@ -391,7 +394,7 @@
     try { window.dispatchEvent(new Event('resize')); } catch (e) {}
   }
 
-  var saved = false;
+  var saved = document.documentElement.classList.contains('gg-rail-collapsed');
   try { saved = localStorage.getItem(KEY) === '1'; } catch (e) {}
 
   document.addEventListener('DOMContentLoaded', function () {

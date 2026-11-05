@@ -1224,24 +1224,24 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 
 /* ══ СВЁРНУТАЯ ПАНЕЛЬ НА «СТОЛЕ» И «ЦЕЛИ» ═══════════════════
    Здесь своя раскладка: .shell + --sidebar, а не body padding. */
-body.gg-rail-collapsed { --sidebar: 76px; --rail-w: 76px; }
+.gg-rail-collapsed { --sidebar: 76px; --rail-w: 76px; }
 
-body.gg-rail-collapsed .sidebar .brandmark { justify-content: center; padding-left: 0; padding-right: 0; }
-body.gg-rail-collapsed .sidebar .brandmark .t { display: none; }
-body.gg-rail-collapsed .sidebar .brand-chip { display: none; }
-body.gg-rail-collapsed .sidebar .nav a { justify-content: center; padding-left: 0; padding-right: 0; gap: 0; }
-body.gg-rail-collapsed .sidebar .nav a span { display: none; }
-body.gg-rail-collapsed .sidebar .side-foot a span { display: none; }
+.gg-rail-collapsed .sidebar .brandmark { justify-content: center; padding-left: 0; padding-right: 0; }
+.gg-rail-collapsed .sidebar .brandmark .t { display: none; }
+.gg-rail-collapsed .sidebar .brand-chip { display: none; }
+.gg-rail-collapsed .sidebar .nav a { justify-content: center; padding-left: 0; padding-right: 0; gap: 0; }
+.gg-rail-collapsed .sidebar .nav a span { display: none; }
+.gg-rail-collapsed .sidebar .side-foot a span { display: none; }
 
 @media (min-width: 1101px) {
   /* тропа стоит на месте и занимает 252px — контент начинается ПОСЛЕ неё */
-  body.gg-rail-collapsed main#goalPage.gg-wizard { padding-left: 294px; }
-  body.gg-rail-collapsed .ggstep { left: calc(var(--rail-w, 76px) + 18px); }
+  .gg-rail-collapsed main#goalPage.gg-wizard { padding-left: 294px; }
+  .gg-rail-collapsed .ggstep { left: calc(var(--rail-w, 76px) + 18px); }
 }
 
 /* тот же аккаунт-блок для «Стола» и «Цели» (тут грузится только za.css) */
 /* ══ АККАУНТ ВНИЗУ ПАНЕЛИ ════════════════════════════════════ */
-body.gg-acc-ready .gg-rail-foot, body.gg-acc-ready .side-foot { display: none !important; }
+.gg-acc-ready .gg-rail-foot, .gg-acc-ready .side-foot { display: none !important; }
 
 .gg-acc { position: relative; margin-top: auto; width: 100%; padding: 10px 10px 12px; }
 .gg-acc-btn {
@@ -1276,10 +1276,10 @@ body.gg-acc-ready .gg-rail-foot, body.gg-acc-ready .side-foot { display: none !i
 .gg-acc-pop .danger:hover { background: rgba(232,105,79,.12); color: #E8694F; }
 
 /* свёрнутая панель: только аватар, меню выезжает вправо */
-body.gg-rail-collapsed .gg-acc { padding: 10px 0 12px; display: grid; place-items: center; }
-body.gg-rail-collapsed .gg-acc-btn { justify-content: center; padding: 8px; }
-body.gg-rail-collapsed .gg-acc-tx, body.gg-rail-collapsed .gg-acc-chev { display: none; }
-body.gg-rail-collapsed .gg-acc-pop { position: fixed; left: 86px; bottom: 88px; width: 236px; right: auto; }
+.gg-rail-collapsed .gg-acc { padding: 10px 0 12px; display: grid; place-items: center; }
+.gg-rail-collapsed .gg-acc-btn { justify-content: center; padding: 8px; }
+.gg-rail-collapsed .gg-acc-tx, .gg-rail-collapsed .gg-acc-chev { display: none; }
+.gg-rail-collapsed .gg-acc-pop { position: fixed; left: 86px; bottom: 88px; width: 236px; right: auto; }
 
 html[data-theme="light"] .gg-acc-pop { background: #FFFDF8; border-color: rgba(28,24,18,.12); }
 
@@ -1306,11 +1306,11 @@ html[data-theme="light"] .gg-acc-pop { background: #FFFDF8; border-color: rgba(2
 [data-theme="light"] .brand-chip .bc-count { border-color: rgba(28,24,18,.16); }
 
 /* свёрнутая панель: подписи групп («РАЗВИТИЕ») не нужны — они не влезают */
-body.gg-rail-collapsed .sidebar .nav .lbl,
-body.gg-rail-collapsed .sidebar .nav > span,
-body.gg-rail-collapsed .gg-rail .gg-rail-grp,
-body.gg-rail-collapsed .gg-rail .lbl { display: none !important; }
+.gg-rail-collapsed .sidebar .nav .lbl,
+.gg-rail-collapsed .sidebar .nav > span,
+.gg-rail-collapsed .gg-rail .gg-rail-grp,
+.gg-rail-collapsed .gg-rail .lbl { display: none !important; }
 
 /* аватар в свёрнутой панели: целиком, по центру */
-body.gg-rail-collapsed .gg-acc-btn { width: 44px; height: 44px; padding: 0; margin: 0 auto; }
-body.gg-rail-collapsed .gg-acc-ava { width: 32px; height: 32px; font-size: 14px; }
+.gg-rail-collapsed .gg-acc-btn { width: 44px; height: 44px; padding: 0; margin: 0 auto; }
+.gg-rail-collapsed .gg-acc-ava { width: 32px; height: 32px; font-size: 14px; }
