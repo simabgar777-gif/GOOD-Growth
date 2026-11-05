@@ -1282,3 +1282,25 @@ body.gg-rail-collapsed .gg-acc-tx, body.gg-rail-collapsed .gg-acc-chev { display
 body.gg-rail-collapsed .gg-acc-pop { position: fixed; left: 86px; bottom: 88px; width: 236px; right: auto; }
 
 html[data-theme="light"] .gg-acc-pop { background: #FFFDF8; border-color: rgba(28,24,18,.12); }
+
+/* ══ ЧИП БРЕНДА: напоминание, с кем я сейчас работаю ═════════ */
+.brand-chip { position: relative; display: flex; align-items: center; gap: 8px;
+  cursor: pointer; border-radius: 11px; }
+.brand-chip .bc-count {
+  margin-left: auto; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .04em;
+  min-width: 18px; text-align: center; padding: 1px 5px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.12); color: var(--faint);
+}
+.brand-chip.is-set .bc-count { border-color: rgba(232,165,79,.4); color: var(--amber); }
+.brand-chip.is-set .dot { background: var(--amber); box-shadow: 0 0 0 3px rgba(232,165,79,.18); }
+.brand-chip .dot { flex: none; }
+
+.bmenu-lbl { margin: 2px 0 6px; padding: 0 8px; font-family: var(--font-mono);
+  font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
+.brand-chip #brandMenu .bmenu-item { padding: 8px 10px; }
+.brand-chip #brandMenu .bmenu-item.cur { color: var(--amber); }
+.brand-chip #brandMenu .bmenu-add {
+  display: block; margin-top: 4px; padding: 8px 10px; border-top: 1px solid rgba(255,255,255,.07);
+  color: var(--faint); font-size: 11.5px; text-decoration: none; }
+.brand-chip #brandMenu .bmenu-add:hover { color: var(--ink); }
+[data-theme="light"] .brand-chip .bc-count { border-color: rgba(28,24,18,.16); }

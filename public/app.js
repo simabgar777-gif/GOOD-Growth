@@ -101,7 +101,8 @@ async function loadBrands() {
     const r = await fetch('/api/brands');
     brandState.list = await r.json();
   } catch (e) { brandState.list = []; }
-  const saved = sessionStorage.getItem('gg_brand');
+  let saved = null;
+  try { saved = localStorage.getItem('gg_brand') || sessionStorage.getItem('gg_brand'); } catch (e) {}
   if (saved) {
     const b = brandState.list.find((x) => String(x.id) === saved);
     if (b) { brandState.id = b.id; brandState.name = b.name; }
@@ -115,12 +116,31 @@ function paintBrand() {
   if (!brandState.list.length) { pill.style.display = 'none'; return; }
   pill.style.display = '';
   const label = document.getElementById('brandLabel');
-  label.textContent = brandState.id ? 'Бренд: ' + brandState.name : 'Мои бренды';
+  const n = brandState.list.length;
+  label.textContent = brandState.id ? brandState.name : (n === 1 ? brandState.list[0].name : 'Все бренды');
+  /* счётчик: сколько всего брендов — чтобы человек видел масштаб,
+     а не думал, что у него один */
+  let cnt = document.getElementById('brandCount');
+  if (!cnt) {
+    cnt = document.createElement('span');
+    cnt.id = 'brandCount';
+    cnt.className = 'bc-count';
+    label.parentNode.insertBefore(cnt, label.nextSibling);
+  }
+  cnt.textContent = n;
+  cnt.title = n + ' ' + (n === 1 ? 'бренд' : (n < 5 ? 'бренда' : 'брендов'));
+
+  pill.classList.toggle('is-set', !!brandState.id);
+  pill.title = brandState.id ? 'Работаю с брендом: ' + brandState.name : 'Бренд не выбран';
+
   const dd = document.getElementById('brandMenu');
-  dd.innerHTML = '<button type="button" data-bid="" class="bmenu-item">— Все мои бренды —</button>' +
+  dd.innerHTML =
+    '<p class="bmenu-lbl">' + (brandState.id ? 'работаю с брендом' : 'выбери бренд') + '</p>' +
+    '<button type="button" data-bid="" class="bmenu-item' + (brandState.id ? '' : ' cur') + '">Все бренды</button>' +
     brandState.list.map((b) =>
       '<button type="button" data-bid="' + b.id + '" class="bmenu-item' + (String(b.id) === String(brandState.id) ? ' cur' : '') + '">' +
-      escBrand(b.name) + '</button>').join('');
+      escBrand(b.name) + '</button>').join('') +
+    '<a class="bmenu-add" href="/partner">+ Добавить бренд</a>';
 }
 
 function escBrand(s) { return String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -130,8 +150,15 @@ function selectBrand(id) {
   const b = id ? brandState.list.find((x) => x.id === id) : null;
   brandState.id = b ? b.id : null;
   brandState.name = b ? b.name : null;
-  if (brandState.id) sessionStorage.setItem('gg_brand', String(brandState.id));
-  else sessionStorage.removeItem('gg_brand');
+  try {
+    if (brandState.id) {
+      localStorage.setItem('gg_brand', String(brandState.id));
+      sessionStorage.setItem('gg_brand', String(brandState.id));
+    } else {
+      localStorage.removeItem('gg_brand');
+      sessionStorage.removeItem('gg_brand');
+    }
+  } catch (e) {}
   paintBrand();
   refreshJournal();
 }
