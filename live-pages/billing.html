@@ -64,6 +64,10 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
 <section class="bill-pay">
   <h2>Оплата</h2>
   <p class="bill-method">Банковская карта — Visa · Mastercard · МИР</p>
+
+  <div class="pay-regions" id="payMethods">
+    <p class="pay-load">Собираю способы оплаты…</p>
+  </div>
   <form id="payForm" novalidate>
     <label class="bill-fld">
       <span>Номер карты</span>
@@ -135,6 +139,34 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
     })
     .catch(function () { document.getElementById('billNow').innerHTML = '<p class="bill-lbl">твой тариф</p><p>Не удалось загрузить.</p>'; });
 
+  /* способы оплаты по регионам — из платёжного слоя сервера */
+  var PROV = { ready: {}, first: null };
+  fetch('/api/payments/providers', { credentials: 'same-origin' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      var host = document.getElementById('payMethods');
+      if (!d || !d.providers) { host.innerHTML = ''; return; }
+      var REGION = { RU: 'Россия и русскоязычные', WORLD: 'Мир — США, Европа', AM: 'Армения' };
+      var order = ['RU', 'WORLD', 'AM'];
+      var html = '';
+      order.forEach(function (reg) {
+        var list = d.providers.filter(function (p) { return p.region === reg; });
+        if (!list.length) return;
+        html += '<div class="pay-reg"><p class="pay-reg-nm">' + REGION[reg] + '</p>';
+        list.forEach(function (p) {
+          html += '<div class="pay-prov">' +
+            '<span class="pay-prov-nm">' + p.nm + '</span>' +
+            '<span class="pay-st ' + (p.ready ? 'ok' : '') + '">' + (p.ready ? 'подключён' : 'подключим') + '</span>' +
+            '<span class="pay-ms">' + p.methods.map(function (m) { return m.nm; }).join(' · ') + '</span>' +
+            '</div>';
+          if (p.ready && !PROV.first) PROV.first = p.id;
+        });
+        html += '</div>';
+      });
+      host.innerHTML = html;
+    })
+    .catch(function () { var h = document.getElementById('payMethods'); if (h) h.innerHTML = ''; });
+
   var num = document.getElementById('cardNum');
   num.addEventListener('input', function () {
     var v = num.value.replace(/\D/g, '').slice(0, 19);
@@ -162,7 +194,7 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
     fetch('/api/billing/checkout', {
       method: 'POST', credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ plan: want, email: email, card: digits })
+      body: JSON.stringify({ plan: want, email: email, card: digits, provider: PROV.first || 'yookassa' })
     }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
       .then(function (res) {
         if (!res.ok) throw new Error((res.j && res.j.error) || 'Не получилось');
