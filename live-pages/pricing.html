@@ -47,9 +47,15 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
 <h1>Тарифы</h1>
 <p class="sub">что входит — без звёздочек и сносок</p>
 
-<div class="pl-switch" role="group" aria-label="Период оплаты">
-  <button type="button" class="pl-sw on" data-period="month">Месяц</button>
-  <button type="button" class="pl-sw" data-period="year">Год <span class="pl-sw-badge">−20%</span></button>
+<div class="pl-controls">
+  <div class="pl-switch" role="group" aria-label="Период оплаты">
+    <button type="button" class="pl-sw on" data-period="month">Месяц</button>
+    <button type="button" class="pl-sw" data-period="year">Год <span class="pl-sw-badge">−20%</span></button>
+  </div>
+  <div class="pl-curswitch" role="group" aria-label="Валюта">
+    <button type="button" class="pl-cur on" data-cur="rub">₽</button>
+    <button type="button" class="pl-cur" data-cur="usd">$</button>
+  </div>
 </div>
 
 <div class="pl-grid">
@@ -178,17 +184,71 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
 
 <script>
 (function () {
-  var cur = null;
+  var RATE = 95;                                  /* ₽ за $1 — курс-заглушка, поменяем по факту */
+  var CUR = localStorage.getItem('gg_cur') === 'usd' ? 'usd' : 'rub';
+  var PERIOD = 'month';
+
+  function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+  function fmt(rub) {
+    if (!rub) return CUR === 'usd' ? '$0' : '0 ₽';
+    if (CUR === 'usd') return '$' + Math.round(rub / RATE);
+    return money(rub) + ' ₽';
+  }
+
+  function paintPrices() {
+    document.querySelectorAll('.pl-card').forEach(function (c) {
+      var m = c.querySelector('[data-m]');
+      if (!m) return;
+      var mv = Number(m.getAttribute('data-m') || 0);
+      var y = c.querySelector('[data-y]');
+      var yv = y ? Number(y.getAttribute('data-y') || 0) : 0;
+      var total = y ? Number(y.getAttribute('data-total') || 0) : 0;
+      var per = c.querySelector('[data-per]');
+      if (mv === 0) { m.textContent = fmt(0); if (y) y.hidden = true; if (per) per.textContent = 'в месяц'; return; }
+      if (PERIOD === 'year' && yv) {
+        m.textContent = fmt(yv);
+        if (per) per.textContent = 'в месяц';
+        if (y) { y.hidden = false; y.textContent = total ? 'за год — ' + fmt(total) : ''; }
+      } else {
+        m.textContent = fmt(mv);
+        if (per) per.textContent = 'в месяц';
+        if (y) { y.hidden = false; y.textContent = total ? 'или ' + fmt(total) + ' за год' : ''; }
+      }
+    });
+  }
+
+  document.querySelectorAll('.pl-sw').forEach(function (b) {
+    b.addEventListener('click', function () {
+      PERIOD = b.getAttribute('data-period');
+      document.querySelectorAll('.pl-sw').forEach(function (x) { x.classList.toggle('on', x === b); });
+      paintPrices();
+    });
+  });
+
+  document.querySelectorAll('.pl-cur').forEach(function (b) {
+    b.classList.toggle('on', b.getAttribute('data-cur') === CUR);
+    b.addEventListener('click', function () {
+      CUR = b.getAttribute('data-cur');
+      try { localStorage.setItem('gg_cur', CUR); } catch (e) {}
+      document.querySelectorAll('.pl-cur').forEach(function (x) { x.classList.toggle('on', x === b); });
+      paintPrices();
+    });
+  });
+
+  paintPrices();
+
+  /* «рекомендуем» + текущий тариф */
   fetch('/api/plan', { credentials: 'same-origin' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (d) {
       if (!d || !d.plan) return;
-      cur = d.plan;
+      var cur = d.plan;
       document.querySelectorAll('.pl-card').forEach(function (c) {
         if (c.getAttribute('data-plan') === cur) {
           c.classList.add('is-cur');
           var t = c.querySelector('.pl-cur'); if (t) t.hidden = false;
-          var b = c.querySelector('.pl-go'); if (b) { b.textContent = 'Тариф выбран'; b.disabled = true; }
+          var b = c.querySelector('.pl-go');
+          if (b) { b.textContent = 'Тариф выбран'; b.disabled = true; }
         }
       });
       var NAMES = { start: 'Старт', growth: 'Рост', pro: 'Про', agency: 'Агентство', unlimited: 'Безлимит' };
@@ -197,47 +257,13 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
     })
     .catch(function () {});
 
-  /* месяц / год: годовой — минус 20%, два месяца в подарок */
-  var PERIOD = 'month';
-  function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
-  function paintPeriod() {
-    document.querySelectorAll('.pl-card').forEach(function (c) {
-      var m = c.querySelector('[data-m]');
-      var y = c.querySelector('[data-y]');
-      var per = c.querySelector('[data-per]');
-      if (!m) return;
-      var mv = m ? Number(m.getAttribute('data-m') || 0) : 0;
-      var yv = y ? Number(y.getAttribute('data-y') || 0) : 0;
-      if (mv === 0) { m.textContent = '0 ₽'; if (y) y.hidden = true; if (per) per.textContent = 'в месяц'; return; }
-      if (!yv) { if (per) per.textContent = 'в месяц'; return; }
-      var total = y ? (y.getAttribute('data-total') || '') : '';
-      if (PERIOD === 'year') {
-        m.textContent = money(yv) + ' ₽';
-        if (per) per.textContent = 'в месяц';
-        if (y) { y.hidden = false; y.textContent = total ? 'за год — ' + money(Number(total)) + ' ₽' : ''; }
-      } else {
-        m.textContent = money(mv) + ' ₽';
-        if (per) per.textContent = 'в месяц';
-        if (y) { y.hidden = false; y.textContent = total ? 'или ' + money(Number(total)) + ' ₽ за год' : ''; }
-      }
-    });
-  }
-  document.querySelectorAll('.pl-sw').forEach(function (b) {
-    b.addEventListener('click', function () {
-      PERIOD = b.getAttribute('data-period');
-      document.querySelectorAll('.pl-sw').forEach(function (x) { x.classList.toggle('on', x === b); });
-      paintPeriod();
-    });
-  });
-  paintPeriod();
-
-  /* подбор тарифа по числу брендов и каналов */
+  /* подбор тарифа */
   var LIMITS = [
-    { code: 'start',     nm: 'Старт',     b: 1,   c: 2,          p: 1 },
-    { code: 'growth',    nm: 'Рост',      b: 1,   c: 5,          p: 4 },
-    { code: 'pro',       nm: 'Про',       b: 3,   c: Infinity,   p: 10 },
-    { code: 'agency',    nm: 'Агентство', b: 10,  c: Infinity,   p: Infinity },
-    { code: 'unlimited', nm: 'Безлимит',  b: Infinity, c: Infinity, p: Infinity }
+    { code: 'start',     nm: 'Старт',     b: 1,   c: 2 },
+    { code: 'growth',    nm: 'Рост',      b: 1,   c: 5 },
+    { code: 'pro',       nm: 'Про',       b: 3,   c: Infinity },
+    { code: 'agency',    nm: 'Агентство', b: 10,  c: Infinity },
+    { code: 'unlimited', nm: 'Безлимит',  b: Infinity, c: Infinity }
   ];
   function recalc() {
     var bIn = document.getElementById('plBrands');
@@ -253,9 +279,7 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
     document.querySelectorAll('.pl-card').forEach(function (card) {
       card.classList.toggle('is-fit', !!fit && card.getAttribute('data-plan') === fit.code);
     });
-    out.textContent = fit
-      ? 'хватит тарифа «' + fit.nm + '»'
-      : 'столько нет ни в одном — напиши нам';
+    out.textContent = fit ? 'хватит тарифа «' + fit.nm + '»' : 'столько нет ни в одном — напиши нам';
   }
   ['plBrands', 'plChans'].forEach(function (id) {
     var el = document.getElementById(id);
@@ -267,7 +291,7 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
     b.addEventListener('click', function () {
       var code = b.getAttribute('data-pick');
       if (code === 'start') { location.href = '/app'; return; }
-      location.href = '/app/billing?plan=' + encodeURIComponent(code);
+      location.href = '/app/billing?plan=' + encodeURIComponent(code) + '&cur=' + CUR;
     });
   });
 })();

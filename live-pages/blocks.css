@@ -836,3 +836,14 @@ a.gg-btn-gold:hover, a.gg-btn-ghost:hover { text-decoration: none !important; }
 .pay-st.ok { color: #8FD9A0; border-color: rgba(76,184,83,.45); background: rgba(76,184,83,.1); }
 .pay-ms { font-size: 11.5px; color: var(--muted); line-height: 1.45; }
 [data-theme="light"] .pay-prov { border-bottom-color: rgba(28,24,18,.08); }
+
+/* пульт: период и валюта рядом */
+.pl-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.pl-curswitch { display: inline-flex; gap: 2px; padding: 4px;
+  border-radius: 999px; border: 1px solid var(--hair, rgba(255,255,255,.10)); background: rgba(255,255,255,.02); }
+.pl-cur { min-width: 34px; padding: 7px 10px; border-radius: 999px; cursor: pointer;
+  font: inherit; font-size: 13px; border: 0; background: transparent; color: var(--faint); }
+.pl-cur.on { background: rgba(255,255,255,.08); color: var(--ink); }
+.pl-hint-cur { font-size: 11px; color: var(--faint); }
+[data-theme="light"] .pl-curswitch { background: rgba(28,24,18,.03); }
+[data-theme="light"] .pl-cur.on { background: #FFF6E4; color: #2E2B26; }

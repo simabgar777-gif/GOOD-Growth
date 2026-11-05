@@ -47,6 +47,11 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
 <h1>Оплата</h1>
 <p class="sub">тариф, лимиты и оплата картой</p>
 
+<div class="pl-curswitch" role="group" aria-label="Валюта">
+  <button type="button" class="pl-cur" data-cur="rub">₽</button>
+  <button type="button" class="pl-cur" data-cur="usd">$</button>
+</div>
+
 <div class="bill-grid">
   <section class="bill-card" id="billNow">
     <p class="bill-lbl">твой тариф</p>
@@ -101,64 +106,90 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
 
 <script>
 (function () {
+  var RATE = 95;
+  var params = new URLSearchParams(location.search);
+  var fromUrl = params.get('cur');
+  if (fromUrl === 'usd' || fromUrl === 'rub') { try { localStorage.setItem('gg_cur', fromUrl); } catch (e) {} }
+  var CUR = localStorage.getItem('gg_cur') === 'usd' ? 'usd' : 'rub';
+
   var PLANS = {
-    start:     { nm: 'Старт',     price: 0,    b: 1,  c: 2,  p: 1 },
-    growth:    { nm: 'Рост',      price: 490,  b: 1,  c: 5,  p: 4 },
+    start:     { nm: 'Старт',     price: 0,    b: 1,  c: 2,    p: 1 },
+    growth:    { nm: 'Рост',      price: 490,  b: 1,  c: 5,    p: 4 },
     pro:       { nm: 'Про',       price: 990,  b: 3,  c: 9999, p: 10 },
     agency:    { nm: 'Агентство', price: 2990, b: 10, c: 9999, p: 9999 },
     unlimited: { nm: 'Безлимит',  price: 5990, b: 9999, c: 9999, p: 9999 }
   };
-  var want = new URLSearchParams(location.search).get('plan') || 'growth';
-  var money = function (n) { return n === 0 ? '0 ₽' : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽'; };
-  var lim = function (n) { return n >= 9999 ? 'без счёта' : String(n); };
+  var want = params.get('plan') || 'growth';
+  var isCurPlan = false;
+
+  function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+  function fmt(rub) {
+    if (!rub) return CUR === 'usd' ? '$0' : '0 ₽';
+    if (CUR === 'usd') return '$' + Math.round(rub / RATE);
+    return money(rub) + ' ₽';
+  }
+  function lim(n) { return n >= 9999 ? 'без счёта' : String(n); }
+
+  function paintCards() {
+    var cur = document.getElementById('billNow');
+    var p = PLANS[window.__curPlan] || PLANS.start;
+    cur.innerHTML =
+      '<p class="bill-lbl">твой тариф</p>' +
+      '<h2>' + p.nm + '</h2>' +
+      '<p class="bill-price"><b>' + fmt(p.price) + '</b><span>в месяц</span></p>' +
+      '<ul class="bill-list"><li>брендов: ' + lim(p.b) + '</li>' +
+      '<li>каналов: ' + lim(p.c) + '</li>' +
+      '<li>публикаций в день: ' + lim(p.p) + '</li></ul>';
+
+    var box = document.getElementById('billNew');
+    if (want !== window.__curPlan && PLANS[want]) {
+      var q = PLANS[want];
+      box.hidden = false;
+      document.getElementById('billNewName').textContent = q.nm;
+      document.getElementById('billNewPrice').textContent = fmt(q.price);
+      document.getElementById('billNewList').innerHTML =
+        '<li>брендов: ' + lim(q.b) + '</li><li>каналов: ' + lim(q.c) + '</li>' +
+        '<li>публикаций в день: ' + lim(q.p) + '</li>';
+      document.getElementById('payBtn').textContent = 'Оплатить ' + fmt(q.price);
+    } else {
+      box.hidden = true;
+      document.getElementById('payBtn').textContent = 'Оплатить';
+    }
+    document.querySelectorAll('.pl-cur').forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-cur') === CUR);
+    });
+  }
 
   fetch('/api/plan', { credentials: 'same-origin' })
     .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (d) {
-      var cur = (d && d.plan) || 'start';
-      var p = PLANS[cur] || PLANS.start;
-      document.getElementById('billNow').innerHTML =
-        '<p class="bill-lbl">твой тариф</p>' +
-        '<h2>' + p.nm + '</h2>' +
-        '<p class="bill-price"><b>' + money(p.price) + '</b><span>в месяц</span></p>' +
-        '<ul class="bill-list"><li>брендов: ' + lim(p.b) + '</li>' +
-        '<li>каналов: ' + lim(p.c) + '</li>' +
-        '<li>публикаций в день: ' + lim(p.p) + '</li></ul>';
-      if (want !== cur && PLANS[want]) {
-        var q = PLANS[want];
-        document.getElementById('billNew').hidden = false;
-        document.getElementById('billNewName').textContent = q.nm;
-        document.getElementById('billNewPrice').textContent = money(q.price);
-        document.getElementById('billNewList').innerHTML =
-          '<li>брендов: ' + lim(q.b) + '</li><li>каналов: ' + lim(q.c) + '</li>' +
-          '<li>публикаций в день: ' + lim(q.p) + '</li>';
-        document.getElementById('payBtn').textContent = 'Оплатить ' + money(q.price);
-      } else {
-        document.getElementById('payBtn').textContent = 'Оплатить';
-      }
-    })
-    .catch(function () { document.getElementById('billNow').innerHTML = '<p class="bill-lbl">твой тариф</p><p>Не удалось загрузить.</p>'; });
+    .then(function (d) { window.__curPlan = (d && d.plan) || 'start'; paintCards(); })
+    .catch(function () { window.__curPlan = 'start'; paintCards(); });
 
-  /* способы оплаты по регионам — из платёжного слоя сервера */
-  var PROV = { ready: {}, first: null };
+  document.querySelectorAll('.pl-cur').forEach(function (b) {
+    b.addEventListener('click', function () {
+      CUR = b.getAttribute('data-cur');
+      try { localStorage.setItem('gg_cur', CUR); } catch (e) {}
+      paintCards();
+    });
+  });
+
+  /* способы оплаты по регионам */
+  var PROV = { first: null };
   fetch('/api/payments/providers', { credentials: 'same-origin' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (d) {
       var host = document.getElementById('payMethods');
       if (!d || !d.providers) { host.innerHTML = ''; return; }
       var REGION = { RU: 'Россия и русскоязычные', WORLD: 'Мир — США, Европа', AM: 'Армения' };
-      var order = ['RU', 'WORLD', 'AM'];
       var html = '';
-      order.forEach(function (reg) {
+      ['RU', 'WORLD', 'AM'].forEach(function (reg) {
         var list = d.providers.filter(function (p) { return p.region === reg; });
         if (!list.length) return;
         html += '<div class="pay-reg"><p class="pay-reg-nm">' + REGION[reg] + '</p>';
         list.forEach(function (p) {
-          html += '<div class="pay-prov">' +
-            '<span class="pay-prov-nm">' + p.nm + '</span>' +
+          html += '<div class="pay-prov"><span class="pay-prov-nm">' + p.nm + '</span>' +
             '<span class="pay-st ' + (p.ready ? 'ok' : '') + '">' + (p.ready ? 'подключён' : 'подключим') + '</span>' +
-            '<span class="pay-ms">' + p.methods.map(function (m) { return m.nm; }).join(' · ') + '</span>' +
-            '</div>';
+            '<span class="pay-ms">' + p.methods.map(function (m) { return m.nm; }).join(' · ') + '</span></div>';
           if (p.ready && !PROV.first) PROV.first = p.id;
         });
         html += '</div>';
@@ -194,7 +225,8 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
     fetch('/api/billing/checkout', {
       method: 'POST', credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ plan: want, email: email, card: digits, provider: PROV.first || 'yookassa' })
+      body: JSON.stringify({ plan: want, email: email, card: digits,
+                             currency: CUR, provider: PROV.first || 'yookassa' })
     }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
       .then(function (res) {
         if (!res.ok) throw new Error((res.j && res.j.error) || 'Не получилось');
