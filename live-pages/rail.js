@@ -27,6 +27,7 @@
     ['/app/schedule', 'schedule'],
     ['/app/analytics', 'analytics'],
     ['/app/billing', 'billing'],
+  ['/pricing', 'pricing'],
     ['/app/onboard', 'app'],
     ['/app', 'app'],
     ['/profile', 'profile']
