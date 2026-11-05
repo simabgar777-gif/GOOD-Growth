@@ -184,50 +184,50 @@ body.gg-with-rail {
   color: var(--fg, #F4F4F5);
 }
 .gg-rail-theme .gg-ico { font-size: 15px; line-height: 1; }
-html[data-theme="light"] .gg-rail-theme { color: #5C665F !important; }
-html[data-theme="light"] .gg-rail-theme:hover { background: rgba(20,32,26,.04) !important; color: #14201A !important; }
+html[data-theme="light"] .gg-rail-theme { color: #5F5B52 !important; }
+html[data-theme="light"] .gg-rail-theme:hover { background: rgba(20,32,26,.04) !important; color: #191713 !important; }
 @media (prefers-color-scheme: light) {
-  html[data-theme-src="system"] .gg-rail-theme { color: #5C665F !important; }
-  html[data-theme-src="system"] .gg-rail-theme:hover { background: rgba(20,32,26,.04) !important; color: #14201A !important; }
+  html[data-theme-src="system"] .gg-rail-theme { color: #5F5B52 !important; }
+  html[data-theme-src="system"] .gg-rail-theme:hover { background: rgba(20,32,26,.04) !important; color: #191713 !important; }
 }
 
 /* светлая тема */
 html[data-theme="light"] .gg-rail {
-  background: #FFFFFF !important;
+  background: #FBF7EF !important;
   border-right-color: rgba(20,32,26,.12) !important;
 }
-html[data-theme="light"] .gg-rail-nav a { color: #5C665F !important; }
-html[data-theme="light"] .gg-rail-nav a:hover { background: rgba(20,32,26,.04) !important; color: #14201A !important; }
+html[data-theme="light"] .gg-rail-nav a { color: #5F5B52 !important; }
+html[data-theme="light"] .gg-rail-nav a:hover { background: rgba(20,32,26,.04) !important; color: #191713 !important; }
 html[data-theme="light"] .gg-rail-nav a.is-on {
   background: rgba(154,85,24,.10) !important;
   color: #7E400E !important;
 }
-html[data-theme="light"] .gg-rail-logo b { color: #14201A !important; }
-html[data-theme="light"] .gg-rail-logo span { color: #6F7A72 !important; }
+html[data-theme="light"] .gg-rail-logo b { color: #191713 !important; }
+html[data-theme="light"] .gg-rail-logo span { color: #8B867B !important; }
 html[data-theme="light"] .gg-rail-foot { border-top-color: rgba(20,32,26,.12) !important; }
-html[data-theme="light"] .gg-rail-foot a { color: #5C665F !important; }
-html[data-theme="light"] .gg-rail-foot a:hover { background: rgba(20,32,26,.04) !important; color: #14201A !important; }
+html[data-theme="light"] .gg-rail-foot a { color: #5F5B52 !important; }
+html[data-theme="light"] .gg-rail-foot a:hover { background: rgba(20,32,26,.04) !important; color: #191713 !important; }
 html[data-theme="light"] .gg-rail-foot a.is-on {
   background: rgba(154,85,24,.10) !important;
   color: #7E400E !important;
 }
-html[data-theme="light"] .gg-rail-out { color: #5C665F !important; }
+html[data-theme="light"] .gg-rail-out { color: #5F5B52 !important; }
 
 @media (prefers-color-scheme: light) {
   html[data-theme-src="system"] .gg-rail {
-    background: #FFFFFF !important;
+    background: #FBF7EF !important;
     border-right-color: rgba(20,32,26,.12) !important;
   }
-  html[data-theme-src="system"] .gg-rail-nav a { color: #5C665F !important; }
-  html[data-theme-src="system"] .gg-rail-nav a:hover { background: rgba(20,32,26,.04) !important; color: #14201A !important; }
+  html[data-theme-src="system"] .gg-rail-nav a { color: #5F5B52 !important; }
+  html[data-theme-src="system"] .gg-rail-nav a:hover { background: rgba(20,32,26,.04) !important; color: #191713 !important; }
   html[data-theme-src="system"] .gg-rail-nav a.is-on {
     background: rgba(154,85,24,.10) !important;
     color: #7E400E !important;
   }
-  html[data-theme-src="system"] .gg-rail-logo b { color: #14201A !important; }
-  html[data-theme-src="system"] .gg-rail-logo span { color: #6F7A72 !important; }
+  html[data-theme-src="system"] .gg-rail-logo b { color: #191713 !important; }
+  html[data-theme-src="system"] .gg-rail-logo span { color: #8B867B !important; }
   html[data-theme-src="system"] .gg-rail-foot { border-top-color: rgba(20,32,26,.12) !important; }
-  html[data-theme-src="system"] .gg-rail-out { color: #5C665F !important; }
+  html[data-theme-src="system"] .gg-rail-out { color: #5F5B52 !important; }
 }
 
 /* ---------- шапку прячем ТОЛЬКО там, где есть панель ----------

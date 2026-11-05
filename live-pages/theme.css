@@ -24,23 +24,23 @@
 /* ---------- ДНЕВНАЯ ---------- */
 html[data-theme="light"] {
   /* — семья style-c — */
-  --bg:#F4F1EA !important;
-  --bg-2:#EFEBE2 !important;
-  --bg-soft:#EFEBE2 !important;
-  --surface:#FFFFFF !important;
-  --surface-2:#FAF8F3 !important;
-  --surface2:#FAF8F3 !important;
-  --ink:#14201A !important;
-  --muted:#5C665F !important;
-  --mut:#5C665F !important;
-  --faint:#6F7A72 !important;
-  --fg:#14201A !important;
-  --fg-2:#5C665F !important;
-  --fg-3:#6F7A72 !important;
-  --hair:rgba(20,32,26,.16) !important;
-  --hair-soft:rgba(20,32,26,.10) !important;
-  --line:rgba(20,32,26,.10) !important;
-  --line-2:rgba(20,32,26,.16) !important;
+  --bg:#F6F4EE !important;
+  --bg-2:#EFECE4 !important;
+  --bg-soft:#EFECE4 !important;
+  --surface:#FFFDF8 !important;
+  --surface-2:#FAF6EC !important;
+  --surface2:#FAF6EC !important;
+  --ink:#191713 !important;
+  --muted:#5F5B52 !important;
+  --mut:#5F5B52 !important;
+  --faint:#8B867B !important;
+  --fg:#191713 !important;
+  --fg-2:#5F5B52 !important;
+  --fg-3:#8B867B !important;
+  --hair:rgba(25,23,19,.16) !important;
+  --hair-soft:rgba(25,23,19,.10) !important;
+  --line:rgba(25,23,19,.10) !important;
+  --line-2:rgba(25,23,19,.16) !important;
   --accent:#9A5518 !important;
   --accent-bright:#B86A2E !important;
   --accent-ink:#1B1206 !important;
@@ -68,10 +68,10 @@ html[data-theme="light"] {
 
   /* — семья страниц — */
   --pg-bg:#F4F1EA !important;
-  --pg-surface:#FFFFFF !important;
+  --pg-surface:#FFFDF8 !important;
   --pg-surface2:#FAF8F3 !important;
-  --pg-line:rgba(20,32,26,.10) !important;
-  --pg-line2:rgba(20,32,26,.16) !important;
+  --pg-line:rgba(25,23,19,.10) !important;
+  --pg-line2:rgba(25,23,19,.16) !important;
   --pg-fg:#14201A !important;
   --pg-fg2:#5C665F !important;
   --pg-fg3:#6F7A72 !important;
@@ -87,23 +87,23 @@ html[data-theme="light"] {
 /* ---------- СИСТЕМНАЯ (копия — правь вместе с блоком выше) ---------- */
 @media (prefers-color-scheme: light) {
   html[data-theme-src="system"] {
-    --bg:#F4F1EA !important;
-    --bg-2:#EFEBE2 !important;
-    --bg-soft:#EFEBE2 !important;
-    --surface:#FFFFFF !important;
-    --surface-2:#FAF8F3 !important;
-    --surface2:#FAF8F3 !important;
-    --ink:#14201A !important;
-    --muted:#5C665F !important;
-    --mut:#5C665F !important;
-    --faint:#6F7A72 !important;
-    --fg:#14201A !important;
-    --fg-2:#5C665F !important;
-    --fg-3:#6F7A72 !important;
-    --hair:rgba(20,32,26,.16) !important;
-    --hair-soft:rgba(20,32,26,.10) !important;
-    --line:rgba(20,32,26,.10) !important;
-    --line-2:rgba(20,32,26,.16) !important;
+    --bg:#F6F4EE !important;
+    --bg-2:#EFECE4 !important;
+    --bg-soft:#EFECE4 !important;
+    --surface:#FFFDF8 !important;
+    --surface-2:#FAF6EC !important;
+    --surface2:#FAF6EC !important;
+    --ink:#191713 !important;
+    --muted:#5F5B52 !important;
+    --mut:#5F5B52 !important;
+    --faint:#8B867B !important;
+    --fg:#191713 !important;
+    --fg-2:#5F5B52 !important;
+    --fg-3:#8B867B !important;
+    --hair:rgba(25,23,19,.16) !important;
+    --hair-soft:rgba(25,23,19,.10) !important;
+    --line:rgba(25,23,19,.10) !important;
+    --line-2:rgba(25,23,19,.16) !important;
     --accent:#9A5518 !important;
     --accent-bright:#B86A2E !important;
     --accent-ink:#1B1206 !important;
@@ -130,10 +130,10 @@ html[data-theme="light"] {
     --mood-publish-soft:rgba(154,85,24,.12) !important;
 
     --pg-bg:#F4F1EA !important;
-    --pg-surface:#FFFFFF !important;
+    --pg-surface:#FFFDF8 !important;
     --pg-surface2:#FAF8F3 !important;
-    --pg-line:rgba(20,32,26,.10) !important;
-    --pg-line2:rgba(20,32,26,.16) !important;
+    --pg-line:rgba(25,23,19,.10) !important;
+    --pg-line2:rgba(25,23,19,.16) !important;
     --pg-fg:#14201A !important;
     --pg-fg2:#5C665F !important;
     --pg-fg3:#6F7A72 !important;
@@ -194,7 +194,7 @@ html[data-theme-src="system"] [class*="quiet"],
 html[data-theme-src="system"] [class*="secondary"],
 html[data-theme-src="system"] [class*="outline"] {
   background: rgba(20,32,26,.035) !important;
-  border-color: rgba(20,32,26,.16) !important;
+  border-color: rgba(25,23,19,.16) !important;
   color: #14201A !important;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.7) !important;
 }
@@ -212,7 +212,7 @@ html[data-theme="light"] select,
 html[data-theme-src="system"] input,
 html[data-theme-src="system"] textarea,
 html[data-theme-src="system"] select {
-  background: #FFFFFF !important;
+  background: #FFFDF8 !important;
   color: #14201A !important;
   border-color: rgba(20,32,26,.18) !important;
 }
@@ -238,7 +238,7 @@ html[data-theme-src="system"] .mbox,
 html[data-theme-src="system"] .pcard,
 html[data-theme-src="system"] .scard,
 html[data-theme-src="system"] [class*="card"] {
-  background: #FFFFFF !important;
+  background: #FFFDF8 !important;
   border-color: rgba(20,32,26,.14) !important;
   color: #14201A !important;
 }
@@ -301,17 +301,17 @@ html[data-theme="light"] #gg-header nav a.on {
 html[data-theme="light"] #gg-header .ggtheme {
   color: #5C665F !important;
   background: rgba(20,32,26,.04) !important;
-  border-color: rgba(20,32,26,.16) !important;
+  border-color: rgba(25,23,19,.16) !important;
 }
 html[data-theme="light"] #gg-header .ggburger {
   color: #14201A !important;
   background: rgba(20,32,26,.04) !important;
-  border-color: rgba(20,32,26,.16) !important;
+  border-color: rgba(25,23,19,.16) !important;
 }
 html[data-theme="light"] #gg-header a.ggghost {
   color: #14201A !important;
   background: rgba(20,32,26,.035) !important;
-  border-color: rgba(20,32,26,.16) !important;
+  border-color: rgba(25,23,19,.16) !important;
 }
 
 @media (prefers-color-scheme: light) {
@@ -328,17 +328,17 @@ html[data-theme="light"] #gg-header a.ggghost {
   html[data-theme-src="system"] #gg-header .ggtheme {
     color: #5C665F !important;
     background: rgba(20,32,26,.04) !important;
-    border-color: rgba(20,32,26,.16) !important;
+    border-color: rgba(25,23,19,.16) !important;
   }
   html[data-theme-src="system"] #gg-header .ggburger {
     color: #14201A !important;
     background: rgba(20,32,26,.04) !important;
-    border-color: rgba(20,32,26,.16) !important;
+    border-color: rgba(25,23,19,.16) !important;
   }
   html[data-theme-src="system"] #gg-header a.ggghost {
     color: #14201A !important;
     background: rgba(20,32,26,.035) !important;
-    border-color: rgba(20,32,26,.16) !important;
+    border-color: rgba(25,23,19,.16) !important;
   }
 }
 
