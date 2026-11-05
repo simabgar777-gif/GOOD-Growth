@@ -324,3 +324,48 @@ body.gg-with-rail { transition: padding-left .22s ease; }
 @media (prefers-reduced-motion: reduce) {
   body.gg-rail-collapsed .gg-rail, body.gg-with-rail, .gg-rail-toggle { transition: none; }
 }
+
+
+/* ══ АККАУНТ ВНИЗУ ПАНЕЛИ ════════════════════════════════════ */
+body.gg-acc-ready .gg-rail-foot, body.gg-acc-ready .side-foot { display: none !important; }
+
+.gg-acc { position: relative; margin-top: auto; width: 100%; padding: 10px 10px 12px; }
+.gg-acc-btn {
+  display: flex; align-items: center; gap: 10px; width: 100%; cursor: pointer;
+  padding: 9px 10px; border-radius: 11px; border: 1px solid transparent;
+  background: transparent; color: var(--muted, #8B8B95); font: inherit; text-align: left;
+}
+.gg-acc-btn:hover { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.08); }
+.gg-acc-ava {
+  width: 28px; height: 28px; border-radius: 50%; flex: none; display: grid; place-items: center;
+  background: rgba(232,165,79,.16); color: var(--amber, #E8A54F); font-size: 13px;
+}
+.gg-acc-tx { display: flex; flex-direction: column; min-width: 0; }
+.gg-acc-tx b { font-size: 12.5px; color: var(--ink, #F4F4F5); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gg-acc-tx em { font-style: normal; font-size: 10.5px; color: var(--faint, #6E6E78); }
+.gg-acc-chev { margin-left: auto; font-size: 11px; opacity: .5; }
+
+.gg-acc-pop {
+  position: absolute; left: 10px; right: 10px; bottom: calc(100% + 6px); z-index: 90;
+  background: #0E0F13; border: 1px solid rgba(255,255,255,.10); border-radius: 14px;
+  padding: 8px; box-shadow: 0 20px 50px -20px rgba(0,0,0,.9);
+}
+.gg-acc-head { padding: 10px 10px 12px; border-bottom: 1px solid rgba(255,255,255,.07); margin-bottom: 6px; }
+.gg-acc-head b { display: block; font-size: 12px; color: var(--ink, #F4F4F5); word-break: break-all; }
+.gg-acc-head em { font-style: normal; font-size: 10.5px; color: var(--faint, #6E6E78); }
+.gg-acc-pop a, .gg-acc-pop button {
+  display: block; width: 100%; text-align: left; text-decoration: none;
+  padding: 9px 10px; border-radius: 9px; border: 0; background: transparent;
+  color: var(--muted, #8B8B95); font: inherit; font-size: 12.5px; cursor: pointer;
+}
+.gg-acc-pop a:hover, .gg-acc-pop button:hover { background: rgba(255,255,255,.06); color: var(--ink, #F4F4F5); }
+.gg-acc-pop .danger:hover { background: rgba(232,105,79,.12); color: #E8694F; }
+
+/* свёрнутая панель: только аватар, меню выезжает вправо */
+body.gg-rail-collapsed .gg-acc { padding: 10px 0 12px; display: grid; place-items: center; }
+body.gg-rail-collapsed .gg-acc-btn { justify-content: center; padding: 8px; }
+body.gg-rail-collapsed .gg-acc-tx, body.gg-rail-collapsed .gg-acc-chev { display: none; }
+body.gg-rail-collapsed .gg-acc-pop { position: fixed; left: 86px; bottom: 88px; width: 236px; right: auto; }
+
+html[data-theme="light"] .gg-acc-pop { background: #FFFDF8; border-color: rgba(28,24,18,.12); }
+html[data-theme="light"] .gg-acc-pop a:hover, html[data-theme="light"] .gg-acc-pop button:hover { background: #FFF6E4; }

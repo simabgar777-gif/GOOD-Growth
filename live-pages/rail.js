@@ -404,3 +404,87 @@
     });
   });
 })();
+
+/* ── аккаунт внизу панели: имя, тариф и меню ─────────────────
+   Как у Buffer: одна точка входа ко всему личному. */
+(function accountBlock() {
+  function ready(fn) {
+    if (document.readyState !== 'loading') fn();
+    else document.addEventListener('DOMContentLoaded', fn);
+  }
+  ready(function () {
+    var rail = document.getElementById('gg-rail');
+    if (!rail) return;
+    document.body.classList.add('gg-acc-ready');
+
+    var acc = document.createElement('div');
+    acc.className = 'gg-acc';
+    acc.innerHTML =
+      '<button type="button" class="gg-acc-btn" id="ggAccBtn" aria-haspopup="menu" aria-expanded="false">' +
+        '<span class="gg-acc-ava">◈</span>' +
+        '<span class="gg-acc-tx"><b id="ggAccName">Мой аккаунт</b><em id="ggAccPlan">тариф: —</em></span>' +
+        '<span class="gg-acc-chev">\u2303</span>' +
+      '</button>' +
+      '<div class="gg-acc-pop" id="ggAccPop" role="menu" hidden>' +
+        '<div class="gg-acc-head"><b id="ggAccEmail">—</b><em>GOOD Growth</em></div>' +
+        '<a role="menuitem" href="/profile">Настройки</a>' +
+        '<a role="menuitem" href="/partner/channels">Каналы</a>' +
+        '<a role="menuitem" href="/pricing">Тарифы</a>' +
+        '<a role="menuitem" href="/app/billing">Оплата</a>' +
+        '<a role="menuitem" href="/partner/info">Партнёрам</a>' +
+        '<a role="menuitem" href="mailto:hello@growth.go-ood.com">Помощь</a>' +
+        '<button type="button" role="menuitem" id="ggAccTheme">Сменить тему</button>' +
+        '<button type="button" role="menuitem" class="danger" id="ggAccOut">Выйти</button>' +
+      '</div>';
+    rail.appendChild(acc);
+
+    var btn = acc.querySelector('#ggAccBtn');
+    var pop = acc.querySelector('#ggAccPop');
+
+    function close() { pop.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
+    function open() { pop.hidden = false; btn.setAttribute('aria-expanded', 'true'); }
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      pop.hidden ? open() : close();
+    });
+    document.addEventListener('click', function (e) {
+      if (!pop.hidden && !acc.contains(e.target)) close();
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+
+    acc.querySelector('#ggAccTheme').addEventListener('click', function () {
+      var t = document.getElementById('ggRailTheme');
+      if (t) t.click();
+      close();
+    });
+    acc.querySelector('#ggAccOut').addEventListener('click', function () {
+      var out = document.getElementById('ggRailOut') || document.querySelector('[data-logout]');
+      if (out) { out.click(); return; }
+      fetch('/api/logout', { method: 'POST', credentials: 'same-origin' })
+        .then(function () { location.href = '/login'; })
+        .catch(function () { location.href = '/login'; });
+    });
+
+    var NAMES = { start: 'Старт', growth: 'Рост', pro: 'Про', agency: 'Агентство', unlimited: 'Безлимит' };
+
+    fetch('/api/me', { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var u = d && (d.user || d);
+        if (u && (u.name || u.email)) {
+          acc.querySelector('#ggAccName').textContent = u.name || u.email;
+          acc.querySelector('#ggAccEmail').textContent = u.email || u.name;
+          acc.querySelector('.gg-acc-ava').textContent = (u.name || u.email || 'G').charAt(0).toUpperCase();
+        }
+      })
+      .catch(function () {});
+
+    fetch('/api/plan', { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (d && d.plan) acc.querySelector('#ggAccPlan').textContent = 'тариф: ' + (NAMES[d.plan] || d.plan);
+      })
+      .catch(function () {});
+  });
+})();
