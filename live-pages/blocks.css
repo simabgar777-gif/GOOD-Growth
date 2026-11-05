@@ -729,3 +729,35 @@ a.gg-btn-gold:hover, a.gg-btn-ghost:hover { text-decoration: none !important; }
   .pl-price b { font-size: 23px; }
   .pl-price span { font-size: 10.5px; }
 }
+
+/* ══ СРАВНЕНИЕ И ПОДБОР ТАРИФА ═══════════════════════════════ */
+.pl-rec { font-family: var(--font-mono, monospace); font-size: 8.5px; letter-spacing: .1em;
+  text-transform: uppercase; padding: 3px 7px; border-radius: 999px; vertical-align: middle;
+  background: rgba(232,165,79,.18); color: #C8A87E; }
+.pl-card.is-fit { outline: 2px solid rgba(232,165,79,.45); outline-offset: 2px; }
+
+.pl-calc { margin: 26px 0 10px; padding: 20px 22px; border-radius: 16px; max-width: 760px;
+  border: 1px solid var(--hair, rgba(255,255,255,.09)); background: var(--surface, #121317); }
+.pl-calc h2 { margin: 0 0 4px; font-family: var(--font-display, serif); font-size: 21px; font-weight: 500; }
+.pl-calc-row { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+.pl-calc label { display: flex; flex-direction: column; gap: 6px; font-size: 11px;
+  font-family: var(--font-mono, monospace); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+.pl-calc input { width: 96px; padding: 10px 12px; border-radius: 10px; font: inherit; font-size: 15px;
+  border: 1px solid var(--hair, rgba(255,255,255,.12)); background: var(--bg-soft, #0E0F13); color: var(--ink); }
+.pl-calc input:focus { outline: none; border-color: rgba(232,165,79,.5); }
+.pl-calc-out { padding-bottom: 10px; font-size: 13.5px; color: var(--amber); }
+
+.pl-compare { margin: 26px 0 0; max-width: 900px; }
+.pl-compare summary { cursor: pointer; font-size: 14px; color: var(--ink);
+  padding: 14px 0; border-top: 1px solid var(--hair, rgba(255,255,255,.08)); }
+.pl-table-wrap { overflow-x: auto; margin-top: 10px; }
+.pl-table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 640px; }
+.pl-table th, .pl-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--hair, rgba(255,255,255,.07)); }
+.pl-table th { font-family: var(--font-mono, monospace); font-size: 9.5px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--faint); font-weight: 400; }
+.pl-table td:first-child { color: var(--muted); }
+.pl-table td { color: var(--ink); }
+.pl-table tbody tr:hover { background: rgba(255,255,255,.02); }
+.pl-soon { color: var(--faint) !important; font-style: normal; }
+[data-theme="light"] .pl-calc { background: #FFFDF8; }
+[data-theme="light"] .pl-calc input { background: #fff; }

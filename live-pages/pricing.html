@@ -66,7 +66,7 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
     <button type="button" class="pl-go" data-pick="start">Выбрать</button>
   </article>
   <article class="pl-card" data-plan="growth">
-    <h2>Рост</h2>
+    <h2>Рост <span class="pl-rec">рекомендуем</span></h2>
     <p class="pl-price"><b data-m="490">490 ₽</b><span data-per>в месяц</span></p>
     <p class="pl-year" data-y="392" data-total="4704">или 4 704 ₽ за год</p>
     <p class="pl-note">Для одного дела, которое выходит регулярно.</p>
@@ -125,6 +125,42 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
   с лимитами публикаций.
   <span class="pl-hint" id="plHint"></span>
 </div>
+
+
+<div class="pl-calc">
+  <h2>Подобрать тариф</h2>
+  <p class="sub" style="margin-bottom:14px">скажи, сколько у тебя дел и каналов — покажем, что хватит</p>
+  <div class="pl-calc-row">
+    <label>Брендов <input type="number" min="1" max="99" value="1" id="plBrands"></label>
+    <label>Каналов <input type="number" min="1" max="99" value="2" id="plChans"></label>
+    <span class="pl-calc-out" id="plCalcOut">—</span>
+  </div>
+</div>
+
+<details class="pl-compare" id="plCompare">
+  <summary>Сравнить тарифы</summary>
+  <div class="pl-table-wrap">
+    <table class="pl-table">
+      <thead>
+        <tr><th>Что входит</th><th>Старт</th><th>Рост</th><th>Про</th><th>Агентство</th><th>Безлимит</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Брендов</td><td>1</td><td>1</td><td>3</td><td>10</td><td>без счёта</td></tr>
+        <tr><td>Каналов</td><td>2</td><td>5</td><td>без счёта</td><td>без счёта</td><td>без счёта</td></tr>
+        <tr><td>Публикаций в день</td><td>1</td><td>4</td><td>10</td><td>без счёта</td><td>без счёта</td></tr>
+        <tr><td>Разбор цели</td><td>да</td><td>да</td><td>да</td><td>да</td><td>да</td></tr>
+        <tr><td>Посты с картинками</td><td>да</td><td>да</td><td>да</td><td>да</td><td>да</td></tr>
+        <tr><td>Ритм и время публикаций</td><td>да</td><td>да</td><td>да</td><td>да</td><td>да</td></tr>
+        <tr><td>Показ в ленте сетей</td><td>да</td><td>да</td><td>да</td><td>да</td><td>да</td></tr>
+        <tr><td>Тексты под каждую сеть</td><td>да</td><td>да</td><td>да</td><td>да</td><td>да</td></tr>
+        <tr><td>Публикация в Telegram</td><td>да</td><td>да</td><td>да</td><td>да</td><td>да</td></tr>
+        <tr><td>Другие сети</td><td colspan="5" class="pl-soon">скоро — структура готова</td></tr>
+        <tr><td>Команда и роли</td><td>—</td><td>—</td><td>—</td><td>да</td><td>да</td></tr>
+        <tr><td>Отклик и аналитика</td><td>базовая</td><td>базовая</td><td>полная</td><td>полная</td><td>полная</td></tr>
+      </tbody>
+    </table>
+  </div>
+</details>
 
 <div class="pl-q">
   <h2>Частые вопросы</h2>
@@ -194,6 +230,38 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
     });
   });
   paintPeriod();
+
+  /* подбор тарифа по числу брендов и каналов */
+  var LIMITS = [
+    { code: 'start',     nm: 'Старт',     b: 1,   c: 2,          p: 1 },
+    { code: 'growth',    nm: 'Рост',      b: 1,   c: 5,          p: 4 },
+    { code: 'pro',       nm: 'Про',       b: 3,   c: Infinity,   p: 10 },
+    { code: 'agency',    nm: 'Агентство', b: 10,  c: Infinity,   p: Infinity },
+    { code: 'unlimited', nm: 'Безлимит',  b: Infinity, c: Infinity, p: Infinity }
+  ];
+  function recalc() {
+    var bIn = document.getElementById('plBrands');
+    var cIn = document.getElementById('plChans');
+    var out = document.getElementById('plCalcOut');
+    if (!bIn || !cIn || !out) return;
+    var b = Math.max(1, Number(bIn.value) || 1);
+    var c = Math.max(1, Number(cIn.value) || 1);
+    var fit = null;
+    for (var i = 0; i < LIMITS.length; i++) {
+      if (b <= LIMITS[i].b && c <= LIMITS[i].c) { fit = LIMITS[i]; break; }
+    }
+    document.querySelectorAll('.pl-card').forEach(function (card) {
+      card.classList.toggle('is-fit', !!fit && card.getAttribute('data-plan') === fit.code);
+    });
+    out.textContent = fit
+      ? 'хватит тарифа «' + fit.nm + '»'
+      : 'столько нет ни в одном — напиши нам';
+  }
+  ['plBrands', 'plChans'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', recalc);
+  });
+  recalc();
 
   document.querySelectorAll('[data-pick]').forEach(function (b) {
     b.addEventListener('click', function () {
