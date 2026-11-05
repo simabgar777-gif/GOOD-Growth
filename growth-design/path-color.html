@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Путь · цвет и свет</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Golos+Text:wght@400;600&family=JetBrains+Mono:wght@400&display=swap');
+:root{
+  --bg:#07080A; --surface:#101116; --ink:#F3F1EA; --muted:#A09C92; --faint:#6E6A62;
+  --orange:#F8961D; --red:#E01F27; --teal:#28A992; --green:#4CB853; --amber:#E8A54F;
+  --line:rgba(255,255,255,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1200px 600px at 20% -10%,rgba(248,150,29,.07),transparent 60%),
+  radial-gradient(1000px 500px at 90% 110%,rgba(40,169,146,.06),transparent 60%), var(--bg);
+  color:var(--ink);font-family:'Golos Text',sans-serif;padding:40px 44px 56px}
+h1{font-family:'Playfair Display',serif;font-size:29px;margin:0 0 6px}
+.sub{color:var(--faint);font-size:12px;margin:0 0 26px;font-family:'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,0)) ,var(--surface);
+  border:1px solid var(--line);border-radius:22px;padding:10px 0 4px;position:relative;overflow:hidden}
+.ttl{position:absolute;top:16px;left:26px;font-family:'JetBrains Mono',monospace;font-size:10.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--orange);opacity:.9}
+svg{display:block;width:100%;height:auto}
+.lab text{font-family:'Golos Text',sans-serif}
+.lab .n{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em}
+.lab .nm{font-size:15px;font-weight:600;fill:var(--ink)}
+.lab .ex{font-size:11.5px;fill:var(--faint)}
+.lab.now .nm{fill:#FFC98A}
+.lab.now .n{fill:var(--orange)}
+.lab.done .n{fill:var(--green)}
+.legend{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:6px 26px 0;padding-top:14px}
+.lg{display:flex;flex-direction:column;gap:3px}
+.lg .n{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:#7C786F}
+.lg .nm{font-size:14.5px;font-weight:600;color:var(--muted)}
+.lg .ex{font-size:11.5px;color:var(--faint);line-height:1.35}
+.lg.done .n{color:var(--green)} .lg.done .nm{color:#C9D8C9}
+.lg.now .n{color:var(--orange)} .lg.now .nm{color:#FFC98A}
+.lg.now .ex{color:#C8A87E}
+.foot{display:flex;align-items:center;gap:16px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--faint)}
+.chips{display:flex;gap:7px}
+.chip{width:9px;height:9px;border-radius:50%}
+</style></head><body>
+
+<h1>Путь человека · лента со светом</h1>
+<p class="sub">цвет как навигация · не украшение</p>
+
+<div class="card">
+  <span class="ttl">Вариант C · лента</span>
+  <svg id="svg" viewBox="0 0 1240 600" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%"   stop-color="#F8961D"/>
+        <stop offset="45%"  stop-color="#E8A54F"/>
+        <stop offset="75%"  stop-color="#28A992"/>
+        <stop offset="100%" stop-color="#4CB853"/>
+      </linearGradient>
+      <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="10" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur stdDeviation="3"/>
+      </filter>
+    </defs>
+
+    <!-- ещё не пройдено: тихая дорога -->
+    <path id="road" fill="none" stroke="rgba(255,255,255,.11)" stroke-width="13" stroke-linecap="round"/>
+    <!-- пройдено: цветной свет -->
+    <path id="halo" fill="none" stroke="url(#ribbon)" stroke-width="36" stroke-linecap="round"
+          opacity=".20" filter="url(#glow)"/>
+    <path id="path" fill="none" stroke="url(#ribbon)" stroke-width="13" stroke-linecap="round"/>
+    <path id="shine" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2.5" stroke-linecap="round"
+          opacity=".5" transform="translate(0,-3)"/>
+
+    <g id="nodes"></g>
+  </svg>
+</div>
+
+<div class="legend" id="legend"></div>
+
+<div class="foot">
+  <span class="chips">
+    <i class="chip" style="background:#4CB853"></i>
+    <i class="chip" style="background:#F8961D"></i>
+    <i class="chip" style="background:#28A992"></i>
+    <i class="chip" style="background:#E01F27"></i>
+  </span>
+  <span><b style="color:#28A992">2 из 5</b> · третий шаг ждёт</span>
+</div>
+
+<script>
+const D = 'M 90 150 C 420 150, 420 320, 620 320 S 830 470, 1150 470';
+['road','path','halo','shine'].forEach(id => document.getElementById(id).setAttribute('d', D));
+
+const p = document.getElementById('path');
+const len = p.getTotalLength();
+const steps = [
+  {n:'01', nm:'Цель',    ex:'одна фраза о деле',        state:'done'},
+  {n:'02', nm:'Разбор',  ex:'кому и о чём говорить',    state:'done'},
+  {n:'03', nm:'Ритм',    ex:'сколько раз в неделю',     state:'now'},
+  {n:'04', nm:'Посты',   ex:'готовые тексты и картинки',state:''},
+  {n:'05', nm:'Отклик',  ex:'что сработало',            state:''}
+];
+const COL = {done:'#4CB853', now:'#F8961D', '':'#7C786F'};
+
+/* цветом светим только ПРОЙДЕННОЕ + текущий шаг */
+const currentIdx = steps.findIndex(x => x.state === 'now');
+const progress = currentIdx / (steps.length - 1);
+['path','halo','shine'].forEach(id => {
+  const el = document.getElementById(id);
+  el.style.strokeDasharray = (len * progress) + ' ' + len;
+  el.style.strokeDashoffset = '0';
+});
+const nodes = document.getElementById('nodes');
+
+steps.forEach((s, i) => {
+  const t = i / (steps.length - 1);
+  const pt = p.getPointAtLength(len * t);
+  const col = COL[s.state];
+  const r = s.state === 'now' ? 16 : 12;
+
+  // свечение
+  if (s.state === 'now') {
+    const g = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    g.setAttribute('cx',pt.x); g.setAttribute('cy',pt.y); g.setAttribute('r',34);
+    g.setAttribute('fill',col); g.setAttribute('opacity','.22'); g.setAttribute('filter','url(#glow)');
+    nodes.appendChild(g);
+  }
+  // кольцо
+  const ring = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  ring.setAttribute('cx',pt.x); ring.setAttribute('cy',pt.y); ring.setAttribute('r',r+5);
+  ring.setAttribute('fill','none'); ring.setAttribute('stroke',col);
+  ring.setAttribute('stroke-width','1.5'); ring.setAttribute('opacity','.55');
+  nodes.appendChild(ring);
+  // тело узла
+  const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  c.setAttribute('cx',pt.x); c.setAttribute('cy',pt.y); c.setAttribute('r',r);
+  c.setAttribute('fill', s.state ? col : '#101116');
+  c.setAttribute('stroke', col); c.setAttribute('stroke-width','2');
+  nodes.appendChild(c);
+  // цифра
+  const t2 = document.createElementNS('http://www.w3.org/2000/svg','text');
+  t2.setAttribute('x',pt.x); t2.setAttribute('y',pt.y+4);
+  t2.setAttribute('text-anchor','middle');
+  t2.setAttribute('font-family','JetBrains Mono, monospace');
+  t2.setAttribute('font-size','10.5');
+  t2.setAttribute('fill', s.state ? '#0B0703' : '#8A867D');
+  t2.textContent = s.state === 'done' ? '✓' : s.n;
+  nodes.appendChild(t2);
+
+
+});
+
+/* подписи — ровной сеткой под лентой: ничего не наезжает */
+const legend = document.getElementById('legend');
+steps.forEach(s2 => {
+  const d2 = document.createElement('div');
+  d2.className = 'lg ' + s2.state;
+  d2.innerHTML = '<span class="n">' + s2.n + (s2.state === 'now' ? ' · сейчас' : s2.state === 'done' ? ' · сделано' : '') +
+    '</span><span class="nm">' + s2.nm + '</span><span class="ex">' + s2.ex + '</span>';
+  legend.appendChild(d2);
+});
+</script>
+</body></html>

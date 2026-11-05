@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Путь · два направления</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap');
+:root{
+  --bg:#08090A; --surface:#101116; --ink:#F3F1EA; --muted:#A09C92; --faint:#6E6A62;
+  --line:rgba(255,255,255,.08);
+  --s1:#F8961D; --s2:#E0574B; --s3:#A96AB8; --s4:#28A992; --s5:#4CB853;
+}
+*{box-sizing:border-box}
+body{margin:0;background:
+  radial-gradient(1100px 520px at 15% -8%,rgba(248,150,29,.06),transparent 62%),
+  radial-gradient(900px 460px at 92% 108%,rgba(40,169,146,.05),transparent 62%), var(--bg);
+  color:var(--ink);font-family:'Golos Text',sans-serif;padding:36px 40px 52px}
+h1{font-family:'Playfair Display',serif;font-size:27px;margin:0 0 5px}
+.sub{color:var(--faint);font-size:11.5px;margin:0 0 26px;font-family:'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase}
+.panel{background:linear-gradient(180deg,rgba(255,255,255,.022),rgba(255,255,255,0));border:1px solid var(--line);
+  border-radius:20px;padding:22px 24px 18px;margin-bottom:26px;position:relative}
+.tag{position:absolute;top:-10px;left:22px;background:var(--bg);padding:0 10px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+.panel.a .tag{color:var(--s1)} .panel.b .tag{color:var(--s4)}
+.idea{font-size:13px;color:var(--muted);margin:0 0 14px;line-height:1.55;max-width:900px}
+svg{display:block;width:100%;height:auto}
+.legend{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:8px}
+.lg{display:flex;flex-direction:column;gap:2px}
+.lg .n{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;opacity:.6}
+.lg .nm{font-size:13.5px;font-weight:600;color:var(--muted)}
+.lg .ex{font-size:11px;color:var(--faint);line-height:1.3}
+.lg.now .nm{color:var(--s3)} .lg.now .n{opacity:1}
+.lg.next .nm{color:#FFC98A;font-size:15px} .lg.next .n{opacity:1}
+.hint{display:inline-block;margin-top:5px;padding:4px 10px;border-radius:999px;
+  border:1px solid rgba(248,150,29,.4);background:rgba(248,150,29,.1);color:#FFB766;font-size:11px}
+</style></head><body>
+
+<h1>Путь · два направления</h1>
+<p class="sub">обе идеи — про «что дальше», а не про «сколько пройдено»</p>
+
+<!-- A -->
+<div class="panel a">
+  <span class="tag">A · свет впереди</span>
+  <p class="idea">Самый яркий — не пройденный и не текущий, а <b>следующий</b> шаг. Прошлое тихо тлеет, будущее едва видно. Экран отвечает на один вопрос: что делать дальше.</p>
+  <svg id="svA" viewBox="0 0 1180 250">
+    <defs>
+      <linearGradient id="gA" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#F8961D"/><stop offset="25%" stop-color="#E0574B"/>
+        <stop offset="50%" stop-color="#A96AB8"/><stop offset="75%" stop-color="#28A992"/>
+        <stop offset="100%" stop-color="#4CB853"/>
+      </linearGradient>
+      <filter id="glowA" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur stdDeviation="12" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="dimA" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <path id="pA" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="11" stroke-linecap="round"/>
+    <path id="hA" fill="none" stroke="url(#gA)" stroke-width="26" stroke-linecap="round" opacity=".16" filter="url(#glowA)"/>
+    <path id="fA" fill="none" stroke="url(#gA)" stroke-width="11" stroke-linecap="round" opacity=".85"/>
+    <g id="nA"></g>
+    <g id="tA" font-family="Golos Text, sans-serif"></g>
+  </svg>
+  <div class="legend" id="lA"></div>
+</div>
+
+<!-- B -->
+<div class="panel b">
+  <span class="tag">B · открытая нить</span>
+  <p class="idea">Путь — нить, а не список: после пятой бусины она <b>продолжается и мягко гаснет</b>. Пятый шаг — не финиш, а поворот. Узелок = сейчас.</p>
+  <svg id="svB" viewBox="0 0 1180 250">
+    <defs>
+      <filter id="glowB" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur stdDeviation="10" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <linearGradient id="threadB" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#F8961D"/><stop offset="25%" stop-color="#E0574B"/>
+        <stop offset="50%" stop-color="#A96AB8"/><stop offset="75%" stop-color="#28A992"/>
+        <stop offset="100%" stop-color="#4CB853"/>
+      </linearGradient>
+      <linearGradient id="tailB" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="rgba(76,184,83,.55)"/><stop offset="100%" stop-color="rgba(76,184,83,0)"/>
+      </linearGradient>
+    </defs>
+    <path id="pB" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="6" stroke-linecap="round"/>
+    <path id="fB" fill="none" stroke="url(#threadB)" stroke-width="6" stroke-linecap="round"/>
+    <path id="tailBpath" fill="none" stroke="url(#tailB)" stroke-width="5" stroke-linecap="round"/>
+    <g id="nB"></g>
+  </svg>
+  <div class="legend" id="lB"></div>
+</div>
+
+<script>
+const STEPS = [
+  {n:'01', nm:'Цель',   ex:'одна фраза о деле',           c:'#F8961D'},
+  {n:'02', nm:'Разбор', ex:'кому и о чём говорить',       c:'#E0574B'},
+  {n:'03', nm:'Ритм',   ex:'сколько раз в неделю',        c:'#A96AB8'},
+  {n:'04', nm:'Посты',  ex:'готовые тексты и картинки',   c:'#28A992'},
+  {n:'05', nm:'Отклик', ex:'что сработало, а что нет',    c:'#4CB853'}
+];
+const CUR = 2;      // шаг 03 «сейчас»
+const NEXT = 3;     // шаг 04 «следующий»
+
+function legend(host, extra) {
+  STEPS.forEach((s, i) => {
+    const st = i < CUR ? 'done' : (i === CUR ? 'now' : (i === NEXT ? 'next' : ''));
+    const d = document.createElement('div');
+    d.className = 'lg ' + st;
+    d.style.setProperty('--step', s.c);
+    d.innerHTML = '<span class="n" style="color:' + s.c + (i === CUR || i === NEXT ? '' : ';opacity:.5') + '">' +
+      s.n + (i === CUR ? ' · сейчас' : i === NEXT ? ' · дальше' : i < CUR ? ' · сделано' : '') + '</span>' +
+      '<span class="nm">' + s.nm + '</span>' +
+      '<span class="ex">' + s.ex + '</span>' +
+      (i === NEXT && extra ? '<span class="hint">' + extra + ' →</span>' : '');
+    host.appendChild(d);
+  });
+}
+
+/* ───── A: свет впереди ───── */
+(() => {
+  const D = 'M 70 170 C 330 170, 330 90, 590 90 S 850 150, 1110 150';
+  ['pA','hA','fA'].forEach(id => document.getElementById(id).setAttribute('d', D));
+  const p = document.getElementById('fA');
+  const len = p.getTotalLength();
+  // пройдено светится до текущего узла; дальше — тихо
+  const frac = CUR / (STEPS.length - 1);
+  ['fA','hA'].forEach(id => {
+    const el = document.getElementById(id);
+    el.style.strokeDasharray = (len * frac) + ' ' + len;
+  });
+  const nA = document.getElementById('nA');
+  const tA = document.getElementById('tA');
+  const mk = (g, tag, attrs, txt) => {
+    const e = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (txt != null) e.textContent = txt;
+    g.appendChild(e); return e;
+  };
+  STEPS.forEach((s, i) => {
+    const pt = p.getPointAtLength(len * (i / (STEPS.length - 1)));
+    const isNow = i === CUR, isNext = i === NEXT, isDone = i < CUR;
+    const r = isNext ? 15 : isNow ? 12 : 9;
+    if (isNext) mk(nA, 'circle', {cx:pt.x, cy:pt.y, r:38, fill:s.c, opacity:'.9', filter:'url(#glowA)'});
+    else if (isNow) mk(nA, 'circle', {cx:pt.x, cy:pt.y, r:24, fill:s.c, opacity:'.35', filter:'url(#dimA)'});
+    mk(nA, 'circle', {cx:pt.x, cy:pt.y, r:r, fill: isNext ? s.c : (isDone || isNow ? s.c : '#0E0F13'),
+      stroke: s.c, 'stroke-width': 2, opacity: isNext ? 1 : isDone ? .5 : isNow ? .85 : .55});
+    mk(nA, 'text', {x:pt.x, y:pt.y+4, 'text-anchor':'middle', 'font-family':'JetBrains Mono, monospace',
+      'font-size':'10', fill: isNext ? '#0B0703' : (isDone || isNow ? '#0B0703' : '#8A867D')},
+      isDone ? '✓' : s.n);
+    // подпись следующего шага — крупнее всех
+    if (isNext) {
+      mk(tA, 'text', {x:pt.x, y:pt.y-56, 'text-anchor':'middle','font-size':'16','font-weight':'600', fill:'#FFC98A'}, s.nm);
+      mk(tA, 'text', {x:pt.x, y:pt.y-38, 'text-anchor':'middle','font-size':'11.5', fill:'#A09C92'}, s.ex);
+    }
+  });
+  legend(document.getElementById('lA'), 'Создать контент');
+})();
+
+/* ───── B: открытая нить ───── */
+(() => {
+  const D = 'M 70 120 C 300 120, 300 175, 560 175 S 820 130, 1050 130';
+  ['pB','fB'].forEach(id => document.getElementById(id).setAttribute('d', D));
+  // продолжение нити за пятой бусиной
+  const tail = 'M 1050 130 C 1100 130, 1130 118, 1170 112';
+  document.getElementById('tailBpath').setAttribute('d', tail);
+  const p = document.getElementById('fB');
+  const len = p.getTotalLength();
+  const frac = CUR / (STEPS.length - 1);
+  document.getElementById('fB').style.strokeDasharray = (len * frac) + ' ' + len;
+  const nB = document.getElementById('nB');
+  const mk = (tag, attrs, txt) => {
+    const e = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (txt != null) e.textContent = txt;
+    nB.appendChild(e); return e;
+  };
+  STEPS.forEach((s, i) => {
+    const pt = p.getPointAtLength(len * (i / (STEPS.length - 1)));
+    const isNow = i === CUR, isDone = i < CUR;
+    const r = isNow ? 15 : 11;
+    if (isNow) mk('circle', {cx:pt.x, cy:pt.y, r:28, fill:s.c, opacity:'.35', filter:'url(#glowB)'});
+    mk('circle', {cx:pt.x, cy:pt.y, r:r, fill: isDone || isNow ? s.c : '#0E0F13', stroke:s.c,
+      'stroke-width': isNow ? 3 : 2, opacity: isDone ? .75 : isNow ? 1 : .7});
+    mk('text', {x:pt.x, y:pt.y+4, 'text-anchor':'middle','font-family':'JetBrains Mono, monospace',
+      'font-size':'9.5', fill: isDone || isNow ? '#0B0703' : '#8A867D'}, isDone ? '✓' : s.n);
+    if (isNow) {
+      mk('text', {x:pt.x, y:pt.y+52,'text-anchor':'middle','font-family':'Golos Text, sans-serif',
+        'font-size':'12','font-weight':'600', fill:'#FFC98A'}, 'сейчас');
+    }
+  });
+  // «дальше» у открытого конца
+  mk('text', {x:1150, y:150,'text-anchor':'end','font-family':'JetBrains Mono, monospace',
+    'font-size':'10', fill:'#6E6A62','letter-spacing':'.1em'}, 'ДАЛЬШЕ');
+  legend(document.getElementById('lB'), null);
+})();
+</script>
+</body></html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Путь · два варианта</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Golos+Text:wght@400;600&family=JetBrains+Mono:wght@400&display=swap');
+:root{
+  --bg:#08090A; --surface:#121317; --surface2:#171920; --ink:#F3F1EA; --muted:#A09C92;
+  --faint:#6E6A62; --amber:#E8A54F; --copper:#E8A54F; --copperlt:#F3C583;
+  --line:rgba(255,255,255,.09); --green:#4CB853; --orange:#F8961D; --teal:#28A992; --red:#E01F27;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Golos Text',sans-serif;padding:44px 40px 60px}
+h1{font-family:'Playfair Display',serif;font-size:30px;margin:0 0 6px}
+.sub{color:var(--faint);font-size:13px;margin:0 0 34px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:26px 26px 30px;position:relative}
+.tagv{position:absolute;top:-11px;left:24px;background:var(--bg);padding:0 10px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--amber);text-transform:uppercase}
+.ph{font-size:12.5px;color:var(--faint);margin:0 0 20px;line-height:1.5}
+
+/* ───── ВАРИАНТ A: тропа ───── */
+.trail{position:relative;padding-left:52px}
+.trail::before{content:"";position:absolute;left:19px;top:14px;bottom:26px;width:1px;
+  background:linear-gradient(180deg,rgba(76,184,83,.75) 0%,rgba(76,184,83,.5) 26%,rgba(248,150,29,.55) 42%,rgba(232,165,79,.12) 66%,transparent)}
+.st{position:relative;padding:0 0 26px}
+.st:last-child{padding-bottom:0}
+.dot{position:absolute;left:-52px;top:2px;width:38px;height:38px;border-radius:50%;
+  display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:11.5px;
+  background:var(--surface2);border:1px solid var(--line);color:var(--faint)}
+.st.done .dot{border-color:rgba(76,184,83,.6);color:var(--green);background:rgba(76,184,83,.10)}
+.st.now .dot{border-color:var(--orange);color:#180D02;
+  background:linear-gradient(180deg,#FFB766,var(--orange));
+  box-shadow:0 0 0 6px rgba(248,150,29,.12),0 0 30px rgba(248,150,29,.38)}
+.st h3{margin:0 0 3px;font-size:15.5px;font-weight:600}
+.st.now h3{color:#FFC98A}
+.st p{margin:0;color:var(--faint);font-size:12.5px;line-height:1.5}
+.st.done h3{color:var(--muted)}
+.st.now .hint{display:inline-block;margin-top:8px;padding:5px 11px;border-radius:999px;
+  border:1px solid rgba(248,150,29,.42);background:rgba(248,150,29,.11);
+  color:#FFB766;font-size:11.5px;font-weight:600}
+
+/* ───── ВАРИАНТ B: лестница ───── */
+.stairs{display:flex;align-items:flex-end;gap:10px;margin-top:8px}
+.grp{flex:1;display:flex;flex-direction:column;align-items:center;gap:9px}
+.bar{width:100%;border-radius:14px 14px 6px 6px;border:1px solid var(--line);background:var(--surface2);
+  display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--faint)}
+.grp:nth-child(1) .bar{height:64px}
+.grp:nth-child(2) .bar{height:88px}
+.grp:nth-child(3) .bar{height:112px}
+.grp:nth-child(4) .bar{height:136px}
+.grp:nth-child(5) .bar{height:160px}
+.grp.done .bar{border-color:rgba(76,184,83,.42);color:var(--green);background:rgba(76,184,83,.07)}
+.grp.now .bar{border-color:var(--orange);color:#180D02;
+  background:linear-gradient(180deg,#FFB766,var(--orange));
+  box-shadow:0 0 34px rgba(248,150,29,.30)}
+.grp .nm{font-size:12px;color:var(--muted);text-align:center;line-height:1.3}
+.grp.now .nm{color:#FFC98A;font-weight:600}
+.grp .ex{font-size:10.5px;color:var(--faint);text-align:center;line-height:1.35}
+.foot{margin-top:22px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--faint)}
+.foot b{color:var(--teal);font-weight:600}
+.foot .sep{color:var(--faint);margin:0 8px}
+</style></head><body>
+
+<h1>Путь человека — два варианта</h1>
+<p class="sub">одна и та же мысль · разная форма</p>
+
+<div class="row">
+
+  <!-- A -->
+  <div class="panel">
+    <span class="tagv">Вариант A · тропа</span>
+    <p class="ph">Вертикально, в левой панели под меню. Всегда на виду, объяснение рядом. Тихо — как компас, а не как табличка.</p>
+
+    <div class="trail">
+      <div class="st done"><span class="dot">✓</span><h3>Цель</h3><p>одна фраза о том, чего хочешь</p></div>
+      <div class="st done"><span class="dot">✓</span><h3>Разбор</h3><p>кому и о чём говорить</p></div>
+      <div class="st now"><span class="dot">03</span><h3>Ритм</h3><p>сколько раз в неделю — и когда</p>
+        <span class="hint">Начни здесь →</span></div>
+      <div class="st"><span class="dot">04</span><h3>Посты</h3><p>готовые тексты и картинки</p></div>
+      <div class="st"><span class="dot">05</span><h3>Отклик</h3><p>что сработало, а что нет</p></div>
+    </div>
+    <div class="foot"><b>2 из 5</b><span class="sep">·</span>третий шаг ждёт</div>
+  </div>
+
+  <!-- B -->
+  <div class="panel">
+    <span class="tagv">Вариант B · лестница</span>
+    <p class="ph">Полосой на «Столе». Видно весь путь сразу, рост читается как подъём. Занимает место, но даёт карту.</p>
+
+    <div class="stairs">
+      <div class="grp done"><div class="bar">✓</div><div class="nm">Цель</div><div class="ex">фраза о деле</div></div>
+      <div class="grp done"><div class="bar">✓</div><div class="nm">Разбор</div><div class="ex">кому и о чём</div></div>
+      <div class="grp now"><div class="bar">03</div><div class="nm">Ритм</div><div class="ex">сколько и когда</div></div>
+      <div class="grp"><div class="bar">04</div><div class="nm">Посты</div><div class="ex">тексты и картинки</div></div>
+      <div class="grp"><div class="bar">05</div><div class="nm">Отклик</div><div class="ex">что сработало</div></div>
+    </div>
+    <div class="foot"><b>2 из 5</b><span class="sep">·</span>третий шаг ждёт</div>
+  </div>
+
+</div>
+</body></html>
