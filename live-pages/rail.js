@@ -491,3 +491,84 @@
       .catch(function () {});
   });
 })();
+
+/* ── переходы без перезагрузки: панель стоит, меняется содержимое ──
+   Как у Buffer. Работает только на страницах с общим каркасом
+   (.wrap), не на «Столе» и «Цели» — там своя жизнь. */
+(function softNav() {
+  var CONTENT = '.wrap';
+  if (!document.querySelector(CONTENT)) return;                 /* не тот каркас */
+  if (location.pathname === '/app' || location.pathname.indexOf('/app/strategy') === 0) return;
+
+  function isInternal(a) {
+    if (!a || !a.getAttribute) return false;
+    var href = a.getAttribute('href');
+    if (!href || href.charAt(0) !== '/' || href.charAt(1) === '/') return false;
+    if (a.target || a.hasAttribute('download') || a.hasAttribute('data-no-spa')) return false;
+    var clean = href.split('?')[0];
+    /* «Стол» и «Цель» живут на своём каркасе — их грузим обычно */
+    if (clean === '/app' || clean.indexOf('/app/strategy') === 0) return false;
+    if (clean.indexOf('/login') === 0 || clean.indexOf('/logout') === 0) return false;
+    return true;
+  }
+
+  var busy = false;
+  async function ggNavTo(url, push) {
+    if (busy) return;
+    busy = true;
+    document.documentElement.classList.add('gg-nav-busy');
+    try {
+      var res = await fetch(url, { credentials: 'same-origin' });
+      if (!res.ok) throw new Error('fail');
+      var html = await res.text();
+      var doc = new DOMParser().parseFromString(html, 'text/html');
+      var fresh = doc.querySelector(CONTENT);
+      var old = document.querySelector(CONTENT);
+      if (!fresh || !old) throw new Error('no wrap');
+
+      /* убрать скрипты прошлой страницы, чтобы не копились */
+      document.querySelectorAll('script[data-gg-page]').forEach(function (s) { s.remove(); });
+
+      old.replaceWith(document.importNode(fresh, true));
+
+      if (doc.title) document.title = doc.title;
+
+      /* пере-выполнить инлайн-скрипты новой страницы */
+      doc.querySelectorAll('script:not([src])').forEach(function (src) {
+        var el = document.createElement('script');
+        el.setAttribute('data-gg-page', '1');
+        el.textContent = src.textContent;
+        document.body.appendChild(el);
+      });
+
+      if (push) history.pushState({ gg: 1 }, '', url);
+      window.scrollTo(0, 0);
+
+      /* подсветить пункт меню */
+      var path = location.pathname;
+      document.querySelectorAll('.gg-rail-nav a, .sidebar .nav a').forEach(function (a) {
+        var h = a.getAttribute('href') || '';
+        a.classList.toggle('is-on', h === path || (h !== '/' && path.indexOf(h) === 0 && h !== '/app'));
+      });
+    } catch (e) {
+      location.href = url;                       /* тихий откат к обычной загрузке */
+    } finally {
+      busy = false;
+      document.documentElement.classList.remove('gg-nav-busy');
+    }
+  }
+
+  function wire() {
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest ? e.target.closest('a') : null;
+      if (!isInternal(a)) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      ggNavTo(a.getAttribute('href'), true);
+    });
+    window.addEventListener('popstate', function () { ggNavTo(location.pathname + location.search, false); });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire);
+  else wire();
+})();

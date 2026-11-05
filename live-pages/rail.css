@@ -375,3 +375,7 @@ html[data-theme="light"] .gg-acc-pop a:hover, html[data-theme="light"] .gg-acc-p
 .gg-rail-collapsed .gg-rail .gg-rail-grp { display: none !important; }
 .gg-rail-collapsed .gg-acc-btn { width: 44px; height: 44px; padding: 0; margin: 0 auto; }
 .gg-rail-collapsed .gg-acc-ava { width: 32px; height: 32px; font-size: 14px; }
+
+/* переход без перезагрузки: содержимое мягко гаснет */
+html.gg-nav-busy .wrap { opacity: .55; transition: opacity .12s ease; }
+html.gg-nav-busy { cursor: progress; }
