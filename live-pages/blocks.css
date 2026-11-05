@@ -931,12 +931,11 @@ body {
   font-family: var(--font-body);
 }
 .wrap {
-  /* полотно прижато к панели, как на «Цели»: не «плавает» в середине,
-     когда панель свёрнута */
+  /* полотно по центру свободного места */
   max-width: 1240px !important;
-  margin-left: 0 !important;
+  margin-left: auto !important;
   margin-right: auto !important;
-  padding: 40px 32px 88px 44px !important;
+  padding: 40px 32px 88px !important;
 }
 .wrap .sub { font-size: 14px !important; color: var(--muted); line-height: 1.55; }
 .wrap .gg-blk-q { font-family: var(--font-mono) !important; }

@@ -492,6 +492,25 @@
   });
 })();
 
+/* один активный пункт меню: побеждает самое длинное совпадение адреса */
+function markActive() {
+  var MAPS = [
+    ['/partner/channels', 'channels'], ['/partner/info', 'partners'],
+    ['/partner/team', 'team'], ['/partner/analytics', 'analytics'],
+    ['/app/strategy', 'strategy'], ['/app/posts', 'posts'], ['/app/schedule', 'schedule'],
+    ['/app/analytics', 'analytics'], ['/app/billing', 'billing'], ['/app/onboard', 'app'],
+    ['/pricing', 'pricing'], ['/profile', 'profile'], ['/partner', 'brands'], ['/app', 'app']
+  ];
+  var path = location.pathname, key = '';
+  for (var i = 0; i < MAPS.length; i++) {
+    if (path === MAPS[i][0] || path.indexOf(MAPS[i][0] + '/') === 0) { key = MAPS[i][1]; break; }
+  }
+  document.querySelectorAll('.gg-rail-nav a, .sidebar .nav a').forEach(function (a) {
+    a.classList.remove('is-on');                       /* сначала гасим все */
+    if (a.getAttribute('data-k') === key) a.classList.add('is-on');
+  });
+}
+
 /* ── переходы без перезагрузки: панель стоит, меняется содержимое ──
    Как у Buffer. Работает только на страницах с общим каркасом
    (.wrap), не на «Столе» и «Цели» — там своя жизнь. */
@@ -551,12 +570,8 @@
       if (push) history.pushState({ gg: 1 }, '', url);
       window.scrollTo(0, 0);
 
-      /* подсветить пункт меню */
-      var path = location.pathname;
-      document.querySelectorAll('.gg-rail-nav a, .sidebar .nav a').forEach(function (a) {
-        var h = a.getAttribute('href') || '';
-        a.classList.toggle('is-on', h === path || (h !== '/' && path.indexOf(h) === 0 && h !== '/app'));
-      });
+      /* подсветить пункт меню — ровно один, по самому длинному совпадению */
+      markActive();
     } catch (e) {
       location.href = url;                       /* тихий откат к обычной загрузке */
     } finally {
@@ -576,6 +591,7 @@
     window.addEventListener('popstate', function () { ggNavTo(location.pathname + location.search, false); });
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire);
-  else wire();
+  function boot() { markActive(); wire(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
 })();
