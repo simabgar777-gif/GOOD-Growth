@@ -369,3 +369,9 @@ body.gg-rail-collapsed .gg-acc-pop { position: fixed; left: 86px; bottom: 88px; 
 
 html[data-theme="light"] .gg-acc-pop { background: #FFFDF8; border-color: rgba(28,24,18,.12); }
 html[data-theme="light"] .gg-acc-pop a:hover, html[data-theme="light"] .gg-acc-pop button:hover { background: #FFF6E4; }
+
+/* свёрнутая панель: подписи групп скрываем, аватар целый */
+body.gg-rail-collapsed .gg-rail .lbl,
+body.gg-rail-collapsed .gg-rail .gg-rail-grp { display: none !important; }
+body.gg-rail-collapsed .gg-acc-btn { width: 44px; height: 44px; padding: 0; margin: 0 auto; }
+body.gg-rail-collapsed .gg-acc-ava { width: 32px; height: 32px; font-size: 14px; }

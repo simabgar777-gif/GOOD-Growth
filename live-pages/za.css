@@ -1304,3 +1304,13 @@ html[data-theme="light"] .gg-acc-pop { background: #FFFDF8; border-color: rgba(2
   color: var(--faint); font-size: 11.5px; text-decoration: none; }
 .brand-chip #brandMenu .bmenu-add:hover { color: var(--ink); }
 [data-theme="light"] .brand-chip .bc-count { border-color: rgba(28,24,18,.16); }
+
+/* свёрнутая панель: подписи групп («РАЗВИТИЕ») не нужны — они не влезают */
+body.gg-rail-collapsed .sidebar .nav .lbl,
+body.gg-rail-collapsed .sidebar .nav > span,
+body.gg-rail-collapsed .gg-rail .gg-rail-grp,
+body.gg-rail-collapsed .gg-rail .lbl { display: none !important; }
+
+/* аватар в свёрнутой панели: целиком, по центру */
+body.gg-rail-collapsed .gg-acc-btn { width: 44px; height: 44px; padding: 0; margin: 0 auto; }
+body.gg-rail-collapsed .gg-acc-ava { width: 32px; height: 32px; font-size: 14px; }
