@@ -1,199 +1,150 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
+<meta charset="utf-8">
 <script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.setAttribute("data-theme-src","system");}else{d.setAttribute("data-theme",t==="light"?"light":"dark");}}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <title data-i18n="billing.meta.title">Тариф — GOOD Growth</title>
-  <style>
-  :root{
-    --pg-bg:#08090A; --pg-surface:#0E0F12; --pg-surface2:#111216;
-    --pg-line:rgba(255,255,255,.06); --pg-line2:rgba(255,255,255,.10);
-    --pg-fg:#F4F4F5; --pg-fg2:#A1A1AA; --pg-fg3:#8B8B95;
-    --pg-copper:#E8A54F; --pg-copper-lt:#F3C583; --pg-copper-dp:#C97B3C;
-    --pg-grad:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);
-    --pg-ink:#1B1206;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--pg-bg);color:var(--pg-fg);font:16px/1.6 'Segoe UI',Tahoma,sans-serif}
-  .wrap{max-width:1120px;margin:0 auto;padding:34px 22px 70px}
-  .back{color:var(--pg-fg3);text-decoration:none;font-size:14px}
-  .back:hover{color:var(--pg-copper)}
-  .cols{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}
-  .panel{background:var(--pg-surface);border:1px solid var(--pg-line2);border-radius:12px;padding:26px 26px 24px}
-  .panel-title{font:500 11.5px/1 Consolas,monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--pg-copper);margin:0 0 16px}
-  h1{font:400 32px/1.15 Georgia,serif;margin:0 0 6px}
-  .price{font:600 40px/1 Georgia,serif;margin:12px 0 2px;color:var(--pg-fg)}
-  .price small{font:400 15px/1 inherit;color:var(--pg-fg3)}
-  .badge{display:inline-block;vertical-align:middle;margin-left:10px;background:rgba(232,165,79,.12);color:var(--pg-copper-lt);border:1px solid rgba(232,165,79,.35);font-size:12px;font-weight:600;padding:3px 12px;border-radius:999px}
-  .feat{list-style:none;margin:0;padding:0}
-  .feat li{margin:0;padding:9px 0 9px 26px;border-top:1px solid var(--pg-line);position:relative;color:var(--pg-fg2);font-size:15px}
-  .feat li:first-child{border-top:0}
-  .feat li::before{content:"\2713";position:absolute;left:2px;top:9px;color:var(--pg-copper);font-weight:800}
-  .cta{display:block;width:100%;text-align:center;padding:15px 34px;border-radius:8px;background:var(--pg-grad);color:var(--pg-ink);font:700 16px/1 inherit;text-decoration:none;border:1px solid rgba(255,255,255,.16);cursor:pointer;transition:box-shadow .2s ease,transform 150ms cubic-bezier(.22,1,.36,1)}
-  .cta:hover{box-shadow:0 10px 26px -10px rgba(232,165,79,.55);transform:translateY(-1px)}
-  .cta:active{transform:translateY(0) scale(.995)}
-  .cta:disabled{opacity:.6;cursor:wait;transform:none;box-shadow:none}
-  .swap{display:inline-block;margin-top:14px;color:var(--pg-fg3);font-size:14px;text-decoration:none}
-  .swap:hover{color:var(--pg-copper);text-decoration:underline}
-  .pay-note{color:var(--pg-fg3);font-size:12.5px;margin:12px 0 0;display:flex;align-items:center;gap:8px;justify-content:center}
-  .lock{display:inline-block;width:12px;height:14px;border:1.5px solid var(--pg-copper);border-radius:3px;position:relative;flex:0 0 auto}
-  .lock::before{content:"";position:absolute;left:2px;top:-7px;width:6px;height:7px;border:1.5px solid var(--pg-copper);border-bottom:0;border-radius:6px 6px 0 0}
-  .msg{margin-top:16px;font-size:14.5px;border-radius:10px;padding:12px 16px;display:none;line-height:1.5}
-  .msg.show{display:block;background:rgba(232,165,79,.10);color:var(--pg-copper-lt);border:1px solid rgba(232,165,79,.28)}
-  .msg b{color:var(--pg-fg)}
-  .msg a{color:var(--pg-copper);font-weight:600}
-  .notfound{background:rgba(232,105,79,.08);color:#E88A6F;border:1px solid rgba(232,105,79,.3);border-radius:12px;padding:22px 24px}
-  .notfound a{color:#E88A6F;font-weight:600}
-  .field{margin-bottom:14px}
-  .field label{display:block;font:500 11.5px/1 Consolas,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--pg-fg3);margin:0 0 7px}
-  .field input{width:100%;padding:12px 14px;border:1px solid var(--pg-line2);border-radius:8px;background:var(--pg-surface2);color:var(--pg-fg);font:inherit;font-size:15px;transition:border-color .15s ease,box-shadow .15s ease}
-  .field input:focus{outline:none;border-color:rgba(232,165,79,.55);box-shadow:0 0 0 3px rgba(232,165,79,.14)}
-  .field input::placeholder{color:#5F626B}
-  .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .cardline{background:var(--pg-surface2);border:1px solid var(--pg-line2);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;color:var(--pg-fg2);font-size:14px}
-  .chipx{width:34px;height:22px;border-radius:4px;background:var(--pg-grad);flex:0 0 auto;position:relative}
-  .chipx::before{content:"";position:absolute;left:6px;top:9px;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);box-shadow:7px 0 0 rgba(255,255,255,.25)}
-  @media (max-width:820px){.cols{grid-template-columns:1fr}}</style>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-i18n="channels.meta.title">Каналы бренда — GOOD Growth</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
+<link rel="icon" type="image/x-icon" href="/favicon.ico?v=2">
+<style>
+:root{--bg:#f6f8f4;--surface:#fff;--ink:#1c2419;--muted:#5c6b57;--hair:#e3e9de;--green:#3f9d63;--deep:#2f7a4c;--danger:#dc6b5f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+.wrap{max-width:1120px;margin:0 auto;padding:34px 20px 60px}
+h1{font-size:26px;letter-spacing:-.01em;margin-bottom:6px}
+.sub{color:var(--muted);font-size:14.5px;margin-bottom:24px}
+.panel{background:var(--surface);border:1px solid var(--hair);border-radius:16px;padding:20px 22px;margin-bottom:18px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--hair);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.row b{font-size:14.5px}
+.row .cid{color:var(--muted);font-size:12.5px;font-family:ui-monospace,Consolas,monospace}
+button{cursor:pointer;font:inherit}
+.del{background:none;border:1px solid var(--hair);color:var(--danger);border-radius:10px;padding:6px 12px;font-size:13px;font-weight:600}
+.del:hover{border-color:var(--danger)}
+.add{display:flex;gap:10px;margin-top:6px}
+input{flex:1;font:inherit;font-size:14.5px;padding:10px 14px;border:1px solid var(--hair);border-radius:11px;background:#fff;color:var(--ink)}
+input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
+.go{background:var(--green);color:#fff;border:0;border-radius:11px;padding:10px 18px;font-weight:700;font-size:14px}
+.go:hover{background:var(--deep)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.net{display:flex;align-items:center;gap:10px;border:1px solid var(--hair);border-radius:12px;padding:10px 12px;background:var(--surface)}
+.net.ok{border-color:#bcd9c4}
+.net .ic{width:28px;height:28px;border-radius:9px;background:var(--bg);border:1px solid var(--hair);display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:800}
+.net span.n{flex:1;font-size:13.5px;font-weight:600}
+.ok .st{color:var(--deep);font-size:11.5px;font-weight:800}
+.soon{opacity:.55}
+.soon .st{color:var(--muted);font-size:11.5px;font-weight:600}
+.mut{color:var(--muted);font-size:13px}
+</style>
 <link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"><link rel="stylesheet" href="/rail.css"><link rel="stylesheet" href="/blocks.css">
 </head>
 <body class="gg-with-rail">
 <aside class="gg-rail" id="gg-rail" aria-label="Разделы GOOD Growth" data-i18n-attr="aria-label:rail.group"><a class="gg-rail-logo" href="/app"><span class="gg-m"><svg class="gg-mark" viewBox="238 162 74 101" aria-hidden="true" fill="none" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M256 193 244 180 244 252" stroke="#F8961D"/><path d="M306 168 263 209" stroke="#28A992"/><path d="M287 216 245 257" stroke="#E01F27"/><path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg></span><span class="gg-t"><b>GOOD Growth</b><i data-i18n="rail.tagline">мастерская роста</i></span></a><nav class="gg-rail-nav"><a href="/app" data-k="app"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="11" height="11" rx="2.5"/><path d="M5.5 8h5"/></svg><span data-i18n="rail.app">Стол</span></a><a href="/app/strategy" data-k="strategy"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="2"/></svg><span data-i18n="rail.strategy">Цель</span></a><a href="/app/posts" data-k="posts"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="11" height="10" rx="2"/><path d="M2.5 6.5h11"/></svg><span data-i18n="rail.posts">Контент</span></a><a href="/app/schedule" data-k="schedule"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="11" height="10" rx="2"/><path d="M5 1.8v2.4M11 1.8v2.4M2.5 7h11"/></svg><span data-i18n="rail.schedule">Публикации</span></a><a href="/partner" data-k="brands"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 5.5h11v8h-11z"/><path d="M5.5 5.5V4a2.5 2.5 0 0 1 5 0v1.5"/></svg><span data-i18n="rail.brands">Бренды</span></a><a href="/partner/channels" data-k="channels"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 5.8L3.6 8.4l2.6 2.6"/><path d="M9.8 5.8l2.6 2.6-2.6 2.6"/></svg><span data-i18n="rail.channels">Каналы</span></a><a href="/app/analytics" data-k="analytics"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5h11"/><path d="M4.5 12.5V8M8 12.5V4.2M11.5 12.5V9.6"/></svg><span data-i18n="rail.analytics">Аналитика</span></a><a href="/partner/team" data-k="team"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.8" cy="6.2" r="2"/><circle cx="11.2" cy="7" r="1.5"/><path d="M2.6 13.2c0-2 1.5-3.1 3.2-3.1s3.2 1.1 3.2 3.1"/><path d="M10.1 13.2c0-1.5.9-2.4 2.1-2.4s2.1.9 2.1 2.4"/></svg><span data-i18n="rail.team">Команда</span></a><a href="/partner/info" data-k="partners"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="4" cy="8" r="1.7"/><circle cx="12" cy="4.6" r="1.7"/><circle cx="12" cy="11.4" r="1.7"/><path d="M5.5 7.3l4.9-2M5.5 8.7l4.9 2"/></svg><span data-i18n="rail.partners">Партнёрам</span></a><a href="/app/billing" data-k="billing"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1.8" y="3.8" width="12.4" height="8.4" rx="1.6"/><path d="M1.8 6.8h12.4"/><path d="M4.5 9.8h3"/></svg><span data-i18n="rail.billing">Оплата</span></a><a href="/pricing" data-k="pricing"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 2.2H3.4a1.2 1.2 0 0 0-1.2 1.2v5.2l6.2 6.2a1.2 1.2 0 0 0 1.7 0l3.5-3.5a1.2 1.2 0 0 0 0-1.7z"/><circle cx="5.6" cy="5.6" r="1.1"/></svg><span data-i18n="rail.pricing">Тарифы</span></a></nav><div class="gg-rail-foot"><a href="/profile" data-k="profile"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.8v1.6M8 12.6v1.6M1.8 8h1.6M12.6 8h1.6M3.6 3.6l1.1 1.1M11.3 11.3l1.1 1.1M12.4 3.6l-1.1 1.1M4.7 11.3l-1.1 1.1"/></svg><span data-i18n="rail.settings">Настройки</span></a><button type="button" class="gg-rail-theme" id="ggRailTheme"><span class="gg-ico">☾</span><span class="gg-tx" data-i18n="rail.theme.dark">Тёмная</span></button><button type="button" class="gg-rail-out" id="ggRailOut" data-i18n="rail.logout">Выйти</button></div></aside>
 <script src="/i18n/i18n.js"></script>
-  <div class="wrap">
-    <a class="back" href="/pricing" data-i18n="billing.back">← К выбору тарифа</a>
-    <div class="cols" id="cols">
-      <section class="panel" id="planBox"><p class="back">Загружаю тариф…</p></section>
-      <section class="panel" id="payBox">
-        <p class="panel-title" data-i18n="billing.payTitle">Оплата</p>
-        <div class="cardline"><span class="chipx"></span><span data-i18n="billing.cardBrands">Оплата банковской картой — Visa · Mastercard · МИР</span></div>
-        <form id="payForm" novalidate>
-          <div class="field"><label for="cardNum" data-i18n="billing.label.cardNum">Номер карты</label><input id="cardNum" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" maxlength="19"></div>
-          <div class="frow">
-            <div class="field"><label for="cardExp" data-i18n="billing.label.cardExp">Срок</label><input id="cardExp" inputmode="numeric" autocomplete="cc-exp" placeholder="ММ/ГГ" data-i18n-attr="placeholder:billing.ph.exp" maxlength="5"></div>
-            <div class="field"><label for="cardCvc">CVC</label><input id="cardCvc" inputmode="numeric" autocomplete="cc-csc" placeholder="•••" maxlength="3" type="password"></div>
-          </div>
-          <div class="field"><label for="payEmail" data-i18n="billing.label.email">Email для чека</label><input id="payEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
-          <button class="cta" id="payBtn" type="submit">Оплатить</button>
-          <p class="pay-note"><span class="lock"></span><span data-i18n="billing.secure">Платёж защищён. Данные карты не сохраняются.</span></p>
-        </form>
-        <div class="msg" id="payMsg"></div>
-      </section>
-    </div>
+<div class="wrap">
+<h1>Оплата</h1>
+<p class="sub">тариф, лимиты и заявка — без карт и списаний</p>
+
+<div class="bill-grid">
+  <section class="bill-card" id="billNow">
+    <p class="bill-lbl">твой тариф</p>
+    <p class="bill-load">Загружаю…</p>
+  </section>
+
+  <section class="bill-card is-new" id="billNew" hidden>
+    <p class="bill-lbl">переход на</p>
+    <h2 id="billNewName">—</h2>
+    <p class="bill-price"><b id="billNewPrice">—</b><span>в месяц</span></p>
+    <ul class="bill-list" id="billNewList"></ul>
+  </section>
+</div>
+
+<section class="bill-ask">
+  <h2>Оставить заявку</h2>
+  <p class="sub">Онлайн-оплата появится позже. Сейчас мы включим тариф вручную —
+     карту не спрашиваем, деньги не списываются.</p>
+  <div class="bill-row">
+    <input id="billEmail" type="email" placeholder="твой email" aria-label="Email">
+    <button type="button" class="chan-go" id="billSend">Оставить заявку</button>
   </div>
+  <p class="bill-hint" id="billHint"></p>
+</section>
+
+<div class="bill-links">
+  <a href="/pricing" class="step-go ghost">Сравнить тарифы</a>
+  <a href="/app" class="step-go ghost">Вернуться на Стол</a>
+</div>
+
 <script>
-(function(){
+(function () {
   var PLANS = {
-    start:     { n:ggT('plan.start','Старт'),     p:'0 ₽',    f:[ggT('pricing.f.brand1','1 бренд'),ggT('pricing.f.ch2','2 канала'),ggT('pricing.f.post1','1 пост в день'),ggT('pricing.f.anBase','Базовая аналитика')], free:true },
-    growth:    { n:ggT('plan.growth','Рост'),      p:'490 ₽',  f:[ggT('pricing.f.brand1','1 бренд'),ggT('pricing.f.ch5','5 каналов'),ggT('pricing.f.post4','4 поста в день'),ggT('pricing.f.anBase','Базовая аналитика')] },
-    pro:       { n:ggT('plan.pro','Про'),       p:'990 ₽',  f:[ggT('pricing.f.brand3','3 бренда'),ggT('pricing.f.chUnl','Каналы безлимит'),ggT('pricing.f.post10','10 постов в день'),ggT('pricing.f.anFull','Полная аналитика'),ggT('pricing.f.priority','Приоритетная поддержка')] },
-    agency:    { n:ggT('plan.agency','Агентство'), p:'2 990 ₽',f:[ggT('pricing.f.brand10','10 брендов'),ggT('pricing.f.chUnl','Каналы безлимит'),ggT('pricing.f.postUnl','Посты безлимит'),ggT('pricing.f.anFull','Полная аналитика'),ggT('pricing.f.priority','Приоритетная поддержка')] },
-    unlimited: { n:ggT('plan.unlimited','Безлимит'),  p:'5 990 ₽',f:[ggT('pricing.f.brandUnl','Бренды безлимит'),ggT('pricing.f.chUnl','Каналы безлимит'),ggT('pricing.f.postUnl','Посты безлимит'),ggT('pricing.f.anFull','Полная аналитика'),ggT('pricing.f.priority','Приоритетная поддержка')] }
+    start:     { nm: 'Старт',     price: 0,    b: 1,  c: 2,  p: 1 },
+    growth:    { nm: 'Рост',      price: 490,  b: 1,  c: 5,  p: 4 },
+    pro:       { nm: 'Про',       price: 990,  b: 3,  c: 9999, p: 10 },
+    agency:    { nm: 'Агентство', price: 2990, b: 10, c: 9999, p: 9999 },
+    unlimited: { nm: 'Безлимит',  price: 5990, b: 9999, c: 9999, p: 9999 }
   };
-  var ALIAS = { rost:'growth' };
-  var sel = new URLSearchParams(location.search).get('plan') || '';
-  sel = ALIAS[sel] || sel;
+  var want = new URLSearchParams(location.search).get('plan');
+  var money = function (n) { return n === 0 ? '0 ₽' : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽'; };
+  var lim = function (n) { return n >= 9999 ? 'без счёта' : String(n); };
 
-  function esc(s){ var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
-  function digits(v){ return v.replace(/\D/g, ''); }
-  function luhnOk(num){
-    if (num.length < 12) return false;
-    var sum = 0, alt = false;
-    for (var i = num.length - 1; i >= 0; i--) {
-      var d = parseInt(num.charAt(i), 10);
-      if (alt) { d *= 2; if (d > 9) d -= 9; }
-      sum += d; alt = !alt;
-    }
-    return sum % 10 === 0;
-  }
-  function fmtCard(v){
-    var d = digits(v).slice(0, 16);
-    return d.replace(/(\d{4})(?=\d)/g, '$1 ');
-  }
-  function fmtExp(v){
-    var d = digits(v).slice(0, 4);
-    if (d.length >= 3) return d.slice(0, 2) + '/' + d.slice(2);
-    return d;
-  }
-  function render(code, cur){
-    var box = document.getElementById('planBox');
-    var pl = PLANS[code];
-    if (!pl) {
-      document.getElementById('cols').innerHTML = '<section class="panel"><div class="notfound"><b>'+ggT('billing.notFound','Такого тарифа нет.')+'</b> '+ggT('billing.notFound.a','Вернись на ')+'<a href="/pricing">'+ggT('billing.notFound.link','выбор тарифа')+'</a>'+ggT('billing.notFound.b',' и выбери заново.')+'</div></section>';
-      return;
-    }
-    var badge = (cur && cur === code) ? '<span class="badge">'+ggT('billing.current','Ваш текущий тариф')+'</span>' : '';
-    var h = '<p class="panel-title">'+ggT('billing.whatYouGet','Что вы получаете')+'</p>';
-    h += '<h1>' + esc(pl.n) + badge + '</h1>';
-    h += '<div class="price">' + esc(pl.p) + '<small>'+ggT('pricing.perMonth',' /мес')+'</small></div>';
-    h += '<ul class="feat">' + pl.f.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
-    h += '<a class="swap" href="/pricing">'+ggT('billing.swap','Сменить тариф')+'</a>';
-    box.innerHTML = h;
-    var pb = document.getElementById('payBtn');
-    var title = document.getElementById('payBtn');
-    pb.textContent = pl.free ? ggT('billing.startFree','Начать бесплатно') : ggT('billing.payFor','Оплатить {price} /мес').replace('{price}', esc(pl.p));
-    document.getElementById('payForm').addEventListener('submit', function(e){
-      e.preventDefault();
-      var m = document.getElementById('payMsg');
-      var num = digits(document.getElementById('cardNum').value);
-      var exp = document.getElementById('cardExp').value;
-      var cvc = digits(document.getElementById('cardCvc').value);
-      var em = document.getElementById('payEmail').value.trim();
-      if (pl.free) {
-        m.innerHTML = '<b>'+ggT('billing.msg.done','Готово!')+'</b>'+ggT('billing.msg.done.a',' Тариф «')+esc(pl.n)+ggT('billing.msg.done.b','» активирован. Мастерская ждёт: ')+'<a href="/app">'+ggT('billing.msg.done.link','открыть')+'</a>.';
-        m.classList.add('show');
-        return;
+  fetch('/api/plan', { credentials: 'same-origin' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      var cur = (d && d.plan) || 'start';
+      var p = PLANS[cur] || PLANS.start;
+      document.getElementById('billNow').innerHTML =
+        '<p class="bill-lbl">твой тариф</p>' +
+        '<h2>' + p.nm + '</h2>' +
+        '<p class="bill-price"><b>' + money(p.price) + '</b><span>в месяц</span></p>' +
+        '<ul class="bill-list">' +
+          '<li>брендов: ' + lim(p.b) + '</li>' +
+          '<li>каналов: ' + lim(p.c) + '</li>' +
+          '<li>публикаций в день: ' + lim(p.p) + '</li>' +
+        '</ul>';
+
+      if (want && want !== cur && PLANS[want]) {
+        var q = PLANS[want];
+        document.getElementById('billNew').hidden = false;
+        document.getElementById('billNewName').textContent = q.nm;
+        document.getElementById('billNewPrice').textContent = money(q.price);
+        document.getElementById('billNewList').innerHTML =
+          '<li>брендов: ' + lim(q.b) + '</li>' +
+          '<li>каналов: ' + lim(q.c) + '</li>' +
+          '<li>публикаций в день: ' + lim(q.p) + '</li>';
       }
-      if (!luhnOk(num)) { m.innerHTML = '<b>'+ggT('billing.msg.cardNum.b','Проверьте номер карты')+'</b>'+ggT('billing.msg.cardNum.t',' — похоже, есть опечатка.'); m.classList.add('show'); return; }
-      if (!/^\d{2}\/\d{2}$/.test(exp)) { m.innerHTML = '<b>'+ggT('billing.msg.exp.b','Проверьте срок действия')+'</b>'+ggT('billing.msg.exp.t',' — формат ММ/ГГ.'); m.classList.add('show'); return; }
-      if (cvc.length !== 3) { m.innerHTML = '<b>'+ggT('billing.msg.cvc.b','Проверьте CVC')+'</b>'+ggT('billing.msg.cvc.t',' — три цифры на обороте карты.'); m.classList.add('show'); return; }
-      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { m.innerHTML = '<b>'+ggT('billing.msg.email.b','Проверьте email')+'</b>'+ggT('billing.msg.email.t',' — на него придёт чек.'); m.classList.add('show'); return; }
-      pb.disabled = true;
-      pb.textContent = ggT('billing.processing','Обрабатываем платёж…');
-      fetch('/api/billing/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'same-origin',
-        body: JSON.stringify({ plan: code, card: num, exp: exp, email: em })
-      }).then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); })
-        .then(function(res){
-          pb.disabled = false;
-          pb.textContent = ggT('billing.payFor','Оплатить {price} /мес').replace('{price}', esc(pl.p));
-          if (res.ok) {
-            m.innerHTML = '<b>'+ggT('billing.msg.ok.b','Спасибо! Платёж принят.')+'</b>'+ggT('billing.msg.ok.t',' Мы свяжемся с вами для подтверждения оплаты — письмо уже на ')+esc(em)+'.';
-            m.classList.add('show');
-            document.getElementById('payForm').reset();
-          } else {
-            m.innerHTML = '<b>'+ggT('billing.msg.bad.b','Платёж не прошёл.')+'</b> ' + esc((res.j && res.j.error) || ggT('billing.msg.bad.t','Попробуйте ещё раз или напишите на hello@growth.go-ood.com.'));
-            m.classList.add('show');
-          }
-        })
-        .catch(function(){
-          pb.disabled = false;
-          pb.textContent = ggT('billing.payFor','Оплатить {price} /мес').replace('{price}', esc(pl.p));
-          m.innerHTML = '<b>'+ggT('billing.msg.nonet.b','Сеть недоступна.')+'</b>'+ggT('billing.msg.nonet.t',' Попробуйте ещё раз — или напишите на ')+'<a href="mailto:hello@growth.go-ood.com">hello@growth.go-ood.com</a>.';
-          m.classList.add('show');
-        });
-    });
-  }
-
-  fetch('/api/me', { credentials:'same-origin' })
-    .then(function(r){ return r.json(); })
-    .then(function(d){
-      var u = d && d.user;
-      var cur = u ? (u.plan || 'start') : null;
-      if (!sel) sel = cur || 'start';
-      render(sel, cur);
     })
-    .catch(function(){
-      if (!sel) sel = 'start';
-      render(sel, null);
+    .catch(function () {
+      document.getElementById('billNow').innerHTML = '<p class="bill-lbl">твой тариф</p><p>Не удалось загрузить.</p>';
     });
+
+  document.getElementById('billSend').addEventListener('click', function () {
+    var b = this;
+    var email = document.getElementById('billEmail').value.trim();
+    var hint = document.getElementById('billHint');
+    if (!email) { hint.textContent = 'Нужен email — мы ответим на него.'; return; }
+    b.disabled = true; b.textContent = 'Отправляю…';
+    fetch('/api/billing/checkout', {
+      method: 'POST', credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ plan: want || 'growth', email: email })
+    }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        if (!res.ok) throw new Error((res.j && res.j.error) || 'Не получилось');
+        hint.textContent = 'Заявка у нас. Ответим на ' + email + ' — тариф включим вручную.';
+        b.textContent = 'Заявка отправлена';
+      })
+      .catch(function (e) {
+        hint.textContent = e.message;
+        b.disabled = false; b.textContent = 'Оставить заявку';
+      });
+  });
 })();
 </script>
-<script src="/gg-header.js" defer></script>
+</div>
+
 <script src="/theme.js" defer></script>
 <script src="/topline.js" defer></script>
 <script src="/rail.js" defer></script>

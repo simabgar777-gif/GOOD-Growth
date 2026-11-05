@@ -761,3 +761,41 @@ a.gg-btn-gold:hover, a.gg-btn-ghost:hover { text-decoration: none !important; }
 .pl-soon { color: var(--faint) !important; font-style: normal; }
 [data-theme="light"] .pl-calc { background: #FFFDF8; }
 [data-theme="light"] .pl-calc input { background: #fff; }
+
+/* ══ ОПЛАТА ══════════════════════════════════════════════════ */
+.bill-grid { display: grid; gap: 14px; margin: 20px 0 26px; max-width: 760px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.bill-card { padding: 20px 22px; border-radius: 16px;
+  border: 1px solid var(--hair, rgba(255,255,255,.09)); background: var(--surface, #121317); }
+.bill-card.is-new { border-color: rgba(232,165,79,.4); background: rgba(232,165,79,.05); }
+.bill-lbl { margin: 0 0 6px; font-family: var(--font-mono, monospace); font-size: 9.5px;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
+.bill-card h2 { margin: 0 0 8px; font-family: var(--font-display, serif); font-size: 22px; font-weight: 500; }
+.bill-price { margin: 0 0 12px; display: flex; align-items: baseline; gap: 7px; }
+.bill-price b { font-size: 24px; font-family: var(--font-display, serif); color: var(--ink); }
+.bill-price span { font-size: 11px; color: var(--faint); }
+.bill-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px;
+  font-size: 12.5px; color: var(--muted); }
+.bill-list li::before { content: "· "; color: var(--amber); }
+.bill-load { margin: 0; color: var(--faint); font-size: 13px; }
+
+.bill-ask { max-width: 760px; padding: 20px 22px; border-radius: 16px;
+  border: 1px solid var(--hair, rgba(255,255,255,.09)); background: var(--surface, #121317); }
+.bill-ask h2 { margin: 0 0 4px; font-family: var(--font-display, serif); font-size: 20px; font-weight: 500; }
+.bill-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.bill-row input { flex: 1 1 260px; padding: 11px 14px; border-radius: 10px; font: inherit; font-size: 14px;
+  border: 1px solid var(--hair, rgba(255,255,255,.12)); background: var(--bg-soft, #0E0F13); color: var(--ink); }
+.bill-row input:focus { outline: none; border-color: rgba(232,165,79,.5); }
+.bill-hint { margin: 10px 0 0; font-size: 12px; color: var(--amber); min-height: 16px; }
+.bill-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+[data-theme="light"] .bill-card, [data-theme="light"] .bill-ask { background: #FFFDF8; }
+[data-theme="light"] .bill-card.is-new { background: #FFF6E4; }
+[data-theme="light"] .bill-row input { background: #fff; }
+
+/* ссылки-кнопки под заявкой */
+.bill-links .step-go {
+  display: inline-block; text-decoration: none; padding: 9px 16px; border-radius: 999px;
+  border: 1px solid var(--hair, rgba(255,255,255,.14)); color: var(--ink);
+  font-size: 12.5px; background: transparent;
+}
+.bill-links .step-go:hover { background: rgba(255,255,255,.05); }
