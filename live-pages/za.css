@@ -1205,3 +1205,19 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 
 [data-theme="light"] .ge-net.on { background: #FFF6E4; }
 [data-theme="light"] .ge-empty-card { background: rgba(28,24,18,.03); }
+
+/* ══ АВТОПИЛОТ: предложение ритма ════════════════════════════ */
+.gg-rhythm {
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  flex-wrap: wrap; padding: 18px 22px; margin: 0 0 22px; border-radius: 16px;
+  border: 1px solid rgba(169,106,184,.32); background: rgba(169,106,184,.07);
+}
+.gg-rhythm-lbl { margin: 0 0 4px; font-family: var(--font-mono); font-size: 9.5px;
+  letter-spacing: .14em; text-transform: uppercase; color: #C79BD4; }
+.gg-rhythm h3 { margin: 0 0 4px; font-family: var(--font-display); font-size: 21px;
+  font-weight: 500; color: var(--ink); }
+.gg-rhythm p { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+.gg-rhythm-acts { display: flex; gap: 10px; flex-wrap: wrap; }
+@media (max-width: 700px) { .gg-rhythm { padding: 15px 16px; } .gg-rhythm h3 { font-size: 18px; } }
+[data-theme="light"] .gg-rhythm { background: rgba(169,106,184,.08); }
+[data-theme="light"] .gg-rhythm-lbl { color: #8A5A99; }

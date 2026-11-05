@@ -868,6 +868,69 @@
     });
   }
 
+
+  /* ── автопилот: ритм предлагается сам после разбора ─────────
+     Разум уже знает, сколько постов в неделю. Превращаем это
+     в дни и часы — человек только соглашается. */
+  var DOW_IDX = [1, 2, 3, 4, 5, 6, 0];   /* Пн..Вс в нумерации JS Date */
+
+  function suggestRhythm(perWeek) {
+    var n = Math.max(1, Math.min(7, Number(perWeek) || 3));
+    var days;
+    if (n === 1) days = [2];                    /* вторник */
+    else if (n === 2) days = [2, 4];            /* вт, чт */
+    else if (n === 3) days = [2, 4, 6];         /* вт, чт, сб */
+    else if (n === 4) days = [1, 3, 5, 6];      /* пн, ср, пт, сб */
+    else if (n === 5) days = [1, 2, 3, 4, 5];
+    else if (n === 6) days = [1, 2, 3, 4, 5, 6];
+    else days = [0, 1, 2, 3, 4, 5, 6];
+    return days.map(function (wd) {
+      return { weekday: wd, time: wd === 6 ? '12:00' : '19:00' };
+    });
+  }
+
+  function rhythmBlock(goal, slots) {
+    if (slots.length) return '';                     /* ритм уже есть — молчим */
+    var per = (goal.strategy && goal.strategy.rhythm && goal.strategy.rhythm.posting_per_week) || 3;
+    var plan = suggestRhythm(per);
+    var names = plan.map(function (x) { return DOW[x.weekday]; }).join(', ');
+    var when = plan[0] ? plan[0].time : '19:00';
+    return '<section class="gg-rhythm" id="ggRhythm">' +
+      '<div class="gg-rhythm-tx">' +
+        '<p class="gg-rhythm-lbl">разум предлагает ритм</p>' +
+        '<h3>' + per + ' поста в неделю</h3>' +
+        '<p>' + names + ' — в ' + when + '. Можно принять и поправить позже.</p>' +
+      '</div>' +
+      '<div class="gg-rhythm-acts">' +
+        '<button type="button" class="step-go gold" id="ggRhythmOk">Принять ритм</button>' +
+        '<a class="step-go ghost" href="/app/schedule">Настроить сам</a>' +
+      '</div>' +
+      '</section>';
+  }
+
+  function wireRhythm(goal) {
+    var b = document.getElementById('ggRhythmOk');
+    if (!b) return;
+    b.addEventListener('click', function () {
+      var per = (goal.strategy && goal.strategy.rhythm && goal.strategy.rhythm.posting_per_week) || 3;
+      var plan = suggestRhythm(per);
+      b.disabled = true; b.textContent = 'Ставлю…';
+      fetch('/api/slots', {
+        method: 'POST', credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ perWeek: plan.length, tz: 'Europe/Moscow', slots: plan })
+      }).then(function (r) { if (!r.ok) throw new Error('Не получилось'); })
+        .then(function () {
+          var box = document.getElementById('ggRhythm');
+          if (box) box.remove();
+          if (window.ggRefreshWizard) window.ggRefreshWizard();
+          var st = document.getElementById('postsStatus');
+          if (st) st.textContent = 'Ритм принят — посты будут выходить в эти дни.';
+        })
+        .catch(function () { b.disabled = false; b.textContent = 'Принять ритм'; });
+    });
+  }
+
   function renderPosts(goalId) {
     var root = $('postsRoot'); if (!root || !goalId) return;
     Promise.all([
@@ -1153,12 +1216,12 @@
   var SECTIONS = {
     1: ['#askForm'],
     2: ['.sheet-head', '.goal-quote', '.strategy-line', '#audience', '#steps'],
-    3: ['.sheet-head', '#rhythm'],
+    3: ['.sheet-head', '#ggRhythm', '#rhythm'],
     4: ['.sheet-head', '#topics', '#chans', '#postsSec'],
     5: ['.sheet-head']
   };
   var ALL = ['.hero', '#askForm', '.sheet-head', '.goal-quote', '.strategy-line',
-             '#audience', '#rhythm', '#topics', '#chans', '#steps', '#postsSec'];
+             '#audience', '#rhythm', '#topics', '#chans', '#steps', '#postsSec', '#ggRhythm'];
 
 
   /* ── шапка шага: цветной номер, название и объяснение ─────── */
@@ -1411,6 +1474,29 @@
            тропа всё равно встанет */
         try { buildWizard(); } catch (e) { console.warn('wizard', e); }
         try { fill(d); } catch (e) { console.warn('fill', e); }
+        /* автопилот: если ритма ещё нет — предложить его сразу */
+        try {
+          fetch('/api/slots', { credentials: 'same-origin' })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (sl) {
+              var host = document.getElementById('ggRhythm');
+              if (host) host.remove();
+              var html = rhythmBlock(d, (sl && sl.slots) || []);
+              if (!html) return;
+              var main = document.getElementById('goalPage');
+              var head = document.getElementById('ggStepHead');
+              var wrap = document.createElement('div');
+              wrap.innerHTML = html;
+              var el = wrap.firstChild;
+              if (head && head.parentNode) head.parentNode.insertBefore(el, head.nextSibling);
+              else if (main) main.insertBefore(el, main.firstChild);
+              wireRhythm(d);
+              var on = document.querySelector('.ggstep-i.is-on');
+              var cur = on ? Number(on.getAttribute('data-step')) : 1;
+              if (cur !== 3) el.classList.add('gg-hide');
+            })
+            .catch(function () {});
+        } catch (e) {}
         try { buildWizard(); } catch (e) {}
         renderPosts(d.id);
         watchPosts(d.id);
