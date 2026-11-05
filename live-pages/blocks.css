@@ -708,3 +708,24 @@ a.gg-btn-gold:hover, a.gg-btn-ghost:hover { text-decoration: none !important; }
 @media (min-width: 1360px) {
   .pl-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 }
+
+/* переключатель месяц / год */
+.pl-switch { display: inline-flex; gap: 4px; padding: 4px; margin: 16px 0 6px;
+  border-radius: 999px; border: 1px solid var(--hair, rgba(255,255,255,.10));
+  background: rgba(255,255,255,.02); }
+.pl-sw { padding: 8px 18px; border-radius: 999px; cursor: pointer; font: inherit;
+  font-size: 13px; border: 0; background: transparent; color: var(--faint); }
+.pl-sw.on { background: var(--amber, #E8A54F); color: #1B1206; font-weight: 700; }
+.pl-sw-badge { font-family: var(--font-mono, monospace); font-size: 9.5px; letter-spacing: .06em;
+  padding: 2px 6px; border-radius: 999px; background: rgba(76,184,83,.18); color: #8FD9A0; margin-left: 4px; }
+.pl-sw.on .pl-sw-badge { background: rgba(0,0,0,.18); color: #1B1206; }
+.pl-year { margin: -4px 0 0; font-size: 11px; color: var(--faint); }
+[data-theme="light"] .pl-switch { background: rgba(28,24,18,.03); }
+
+/* цена не должна рваться по слогам */
+.pl-price b, .pl-price span { white-space: nowrap; }
+.pl-price { flex-wrap: wrap; }
+@media (min-width: 1360px) {
+  .pl-price b { font-size: 23px; }
+  .pl-price span { font-size: 10.5px; }
+}

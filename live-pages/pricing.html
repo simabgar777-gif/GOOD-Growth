@@ -47,10 +47,15 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
 <h1>Тарифы</h1>
 <p class="sub">что входит — без звёздочек и сносок</p>
 
+<div class="pl-switch" role="group" aria-label="Период оплаты">
+  <button type="button" class="pl-sw on" data-period="month">Месяц</button>
+  <button type="button" class="pl-sw" data-period="year">Год <span class="pl-sw-badge">−20%</span></button>
+</div>
+
 <div class="pl-grid">
   <article class="pl-card" data-plan="start">
     <h2>Старт</h2>
-    <p class="pl-price"><b>0 ₽</b><span>в месяц</span></p>
+    <p class="pl-price"><b data-m="0">0 ₽</b><span data-per>в месяц</span></p>
     <p class="pl-note">Попробовать: одна цель, один канал, один пост в день.</p>
     <ul class="pl-list">
       <li>брендов: 1 бренд</li>
@@ -62,7 +67,8 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
   </article>
   <article class="pl-card" data-plan="growth">
     <h2>Рост</h2>
-    <p class="pl-price"><b>490 ₽</b><span>в месяц</span></p>
+    <p class="pl-price"><b data-m="490">490 ₽</b><span data-per>в месяц</span></p>
+    <p class="pl-year" data-y="392" data-total="4704">или 4 704 ₽ за год</p>
     <p class="pl-note">Для одного дела, которое выходит регулярно.</p>
     <ul class="pl-list">
       <li>брендов: 1 бренд</li>
@@ -74,7 +80,8 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
   </article>
   <article class="pl-card" data-plan="pro">
     <h2>Про</h2>
-    <p class="pl-price"><b>990 ₽</b><span>в месяц</span></p>
+    <p class="pl-price"><b data-m="990">990 ₽</b><span data-per>в месяц</span></p>
+    <p class="pl-year" data-y="792" data-total="9504">или 9 504 ₽ за год</p>
     <p class="pl-note">Несколько дел, один человек ведёт всё.</p>
     <ul class="pl-list">
       <li>брендов: 3 бренда</li>
@@ -86,7 +93,8 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
   </article>
   <article class="pl-card" data-plan="agency">
     <h2>Агентство</h2>
-    <p class="pl-price"><b>2 990 ₽</b><span>в месяц</span></p>
+    <p class="pl-price"><b data-m="2990">2 990 ₽</b><span data-per>в месяц</span></p>
+    <p class="pl-year" data-y="2392" data-total="28704">или 28 704 ₽ за год</p>
     <p class="pl-note">Когда брендов много и они разные.</p>
     <ul class="pl-list">
       <li>брендов: 10 брендов</li>
@@ -98,7 +106,8 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
   </article>
   <article class="pl-card" data-plan="unlimited">
     <h2>Безлимит</h2>
-    <p class="pl-price"><b>5 990 ₽</b><span>в месяц</span></p>
+    <p class="pl-price"><b data-m="5990">5 990 ₽</b><span data-per>в месяц</span></p>
+    <p class="pl-year" data-y="4792" data-total="57504">или 57 504 ₽ за год</p>
     <p class="pl-note">Всё сразу, без счёта.</p>
     <ul class="pl-list">
       <li>брендов: без ограничений</li>
@@ -151,6 +160,40 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
       if (h) h.textContent = 'Сейчас у тебя тариф «' + (NAMES[cur] || cur) + '».';
     })
     .catch(function () {});
+
+  /* месяц / год: годовой — минус 20%, два месяца в подарок */
+  var PERIOD = 'month';
+  function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+  function paintPeriod() {
+    document.querySelectorAll('.pl-card').forEach(function (c) {
+      var m = c.querySelector('[data-m]');
+      var y = c.querySelector('[data-y]');
+      var per = c.querySelector('[data-per]');
+      if (!m) return;
+      var mv = m ? Number(m.getAttribute('data-m') || 0) : 0;
+      var yv = y ? Number(y.getAttribute('data-y') || 0) : 0;
+      if (mv === 0) { m.textContent = '0 ₽'; if (y) y.hidden = true; if (per) per.textContent = 'в месяц'; return; }
+      if (!yv) { if (per) per.textContent = 'в месяц'; return; }
+      var total = y ? (y.getAttribute('data-total') || '') : '';
+      if (PERIOD === 'year') {
+        m.textContent = money(yv) + ' ₽';
+        if (per) per.textContent = 'в месяц';
+        if (y) { y.hidden = false; y.textContent = total ? 'за год — ' + money(Number(total)) + ' ₽' : ''; }
+      } else {
+        m.textContent = money(mv) + ' ₽';
+        if (per) per.textContent = 'в месяц';
+        if (y) { y.hidden = false; y.textContent = total ? 'или ' + money(Number(total)) + ' ₽ за год' : ''; }
+      }
+    });
+  }
+  document.querySelectorAll('.pl-sw').forEach(function (b) {
+    b.addEventListener('click', function () {
+      PERIOD = b.getAttribute('data-period');
+      document.querySelectorAll('.pl-sw').forEach(function (x) { x.classList.toggle('on', x === b); });
+      paintPeriod();
+    });
+  });
+  paintPeriod();
 
   document.querySelectorAll('[data-pick]').forEach(function (b) {
     b.addEventListener('click', function () {
