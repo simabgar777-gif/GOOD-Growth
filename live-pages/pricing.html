@@ -4,141 +4,167 @@
 <meta charset="utf-8">
 <script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.setAttribute("data-theme-src","system");}else{d.setAttribute("data-theme",t==="light"?"light":"dark");}}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title data-i18n="pricing.meta.title">Тарифы — GOOD Growth</title>
-<meta name="description" content="Тарифы GOOD Growth: Старт, Рост, Про, Агентство, Безлимит. Начни бесплатно — плати, когда вырастешь.">
+<title data-i18n="channels.meta.title">Каналы бренда — GOOD Growth</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
 <link rel="icon" type="image/x-icon" href="/favicon.ico?v=2">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <style>
-  :root{
-    --pg-bg:#08090A; --pg-surface:#0E0F12; --pg-surface2:#111216;
-    --pg-line:rgba(255,255,255,.06); --pg-line2:rgba(255,255,255,.10);
-    --pg-fg:#F4F4F5; --pg-fg2:#A1A1AA; --pg-fg3:#8B8B95;
-    --pg-copper:#E8A54F; --pg-copper-lt:#F3C583; --pg-copper-dp:#C97B3C;
-    --pg-grad:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);
-    --pg-ink:#1B1206;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--pg-bg);color:var(--pg-fg)}
-  a{color:var(--pg-copper)}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
-  .hero{text-align:center;padding:54px 0 10px}
-  .kicker{font:700 12px/1 ui-monospace,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--pg-copper)}
-  h1{font-size:clamp(30px,4.6vw,44px);line-height:1.12;margin:14px 0 10px;letter-spacing:-.01em;color:var(--pg-fg)}
-  .sub{color:var(--pg-fg2);font-size:17px;max-width:620px;margin:0 auto}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(198px,1fr));gap:14px;padding:38px 0 8px}
-  .card{background:var(--pg-surface);border:1px solid var(--pg-line2);border-radius:12px;padding:22px 18px;display:flex;flex-direction:column;position:relative;transition:border-color .2s ease,box-shadow .2s ease}
-  .card:hover{border-color:rgba(232,165,79,.35);box-shadow:0 14px 34px -18px rgba(232,165,79,.25)}
-  .card.hot{border-color:rgba(232,165,79,.45);box-shadow:0 12px 34px rgba(232,165,79,.10)}
-  .flag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--pg-grad);color:var(--pg-ink);font-size:11px;font-weight:700;letter-spacing:.06em;padding:4px 12px;border-radius:999px;white-space:nowrap}
-  .name{font-size:15px;font-weight:700;color:var(--pg-fg3);text-transform:uppercase;letter-spacing:.08em}
-  .price{font-size:30px;font-weight:800;margin:10px 0 2px;color:var(--pg-fg)}
-  .price small{font-size:14px;font-weight:600;color:var(--pg-fg3)}
-  .ul{list-style:none;margin:14px 0 18px;flex:1}
-  .ul li{font-size:14px;padding:5px 0;color:var(--pg-fg)}
-  .ul li::before{content:"\2713";color:var(--pg-copper);font-weight:800;margin-right:8px}
-  .ul li.dim{color:var(--pg-fg3)}
-  .ul li.dim::before{content:"\2014";color:var(--pg-line2)}
-  .btn{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:14.5px;padding:11px 0;border-radius:8px;background:var(--pg-grad);color:var(--pg-ink);border:1px solid rgba(255,255,255,.16);transition:background .2s ease,box-shadow .2s ease,transform 150ms cubic-bezier(.22,1,.36,1)}
-  .btn:hover{background:var(--pg-grad);box-shadow:0 10px 26px -10px rgba(232,165,79,.55);transform:translateY(-1px)}
-  .btn:active{transform:translateY(0)}
-  .card.dim .btn{background:transparent;color:var(--pg-copper);border:1px solid rgba(232,165,79,.45)}
-  .card.dim .btn:hover{background:rgba(232,165,79,.08);border-color:var(--pg-copper);box-shadow:0 10px 26px -12px rgba(232,165,79,.4);transform:translateY(-1px)}
-  .note{text-align:center;color:var(--pg-fg3);font-size:13.5px;margin:10px 0 0}
-  .note a{color:var(--pg-copper)}
-  h2{font-size:22px;margin:46px 0 16px;letter-spacing:-.01em;color:var(--pg-fg)}
-  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  table{width:100%;min-width:680px;border-collapse:collapse;background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:12px;font-size:14px}
-  th,td{padding:11px 14px;text-align:center;border-bottom:1px solid var(--pg-line)}
-  th{background:var(--pg-surface2);font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--pg-fg3)}
-  td:first-child,th:first-child{text-align:left;font-weight:600;color:var(--pg-fg)}
-  tr:last-child td{border-bottom:0}
-  .yes{color:var(--pg-copper);font-weight:700}
-  .no{color:var(--pg-fg3)}
-  footer{padding:34px 0 46px;text-align:center;color:var(--pg-fg3);font-size:13.5px}
-  footer a{color:var(--pg-copper);text-decoration:none}
-  footer a:hover{text-decoration:underline}
-  @media (max-width:480px){ .hero{padding:40px 0 6px} h1{font-size:30px} }
-
-/* ── наш знак на страницах входа + старая шапка не нужна ────── */
-.ggv-top .gg-mark { width: 26px; height: 35px; display: block; }
+:root{--bg:#f6f8f4;--surface:#fff;--ink:#1c2419;--muted:#5c6b57;--hair:#e3e9de;--green:#3f9d63;--deep:#2f7a4c;--danger:#dc6b5f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+.wrap{max-width:1120px;margin:0 auto;padding:34px 20px 60px}
+h1{font-size:26px;letter-spacing:-.01em;margin-bottom:6px}
+.sub{color:var(--muted);font-size:14.5px;margin-bottom:24px}
+.panel{background:var(--surface);border:1px solid var(--hair);border-radius:16px;padding:20px 22px;margin-bottom:18px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--hair);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.row b{font-size:14.5px}
+.row .cid{color:var(--muted);font-size:12.5px;font-family:ui-monospace,Consolas,monospace}
+button{cursor:pointer;font:inherit}
+.del{background:none;border:1px solid var(--hair);color:var(--danger);border-radius:10px;padding:6px 12px;font-size:13px;font-weight:600}
+.del:hover{border-color:var(--danger)}
+.add{display:flex;gap:10px;margin-top:6px}
+input{flex:1;font:inherit;font-size:14.5px;padding:10px 14px;border:1px solid var(--hair);border-radius:11px;background:#fff;color:var(--ink)}
+input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
+.go{background:var(--green);color:#fff;border:0;border-radius:11px;padding:10px 18px;font-weight:700;font-size:14px}
+.go:hover{background:var(--deep)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.net{display:flex;align-items:center;gap:10px;border:1px solid var(--hair);border-radius:12px;padding:10px 12px;background:var(--surface)}
+.net.ok{border-color:#bcd9c4}
+.net .ic{width:28px;height:28px;border-radius:9px;background:var(--bg);border:1px solid var(--hair);display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:800}
+.net span.n{flex:1;font-size:13.5px;font-weight:600}
+.ok .st{color:var(--deep);font-size:11.5px;font-weight:800}
+.soon{opacity:.55}
+.soon .st{color:var(--muted);font-size:11.5px;font-weight:600}
+.mut{color:var(--muted);font-size:13px}
 </style>
-<link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"></head>
-<body>
+<link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"><link rel="stylesheet" href="/rail.css"><link rel="stylesheet" href="/blocks.css">
+</head>
+<body class="gg-with-rail">
+<aside class="gg-rail" id="gg-rail" aria-label="Разделы GOOD Growth" data-i18n-attr="aria-label:rail.group"><a class="gg-rail-logo" href="/app"><span class="gg-m"><svg class="gg-mark" viewBox="238 162 74 101" aria-hidden="true" fill="none" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M256 193 244 180 244 252" stroke="#F8961D"/><path d="M306 168 263 209" stroke="#28A992"/><path d="M287 216 245 257" stroke="#E01F27"/><path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg></span><span class="gg-t"><b>GOOD Growth</b><i data-i18n="rail.tagline">мастерская роста</i></span></a><nav class="gg-rail-nav"><a href="/app" data-k="app"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="11" height="11" rx="2.5"/><path d="M5.5 8h5"/></svg><span data-i18n="rail.app">Стол</span></a><a href="/app/strategy" data-k="strategy"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="2"/></svg><span data-i18n="rail.strategy">Цель</span></a><a href="/app/posts" data-k="posts"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="11" height="10" rx="2"/><path d="M2.5 6.5h11"/></svg><span data-i18n="rail.posts">Контент</span></a><a href="/app/schedule" data-k="schedule"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="11" height="10" rx="2"/><path d="M5 1.8v2.4M11 1.8v2.4M2.5 7h11"/></svg><span data-i18n="rail.schedule">Публикации</span></a><a href="/partner" data-k="brands"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 5.5h11v8h-11z"/><path d="M5.5 5.5V4a2.5 2.5 0 0 1 5 0v1.5"/></svg><span data-i18n="rail.brands">Бренды</span></a><a href="/partner/channels" data-k="channels"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 5.8L3.6 8.4l2.6 2.6"/><path d="M9.8 5.8l2.6 2.6-2.6 2.6"/></svg><span data-i18n="rail.channels">Каналы</span></a><a href="/app/analytics" data-k="analytics"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5h11"/><path d="M4.5 12.5V8M8 12.5V4.2M11.5 12.5V9.6"/></svg><span data-i18n="rail.analytics">Аналитика</span></a><a href="/partner/team" data-k="team"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.8" cy="6.2" r="2"/><circle cx="11.2" cy="7" r="1.5"/><path d="M2.6 13.2c0-2 1.5-3.1 3.2-3.1s3.2 1.1 3.2 3.1"/><path d="M10.1 13.2c0-1.5.9-2.4 2.1-2.4s2.1.9 2.1 2.4"/></svg><span data-i18n="rail.team">Команда</span></a><a href="/partner/info" data-k="partners"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="4" cy="8" r="1.7"/><circle cx="12" cy="4.6" r="1.7"/><circle cx="12" cy="11.4" r="1.7"/><path d="M5.5 7.3l4.9-2M5.5 8.7l4.9 2"/></svg><span data-i18n="rail.partners">Партнёрам</span></a><a href="/app/billing" data-k="billing"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1.8" y="3.8" width="12.4" height="8.4" rx="1.6"/><path d="M1.8 6.8h12.4"/><path d="M4.5 9.8h3"/></svg><span data-i18n="rail.billing">Оплата</span></a></nav><div class="gg-rail-foot"><a href="/profile" data-k="profile"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.8v1.6M8 12.6v1.6M1.8 8h1.6M12.6 8h1.6M3.6 3.6l1.1 1.1M11.3 11.3l1.1 1.1M12.4 3.6l-1.1 1.1M4.7 11.3l-1.1 1.1"/></svg><span data-i18n="rail.settings">Настройки</span></a><button type="button" class="gg-rail-theme" id="ggRailTheme"><span class="gg-ico">☾</span><span class="gg-tx" data-i18n="rail.theme.dark">Тёмная</span></button><button type="button" class="gg-rail-out" id="ggRailOut" data-i18n="rail.logout">Выйти</button></div></aside>
 <script src="/i18n/i18n.js"></script>
+<div class="wrap">
+<h1>Тарифы</h1>
+<p class="sub">что входит — без звёздочек и сносок</p>
 
+<div class="pl-grid">
+  <article class="pl-card" data-plan="start">
+    <h2>Старт</h2>
+    <p class="pl-price"><b>0 ₽</b><span>в месяц</span></p>
+    <p class="pl-note">Попробовать: одна цель, один канал, один пост в день.</p>
+    <ul class="pl-list">
+      <li>брендов: 1 бренд</li>
+      <li>каналов: 2 канала</li>
+      <li>публикаций: 1 пост в день</li>
+    </ul>
+    <p class="pl-cur" hidden>твой тариф</p>
+    <button type="button" class="pl-go" data-pick="start">Выбрать</button>
+  </article>
+  <article class="pl-card" data-plan="growth">
+    <h2>Рост</h2>
+    <p class="pl-price"><b>490 ₽</b><span>в месяц</span></p>
+    <p class="pl-note">Для одного дела, которое выходит регулярно.</p>
+    <ul class="pl-list">
+      <li>брендов: 1 бренд</li>
+      <li>каналов: 5 каналов</li>
+      <li>публикаций: 4 поста в день</li>
+    </ul>
+    <p class="pl-cur" hidden>твой тариф</p>
+    <button type="button" class="pl-go" data-pick="growth">Выбрать</button>
+  </article>
+  <article class="pl-card" data-plan="pro">
+    <h2>Про</h2>
+    <p class="pl-price"><b>990 ₽</b><span>в месяц</span></p>
+    <p class="pl-note">Несколько дел, один человек ведёт всё.</p>
+    <ul class="pl-list">
+      <li>брендов: 3 бренда</li>
+      <li>каналов: каналов без счёта</li>
+      <li>публикаций: 10 постов в день</li>
+    </ul>
+    <p class="pl-cur" hidden>твой тариф</p>
+    <button type="button" class="pl-go" data-pick="pro">Выбрать</button>
+  </article>
+  <article class="pl-card" data-plan="agency">
+    <h2>Агентство</h2>
+    <p class="pl-price"><b>2 990 ₽</b><span>в месяц</span></p>
+    <p class="pl-note">Когда брендов много и они разные.</p>
+    <ul class="pl-list">
+      <li>брендов: 10 брендов</li>
+      <li>каналов: каналов без счёта</li>
+      <li>публикаций: постов без счёта</li>
+    </ul>
+    <p class="pl-cur" hidden>твой тариф</p>
+    <button type="button" class="pl-go" data-pick="agency">Выбрать</button>
+  </article>
+  <article class="pl-card" data-plan="unlimited">
+    <h2>Безлимит</h2>
+    <p class="pl-price"><b>5 990 ₽</b><span>в месяц</span></p>
+    <p class="pl-note">Всё сразу, без счёта.</p>
+    <ul class="pl-list">
+      <li>брендов: без ограничений</li>
+      <li>каналов: без ограничений</li>
+      <li>публикаций: без ограничений</li>
+    </ul>
+    <p class="pl-cur" hidden>твой тариф</p>
+    <button type="button" class="pl-go" data-pick="unlimited">Выбрать</button>
+  </article>
+</div>
 
-<section class="hero wrap">
-  <div class="kicker" data-i18n="pricing.kicker">Тарифы</div>
-  <h1 data-i18n="pricing.h1">Начни бесплатно — плати, когда вырастешь</h1>
-  <p class="sub" data-i18n="pricing.sub">Пять честных тарифов. Переход — в один клик, без звонков и «оставьте заявку». Оплата скоро откроется — пока всё подключаем вручную.</p>
-</section>
+<div class="pl-free">
+  <b>Плата не берётся за размышления.</b>
+  Разбор цели и тексты постов — бесплатны, деньги идут только за тариф
+  с лимитами публикаций.
+  <span class="pl-hint" id="plHint"></span>
+</div>
 
-<main class="wrap">
-  <div class="grid">
-    <div class="card dim">
-      <div class="name" data-i18n="plan.start">Старт</div>
-      <div class="price">0 ₽<small data-i18n="pricing.perMonth"> /мес</small></div>
-      <ul class="ul">
-        <li data-i18n="pricing.f.brand1">1 бренд</li><li data-i18n="pricing.f.ch2">2 канала</li><li class="dim" data-i18n="pricing.f.post1">1 пост в день</li><li class="dim" data-i18n="pricing.f.anBase">Базовая аналитика</li>
-      </ul>
-      <a class="btn" href="/app/billing?plan=start" data-i18n="pricing.choose">Выбрать</a>
-    </div>
-    <div class="card dim">
-      <div class="name" data-i18n="plan.growth">Рост</div>
-      <div class="price">490 ₽<small data-i18n="pricing.perMonth"> /мес</small></div>
-      <ul class="ul">
-        <li data-i18n="pricing.f.brand1">1 бренд</li><li data-i18n="pricing.f.ch5">5 каналов</li><li data-i18n="pricing.f.post4">4 поста в день</li><li class="dim" data-i18n="pricing.f.anBase">Базовая аналитика</li>
-      </ul>
-      <a class="btn" href="/app/billing?plan=rost" data-i18n="pricing.choose">Выбрать</a>
-    </div>
-    <div class="card hot">
-      <div class="flag" data-i18n="pricing.flag">Выбор большинства</div>
-      <div class="name" data-i18n="plan.pro">Про</div>
-      <div class="price">990 ₽<small data-i18n="pricing.perMonth"> /мес</small></div>
-      <ul class="ul">
-        <li data-i18n="pricing.f.brand3">3 бренда</li><li data-i18n="pricing.f.chUnl">Каналы безлимит</li><li data-i18n="pricing.f.post10">10 постов в день</li><li data-i18n="pricing.f.anFull">Полная аналитика</li><li data-i18n="pricing.f.priority">Приоритетная поддержка</li>
-      </ul>
-      <a class="btn" href="/app/billing?plan=pro" data-i18n="pricing.choose">Выбрать</a>
-    </div>
-    <div class="card dim">
-      <div class="name" data-i18n="plan.agency">Агентство</div>
-      <div class="price">2990 ₽<small data-i18n="pricing.perMonth"> /мес</small></div>
-      <ul class="ul">
-        <li data-i18n="pricing.f.brand10">10 брендов</li><li data-i18n="pricing.f.chUnl">Каналы безлимит</li><li data-i18n="pricing.f.postUnl">Посты безлимит</li><li data-i18n="pricing.f.anFull">Полная аналитика</li><li data-i18n="pricing.f.priority">Приоритетная поддержка</li>
-      </ul>
-      <a class="btn" href="/app/billing?plan=agency" data-i18n="pricing.choose">Выбрать</a>
-    </div>
-    <div class="card dim">
-      <div class="name" data-i18n="plan.unlimited">Безлимит</div>
-      <div class="price">5990 ₽<small data-i18n="pricing.perMonth"> /мес</small></div>
-      <ul class="ul">
-        <li data-i18n="pricing.f.brandUnl">Бренды безлимит</li><li data-i18n="pricing.f.chUnl">Каналы безлимит</li><li data-i18n="pricing.f.postUnl">Посты безлимит</li><li data-i18n="pricing.f.anFull">Полная аналитика</li><li data-i18n="pricing.f.priority">Приоритетная поддержка</li>
-      </ul>
-      <a class="btn" href="/app/billing?plan=unlimited" data-i18n="pricing.choose">Выбрать</a>
-    </div>
-  </div>
-  <p class="note"><span data-i18n="pricing.note">Оплата картой скоро — переход на тариф сейчас подключаем вручную через </span><a href="mailto:hello@growth.go-ood.com">hello@growth.go-ood.com</a></p>
+<div class="pl-q">
+  <h2>Частые вопросы</h2>
+  <details><summary>Можно менять тариф?</summary>
+    <p>Да, в любой момент. Ограничения меняются сразу.</p></details>
+  <details><summary>Что если лимит кончился?</summary>
+    <p>Сайт не блокируется: цели и разборы остаются. Новые посты в этот день не создаются.</p></details>
+  <details><summary>Как оплатить?</summary>
+    <p>Пока вручную: выбери тариф и напиши нам — включим. Онлайн-оплата появится позже,
+       и мы не будем брать деньги до того, как всё проверим.</p></details>
+  <details><summary>Сети кроме Telegram?</summary>
+    <p>Структура уже готова для 12 сетей. Публикация сейчас работает в Telegram —
+       подключаем остальные по очереди.</p></details>
+</div>
 
-  <h2 data-i18n="pricing.compare">Сравнение тарифов</h2>
-  <div class="table-scroll">
-  <table>
-    <tr><th data-i18n="pricing.th.feature">Характеристика</th><th data-i18n="plan.start">Старт</th><th data-i18n="plan.growth">Рост</th><th data-i18n="plan.pro">Про</th><th data-i18n="plan.agency">Агентство</th><th data-i18n="plan.unlimited">Безлимит</th></tr>
-    <tr><td data-i18n="pricing.row.price">Цена</td><td>0 ₽</td><td>490 ₽<span data-i18n="pricing.perMonthShort">/мес</span></td><td>990 ₽<span data-i18n="pricing.perMonthShort">/мес</span></td><td>2990 ₽<span data-i18n="pricing.perMonthShort">/мес</span></td><td>5990 ₽<span data-i18n="pricing.perMonthShort">/мес</span></td></tr>
-    <tr><td data-i18n="pricing.row.brands">Бренды</td><td>1</td><td>1</td><td>3</td><td>10</td><td class="yes" data-i18n="plan.unlimited">Безлимит</td></tr>
-    <tr><td data-i18n="pricing.row.channels">Каналы</td><td>2</td><td>5</td><td class="yes" data-i18n="plan.unlimited">Безлимит</td><td class="yes" data-i18n="plan.unlimited">Безлимит</td><td class="yes" data-i18n="plan.unlimited">Безлимит</td></tr>
-    <tr><td data-i18n="pricing.row.posts">Посты</td><td data-i18n="pricing.cell.day1">1/день</td><td data-i18n="pricing.cell.day4">4/день</td><td data-i18n="pricing.cell.day10">10/день</td><td class="yes" data-i18n="plan.unlimited">Безлимит</td><td class="yes" data-i18n="plan.unlimited">Безлимит</td></tr>
-    <tr><td data-i18n="pricing.row.analytics">Аналитика</td><td data-i18n="pricing.cell.anBase">Базовая</td><td data-i18n="pricing.cell.anBase">Базовая</td><td class="yes" data-i18n="pricing.cell.anFull">Полная</td><td class="yes" data-i18n="pricing.cell.anFull">Полная</td><td class="yes" data-i18n="pricing.cell.anFull">Полная</td></tr>
-    <tr><td data-i18n="pricing.row.priority">Приоритет</td><td class="no">—</td><td class="no">—</td><td class="yes" data-i18n="pricing.cell.yes">Да</td><td class="yes" data-i18n="pricing.cell.yes">Да</td><td class="yes" data-i18n="pricing.cell.yes">Да</td></tr>
-  </table>
-  </div>
-</main>
+<script>
+(function () {
+  var cur = null;
+  fetch('/api/plan', { credentials: 'same-origin' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d || !d.plan) return;
+      cur = d.plan;
+      document.querySelectorAll('.pl-card').forEach(function (c) {
+        if (c.getAttribute('data-plan') === cur) {
+          c.classList.add('is-cur');
+          var t = c.querySelector('.pl-cur'); if (t) t.hidden = false;
+          var b = c.querySelector('.pl-go'); if (b) { b.textContent = 'Тариф выбран'; b.disabled = true; }
+        }
+      });
+      var NAMES = { start: 'Старт', growth: 'Рост', pro: 'Про', agency: 'Агентство', unlimited: 'Безлимит' };
+      var h = document.getElementById('plHint');
+      if (h) h.textContent = 'Сейчас у тебя тариф «' + (NAMES[cur] || cur) + '».';
+    })
+    .catch(function () {});
 
-<footer><span data-i18n="pricing.footer.text">GOOD Growth — соцсети растут, ты занимаешься делом. </span><a href="/app/billing?plan=start" data-i18n="pricing.footer.cta">Начать бесплатно →</a></footer>
+  document.querySelectorAll('[data-pick]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var code = b.getAttribute('data-pick');
+      if (code === 'start') { location.href = '/app'; return; }
+      location.href = '/app/billing?plan=' + encodeURIComponent(code);
+    });
+  });
+})();
+</script>
+</div>
 
-<script src="/gg-header.js" defer></script>
 <script src="/theme.js" defer></script>
+<script src="/topline.js" defer></script>
+<script src="/rail.js" defer></script>
 </body>
 </html>
