@@ -159,8 +159,7 @@
             '<button class="mini" data-channels="' + b.id + '" data-bname="' + esc(b.name) + '">'+ggT('partner.channelsBtn','Каналы')+'</button>' +
             '<button class="mini" data-rename="' + b.id + '" data-name="' + esc(b.name) + '">'+ggT('partner.rename','Переименовать')+'</button>' +
             '<button class="mini" data-status="' + b.id + '" data-cur="' + esc(b.status) + '">' + (b.status === 'paused' ? ggT('partner.enable','Включить') : ggT('partner.pause','Пауза')) + '</button>' +
-            '<button class="mini danger" data-del="' + b.id + '" data-name="' + esc(b.name) + '">'+ggT('common.delete','Удалить')+'</button>' +
-            '<button class="mini" data-addch="' + b.id + '">'+ggT('partner.channelsBtn','Каналы')+'</button>' +
+            '<button class="mini danger" data-del="' + b.id + '" data-name="' + esc(b.name) + '">'+ggT('common.delete','Удалить')+'</button>'
             '</div>';
           cards.appendChild(div);
           loadChannels(b.id);
