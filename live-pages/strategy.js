@@ -645,25 +645,42 @@
 
 
   /* ── редактор поста: слева работа, справа живая лента ───────
-     Образец — Buffer: видно и текст, и то, как его встретят. */
-  var NETUI = {
-    tg: { nm: 'Telegram',  r: '16 / 9',   lim: 4096,
-          acts: '👁 0 · просмотры', place: 'Мой канал' },
-    vk: { nm: 'VK',        r: '4 / 3',    lim: 4096,
-          acts: '♡ Нравится   💬 Комментировать   ↗ Поделиться', place: 'Моя группа' },
-    ig: { nm: 'Instagram', r: '1 / 1',    lim: 2200,
-          acts: '♡  ·  💬  ·  ↗', place: 'my_brand' },
-    fb: { nm: 'Facebook',  r: '1.91 / 1', lim: 63206,
-          acts: '♡ Нравится   💬 Комментарий   ↗ Поделиться', place: 'Моя страница' },
-    in: { nm: 'LinkedIn',  r: '1.91 / 1', lim: 3000,
-          acts: '♡ Нравится   💬 Комментарий   ↗ Репост', place: 'Моя компания' }
-  };
+     Образец — Buffer: каналы выбираются ПЕРВЫМИ, потому что от
+     сети зависят размер картинки и лимит знаков. */
+  var NETS = [
+    { k: 'tg', nm: 'Telegram',  ok: true,  r: '16 / 9',   lim: 4096,
+      place: 'Мой канал',    acts: '👁 0 · просмотры' },
+    { k: 'vk', nm: 'VK',        ok: false, r: '4 / 3',    lim: 4096,
+      place: 'Моя группа',   acts: '♡ Нравится  💬 Комментировать  ↗ Поделиться' },
+    { k: 'ig', nm: 'Instagram', ok: false, r: '1 / 1',    lim: 2200,
+      place: 'my_brand',     acts: '♡   💬   ↗' },
+    { k: 'fb', nm: 'Facebook',  ok: false, r: '1.91 / 1', lim: 63206,
+      place: 'Моя страница', acts: '♡ Нравится  💬 Комментарий  ↗ Поделиться' },
+    { k: 'in', nm: 'LinkedIn',  ok: false, r: '1.91 / 1', lim: 3000,
+      place: 'Моя компания', acts: '♡ Нравится  💬 Комментарий  ↗ Репост' }
+  ];
 
-  function editorHtml(p) {
-    var chips = Object.keys(NETUI).map(function (k) {
-      return '<button type="button" class="pv-chip' + (k === 'tg' ? ' on' : '') +
-        '" data-net="' + k + '">' + NETUI[k].nm + '</button>';
+  function netOf(k) {
+    for (var i = 0; i < NETS.length; i++) if (NETS[i].k === k) return NETS[i];
+    return NETS[0];
+  }
+
+  /* текст поста для конкретной сети: своя правка или основной */
+  function textFor(st, k) {
+    return st.vars && st.vars[k] != null && st.vars[k] !== '' ? st.vars[k] : st.main;
+  }
+
+  function editorHtml(p, st) {
+    var chips = NETS.map(function (n) {
+      var on = st.nets.indexOf(n.k) > -1;
+      return '<button type="button" class="ge-net' + (on ? ' on' : '') + '" data-net="' + n.k + '"' +
+        ' title="' + (n.ok ? 'подключён' : 'скоро подключим') + '">' +
+        '<span class="ge-net-ic">' + n.nm.charAt(0).toUpperCase() + '</span>' +
+        '<span class="ge-net-nm">' + n.nm + '</span>' +
+        '<span class="ge-net-st' + (n.ok ? ' ok' : '') + '">' + (n.ok ? '•' : 'скоро') + '</span>' +
+        '</button>';
     }).join('');
+
     return '<div class="gg-e" id="ggEditor" role="dialog" aria-label="Пост">' +
       '<div class="ge-wrap">' +
         '<div class="ge-head">' +
@@ -672,33 +689,39 @@
         '</div>' +
         '<div class="ge-body">' +
           '<div class="ge-left">' +
-            '<label class="ge-lbl">Заголовок</label>' +
-            '<input class="ge-title-in" id="geTitle" value="' + esc(p.title || '') + '">' +
-            '<label class="ge-lbl">Текст</label>' +
-            '<textarea class="ge-text" id="geText" rows="12">' + esc(p.text || p.body || '') + '</textarea>' +
+            '<p class="ge-lbl">Куда публикуем</p>' +
+            '<div class="ge-nets">' + chips + '</div>' +
+            '<p class="ge-lbl">Заголовок</p>' +
+            '<input class="ge-title-in" id="geTitle" value="' + esc(st.title) + '">' +
+            '<div class="ge-tabs" id="geTabs"></div>' +
+            '<p class="ge-lbl" id="geTextLbl">Текст</p>' +
+            '<textarea class="ge-text" id="geText" rows="11"></textarea>' +
             '<div class="ge-media">' +
               (p.image_path ? '<img src="' + esc(p.image_path) + '" alt="">' : '<div class="ge-ph">картинки нет</div>') +
               '<button type="button" class="mini" data-img="' + p.id + '">Нарисовать другую</button>' +
             '</div>' +
             '<div class="ge-acts">' +
-              '<button type="button" class="step-go gold" data-ge-save="' + p.id + '">Сохранить</button>' +
+              '<button type="button" class="step-go gold" data-ge-save="1">Сохранить</button>' +
               '<button type="button" class="step-go" data-ge-close="1">Отмена</button>' +
             '</div>' +
           '</div>' +
-          '<div class="ge-right">' +
-            '<div class="pv-chips">' + chips + '</div>' +
-            '<div class="ge-feed" id="geFeed"></div>' +
-          '</div>' +
+          '<div class="ge-right" id="geRight"></div>' +
         '</div>' +
       '</div></div>';
   }
 
-  function feedHtml(p, k) {
-    var net = NETUI[k];
-    var txt = String(p.text || p.body || '');
+  function feedHtml(st) {
+    if (!st.nets.length) {
+      return '<div class="ge-empty">' +
+        '<div class="ge-empty-card"></div>' +
+        '<p>Выбери сеть — и увидишь, как пост встретят в ленте.</p>' +
+        '</div>';
+    }
+    var net = netOf(st.active);
+    var txt = textFor(st, net.k);
     var over = txt.length > net.lim;
-    var media = p.image_path
-      ? '<img class="fd-img" style="aspect-ratio:' + net.r + '" src="' + esc(p.image_path) +
+    var media = st.image_path
+      ? '<img class="fd-img" style="aspect-ratio:' + net.r + '" src="' + esc(st.image_path) +
         '" alt="" onerror="this.style.display=\'none\'">'
       : '<div class="fd-img ph" style="aspect-ratio:' + net.r + '">картинка появится здесь</div>';
     return '<div class="fd-card">' +
@@ -710,13 +733,12 @@
         '</span>' +
         '<span class="fd-who"><b>' + esc(net.place) + '</b><em>только что · ' + net.nm + '</em></span>' +
       '</div>' +
-      '<div class="fd-body">' +
-        media +
-        (p.title ? '<p class="fd-t">' + esc(p.title) + '</p>' : '') +
-        '<p class="fd-x">' + esc(txt.slice(0, 600)) + '</p>' +
+      '<div class="fd-body">' + media +
+        (st.title ? '<p class="fd-t">' + esc(st.title) + '</p>' : '') +
+        '<p class="fd-x">' + esc(txt.slice(0, 700)) + '</p>' +
       '</div>' +
       '<div class="fd-acts"><span>' + net.acts + '</span></div>' +
-      '<div class="fd-foot"><span>' + net.r.replace(/ \/ /g, ':') + '</span>' +
+      '<div class="fd-foot"><span>' + net.nm + ' · ' + net.r.replace(/ \/ /g, ':') + '</span>' +
         '<span class="' + (over ? 'over' : '') + '">' + txt.length + ' / ' + net.lim + ' знаков</span></div>' +
       '</div>';
   }
@@ -724,62 +746,122 @@
   function openEditor(p, goalId) {
     var old = document.getElementById('ggEditor');
     if (old) old.remove();
+
+    var st = {
+      id: p.id,
+      title: p.title || '',
+      main: p.text || p.body || '',
+      nets: ['tg'],
+      active: 'tg',
+      vars: {},
+      image_path: p.image_path
+    };
+    if (p.variants) {
+      try { var v = JSON.parse(p.variants); if (v && typeof v === 'object') st.vars = v; } catch (e) {}
+    }
+    Object.keys(st.vars).forEach(function (k) { if (st.nets.indexOf(k) < 0) st.nets.push(k); });
+
     var holder = document.createElement('div');
-    holder.innerHTML = editorHtml(p);
+    holder.innerHTML = editorHtml(p, st);
     var box = holder.firstChild;
     document.body.appendChild(box);
 
-    var feed = box.querySelector('#geFeed');
-    var curNet = 'tg';
-    var draft = { id: p.id, title: p.title || '', text: p.text || p.body || '', image_path: p.image_path };
+    var ta = box.querySelector('#geText');
+    var tabsHost = box.querySelector('#geTabs');
+    var right = box.querySelector('#geRight');
 
-    function repaint() { feed.innerHTML = feedHtml(draft, curNet); }
-    repaint();
+    function paintTabs() {
+      if (st.nets.length < 2) { tabsHost.innerHTML = ''; return; }
+      tabsHost.innerHTML = st.nets.map(function (k) {
+        var n = netOf(k);
+        return '<button type="button" class="ge-tab' + (k === st.active ? ' on' : '') +
+          '" data-tab="' + k + '">' + n.nm + '</button>';
+      }).join('');
+    }
+    function paintText() {
+      ta.value = textFor(st, st.active);
+      box.querySelector('#geTextLbl').textContent =
+        st.nets.length > 1 ? 'Текст для ' + netOf(st.active).nm : 'Текст';
+    }
+    function paintRight() { right.innerHTML = feedHtml(st); }
+    function paintChips() {
+      box.querySelectorAll('.ge-net').forEach(function (b) {
+        b.classList.toggle('on', st.nets.indexOf(b.getAttribute('data-net')) > -1);
+      });
+    }
+    function paintAll() { paintChips(); paintTabs(); paintText(); paintRight(); }
+    paintAll();
 
     box.addEventListener('click', function (e) {
-      var chip = e.target.closest('[data-net]');
-      if (chip) {
-        curNet = chip.getAttribute('data-net');
-        box.querySelectorAll('.pv-chip').forEach(function (c) {
-          c.classList.toggle('on', c.getAttribute('data-net') === curNet);
-        });
-        repaint();
+      var netBtn = e.target.closest('.ge-net');
+      if (netBtn) {
+        var k = netBtn.getAttribute('data-net');
+        var idx = st.nets.indexOf(k);
+        if (idx > -1) {
+          if (st.nets.length === 1) return;      /* последнюю не снимаем */
+          st.nets.splice(idx, 1);
+          if (st.active === k) st.active = st.nets[0];
+        } else {
+          st.nets.push(k); st.active = k;
+        }
+        paintAll();
         return;
       }
+      var tab = e.target.closest('[data-tab]');
+      if (tab) { st.active = tab.getAttribute('data-tab'); paintAll(); return; }
+
       if (e.target === box || e.target.classList.contains('ge-x') || e.target.closest('[data-ge-close]')) {
-        box.remove();
-        return;
+        box.remove(); return;
       }
       var img = e.target.closest('[data-img]');
       if (img) {
         img.disabled = true; img.textContent = 'Рисую…';
-        fetch('/api/posts/' + draft.id + '/image', { method: 'POST', credentials: 'same-origin' })
+        fetch('/api/posts/' + st.id + '/image', { method: 'POST', credentials: 'same-origin' })
           .then(function () { setTimeout(function () { renderPosts(goalId); box.remove(); }, 1200); })
           .catch(function () { img.disabled = false; img.textContent = 'Нарисовать другую'; });
         return;
       }
-      var save = e.target.closest('[data-ge-save]');
-      if (save) {
-        save.disabled = true; save.textContent = 'Сохраняю…';
-        var t = box.querySelector('#geTitle').value.trim();
-        var x = box.querySelector('#geText').value.trim();
-        fetch('/api/posts/' + draft.id, {
+      if (e.target.closest('[data-ge-save]')) {
+        var b = e.target.closest('[data-ge-save]');
+        b.disabled = true; b.textContent = 'Сохраняю…';
+        var cleanVars = {};
+        Object.keys(st.vars).forEach(function (kk) {
+          var v = String(st.vars[kk] || '').trim();
+          if (v && v !== st.main.trim()) cleanVars[kk] = v;
+        });
+        fetch('/api/posts/' + st.id, {
           method: 'PATCH', credentials: 'same-origin',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ title: t, body: x })
+          body: JSON.stringify({
+            title: box.querySelector('#geTitle').value.trim(),
+            body: st.main,
+            variants: cleanVars
+          })
         }).then(function (r) { if (!r.ok) throw new Error('Не сохранилось'); box.remove(); renderPosts(goalId); })
-          .catch(function (err) {
-            save.disabled = false; save.textContent = 'Сохранить';
-            alert(err.message);
-          });
+          .catch(function (err) { b.disabled = false; b.textContent = 'Сохранить'; alert(err.message); });
       }
     });
 
     box.querySelector('#geTitle').addEventListener('input', function (e) {
-      draft.title = e.target.value; repaint();
+      st.title = e.target.value; paintRight();
     });
-    box.querySelector('#geText').addEventListener('input', function (e) {
-      draft.text = e.target.value; repaint();
+    ta.addEventListener('input', function (e) {
+      var v = e.target.value;
+      if (st.active !== 'tg' || st.vars.tg != null) {
+        /* правим текст ИМЕННО этой сети */
+        st.vars[st.active] = v;
+        if (st.nets.length === 1) st.main = v;
+      } else {
+        st.main = v;
+      }
+      paintRight();
+      var foot = right.querySelector('.fd-foot span:last-child');
+      if (foot) {
+        var net = netOf(st.active);
+        var n = v.length;
+        foot.textContent = n + ' / ' + net.lim + ' знаков';
+        foot.className = n > net.lim ? 'over' : '';
+      }
     });
     document.addEventListener('keydown', function esc(e) {
       if (e.key === 'Escape') { box.remove(); document.removeEventListener('keydown', esc); }
