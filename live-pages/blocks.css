@@ -799,3 +799,25 @@ a.gg-btn-gold:hover, a.gg-btn-ghost:hover { text-decoration: none !important; }
   font-size: 12.5px; background: transparent;
 }
 .bill-links .step-go:hover { background: rgba(255,255,255,.05); }
+
+/* ══ ОПЛАТА КАРТОЙ ════════════════════════════════════════════ */
+.bill-pay { max-width: 760px; margin: 26px 0 0; padding: 22px 24px; border-radius: 16px;
+  border: 1px solid var(--hair, rgba(255,255,255,.09)); background: var(--surface, #121317); }
+.bill-pay h2 { margin: 0 0 4px; font-family: var(--font-display, serif); font-size: 21px; font-weight: 500; }
+.bill-method { margin: 0 0 18px; font-size: 12.5px; color: var(--faint); }
+.bill-fld { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.bill-fld span { font-family: var(--font-mono, monospace); font-size: 9.5px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--faint); }
+.bill-fld input { padding: 12px 14px; border-radius: 10px; font: inherit; font-size: 15px;
+  letter-spacing: .04em; border: 1px solid var(--hair, rgba(255,255,255,.12));
+  background: var(--bg-soft, #0E0F13); color: var(--ink); }
+.bill-fld input:focus { outline: none; border-color: rgba(232,165,79,.5); }
+.bill-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.bill-pay-btn { width: 100%; margin-top: 6px; padding: 13px 18px; border-radius: 12px; cursor: pointer;
+  border: 0; background: var(--amber, #E8A54F); color: #1B1206; font: inherit; font-size: 14.5px; font-weight: 700; }
+.bill-pay-btn:hover { background: #F3C583; }
+.bill-pay-btn:disabled { opacity: .7; cursor: default; }
+.bill-fine { margin: 12px 0 0; font-size: 11.5px; line-height: 1.5; color: var(--faint); }
+@media (max-width: 520px) { .bill-2 { grid-template-columns: 1fr; } }
+[data-theme="light"] .bill-pay { background: #FFFDF8; }
+[data-theme="light"] .bill-fld input { background: #fff; }

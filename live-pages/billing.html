@@ -45,7 +45,7 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
 <script src="/i18n/i18n.js"></script>
 <div class="wrap">
 <h1>Оплата</h1>
-<p class="sub">тариф, лимиты и заявка — без карт и списаний</p>
+<p class="sub">тариф, лимиты и оплата картой</p>
 
 <div class="bill-grid">
   <section class="bill-card" id="billNow">
@@ -61,15 +61,33 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
   </section>
 </div>
 
-<section class="bill-ask">
-  <h2>Оставить заявку</h2>
-  <p class="sub">Онлайн-оплата появится позже. Сейчас мы включим тариф вручную —
-     карту не спрашиваем, деньги не списываются.</p>
-  <div class="bill-row">
-    <input id="billEmail" type="email" placeholder="твой email" aria-label="Email">
-    <button type="button" class="chan-go" id="billSend">Оставить заявку</button>
-  </div>
-  <p class="bill-hint" id="billHint"></p>
+<section class="bill-pay">
+  <h2>Оплата</h2>
+  <p class="bill-method">Банковская карта — Visa · Mastercard · МИР</p>
+  <form id="payForm" novalidate>
+    <label class="bill-fld">
+      <span>Номер карты</span>
+      <input id="cardNum" inputmode="numeric" autocomplete="cc-number"
+             placeholder="0000 0000 0000 0000" maxlength="19">
+    </label>
+    <div class="bill-2">
+      <label class="bill-fld">
+        <span>Срок</span>
+        <input id="cardExp" inputmode="numeric" autocomplete="cc-exp" placeholder="ММ/ГГ" maxlength="5">
+      </label>
+      <label class="bill-fld">
+        <span>CVC</span>
+        <input id="cardCvc" inputmode="numeric" autocomplete="cc-csc" placeholder="000" maxlength="4">
+      </label>
+    </div>
+    <label class="bill-fld">
+      <span>Email для чека</span>
+      <input id="payEmail" type="email" autocomplete="email" placeholder="you@example.com">
+    </label>
+    <button type="submit" class="bill-pay-btn" id="payBtn">Оплатить</button>
+    <p class="bill-hint" id="billHint"></p>
+    <p class="bill-fine">Деньги списываются только после подтверждения. Тариф включается сразу после оплаты.</p>
+  </form>
 </section>
 
 <div class="bill-links">
@@ -86,7 +104,7 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
     agency:    { nm: 'Агентство', price: 2990, b: 10, c: 9999, p: 9999 },
     unlimited: { nm: 'Безлимит',  price: 5990, b: 9999, c: 9999, p: 9999 }
   };
-  var want = new URLSearchParams(location.search).get('plan');
+  var want = new URLSearchParams(location.search).get('plan') || 'growth';
   var money = function (n) { return n === 0 ? '0 ₽' : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽'; };
   var lim = function (n) { return n >= 9999 ? 'без счёта' : String(n); };
 
@@ -99,47 +117,60 @@ input:focus{outline:2px solid #cfe3d3;border-color:var(--green)}
         '<p class="bill-lbl">твой тариф</p>' +
         '<h2>' + p.nm + '</h2>' +
         '<p class="bill-price"><b>' + money(p.price) + '</b><span>в месяц</span></p>' +
-        '<ul class="bill-list">' +
-          '<li>брендов: ' + lim(p.b) + '</li>' +
-          '<li>каналов: ' + lim(p.c) + '</li>' +
-          '<li>публикаций в день: ' + lim(p.p) + '</li>' +
-        '</ul>';
-
-      if (want && want !== cur && PLANS[want]) {
+        '<ul class="bill-list"><li>брендов: ' + lim(p.b) + '</li>' +
+        '<li>каналов: ' + lim(p.c) + '</li>' +
+        '<li>публикаций в день: ' + lim(p.p) + '</li></ul>';
+      if (want !== cur && PLANS[want]) {
         var q = PLANS[want];
         document.getElementById('billNew').hidden = false;
         document.getElementById('billNewName').textContent = q.nm;
         document.getElementById('billNewPrice').textContent = money(q.price);
         document.getElementById('billNewList').innerHTML =
-          '<li>брендов: ' + lim(q.b) + '</li>' +
-          '<li>каналов: ' + lim(q.c) + '</li>' +
+          '<li>брендов: ' + lim(q.b) + '</li><li>каналов: ' + lim(q.c) + '</li>' +
           '<li>публикаций в день: ' + lim(q.p) + '</li>';
+        document.getElementById('payBtn').textContent = 'Оплатить ' + money(q.price);
+      } else {
+        document.getElementById('payBtn').textContent = 'Оплатить';
       }
     })
-    .catch(function () {
-      document.getElementById('billNow').innerHTML = '<p class="bill-lbl">твой тариф</p><p>Не удалось загрузить.</p>';
-    });
+    .catch(function () { document.getElementById('billNow').innerHTML = '<p class="bill-lbl">твой тариф</p><p>Не удалось загрузить.</p>'; });
 
-  document.getElementById('billSend').addEventListener('click', function () {
-    var b = this;
-    var email = document.getElementById('billEmail').value.trim();
+  var num = document.getElementById('cardNum');
+  num.addEventListener('input', function () {
+    var v = num.value.replace(/\D/g, '').slice(0, 19);
+    num.value = v.replace(/(\d{4})(?=\d)/g, '$1 ');
+  });
+  var exp = document.getElementById('cardExp');
+  exp.addEventListener('input', function () {
+    var v = exp.value.replace(/\D/g, '').slice(0, 4);
+    exp.value = v.length > 2 ? v.slice(0, 2) + '/' + v.slice(2) : v;
+  });
+  var cvc = document.getElementById('cardCvc');
+  cvc.addEventListener('input', function () { cvc.value = cvc.value.replace(/\D/g, '').slice(0, 4); });
+
+  document.getElementById('payForm').addEventListener('submit', function (e) {
+    e.preventDefault();
     var hint = document.getElementById('billHint');
-    if (!email) { hint.textContent = 'Нужен email — мы ответим на него.'; return; }
-    b.disabled = true; b.textContent = 'Отправляю…';
+    var btn = document.getElementById('payBtn');
+    var digits = num.value.replace(/\D/g, '');
+    var email = document.getElementById('payEmail').value.trim();
+    if (digits.length < 16) { hint.textContent = 'Проверь номер карты — нужно 16 цифр.'; num.focus(); return; }
+    if (exp.value.length !== 5) { hint.textContent = 'Проверь срок — ММ/ГГ.'; exp.focus(); return; }
+    if (cvc.value.length < 3) { hint.textContent = 'Проверь CVC.'; cvc.focus(); return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { hint.textContent = 'Нужен email — на него придёт чек.'; return; }
+    btn.disabled = true; btn.textContent = 'Обрабатываю…';
     fetch('/api/billing/checkout', {
       method: 'POST', credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ plan: want || 'growth', email: email })
+      body: JSON.stringify({ plan: want, email: email, card: digits })
     }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
       .then(function (res) {
         if (!res.ok) throw new Error((res.j && res.j.error) || 'Не получилось');
-        hint.textContent = 'Заявка у нас. Ответим на ' + email + ' — тариф включим вручную.';
-        b.textContent = 'Заявка отправлена';
+        hint.textContent = 'Заявка на оплату принята. Платёжный провайдер подключается — ' +
+          'списания не будет, пока мы не подтвердим вручную.';
+        btn.textContent = 'Заявка принята';
       })
-      .catch(function (e) {
-        hint.textContent = e.message;
-        b.disabled = false; b.textContent = 'Оставить заявку';
-      });
+      .catch(function (err) { hint.textContent = err.message; btn.disabled = false; btn.textContent = 'Оплатить'; });
   });
 })();
 </script>
