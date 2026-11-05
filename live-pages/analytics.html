@@ -78,6 +78,7 @@
   </div>
   <script src="/i18n/i18n.js"></script>
   <script>
+  (function () {
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const fmtDate = (s) => { if (!s) return '—'; const d = new Date(String(s).replace(' ', 'T')); return isNaN(d) ? '—' : d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' }); };
     async function load() {
@@ -103,6 +104,7 @@
     }
     function tcard(n, l) { return '<div class="tcard"><div class="n">' + n + '</div><div class="l">' + l + '</div></div>'; }
     load();
+  })();
   </script>
 <script src="/gg-header.js" defer></script>
 <script src="/theme.js" defer></script>

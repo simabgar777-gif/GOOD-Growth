@@ -535,10 +535,17 @@
 
       /* пере-выполнить инлайн-скрипты новой страницы */
       doc.querySelectorAll('script:not([src])').forEach(function (src) {
-        var el = document.createElement('script');
-        el.setAttribute('data-gg-page', '1');
-        el.textContent = src.textContent;
-        document.body.appendChild(el);
+        var code = src.textContent || '';
+        if (!code.trim()) return;
+        /* в своей области: иначе повторные const/let ломают страницу */
+        try {
+          new Function(code)();
+        } catch (err) {
+          var el = document.createElement('script');
+          el.setAttribute('data-gg-page', '1');
+          el.textContent = code;
+          document.body.appendChild(el);
+        }
       });
 
       if (push) history.pushState({ gg: 1 }, '', url);
