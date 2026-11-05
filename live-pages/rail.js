@@ -545,8 +545,18 @@ function markActive() {
       var old = document.querySelector(CONTENT);
       if (!fresh || !old) throw new Error('no wrap');
 
-      /* убрать скрипты прошлой страницы, чтобы не копились */
+      /* убрать стили и скрипты прошлой страницы, чтобы не копились */
+      document.querySelectorAll('style[data-gg-page]').forEach(function (s) { s.remove(); });
       document.querySelectorAll('script[data-gg-page]').forEach(function (s) { s.remove(); });
+
+      /* перенести СОБСТВЕННЫЕ стили новой страницы: у некоторых страниц
+         оформление живёт не в общем CSS, а в <style> внутри страницы */
+      doc.querySelectorAll('style').forEach(function (st) {
+        var el = document.createElement('style');
+        el.setAttribute('data-gg-page', '1');
+        el.textContent = st.textContent;
+        document.head.appendChild(el);
+      });
 
       old.replaceWith(document.importNode(fresh, true));
 
