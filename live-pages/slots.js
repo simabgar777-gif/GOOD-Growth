@@ -100,19 +100,31 @@
 
   function showLine() {
     mode = 'line';
-    var days = [], times = [];
-    state.slots.forEach(function (s) {
-      var d = DAYS[s.weekday];
-      if (days.indexOf(d) === -1) days.push(d);
-      if (times.indexOf(s.time) === -1) times.push(s.time);
-    });
     var perWeek = perWeekNow();
+    var byDay = {};
+    state.slots.forEach(function (s) {
+      var i = Number(s.weekday);
+      if (!byDay[i]) byDay[i] = [];
+      if (byDay[i].indexOf(s.time) === -1) byDay[i].push(s.time);
+    });
+    /* семь дней недели: где есть публикации — золотом, где нет — тире */
+    var cells = DAYS.map(function (d, i) {
+      var t = (byDay[i] || []).sort();
+      var on = t.length > 0;
+      return '<span class="rt-dcell' + (on ? ' is-on' : '') + '">' +
+               '<i>' + d + '</i><em>' + (on ? t.join(' · ') : '—') + '</em>' +
+             '</span>';
+    }).join('');
     elLine.innerHTML =
-      '<span class="rt-dot"></span>' +
-      '<b>Ритм: ' + perWeek + ' ' + plural(perWeek, 'раз', 'раза', 'раз') + ' в неделю</b>' +
-      (days.length ? '<span>' + days.join(' · ') + '</span>' : '') +
-      (times.length ? '<span class="rt-times">' + times.sort().join(' · ') + '</span>' : '') +
-      '<a class="rt-edit" role="button" tabindex="0">изменить</a>';
+      '<div class="rt-weekline">' +
+        '<div class="rt-wl-head">' +
+          '<span class="rt-dot"></span>' +
+          '<b>Ритм — ' + perWeek + ' ' + plural(perWeek, 'раз', 'раза', 'раз') + ' в неделю</b>' +
+          '<span class="rt-wl-month">' + (perWeek * 4) + ' постов в месяц</span>' +
+        '</div>' +
+        '<div class="rt-wl-days">' + cells + '</div>' +
+        '<a class="rt-edit" role="button" tabindex="0">изменить</a>' +
+      '</div>';
     paint();
   }
 

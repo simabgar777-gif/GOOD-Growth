@@ -84,6 +84,7 @@ select:focus{border-color:rgba(232,165,79,.5)}
   </div>
   <p class="sub" data-i18n="schedule.sub">Посты, которые уйдут в канал сами — в выбранное время. Часы сервера идут по Москве.</p>
   <!-- часы публикаций: циферблат, дуга до следующего поста, живое время -->
+  <div class="gg-clocks">
   <section class="gg-clock" id="ggClock" aria-label="Часы публикаций">
     <div class="clk-dial">
       <svg class="clk-svg" viewBox="0 0 200 200" aria-hidden="true">
@@ -105,6 +106,27 @@ select:focus{border-color:rgba(232,165,79,.5)}
       <p class="clk-now">сейчас <b id="clkNow">—</b> МСК · в очереди <b id="clkQ">0</b></p>
     </div>
   </section>
+
+  <!-- часы «сейчас»: живые стрелки по Москве -->
+  <section class="gg-clock is-now" aria-label="Который час">
+    <div class="clk-dial">
+      <svg class="clk-svg" viewBox="0 0 200 200" aria-hidden="true">
+        <circle class="clk-track" cx="100" cy="100" r="86"></circle>
+        <g id="clkTicks2"></g>
+        <line id="clkHour" x1="100" y1="100" x2="100" y2="52" class="clk-hand is-hour"></line>
+        <line id="clkMin" x1="100" y1="100" x2="100" y2="34" class="clk-hand is-min"></line>
+        <line id="clkSec" x1="100" y1="112" x2="100" y2="30" class="clk-hand is-sec"></line>
+        <circle cx="100" cy="100" r="3.4" class="clk-pin"></circle>
+      </svg>
+    </div>
+    <div class="clk-side">
+      <p class="clk-lab">Сейчас · Москва</p>
+      <p class="clk-big" id="clkBig">--:--:--</p>
+      <p class="clk-date" id="clkToday">—</p>
+      <p class="clk-left" id="clkUntil">—</p>
+    </div>
+  </section>
+  </div>
 
 
   <div class="gg-blk" id="rhythmPanel">
@@ -321,6 +343,13 @@ select:focus{border-color:rgba(232,165,79,.5)}
     when: document.getElementById('clkWhen'),
     left: document.getElementById('clkLeft'),
     now: document.getElementById('clkNow'),
+    big: document.getElementById('clkBig'),
+    today: document.getElementById('clkToday'),
+    until: document.getElementById('clkUntil'),
+    hour: document.getElementById('clkHour'),
+    min: document.getElementById('clkMin'),
+    sec: document.getElementById('clkSec'),
+    ticks2: document.getElementById('clkTicks2'),
     q: document.getElementById('clkQ')
   };
   if (!el.arc) return;
@@ -335,6 +364,7 @@ select:focus{border-color:rgba(232,165,79,.5)}
           + ' class="clk-tick' + (long ? ' is-major' : '') + '"></line>';
   }
   el.ticks.innerHTML = ticks;
+  if (el.ticks2) el.ticks2.innerHTML = ticks;
 
   function msk(str) { return new Date(String(str).replace(' ', 'T') + 'Z'); }
   function pad(n) { return (n < 10 ? '0' : '') + n; }
@@ -374,6 +404,14 @@ select:focus{border-color:rgba(232,165,79,.5)}
     var t = nowMs();
     var d = new Date(t);
     el.now.textContent = pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds());
+    if (el.big) {
+      var hh = d.getUTCHours(), mi = d.getUTCMinutes(), ss = d.getUTCSeconds();
+      el.big.textContent = pad(hh) + ':' + pad(mi) + ':' + pad(ss);
+      if (el.today) el.today.textContent = DAYS[d.getUTCDay()] + ', ' + d.getUTCDate() + ' ' + MONTHS[d.getUTCMonth()];
+      if (el.hour) el.hour.setAttribute('transform', 'rotate(' + ((hh % 12) * 30 + mi * 0.5) + ' 100 100)');
+      if (el.min) el.min.setAttribute('transform', 'rotate(' + (mi * 6 + ss * 0.1) + ' 100 100)');
+      if (el.sec) el.sec.setAttribute('transform', 'rotate(' + (ss * 6) + ' 100 100)');
+    }
 
     var rows = (data.scheduled || []).filter(function (p) { return p.scheduled_at; });
     var sched = rows.filter(function (p) { return p.schedule_status === 'scheduled'; })
@@ -407,6 +445,7 @@ select:focus{border-color:rgba(232,165,79,.5)}
     el.when.textContent = DAYS[nTime.getUTCDay()] + ', ' + nTime.getUTCDate() + ' ' + MONTHS[nTime.getUTCMonth()];
     var leftMs = nTime.getTime() - t;
     el.left.textContent = leftMs > 0 ? span(leftMs) : 'выходит сейчас';
+    if (el.until) el.until.textContent = 'до выхода — ' + (leftMs > 0 ? span(leftMs).replace('через ', '') : 'сейчас');
 
     /* дуга: сколько осталось от окна между прошлым и следующим постом */
     var prev = null;

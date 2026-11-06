@@ -982,9 +982,12 @@ body {
 
 /* ══ ЧАСЫ ПУБЛИКАЦИЙ ═════════════════════════════════════════
    Тёмный циферблат с насечками, золотая дуга до следующего поста. */
+.gg-clocks {
+  display: flex; align-items: stretch; gap: 16px; flex-wrap: wrap; margin: 26px 0 6px;
+}
 .gg-clock {
   display: flex; align-items: center; gap: 34px; flex-wrap: wrap;
-  max-width: 620px;
+  flex: 1 1 480px; max-width: 620px;
   margin: 26px 0 6px; padding: 26px 30px; border-radius: 22px;
   border: 1px solid rgba(224,192,144,.16);
   background:
@@ -1053,4 +1056,84 @@ body {
   .clk-face b { font-size: 38px; }
   .clk-side { flex-basis: 100%; text-align: center; }
   .clk-when { font-size: 22px; }
+}
+
+/* вторая карточка: часы «сейчас» */
+.gg-clock.is-now { max-width: 520px; gap: 24px; padding: 24px 26px; flex-basis: 420px; }
+.gg-clock.is-now .clk-dial { width: 176px; height: 176px; }
+.clk-hand { stroke: #F3E9D6; stroke-linecap: round; }
+.clk-hand.is-hour { stroke-width: 3.4; opacity: .92; }
+.clk-hand.is-min { stroke-width: 2.2; opacity: .92; }
+.clk-hand.is-sec { stroke: #E8B567; stroke-width: 1.1; opacity: .95; }
+.clk-pin { fill: #E8B567; }
+.clk-big {
+  margin: 0; font-family: var(--font-sans, 'Golos Text', system-ui), sans-serif;
+  font-weight: 300; font-size: 40px; line-height: 1.05; color: var(--ink);
+  font-variant-numeric: tabular-nums; letter-spacing: .02em;
+}
+.clk-date { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
+
+/* ══ ПОЛОСА РИТМА ═══════════════════════════════════════════
+   «Ритм — 5 раз в неделю» и семь дней с часами. */
+.rt-line { display: block; }
+.rt-line[hidden] { display: none; }
+.rt-weekline {
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  margin: 10px 0 2px; padding: 14px 20px; border-radius: 16px;
+  border: 1px solid rgba(224,192,144,.14);
+  background: linear-gradient(180deg, rgba(255,255,255,.026), rgba(255,255,255,.006));
+}
+.rt-line .rt-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: #E8B567;
+  box-shadow: 0 0 8px rgba(232,181,103,.6); flex: 0 0 auto;
+}
+.rt-wl-head { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.rt-wl-head b {
+  font-family: var(--font-display, 'Playfair Display'), serif; font-weight: 500;
+  font-size: 16px; color: var(--ink); white-space: nowrap;
+}
+.rt-wl-month {
+  font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--faint); white-space: nowrap;
+}
+.rt-wl-days { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+.rt-dcell {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  min-width: 46px; padding: 6px 8px; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.02);
+}
+.rt-dcell i {
+  font-style: normal; font-family: var(--font-mono); font-size: 9.5px;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--faint);
+}
+.rt-dcell em { font-style: normal; font-size: 11.5px; color: var(--faint); }
+.rt-dcell.is-on {
+  border-color: rgba(232,181,103,.4); background: rgba(232,181,103,.09);
+}
+.rt-dcell.is-on i { color: #E8B567; }
+.rt-dcell.is-on em { color: var(--ink); font-variant-numeric: tabular-nums; }
+.rt-edit {
+  cursor: pointer; font-size: 12px; color: var(--faint);
+  border-bottom: 1px dashed rgba(255,255,255,.18); padding-bottom: 1px;
+}
+.rt-edit:hover { color: var(--ink); }
+
+[data-theme="light"] .gg-clock.is-now .clk-hand { stroke: #2A2621; }
+[data-theme="light"] .rt-weekline { background: #FFFDF8; border-color: rgba(138,74,0,.14); }
+[data-theme="light"] .rt-dcell { border-color: rgba(42,38,33,.10); background: #FFFDF8; }
+[data-theme="light"] .rt-dcell.is-on { border-color: rgba(178,106,18,.45); background: #FFF3DF; }
+[data-theme="light"] .rt-dcell.is-on i, [data-theme="light"] .rt-wl-head b { color: #8A4A00; }
+[data-theme="light"] .rt-edit { border-color: rgba(42,38,33,.2); }
+[data-theme="light"] .clk-hand.is-sec { stroke: #B2690F; }
+[data-theme="light"] .rt-line .rt-dot { background: #B2690F; }
+
+@media (max-width: 720px) {
+  .gg-clocks { gap: 12px; }
+  .gg-clock.is-now { gap: 18px; }
+  .rt-wl-days { margin-left: 0; }
+  .rt-dcell { min-width: 40px; }
+}
+
+@media (max-width: 768px) {
+  .rt-line { position: static; margin: 0; padding: 0; border: 0; background: none; }
 }
