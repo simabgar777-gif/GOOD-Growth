@@ -942,3 +942,30 @@ body {
 
 /* воздух как на «Цели»: больше места между блоками */
 .wrap .gg-blk { margin-bottom: 26px; }
+
+/* ══ ПАРТНЁРСКИЙ КАБИНЕТ ═════════════════════════════════════ */
+.pc-load { color: var(--faint); font-size: 13px; }
+.pc-link { padding: 20px 22px; border-radius: 16px; border: 1px solid rgba(232,165,79,.28);
+  background: rgba(232,165,79,.05); max-width: 760px; }
+.pc-link-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+.pc-link-row input { flex: 1 1 320px; padding: 11px 14px; border-radius: 10px; font: inherit;
+  font-family: var(--font-mono); font-size: 12.5px; border: 1px solid rgba(255,255,255,.12);
+  background: var(--bg-soft, #0E0F13); color: var(--ink); }
+.pc-hint { margin: 10px 0 0; font-size: 12px; color: var(--faint); }
+
+.pc-stats { display: grid; gap: 12px; margin: 22px 0; max-width: 760px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+.pc-stat { padding: 16px 18px; border-radius: 14px; border: 1px solid var(--hair, rgba(255,255,255,.09));
+  background: var(--surface, #121317); display: flex; flex-direction: column; gap: 4px; }
+.pc-stat b { font-family: var(--font-display, serif); font-size: 24px; color: var(--ink); }
+.pc-stat span { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--faint); }
+
+.pc-empty { max-width: 640px; padding: 24px; border-radius: 16px;
+  border: 1px solid var(--hair, rgba(255,255,255,.09)); background: var(--surface, #121317); }
+.pc-empty h2 { margin: 0 0 8px; font-family: var(--font-display, serif); font-size: 22px; font-weight: 500; }
+.pc-empty p { margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.6; }
+.pc-acts { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+[data-theme="light"] .pc-link { background: #FFF6E4; }
+[data-theme="light"] .pc-stat, [data-theme="light"] .pc-empty { background: #FFFDF8; }
+[data-theme="light"] .pc-link-row input { background: #fff; }
