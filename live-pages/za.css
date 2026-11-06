@@ -1314,3 +1314,27 @@ html[data-theme="light"] .gg-acc-pop { background: #FFFDF8; border-color: rgba(2
 /* аватар в свёрнутой панели: целиком, по центру */
 .gg-rail-collapsed .gg-acc-btn { width: 44px; height: 44px; padding: 0; margin: 0 auto; }
 .gg-rail-collapsed .gg-acc-ava { width: 32px; height: 32px; font-size: 14px; }
+
+/* ══ ЕДИНАЯ ПАНЕЛЬ ═══════════════════════════════════════════
+   «Стол» и «Цель» теперь используют тот же каркас панели, что и
+   остальные страницы: одна панель — одна правка на весь сайт. */
+.shell {
+  display: block !important;
+  grid-template-columns: none !important;
+  min-height: 100vh;
+}
+body.gg-with-rail, body { padding-left: var(--rail-w, 232px); }
+body.gg-with-rail.gg-rail-collapsed, .gg-rail-collapsed body { padding-left: var(--rail-w, 76px); }
+
+/* панель в этом каркасе — как на остальных страницах */
+.shell > .gg-rail { position: fixed; }
+.shell > .gg-rail .brand-chip {
+  margin: 6px 10px 10px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.03);
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--muted); cursor: pointer;
+}
+.sidebar, .sidebar .brandmark, .sidebar .side-foot { all: revert; }
