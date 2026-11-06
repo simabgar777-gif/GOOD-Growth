@@ -969,3 +969,13 @@ body {
 [data-theme="light"] .pc-link { background: #FFF6E4; }
 [data-theme="light"] .pc-stat, [data-theme="light"] .pc-empty { background: #FFFDF8; }
 [data-theme="light"] .pc-link-row input { background: #fff; }
+
+/* кнопка раскладки постов по ритму */
+.gg-blk-h .spread-btn {
+  margin-left: auto; padding: 8px 16px; border-radius: 999px; cursor: pointer;
+  border: 1px solid rgba(232,165,79,.45); background: rgba(232,165,79,.10);
+  color: var(--amber, #E8A54F); font: inherit; font-size: 12.5px; font-weight: 600;
+}
+.gg-blk-h .spread-btn:hover { background: rgba(232,165,79,.18); }
+.gg-blk-h .spread-btn:disabled { opacity: .6; cursor: default; }
+[data-theme="light"] .gg-blk-h .spread-btn { color: #8A4A00; border-color: rgba(178,106,18,.4); background: #FFF3DF; }

@@ -125,6 +125,8 @@ select:focus{border-color:rgba(232,165,79,.5)}
     <div class="gg-blk-h">
       <h2 data-i18n="schedule.blk.queue">Очередь</h2>
       <span class="gg-blk-q" data-i18n="schedule.q.queue">когда выйдет?</span>
+      <button type="button" id="spreadAll" class="spread-btn"
+              title="Посты без времени встанут в свободные слоты ритма">Разложить посты по ритму</button>
     </div>
     <div class="gg-blk-b">
       <div class="filters">
@@ -262,6 +264,21 @@ select:focus{border-color:rgba(232,165,79,.5)}
       render();
     }).catch(function(e){ if (e.message !== 'auth') msg(ggT('schedule.msg.loadFail','Не удалось загрузить расписание'), true); });
   }
+  var spreadBtn = document.getElementById('spreadAll');
+  if (spreadBtn) spreadBtn.addEventListener('click', function () {
+    var b = this;
+    b.disabled = true; b.textContent = 'Раскладываю…';
+    fetch('/api/schedule/spread', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (x) {
+        b.disabled = false; b.textContent = 'Разложить посты по ритму';
+        if (!x.ok) { msg((x.d && x.d.error) || 'Не получилось', true); return; }
+        if (x.d.placed) msg('Разложено постов: ' + x.d.placed + (x.d.last ? ' · до ' + String(x.d.last).slice(0, 10) : ''));
+        else msg(x.d.note || 'Раскладывать нечего');
+        load();
+      })
+      .catch(function () { b.disabled = false; b.textContent = 'Разложить посты по ритму'; msg('Сеть недоступна', true); });
+  });
   load();
   setInterval(load, 60000);
 })();
