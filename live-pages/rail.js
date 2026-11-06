@@ -441,6 +441,7 @@
         '<a role="menuitem" href="/pricing">Тарифы</a>' +
         '<a role="menuitem" href="/app/billing">Оплата</a>' +
         '<a role="menuitem" href="/partner/info">Партнёрам</a>' +
+        '<a role="menuitem" href="/partner/cabinet">Партнёрский кабинет</a>' +
         '<a role="menuitem" href="mailto:hello@growth.go-ood.com">Помощь</a>' +
         '<button type="button" role="menuitem" id="ggAccTheme">Сменить тему</button>' +
         '<button type="button" role="menuitem" class="danger" id="ggAccOut">Выйти</button>' +
