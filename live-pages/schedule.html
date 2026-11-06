@@ -81,9 +81,31 @@ select:focus{border-color:rgba(232,165,79,.5)}
   <div class="gg-topbar">
     <h1 data-i18n="schedule.h1">Расписание публикаций</h1>
     <div class="gg-grow"></div>
-    <p class="clock"><span data-i18n="schedule.now">Сейчас на сервере:</span> <b id="clock">—</b></p>
   </div>
   <p class="sub" data-i18n="schedule.sub">Посты, которые уйдут в канал сами — в выбранное время. Часы сервера идут по Москве.</p>
+  <!-- часы публикаций: циферблат, дуга до следующего поста, живое время -->
+  <section class="gg-clock" id="ggClock" aria-label="Часы публикаций">
+    <div class="clk-dial">
+      <svg class="clk-svg" viewBox="0 0 200 200" aria-hidden="true">
+        <circle class="clk-track" cx="100" cy="100" r="86"></circle>
+        <circle class="clk-arc" id="clkArc" cx="100" cy="100" r="86"
+                transform="rotate(-90 100 100)"></circle>
+        <g id="clkTicks"></g>
+        <g id="clkSlots"></g>
+      </svg>
+      <div class="clk-face">
+        <b id="clkNext">—</b>
+        <span id="clkUnit">МСК</span>
+      </div>
+    </div>
+    <div class="clk-side">
+      <p class="clk-lab">Следующий пост</p>
+      <p class="clk-when" id="clkWhen">—</p>
+      <p class="clk-left" id="clkLeft">—</p>
+      <p class="clk-now">сейчас <b id="clkNow">—</b> МСК · в очереди <b id="clkQ">0</b></p>
+    </div>
+  </section>
+
 
   <div class="gg-blk" id="rhythmPanel">
     <div class="rt-ask">
@@ -287,5 +309,122 @@ select:focus{border-color:rgba(232,165,79,.5)}
 <script src="/slots.js" defer></script>
 <script src="/topline.js" defer></script>
 <script src="/rail.js" defer></script>
+
+<script>
+(function () {
+  var DIAL = 2 * Math.PI * 86;
+  var el = {
+    arc: document.getElementById('clkArc'),
+    ticks: document.getElementById('clkTicks'),
+    slots: document.getElementById('clkSlots'),
+    next: document.getElementById('clkNext'),
+    when: document.getElementById('clkWhen'),
+    left: document.getElementById('clkLeft'),
+    now: document.getElementById('clkNow'),
+    q: document.getElementById('clkQ')
+  };
+  if (!el.arc) return;
+  el.arc.style.strokeDasharray = DIAL;
+
+  /* насечки по кругу: 60 тонких, каждая пятая — заметнее */
+  var ticks = '';
+  for (var i = 0; i < 60; i++) {
+    var a = (i / 60) * 360;
+    var long = i % 5 === 0;
+    ticks += '<line x1="100" y1="' + (long ? 16 : 20) + '" x2="100" y2="28" transform="rotate(' + a + ' 100 100)"'
+          + ' class="clk-tick' + (long ? ' is-major' : '') + '"></line>';
+  }
+  el.ticks.innerHTML = ticks;
+
+  function msk(str) { return new Date(String(str).replace(' ', 'T') + 'Z'); }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  var DAYS = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+  var MONTHS = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+  var data = null, fetchedAt = 0;
+
+  function load() {
+    fetch('/api/schedule', { headers: { 'Cache-Control': 'no-cache' }, credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d) { data = d; fetchedAt = Date.now(); render(); } })
+      .catch(function () {});
+  }
+
+  function nowMs() {
+    if (!data || !data.serverNow) return Date.now();
+    return msk(data.serverNow).getTime() + (Date.now() - fetchedAt);
+  }
+
+  function plural(n, one, few, many) {
+    var m10 = n % 10, m100 = n % 100;
+    if (m10 === 1 && m100 !== 11) return one;
+    if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few;
+    return many;
+  }
+
+  function span(ms) {
+    var min = Math.max(0, Math.round(ms / 60000));
+    var d = Math.floor(min / 1440), h = Math.floor((min % 1440) / 60), m = min % 60;
+    if (d > 0) return 'через ' + d + ' ' + plural(d, 'день', 'дня', 'дней') + (h ? ' ' + h + ' ч' : '');
+    if (h > 0) return 'через ' + h + ' ч ' + m + ' мин';
+    return 'через ' + m + ' ' + plural(m, 'минуту', 'минуты', 'минут');
+  }
+
+  function render() {
+    if (!data) return;
+    var t = nowMs();
+    var d = new Date(t);
+    el.now.textContent = pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds());
+
+    var rows = (data.scheduled || []).filter(function (p) { return p.scheduled_at; });
+    var sched = rows.filter(function (p) { return p.schedule_status === 'scheduled'; })
+                    .sort(function (a, b) { return msk(a.scheduled_at) - msk(b.scheduled_at); });
+    el.q.textContent = sched.length;
+
+    /* точки ритма: где вообще бывают публикации */
+    var slots = (data.rhythm && data.rhythm.slots) || [];
+    var seen = {}, marks = '';
+    for (var i = 0; i < slots.length; i++) {
+      var key = slots[i].weekday + '@' + slots[i].time;
+      if (seen[key]) continue;
+      seen[key] = 1;
+      var hm = String(slots[i].time).split(':');
+      var mins = Number(hm[0]) * 60 + Number(hm[1] || 0);
+      var ang = (mins / 1440) * 360 - 90;
+      marks += '<circle cx="100" cy="14" r="3.2" transform="rotate(' + ang + ' 100 100)" class="clk-dot"></circle>';
+    }
+    el.slots.innerHTML = marks;
+
+    var next = sched[0];
+    if (!next) {
+      el.next.textContent = '—';
+      el.when.textContent = 'ничего не запланировано';
+      el.left.textContent = 'Разложи посты по ритму';
+      el.arc.style.strokeDashoffset = DIAL;
+      return;
+    }
+    var nTime = msk(next.scheduled_at);
+    el.next.textContent = pad(nTime.getUTCHours()) + ':' + pad(nTime.getUTCMinutes());
+    el.when.textContent = DAYS[nTime.getUTCDay()] + ', ' + nTime.getUTCDate() + ' ' + MONTHS[nTime.getUTCMonth()];
+    var leftMs = nTime.getTime() - t;
+    el.left.textContent = leftMs > 0 ? span(leftMs) : 'выходит сейчас';
+
+    /* дуга: сколько осталось от окна между прошлым и следующим постом */
+    var prev = null;
+    for (var k = 0; k < rows.length; k++) {
+      var pt = msk(rows[k].scheduled_at).getTime();
+      if (pt <= t && (!prev || pt > prev)) prev = pt;
+    }
+    var window0 = prev || (nTime.getTime() - 7 * 86400000);
+    var total = Math.max(1, nTime.getTime() - window0);
+    var done = Math.min(1, Math.max(0, 1 - leftMs / total));
+    var shown = Math.max(0.08, done);   /* дуга всегда видна — иначе кажется, что часы стоят */
+    el.arc.style.strokeDashoffset = String(DIAL * (1 - shown));
+  }
+
+  load();
+  setInterval(render, 1000);
+  setInterval(load, 60000);
+})();
+</script>
 </body>
 </html>

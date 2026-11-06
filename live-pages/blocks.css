@@ -979,3 +979,78 @@ body {
 .gg-blk-h .spread-btn:hover { background: rgba(232,165,79,.18); }
 .gg-blk-h .spread-btn:disabled { opacity: .6; cursor: default; }
 [data-theme="light"] .gg-blk-h .spread-btn { color: #8A4A00; border-color: rgba(178,106,18,.4); background: #FFF3DF; }
+
+/* ══ ЧАСЫ ПУБЛИКАЦИЙ ═════════════════════════════════════════
+   Тёмный циферблат с насечками, золотая дуга до следующего поста. */
+.gg-clock {
+  display: flex; align-items: center; gap: 34px; flex-wrap: wrap;
+  max-width: 620px;
+  margin: 26px 0 6px; padding: 26px 30px; border-radius: 22px;
+  border: 1px solid rgba(224,192,144,.16);
+  background:
+    radial-gradient(120% 90% at 18% 20%, rgba(224,192,144,.07), transparent 62%),
+    linear-gradient(180deg, rgba(255,255,255,.028), rgba(255,255,255,.008));
+}
+
+/* циферблат */
+.clk-dial { position: relative; width: 232px; height: 232px; flex: 0 0 auto; }
+.clk-svg { width: 100%; height: 100%; overflow: visible; }
+.clk-track { fill: none; stroke: rgba(255,255,255,.07); stroke-width: 1.4; }
+.clk-arc {
+  fill: none; stroke: #E8B567; stroke-width: 2.2; stroke-linecap: round;
+  filter: drop-shadow(0 0 5px rgba(232,181,103,.55));
+  transition: stroke-dashoffset .9s cubic-bezier(.25,.7,.25,1);
+}
+.clk-tick { stroke: rgba(255,255,255,.16); stroke-width: 1; }
+.clk-tick.is-major { stroke: rgba(255,255,255,.32); stroke-width: 1.3; }
+.clk-dot { fill: #E8B567; opacity: .85; }
+
+.clk-face {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 2px; pointer-events: none;
+}
+.clk-face b {
+  font-family: var(--font-sans, 'Golos Text', system-ui), sans-serif;
+  font-weight: 300; font-size: 46px; line-height: 1; letter-spacing: .02em;
+  color: #F3E9D6; font-variant-numeric: tabular-nums;
+}
+.clk-face span {
+  font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .22em;
+  text-transform: uppercase; color: rgba(243,233,214,.5);
+}
+
+/* подписи справа */
+.clk-side { flex: 1 1 220px; min-width: 200px; }
+.clk-lab {
+  margin: 0 0 6px; font-family: var(--font-mono); font-size: 9.5px;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--faint);
+}
+.clk-when {
+  margin: 0; font-family: var(--font-display, 'Playfair Display'), serif;
+  font-size: 26px; font-weight: 500; line-height: 1.15; color: var(--ink);
+}
+.clk-left { margin: 8px 0 0; font-size: 14.5px; color: var(--amber, #E8B567); }
+.clk-now {
+  margin: 14px 0 0; font-size: 11.5px; color: var(--faint);
+  font-family: var(--font-mono); letter-spacing: .04em;
+}
+.clk-now b { color: var(--muted); font-weight: 500; }
+
+[data-theme="light"] .gg-clock {
+  border-color: rgba(138,74,0,.16);
+  background: radial-gradient(120% 90% at 18% 20%, rgba(200,140,60,.10), transparent 62%), #FFFDF8;
+}
+[data-theme="light"] .clk-face b { color: #2A2621; }
+[data-theme="light"] .clk-face span { color: rgba(42,38,33,.5); }
+[data-theme="light"] .clk-tick { stroke: rgba(42,38,33,.18); }
+[data-theme="light"] .clk-tick.is-major { stroke: rgba(42,38,33,.34); }
+[data-theme="light"] .clk-track { stroke: rgba(42,38,33,.08); }
+[data-theme="light"] .clk-left { color: #8A4A00; }
+
+@media (max-width: 720px) {
+  .gg-clock { padding: 20px; gap: 18px; justify-content: center; }
+  .clk-dial { width: 190px; height: 190px; }
+  .clk-face b { font-size: 38px; }
+  .clk-side { flex-basis: 100%; text-align: center; }
+  .clk-when { font-size: 22px; }
+}
