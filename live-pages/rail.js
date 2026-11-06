@@ -387,7 +387,13 @@
        панель не мигает: свёрнутая ширина известна ДО отрисовки */
     document.documentElement.classList.toggle('gg-rail-collapsed', collapsed);
     document.body.classList.toggle('gg-rail-collapsed', collapsed);
-    btn.textContent = collapsed ? '\u203A' : '\u2039';
+    btn.innerHTML = '<svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="none" ' +
+      'stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">' +
+      '<rect x="2.5" y="3.5" width="15" height="13" rx="2.5"/>' +
+      '<path d="M7.5 3.5v13"/>' +
+      (collapsed ? '<path d="M11.2 7.8 13.4 10l-2.2 2.2" stroke-linecap="round"/>'
+                 : '<path d="M13.2 7.8 11 10l2.2 2.2" stroke-linecap="round"/>') +
+      '</svg>';
     btn.setAttribute('aria-label', collapsed ? 'Развернуть панель' : 'Свернуть панель');
     btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
     btn.title = btn.getAttribute('aria-label');
@@ -549,13 +555,16 @@ function markActive() {
       document.querySelectorAll('style[data-gg-page]').forEach(function (s) { s.remove(); });
       document.querySelectorAll('script[data-gg-page]').forEach(function (s) { s.remove(); });
 
-      /* перенести СОБСТВЕННЫЕ стили новой страницы: у некоторых страниц
-         оформление живёт не в общем CSS, а в <style> внутри страницы */
+      /* перенести СОБСТВЕННЫЕ стили новой страницы — но ВСТАВИТЬ ИХ ДО
+         общих таблиц сайта: иначе старые токены страницы перебивают
+         тему и интерфейс становится светлым */
+      var anchorCss = document.head.querySelector('link[rel="stylesheet"]');
       doc.querySelectorAll('style').forEach(function (st) {
         var el = document.createElement('style');
         el.setAttribute('data-gg-page', '1');
         el.textContent = st.textContent;
-        document.head.appendChild(el);
+        if (anchorCss && anchorCss.parentNode === document.head) document.head.insertBefore(el, anchorCss);
+        else document.head.insertBefore(el, document.head.firstChild);
       });
 
       old.replaceWith(document.importNode(fresh, true));

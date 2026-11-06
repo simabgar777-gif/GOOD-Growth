@@ -306,16 +306,16 @@ html[data-theme="light"] .gg-rail-out { color: #5F5B52 !important; }
 .gg-rail-collapsed .gg-rail-out { display: none; }
 
 /* кнопка на шве панели */
+/* маленькая иконка «панель» вместо большого круга */
 .gg-rail-toggle {
-  position: fixed; top: 16px; left: calc(var(--rail-w) - 15px); z-index: 70;
-  width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
-  display: grid; place-items: center; font-size: 15px; line-height: 1;
-  border: 1px solid rgba(255,255,255,.14); background: #0D0E12; color: var(--muted, #8B8B95);
-  transition: left .22s ease, color .18s, border-color .18s;
+  position: fixed; top: 17px; z-index: 900;
+  width: 26px; height: 26px; border-radius: 7px; cursor: pointer;
+  display: grid; place-items: center; line-height: 0;
+  border: 0; background: transparent; color: var(--muted, #8B8B95);
+  transition: left .22s ease, color .18s, background .18s;
 }
-.gg-rail-toggle:hover { color: var(--ink, #F4F4F5); border-color: rgba(232,165,79,.5); }
-.gg-rail-collapsed .gg-rail-toggle { color: var(--amber, #E8A54F); }
-html[data-theme="light"] .gg-rail-toggle { background: #FFFDF8; border-color: rgba(28,24,18,.15); }
+.gg-rail-toggle:hover { color: var(--ink, #F4F4F5); background: rgba(255,255,255,.06); }
+html[data-theme="light"] .gg-rail-toggle:hover { background: rgba(28,24,18,.06); }
 
 .gg-rail-collapsed .gg-rail { transition: width .22s ease; }
 body.gg-with-rail { transition: padding-left .22s ease; }
@@ -379,3 +379,7 @@ html[data-theme="light"] .gg-acc-pop a:hover, html[data-theme="light"] .gg-acc-p
 /* переход без перезагрузки: содержимое мягко гаснет */
 html.gg-nav-busy .wrap { opacity: .55; transition: opacity .12s ease; }
 html.gg-nav-busy { cursor: progress; }
+
+/* положение иконки: в открытой панели — у правого края, в свёрнутой — снаружи */
+.gg-rail-toggle { left: calc(var(--rail-w, 232px) - 34px); }
+.gg-rail-collapsed .gg-rail-toggle { left: calc(var(--rail-w, 76px) + 8px); }
