@@ -1,3 +1,5 @@
+/* перевод: общая функция для всего файла */
+function T(k, d) { return (window.ggT ? window.ggT(k, d) : d); }
 'use strict';
 /* GOOD Growth — unified header (Order 27) + auth state (Order 30). Light Astra palette. */
 (function () {

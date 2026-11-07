@@ -1,3 +1,5 @@
+/* перевод: общая функция для всего файла */
+function T(k, d) { return (window.ggT ? window.ggT(k, d) : d); }
 /* общий перевод для всех блоков этого файла */
 function railT(k, d) { return (window.ggT ? window.ggT(k, d) : d); }
 /* ============================================================

@@ -96,14 +96,14 @@ select:focus{border-color:rgba(232,165,79,.5)}
       </svg>
       <div class="clk-face">
         <b id="clkNext">—</b>
-        <span id="clkUnit" data-i18n="schedule.msk">МСК
+        <span id="clkUnit" data-i18n="schedule.msk">МСК</span>
       </div>
     </div>
     <div class="clk-side">
       <p class="clk-lab" data-i18n="clock.nextPost">Следующий пост</p>
       <p class="clk-when" id="clkWhen">—</p>
       <p class="clk-left" id="clkLeft">—</p>
-      <p class="clk-now"><span data-i18n="clock.now">сейчас </span><b id="clkNow">—</b> <span id="clkZone" data-i18n="schedule.msk">МСК · <span data-i18n="clock.queue">в очереди </span><b id="clkQ">0</b></p>
+      <p class="clk-now">сейчас <b id="clkNow">—</b> МСК · в очереди <b id="clkQ">0</b></p>
     </div>
   </section>
 
@@ -169,8 +169,8 @@ select:focus{border-color:rgba(232,165,79,.5)}
     <div class="gg-blk-h">
       <h2 data-i18n="schedule.blk.queue">Очередь</h2>
       <span class="gg-blk-q" data-i18n="schedule.q.queue">когда выйдет?</span>
-      <button type="button" id="spreadAll" class="spread-btn" data-i18n="schedule.spread"
-              title="Посты без времени встанут в свободные слоты ритма">Разложить посты по ритму</button>
+      <button type="button" id="spreadAll" class="spread-btn"
+              title="Посты без времени встанут в свободные слоты ритма" data-i18n="schedule.spread">Разложить посты по ритму</button>
     </div>
     <div class="gg-blk-b">
       <div class="filters">
@@ -208,14 +208,14 @@ select:focus{border-color:rgba(232,165,79,.5)}
   var ALL = [], BRANDS = [];
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   var STATUS_RU = { scheduled: ggT('post.status.scheduled','запланирован'), failed: ggT('post.status.failed','сбой'), published: ggT('post.status.published','опубликован') };
-  function fmtDT(s){ if (!s) return '—'; var d = new Date(String(s).replace(' ','T')); return isNaN(d) ? String(s).slice(0,16) : d.toLocaleString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }); }
+  function fmtDT(s){ if (!s) return '—'; var d = new Date(String(s).replace(' ','T')); return isNaN(d) ? String(s).slice(0,16) : d.toLocaleString('ru-RU', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }); }
   function msg(t, err){ var m = $('msg'); m.textContent = t; m.className = 'msg' + (err ? ' err' : ''); m.style.display = 'block'; setTimeout(function(){ m.style.display = 'none'; }, 3800); }
 
   function tickClock(){
     try {
       var el = $('clock'); if (!el) return;
       var d = new Date(Date.now() + (3 * 60 + new Date().getTimezoneOffset()) * 60000);
-      el.textContent = d.toLocaleString((window.ggLang && window.ggLang() === 'en') ? 'en-GB' : (window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { weekday:'short', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit', second:'2-digit' }) + ' МСК';
+      el.textContent = d.toLocaleString('ru-RU', { weekday:'short', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit', second:'2-digit' }) + ' МСК';
     } catch (e) {}
   }
   setInterval(tickClock, 1000); tickClock();
@@ -311,14 +311,14 @@ select:focus{border-color:rgba(232,165,79,.5)}
   var spreadBtn = document.getElementById('spreadAll');
   if (spreadBtn) spreadBtn.addEventListener('click', function () {
     var b = this;
-    b.disabled = true; b.textContent = T('schedule.spreading', 'Раскладываю…');
+    b.disabled = true; b.textContent = 'Раскладываю…';
     fetch('/api/schedule/spread', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' })
       .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (x) {
-        b.disabled = false; b.textContent = T('schedule.spread', 'Разложить посты по ритму');
+        b.disabled = false; b.textContent = 'Разложить посты по ритму';
         if (!x.ok) { msg((x.d && x.d.error) || 'Не получилось', true); return; }
-        if (x.d.placed) msg(T('schedule.spreadDone', 'Разложено постов: ') + x.d.placed + (x.d.last ? ' · до ' + String(x.d.last).slice(0, 10) : ''));
-        else msg(x.d.note || T('schedule.queue.idle', 'Раскладывать нечего'));
+        if (x.d.placed) msg('Разложено постов: ' + x.d.placed + (x.d.last ? ' · до ' + String(x.d.last).slice(0, 10) : ''));
+        else msg(x.d.note || 'Раскладывать нечего');
         load();
       })
       .catch(function () { b.disabled = false; b.textContent = 'Разложить посты по ритму'; msg('Сеть недоступна', true); });
@@ -369,7 +369,6 @@ select:focus{border-color:rgba(232,165,79,.5)}
   function msk(str) { return new Date(String(str).replace(' ', 'T') + 'Z'); }
   function pad(n) { return (n < 10 ? '0' : '') + n; }
   var T = function (k, d) { return (window.ggT ? window.ggT(k, d) : d); };
-  /* словарь приходит позже — читаем названия при каждой отрисовке */
   function dayNames() {
     var a = T('clock.daysSun', 'Вс,Пн,Вт,Ср,Чт,Пт,Сб').split(',');
     return a.length === 7 ? a : ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
@@ -399,13 +398,12 @@ select:focus{border-color:rgba(232,165,79,.5)}
     return many;
   }
 
-  /* «2 д 10 ч» — одинаково понятно и по-русски, и по-английски */
   function span(ms) {
     var min = Math.max(0, Math.round(ms / 60000));
     var d = Math.floor(min / 1440), h = Math.floor((min % 1440) / 60), m = min % 60;
     var parts = [];
     if (d > 0) parts.push(d + ' ' + T('clock.d', 'д'));
-    if (d > 0 || h > 0) parts.push((d > 0 ? h : h) + ' ' + T('clock.h', 'ч'));
+    if (d > 0 || h > 0) parts.push(h + ' ' + T('clock.h', 'ч'));
     if (d === 0) parts.push(m + ' ' + T('clock.m', 'мин'));
     return parts.join(' ');
   }
@@ -416,11 +414,9 @@ select:focus{border-color:rgba(232,165,79,.5)}
     var t = nowMs();
     var d = new Date(t);
     el.now.textContent = pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds());
-    var en = (window.ggLang && window.ggLang() === 'en');
-    var zone = document.getElementById('clkZone');
-    if (zone) zone.textContent = en ? 'MSK' : 'МСК';
-    var unit = document.getElementById('clkUnit');
-    if (unit) unit.textContent = en ? 'MSK' : 'МСК';
+    var en0 = (window.ggLang && window.ggLang() === 'en');
+    var zoneEl = document.getElementById('clkZone');
+    if (zoneEl) zoneEl.textContent = en0 ? 'MSK' : 'МСК';
     if (el.big) {
       var hh = d.getUTCHours(), mi = d.getUTCMinutes(), ss = d.getUTCSeconds();
       el.big.textContent = pad(hh) + ':' + pad(mi) + ':' + pad(ss);
@@ -462,10 +458,8 @@ select:focus{border-color:rgba(232,165,79,.5)}
     el.when.textContent = DAYS[nTime.getUTCDay()] + ', ' + nTime.getUTCDate() + ' ' + MONTHS[nTime.getUTCMonth()];
     var leftMs = nTime.getTime() - t;
     var spanTxt = span(leftMs);
-    el.left.textContent = leftMs > 0
-      ? T('clock.after', 'через ') + spanTxt
-      : T('clock.outNow', 'выходит сейчас');
-    if (el.until) el.until.textContent = T('clock.until', 'до выхода — ') + (leftMs > 0 ? spanTxt : T('clock.outNow', 'выходит сейчас'));
+    el.left.textContent = leftMs > 0 ? T('clock.after', 'через ') + spanTxt : T('clock.outNow', 'выходит сейчас');
+    if (el.until) el.until.textContent = 'до выхода — ' + (leftMs > 0 ? span(leftMs).replace('через ', '') : 'сейчас');
 
     /* дуга: сколько осталось от окна между прошлым и следующим постом */
     var prev = null;
