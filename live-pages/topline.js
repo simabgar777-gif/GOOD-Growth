@@ -11,6 +11,7 @@
    пунктов панели.
    ============================================================ */
 (function () {
+  function T(k, d) { return (window.ggT ? window.ggT(k, d) : d); }
   'use strict';
 
   var MARK =
@@ -30,7 +31,7 @@
     /* крошка — это дверь домой, в кабинет. На самом Столе она не нужна. */
     var here = location.pathname.replace(/\/+$/, '');
     if (here === '/app') return '';
-    return '<a class="gg-crumb" href="/app">← Стол</a>';
+    return '<a class="gg-crumb" href="/app">' + T('topline.back', '← Стол') + '</a>';
   }
 
   /* меню из пунктов панели */
@@ -155,14 +156,14 @@
       '<button type="button" class="gg-burger" id="ggBurger" aria-label="Меню" aria-expanded="false">☰</button>' +
       '<div class="gg-sys">' +
         '<span class="gg-chip" title="Режим разбора">' +
-          '<span class="dot"></span><span class="gg-chip-tx">ИИ · не подключён</span>' +
+          '<span class="dot"></span><span class="gg-chip-tx">' + T('topline.aiOff', 'ИИ · не подключён') + '</span>' +
         '</span>' +
-        '<div class="gg-lang" role="group" aria-label="Язык">' +
-          '<button type="button" aria-pressed="true" data-lang="ru">RU</button>' +
-          '<button type="button" aria-pressed="false" data-lang="en" title="скоро">EN</button>' +
-          '<button type="button" aria-pressed="false" data-lang="hy" title="скоро">ՀԱ</button>' +
+        '<div class="gg-lang" role="group" aria-label="Language">' +
+          '<button type="button" data-lang="ru">RU</button>' +
+          '<button type="button" data-lang="en">EN</button>' +
+          '<button type="button" data-lang="hy" title="в работе">ՀԱ</button>' +
         '</div>' +
-        '<button type="button" class="gg-icon" id="ggThemeBtn" aria-label="Сменить тему" title="Сменить тему">◐</button>' +
+        '<button type="button" class="gg-icon" id="ggThemeBtn" aria-label="' + T('topline.theme', 'Сменить тему') + '" title="' + T('topline.theme', 'Сменить тему') + '">◐</button>' +
       '</div>';
 
     var rail = document.getElementById('gg-rail');
@@ -175,9 +176,21 @@
       .then(function (d) {
         var tx = band.querySelector('.gg-chip-tx');
         if (!tx || !d) return;
-        tx.textContent = d.on ? 'ИИ: живой' : (d.demo ? 'ИИ · демо' : 'ИИ · не подключён');
+        tx.textContent = d.on ? T('topline.aiLive', 'ИИ: живой') : (d.demo ? T('topline.aiDemo', 'ИИ · демо') : T('topline.aiOff', 'ИИ · не подключён'));
       })
       .catch(function () {});
+
+    document.addEventListener('gg:i18n', function () {
+
+      var tx2 = band.querySelector('.gg-chip-tx');
+
+      if (!tx2) return;
+
+      var el2 = band.querySelector('#ggThemeBtn');
+
+      if (el2) { el2.title = T('topline.theme', 'Сменить тему'); el2.setAttribute('aria-label', T('topline.theme', 'Сменить тему')); }
+
+    });
 
     /* тема */
     var btn = band.querySelector('#ggThemeBtn');
@@ -190,10 +203,22 @@
 
     /* языки: русский нажат, остальные «скоро» */
     var langs = band.querySelectorAll('.gg-lang button');
+    function paintLangs() {
+      var cur = (window.ggLang && window.ggLang()) || 'ru';
+      for (var i = 0; i < langs.length; i++) {
+        var l = langs[i].getAttribute('data-lang');
+        var ready = !window.ggLangReady || window.ggLangReady(l);
+        langs[i].setAttribute('aria-pressed', l === cur ? 'true' : 'false');
+        langs[i].classList.toggle('is-soon', !ready);
+        if (!ready) langs[i].title = 'в работе'; else langs[i].removeAttribute('title');
+      }
+    }
+    paintLangs();
     for (var k = 0; k < langs.length; k++) {
       langs[k].addEventListener('click', function (e) {
-        if (this.getAttribute('data-lang') === 'ru') return;
         e.preventDefault();
+        var l = this.getAttribute('data-lang');
+        if (window.ggSetLang && !window.ggSetLang(l)) return;   /* языка ещё нет */
       });
     }
 

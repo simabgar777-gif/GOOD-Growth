@@ -22,7 +22,7 @@
 <h1>Партнёрский кабинет</h1>
 <p class="sub">твоя ссылка, переходы и начисления — без звёздочек</p>
 
-<div id="pcRoot"><p class="pc-load">Загружаю…</p></div>
+<div id="pcRoot"><p class="pc-load" data-i18n="channels.loading2">Загружаю…</div>
 
 <script>
 (function () {
@@ -39,7 +39,7 @@
             '<p>' + (d && d.note ? d.note : 'Напиши нам — обсудим условия и откроем кабинет.') + '</p>' +
             '<div class="pc-acts">' +
               '<a class="pr-go" href="mailto:hello@growth.go-ood.com?subject=Партнёрство">Написать нам</a>' +
-              '<a class="step-go ghost" href="/partner/info">Как это работает</a>' +
+              '<a class="step-go ghost" href="/partner/info" data-i18n="index.how.title">Как это работает' +
             '</div>' +
           '</div>';
         return;
@@ -50,7 +50,7 @@
           '<p class="pr-lbl">твоя ссылка · код ' + p.code + '</p>' +
           '<div class="pc-link-row">' +
             '<input id="pcLink" readonly value="' + p.link + '">' +
-            '<button type="button" class="pr-go" id="pcCopy">Скопировать</button>' +
+            '<button type="button" class="pr-go" id="pcCopy" data-i18n="z.postCopy">Скопировать' +
           '</div>' +
           '<p class="pc-hint" id="pcHint">Код живёт 30 дней после перехода. Начисления — ' +
             p.rate + '% в течение ' + p.months + ' месяцев.</p>' +

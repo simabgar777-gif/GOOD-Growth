@@ -16,6 +16,11 @@
   if (!panel) return;
 
   var DAYS = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+  function T(k, d) { return (window.ggT ? window.ggT(k, d) : d); }
+  function dayNames() {
+    var n = T('rhythm.daysMon', 'Пн,Вт,Ср,Чт,Пт,Сб,Вс').split(',');
+    return (n && n.length === 7) ? n : DAYS;
+  }
   var SPREAD = [1, 3, 5, 0, 2, 4, 6];          /* Вт, Чт, Сб, Пн, Ср, Пт, Вс */
   var TIMES = ['09:00', '13:00', '19:00'];
 
@@ -108,25 +113,30 @@
       if (byDay[i].indexOf(s.time) === -1) byDay[i].push(s.time);
     });
     /* семь дней недели: где есть публикации — золотом, где нет — тире */
+    var NAMES = dayNames();
     var cells = DAYS.map(function (d, i) {
       var t = (byDay[i] || []).sort();
       var on = t.length > 0;
       return '<span class="rt-dcell' + (on ? ' is-on' : '') + '">' +
-               '<i>' + d + '</i><em>' + (on ? t.join(' · ') : '—') + '</em>' +
+               '<i>' + NAMES[i] + '</i><em>' + (on ? t.join(' · ') : '—') + '</em>' +
              '</span>';
     }).join('');
     elLine.innerHTML =
       '<div class="rt-weekline">' +
         '<div class="rt-wl-head">' +
           '<span class="rt-dot"></span>' +
-          '<b>Ритм — ' + perWeek + ' ' + plural(perWeek, 'раз', 'раза', 'раз') + ' в неделю</b>' +
-          '<span class="rt-wl-month">' + (perWeek * 4) + ' постов в месяц</span>' +
+          '<b>' + T('rhythm.week', 'Ритм — ') + perWeek + T('rhythm.perWeekShort', ' в неделю') + '</b>' +
+          '<span class="rt-wl-month">' + (perWeek * 4) + T('rhythm.postsMonth', ' постов в месяц') + '</span>' +
         '</div>' +
         '<div class="rt-wl-days">' + cells + '</div>' +
-        '<a class="rt-edit" role="button" tabindex="0">изменить</a>' +
+        '<a class="rt-edit" role="button" tabindex="0">' + T('rhythm.change', 'изменить') + '</a>' +
       '</div>';
     paint();
   }
+
+  document.addEventListener('gg:i18n', function () {
+    if (mode === 'line') showLine();
+  });
 
   /* ── загрузка ─────────────────────────────────────────────── */
   fetch('/api/slots', { credentials: 'same-origin' })

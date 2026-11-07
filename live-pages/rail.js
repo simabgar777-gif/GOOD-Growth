@@ -1,3 +1,5 @@
+/* общий перевод для всех блоков этого файла */
+function railT(k, d) { return (window.ggT ? window.ggT(k, d) : d); }
 /* ============================================================
    GOOD Growth · поведение ЛЕВОЙ ПАНЕЛИ (приказ №76)
 
@@ -8,6 +10,7 @@
      3. выход — переиспользует ту кнопку, что уже есть на странице
    ============================================================ */
 (function () {
+  var T = railT;
   'use strict';
 
   var rail = document.getElementById('gg-rail');
@@ -416,6 +419,31 @@
 
 /* ── аккаунт внизу панели: имя, тариф и меню ─────────────────
    Как у Buffer: одна точка входа ко всему личному. */
+/* словарь приходит позже — переводим меню, когда он готов */
+document.addEventListener('gg:i18n', function () {
+  try {
+    var map = { 'rail.menu.settings': 'Настройки', 'rail.menu.channels': 'Каналы', 'rail.menu.plans': 'Тарифы',
+                'rail.menu.billing': 'Оплата', 'rail.menu.partners': 'Партнёрам', 'rail.menu.cabinet': 'Партнёрский кабинет',
+                'rail.menu.help': 'Помощь', 'rail.menu.theme': 'Сменить тему', 'rail.menu.logout': 'Выйти' };
+    var pop = document.getElementById('ggAccPop');
+    if (!pop) return;
+    var items = pop.querySelectorAll('a[role="menuitem"], button[role="menuitem"]');
+    for (var i = 0; i < items.length; i++) {
+      var href = items[i].getAttribute('href') || '', id = items[i].id || '', key = null;
+      if (href === '/app/profile') key = 'rail.menu.settings';
+      else if (href === '/app/channels') key = 'rail.menu.channels';
+      else if (href === '/pricing') key = 'rail.menu.plans';
+      else if (href === '/app/billing') key = 'rail.menu.billing';
+      else if (href === '/partner/info') key = 'rail.menu.partners';
+      else if (href === '/partner/cabinet') key = 'rail.menu.cabinet';
+      else if (href.indexOf('mailto:') === 0) key = 'rail.menu.help';
+      else if (id === 'ggAccTheme') key = 'rail.menu.theme';
+      else if (id === 'ggAccLogout') key = 'rail.menu.logout';
+      if (key) items[i].textContent = railT(key, map[key]);
+    }
+  } catch (e) {}
+});
+
 (function accountBlock() {
   function ready(fn) {
     if (document.readyState !== 'loading') fn();
@@ -431,19 +459,19 @@
     acc.innerHTML =
       '<button type="button" class="gg-acc-btn" id="ggAccBtn" aria-haspopup="menu" aria-expanded="false">' +
         '<span class="gg-acc-ava">◈</span>' +
-        '<span class="gg-acc-tx"><b id="ggAccName">Мой аккаунт</b><em id="ggAccPlan">тариф: —</em></span>' +
+        '<span class="gg-acc-tx"><b id="ggAccName">' + railT('rail.menu.account', 'Мой аккаунт') + '</b><em id="ggAccPlan">' + railT('rail.planLabel', 'тариф: ') + '—</em></span>' +
         '<span class="gg-acc-chev">\u2303</span>' +
       '</button>' +
       '<div class="gg-acc-pop" id="ggAccPop" role="menu" hidden>' +
         '<div class="gg-acc-head"><b id="ggAccEmail">—</b><em>GOOD Growth</em></div>' +
         '<a role="menuitem" href="/profile">Настройки</a>' +
         '<a role="menuitem" href="/partner/channels">Каналы</a>' +
-        '<a role="menuitem" href="/pricing">Тарифы</a>' +
-        '<a role="menuitem" href="/app/billing">Оплата</a>' +
-        '<a role="menuitem" href="/partner/info">Партнёрам</a>' +
-        '<a role="menuitem" href="/partner/cabinet">Партнёрский кабинет</a>' +
-        '<a role="menuitem" href="mailto:hello@growth.go-ood.com">Помощь</a>' +
-        '<button type="button" role="menuitem" id="ggAccTheme">Сменить тему</button>' +
+        '<a role="menuitem" href="/pricing">' + railT('rail.menu.plans', 'Тарифы') + '</a>' +
+        '<a role="menuitem" href="/app/billing">' + railT('rail.menu.billing', 'Оплата') + '</a>' +
+        '<a role="menuitem" href="/partner/info">' + railT('rail.menu.partners', 'Партнёрам') + '</a>' +
+        '<a role="menuitem" href="/partner/cabinet">' + railT('rail.menu.cabinet', 'Партнёрский кабинет') + '</a>' +
+        '<a role="menuitem" href="mailto:hello@growth.go-ood.com">' + railT('rail.menu.help', 'Помощь') + '</a>' +
+        '<button type="button" role="menuitem" id="ggAccTheme">' + railT('rail.menu.theme', 'Сменить тему') + '</button>' +
         '<button type="button" role="menuitem" class="danger" id="ggAccOut">Выйти</button>' +
       '</div>';
     rail.appendChild(acc);

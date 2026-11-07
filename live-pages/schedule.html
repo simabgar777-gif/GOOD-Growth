@@ -96,14 +96,14 @@ select:focus{border-color:rgba(232,165,79,.5)}
       </svg>
       <div class="clk-face">
         <b id="clkNext">—</b>
-        <span id="clkUnit">МСК</span>
+        <span id="clkUnit" data-i18n="schedule.msk">МСК
       </div>
     </div>
     <div class="clk-side">
-      <p class="clk-lab">Следующий пост</p>
+      <p class="clk-lab" data-i18n="clock.nextPost">Следующий пост</p>
       <p class="clk-when" id="clkWhen">—</p>
       <p class="clk-left" id="clkLeft">—</p>
-      <p class="clk-now">сейчас <b id="clkNow">—</b> МСК · в очереди <b id="clkQ">0</b></p>
+      <p class="clk-now"><span data-i18n="clock.now">сейчас </span><b id="clkNow">—</b> <span id="clkZone" data-i18n="schedule.msk">МСК · <span data-i18n="clock.queue">в очереди </span><b id="clkQ">0</b></p>
     </div>
   </section>
 
@@ -120,7 +120,7 @@ select:focus{border-color:rgba(232,165,79,.5)}
       </svg>
     </div>
     <div class="clk-side">
-      <p class="clk-lab">Сейчас · Москва</p>
+      <p class="clk-lab" data-i18n="clock.whichHour">Сейчас · Москва</p>
       <p class="clk-big" id="clkBig">--:--:--</p>
       <p class="clk-date" id="clkToday">—</p>
       <p class="clk-left" id="clkUntil">—</p>
@@ -215,7 +215,7 @@ select:focus{border-color:rgba(232,165,79,.5)}
     try {
       var el = $('clock'); if (!el) return;
       var d = new Date(Date.now() + (3 * 60 + new Date().getTimezoneOffset()) * 60000);
-      el.textContent = d.toLocaleString('ru-RU', { weekday:'short', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit', second:'2-digit' }) + ' МСК';
+      el.textContent = d.toLocaleString((window.ggLang && window.ggLang() === 'en') ? 'en-GB' : 'ru-RU', { weekday:'short', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit', second:'2-digit' }) + ' МСК';
     } catch (e) {}
   }
   setInterval(tickClock, 1000); tickClock();
@@ -368,8 +368,16 @@ select:focus{border-color:rgba(232,165,79,.5)}
 
   function msk(str) { return new Date(String(str).replace(' ', 'T') + 'Z'); }
   function pad(n) { return (n < 10 ? '0' : '') + n; }
-  var DAYS = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-  var MONTHS = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+  var T = function (k, d) { return (window.ggT ? window.ggT(k, d) : d); };
+  /* словарь приходит позже — читаем названия при каждой отрисовке */
+  function dayNames() {
+    var a = T('clock.daysSun', 'Вс,Пн,Вт,Ср,Чт,Пт,Сб').split(',');
+    return a.length === 7 ? a : ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+  }
+  function monthNames() {
+    var a = T('clock.months', 'янв,фев,мар,апр,мая,июн,июл,авг,сен,окт,ноя,дек').split(',');
+    return a.length === 12 ? a : ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+  }
   var data = null, fetchedAt = 0;
 
   function load() {
@@ -391,19 +399,28 @@ select:focus{border-color:rgba(232,165,79,.5)}
     return many;
   }
 
+  /* «2 д 10 ч» — одинаково понятно и по-русски, и по-английски */
   function span(ms) {
     var min = Math.max(0, Math.round(ms / 60000));
     var d = Math.floor(min / 1440), h = Math.floor((min % 1440) / 60), m = min % 60;
-    if (d > 0) return 'через ' + d + ' ' + plural(d, 'день', 'дня', 'дней') + (h ? ' ' + h + ' ч' : '');
-    if (h > 0) return 'через ' + h + ' ч ' + m + ' мин';
-    return 'через ' + m + ' ' + plural(m, 'минуту', 'минуты', 'минут');
+    var parts = [];
+    if (d > 0) parts.push(d + ' ' + T('clock.d', 'д'));
+    if (d > 0 || h > 0) parts.push((d > 0 ? h : h) + ' ' + T('clock.h', 'ч'));
+    if (d === 0) parts.push(m + ' ' + T('clock.m', 'мин'));
+    return parts.join(' ');
   }
 
   function render() {
     if (!data) return;
+    var DAYS = dayNames(), MONTHS = monthNames();
     var t = nowMs();
     var d = new Date(t);
     el.now.textContent = pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds());
+    var en = (window.ggLang && window.ggLang() === 'en');
+    var zone = document.getElementById('clkZone');
+    if (zone) zone.textContent = en ? 'MSK' : 'МСК';
+    var unit = document.getElementById('clkUnit');
+    if (unit) unit.textContent = en ? 'MSK' : 'МСК';
     if (el.big) {
       var hh = d.getUTCHours(), mi = d.getUTCMinutes(), ss = d.getUTCSeconds();
       el.big.textContent = pad(hh) + ':' + pad(mi) + ':' + pad(ss);
@@ -435,8 +452,8 @@ select:focus{border-color:rgba(232,165,79,.5)}
     var next = sched[0];
     if (!next) {
       el.next.textContent = '—';
-      el.when.textContent = 'ничего не запланировано';
-      el.left.textContent = 'Разложи посты по ритму';
+      el.when.textContent = T('clock.empty', 'ничего не запланировано');
+      el.left.textContent = T('clock.spreadHint', 'Разложи посты по ритму');
       el.arc.style.strokeDashoffset = DIAL;
       return;
     }
@@ -444,8 +461,11 @@ select:focus{border-color:rgba(232,165,79,.5)}
     el.next.textContent = pad(nTime.getUTCHours()) + ':' + pad(nTime.getUTCMinutes());
     el.when.textContent = DAYS[nTime.getUTCDay()] + ', ' + nTime.getUTCDate() + ' ' + MONTHS[nTime.getUTCMonth()];
     var leftMs = nTime.getTime() - t;
-    el.left.textContent = leftMs > 0 ? span(leftMs) : 'выходит сейчас';
-    if (el.until) el.until.textContent = 'до выхода — ' + (leftMs > 0 ? span(leftMs).replace('через ', '') : 'сейчас');
+    var spanTxt = span(leftMs);
+    el.left.textContent = leftMs > 0
+      ? T('clock.after', 'через ') + spanTxt
+      : T('clock.outNow', 'выходит сейчас');
+    if (el.until) el.until.textContent = T('clock.until', 'до выхода — ') + (leftMs > 0 ? spanTxt : T('clock.outNow', 'выходит сейчас'));
 
     /* дуга: сколько осталось от окна между прошлым и следующим постом */
     var prev = null;
