@@ -871,5 +871,12 @@
   "path.q": "where are you now?",
   "rail.menu.account": "My account",
   "rail.menu.profile": "Profile",
-  "rail.menu.path": "Path"
+  "rail.menu.path": "Path",
+  "schedule.spread": "Spread posts across the rhythm",
+  "schedule.spreading": "Spreading…",
+  "schedule.spreadDone": "Posts spread: ",
+  "schedule.queue.idle": "Nothing to spread",
+  "schedule.monthPosts": " posts a month",
+  "rail.planPrefix": "Plan: ",
+  "common.perMonth": " /mo"
 }

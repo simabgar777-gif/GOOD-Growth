@@ -99,9 +99,59 @@
 
   window.ggLangReady = function (lang) { return READY.indexOf(String(lang || '').toLowerCase()) >= 0; };
 
+  /* ── перевод «по значению» ───────────────────────────────────
+     Часть интерфейса рисуют скрипты до загрузки словаря (меню,
+     крошка, чипы). Для них держим карту «русский текст → английский»
+     и проходим по странице после загрузки и после изменений. */
+  var RU2EN = null;
+
+  function buildValueMap() {
+    if (LANG === 'ru') return;
+    fetch('/i18n/ru.json', { cache: 'force-cache' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (ru) {
+        if (!ru || !dict) return;
+        var map = {};
+        for (var k in ru) {
+          if (typeof ru[k] !== 'string') continue;
+          var en = dict[k];
+          if (typeof en === 'string' && en && en !== ru[k]) map[ru[k].trim()] = en;
+        }
+        RU2EN = map;
+        translateByValue();
+        observe();
+      })
+      .catch(function () {});
+  }
+
+  function translateByValue() {
+    if (!RU2EN || !document.body) return;
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+    var n;
+    while ((n = walker.nextNode())) {
+      var t = n.nodeValue;
+      if (!t) continue;
+      var key = t.trim();
+      if (!key) continue;
+      var en = RU2EN[key];
+      if (en && en !== key) n.nodeValue = t.replace(key, en);
+    }
+  }
+
+  var pending = null;
+  function observe() {
+    if (!window.MutationObserver || !document.body) return;
+    var mo = new MutationObserver(function () {
+      if (pending) return;
+      pending = setTimeout(function () { pending = null; translateByValue(); }, 350);
+    });
+    mo.observe(document.body, { childList: true, subtree: true, characterData: true });
+  }
+  window.ggRetranslate = translateByValue;
+
   fetch(DICT_URL, { cache: 'no-store' })
     .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-    .then(function (data) { dict = data; apply(); })
+    .then(function (data) { dict = data; apply(); buildValueMap(); })
     .catch(function () {
       /* молча. Русский текст уже на странице. */
     });

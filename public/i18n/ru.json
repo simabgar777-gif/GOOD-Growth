@@ -871,5 +871,12 @@
   "path.q": "где ты сейчас?",
   "rail.menu.account": "Мой аккаунт",
   "rail.menu.profile": "Профиль",
-  "rail.menu.path": "Путь"
+  "rail.menu.path": "Путь",
+  "schedule.spread": "Разложить посты по ритму",
+  "schedule.spreading": "Раскладываю…",
+  "schedule.spreadDone": "Разложено постов: ",
+  "schedule.queue.idle": "Раскладывать нечего",
+  "schedule.monthPosts": " постов в месяц",
+  "rail.planPrefix": "Тариф: ",
+  "common.perMonth": " /мес"
 }

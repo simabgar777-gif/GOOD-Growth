@@ -89,8 +89,8 @@
   var PLAN_NAMES={start:ggT('plan.start','Старт'),growth:ggT('plan.growth','Рост'),pro:ggT('plan.pro','Про'),agency:ggT('plan.agency','Агентство'),unlimited:ggT('plan.unlimited','Безлимит')};
   var ROLE_NAMES={owner:ggT('role.owner','Владелец'),approver:ggT('role.approver','Утверждающий'),publisher:ggT('role.publisher','Публикатор'),creator:ggT('role.creator','Создатель')};
   var ROLE_CLS={owner:'rc-owner',approver:'rc-approver',publisher:'rc-publisher',creator:'rc-creator'};
-  function fmtDate(iso){try{var d=new Date(iso);if(isNaN(d))return '';return d.toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'});}catch(e){return '';}}
-  function fmtDT(iso){try{var d=new Date(iso);if(isNaN(d))return '';return d.toLocaleString('ru-RU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});}catch(e){return '';}}
+  function fmtDate(iso){try{var d=new Date(iso);if(isNaN(d))return '';return d.toLocaleDateString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'),{day:'numeric',month:'long',year:'numeric'});}catch(e){return '';}}
+  function fmtDT(iso){try{var d=new Date(iso);if(isNaN(d))return '';return d.toLocaleString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'),{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});}catch(e){return '';}}
   function inf(n){return n>=9999?'∞':n;}
   function stat(el,t,ok){el.className='status '+(ok?'ok':'err');el.textContent=t;}
 

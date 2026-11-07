@@ -169,7 +169,7 @@ select:focus{border-color:rgba(232,165,79,.5)}
     <div class="gg-blk-h">
       <h2 data-i18n="schedule.blk.queue">Очередь</h2>
       <span class="gg-blk-q" data-i18n="schedule.q.queue">когда выйдет?</span>
-      <button type="button" id="spreadAll" class="spread-btn"
+      <button type="button" id="spreadAll" class="spread-btn" data-i18n="schedule.spread"
               title="Посты без времени встанут в свободные слоты ритма">Разложить посты по ритму</button>
     </div>
     <div class="gg-blk-b">
@@ -208,14 +208,14 @@ select:focus{border-color:rgba(232,165,79,.5)}
   var ALL = [], BRANDS = [];
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   var STATUS_RU = { scheduled: ggT('post.status.scheduled','запланирован'), failed: ggT('post.status.failed','сбой'), published: ggT('post.status.published','опубликован') };
-  function fmtDT(s){ if (!s) return '—'; var d = new Date(String(s).replace(' ','T')); return isNaN(d) ? String(s).slice(0,16) : d.toLocaleString('ru-RU', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }); }
+  function fmtDT(s){ if (!s) return '—'; var d = new Date(String(s).replace(' ','T')); return isNaN(d) ? String(s).slice(0,16) : d.toLocaleString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }); }
   function msg(t, err){ var m = $('msg'); m.textContent = t; m.className = 'msg' + (err ? ' err' : ''); m.style.display = 'block'; setTimeout(function(){ m.style.display = 'none'; }, 3800); }
 
   function tickClock(){
     try {
       var el = $('clock'); if (!el) return;
       var d = new Date(Date.now() + (3 * 60 + new Date().getTimezoneOffset()) * 60000);
-      el.textContent = d.toLocaleString((window.ggLang && window.ggLang() === 'en') ? 'en-GB' : 'ru-RU', { weekday:'short', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit', second:'2-digit' }) + ' МСК';
+      el.textContent = d.toLocaleString((window.ggLang && window.ggLang() === 'en') ? 'en-GB' : (window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { weekday:'short', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit', second:'2-digit' }) + ' МСК';
     } catch (e) {}
   }
   setInterval(tickClock, 1000); tickClock();
@@ -311,14 +311,14 @@ select:focus{border-color:rgba(232,165,79,.5)}
   var spreadBtn = document.getElementById('spreadAll');
   if (spreadBtn) spreadBtn.addEventListener('click', function () {
     var b = this;
-    b.disabled = true; b.textContent = 'Раскладываю…';
+    b.disabled = true; b.textContent = T('schedule.spreading', 'Раскладываю…');
     fetch('/api/schedule/spread', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' })
       .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (x) {
-        b.disabled = false; b.textContent = 'Разложить посты по ритму';
+        b.disabled = false; b.textContent = T('schedule.spread', 'Разложить посты по ритму');
         if (!x.ok) { msg((x.d && x.d.error) || 'Не получилось', true); return; }
-        if (x.d.placed) msg('Разложено постов: ' + x.d.placed + (x.d.last ? ' · до ' + String(x.d.last).slice(0, 10) : ''));
-        else msg(x.d.note || 'Раскладывать нечего');
+        if (x.d.placed) msg(T('schedule.spreadDone', 'Разложено постов: ') + x.d.placed + (x.d.last ? ' · до ' + String(x.d.last).slice(0, 10) : ''));
+        else msg(x.d.note || T('schedule.queue.idle', 'Раскладывать нечего'));
         load();
       })
       .catch(function () { b.disabled = false; b.textContent = 'Разложить посты по ритму'; msg('Сеть недоступна', true); });

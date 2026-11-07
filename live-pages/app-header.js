@@ -1,6 +1,7 @@
 'use strict';
 /* GOOD Growth — unified header (Order 27) + auth state (Order 30). Light Astra palette. */
 (function () {
+  function T(k, d) { return (window.ggT ? window.ggT(k, d) : d); }
   var path = location.pathname;
   var q = new URLSearchParams(location.search);
   function el(html) { var d = document.createElement('div'); d.innerHTML = html; return d.firstElementChild; }
@@ -176,13 +177,13 @@
   if (badge) {
     try {
       var c = sessionStorage.getItem('gg_plan_cache');
-      if (c) { var j = JSON.parse(c); if (Date.now() - j.t < 60000) badge.textContent = 'Тариф: ' + j.n; }
+      if (c) { var j = JSON.parse(c); if (Date.now() - j.t < 60000) badge.textContent = T('rail.planPrefix', 'Тариф: ') + j.n; }
     } catch (e) {}
     fetch('/api/plan').then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
       if (!d || !d.plan) return;
-      var names = { start: 'Старт', growth: 'Рост', pro: 'Про', agency: 'Агентство', unlimited: 'Безлимит' };
-      var n = names[d.plan] || 'Старт';
-      badge.textContent = 'Тариф: ' + n;
+      var names = { start: T('plan.start', 'Старт'), growth: T('plan.growth', 'Рост'), pro: T('plan.pro', 'Про'), agency: T('plan.agency', 'Агентство'), unlimited: T('plan.unlimited', 'Безлимит') };
+      var n = names[d.plan] || T('plan.start', 'Старт');
+      badge.textContent = T('rail.planPrefix', 'Тариф: ') + n;
       try { sessionStorage.setItem('gg_plan_cache', JSON.stringify({ t: Date.now(), n: n })); } catch (e) {}
     }).catch(function () {});
   }

@@ -248,7 +248,7 @@ function renderResult(data) {
   const when = data.createdAt ? new Date(String(data.createdAt).replace(' ', 'T')) : new Date();
   head.appendChild(el('div', 'result-meta',
     (data.source === 'demo' ? 'демо-разбор' : 'живой разбор') + ' · ' +
-    when.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) + ' · № ' + (data.id ?? '—')));
+    when.toLocaleDateString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { day: 'numeric', month: 'long' }) + ' · № ' + (data.id ?? '—')));
   resultRoot.appendChild(head);
 
   /* Дверь 3.2: озвучка разбора */
@@ -789,8 +789,8 @@ async function refreshJournal() {
       row.type = 'button';
       const d = new Date(String(g.created_at || '').replace(' ', 'T'));
       row.appendChild(el('span', 'jdate',
-        (isNaN(d) ? '' : d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' }) +
-        ' · ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }))));
+        (isNaN(d) ? '' : d.toLocaleDateString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { day: '2-digit', month: '2-digit', year: '2-digit' }) +
+        ' · ' + d.toLocaleTimeString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { hour: '2-digit', minute: '2-digit' }))));
       const text = el('span', 'jtext', '# ' + g.id + ' · ' + g.goal_text);
       if (g.source === 'demo') text.appendChild(el('span', 'jsrc', ' · демо'));
       row.appendChild(text);
@@ -1090,7 +1090,7 @@ function setupMic(btn, target, hintEl) {
 
   function startSession() {
     rec = new SpeechRec();
-    rec.lang = 'ru-RU';
+    rec.lang = (window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU');
     rec.interimResults = true;
     rec.continuous = true; /* слушает через паузы, пока сам не остановишь */
 
@@ -1159,7 +1159,7 @@ function speakText(text, btn) {
   const clean = String(text).replace(/\s+/g, ' ').trim().slice(0, 1200);
   if (!clean) return;
   const u = new SpeechSynthesisUtterance(clean);
-  u.lang = 'ru-RU';
+  u.lang = (window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU');
   const ru = synth.getVoices().find((v) => (v.lang || '').toLowerCase().startsWith('ru'));
   if (ru) u.voice = ru;
   u.rate = 1; u.pitch = 1;

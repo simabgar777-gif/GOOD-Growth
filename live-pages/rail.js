@@ -459,7 +459,7 @@ document.addEventListener('gg:i18n', function () {
     acc.innerHTML =
       '<button type="button" class="gg-acc-btn" id="ggAccBtn" aria-haspopup="menu" aria-expanded="false">' +
         '<span class="gg-acc-ava">◈</span>' +
-        '<span class="gg-acc-tx"><b id="ggAccName">' + railT('rail.menu.account', 'Мой аккаунт') + '</b><em id="ggAccPlan">' + railT('rail.planLabel', 'тариф: ') + '—</em></span>' +
+        '<span class="gg-acc-tx"><b id="ggAccName">' + railT('rail.menu.account', 'Мой аккаунт') + '</b><em id="ggAccPlan">' + railT('rail.planLabel', railT('rail.planLabel', 'тариф: ')) + '—</em></span>' +
         '<span class="gg-acc-chev">\u2303</span>' +
       '</button>' +
       '<div class="gg-acc-pop" id="ggAccPop" role="menu" hidden>' +
@@ -504,7 +504,7 @@ document.addEventListener('gg:i18n', function () {
         .catch(function () { location.href = '/login'; });
     });
 
-    var NAMES = { start: 'Старт', growth: 'Рост', pro: 'Про', agency: 'Агентство', unlimited: 'Безлимит' };
+    var NAMES = { start: T('plan.start', 'Старт'), growth: T('plan.growth', 'Рост'), pro: T('plan.pro', 'Про'), agency: T('plan.agency', 'Агентство'), unlimited: T('plan.unlimited', 'Безлимит') };
 
     fetch('/api/me', { credentials: 'same-origin' })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -521,7 +521,7 @@ document.addEventListener('gg:i18n', function () {
     fetch('/api/plan', { credentials: 'same-origin' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
-        if (d && d.plan) acc.querySelector('#ggAccPlan').textContent = 'тариф: ' + (NAMES[d.plan] || d.plan);
+        if (d && d.plan) acc.querySelector('#ggAccPlan').textContent = railT('rail.planLabel', 'тариф: ') + (NAMES[d.plan] || d.plan);
       })
       .catch(function () {});
   });

@@ -76,7 +76,7 @@
     var meta = article.querySelector('.sheet-head .meta');
     if (meta) {
       var dt = d.created_at ? new Date(String(d.created_at).replace(' ', 'T')) : null;
-      var when = dt && !isNaN(dt) ? dt.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) : '';
+      var when = dt && !isNaN(dt) ? dt.toLocaleDateString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { day: 'numeric', month: 'long' }) : '';
       window.__ggMeta = 'разбор № ' + d.id + (when ? ' · ' + when : '') + (d.source === 'demo' ? ' · демо' : '');
       meta.textContent = window.__ggMeta;
     }
@@ -1048,7 +1048,7 @@
           window.speechSynthesis.cancel();
           var u = new SpeechSynthesisUtterance(
             (post.title ? post.title + '. ' : '') + String(post.text || post.body || ''));
-          u.lang = 'ru-RU'; u.rate = 0.95;
+          u.lang = (window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'); u.rate = 0.95;
           window.speechSynthesis.speak(u);
           b.textContent = 'Читаю…';
           u.onend = function () { b.textContent = 'Прослушать'; };
@@ -1157,8 +1157,8 @@
         list.innerHTML = items.slice(0, 30).map(function (g) {
           var dt = g.created_at ? new Date(String(g.created_at).replace(' ', 'T')) : null;
           var when = dt && !isNaN(dt)
-            ? dt.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' }) +
-              ' · ' + dt.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
+            ? dt.toLocaleDateString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { day: '2-digit', month: '2-digit', year: '2-digit' }) +
+              ' · ' + dt.toLocaleTimeString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { hour: '2-digit', minute: '2-digit' })
             : '';
           var cur = String(g.id) === String(currentId) ? ' is-open' : '';
           return '<div class="j-row' + cur + '" data-goal="' + g.id + '">' +

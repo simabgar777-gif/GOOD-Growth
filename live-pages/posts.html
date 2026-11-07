@@ -119,8 +119,8 @@ select:focus,input:focus{border-color:rgba(232,165,79,.5)}
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function status(p){ if (p.published_at) return 'published'; if (p.approved_at) return 'approved'; return 'draft'; }
   var STATUS_RU = { draft: ggT('post.status.draft','черновик'), approved: ggT('post.status.approved','утверждён'), published: ggT('post.status.published','опубликован') };
-  function fmtD(s){ if (!s) return ''; var d = new Date(String(s).replace(' ','T')); return isNaN(d) ? '' : d.toLocaleDateString('ru-RU', { day:'numeric', month:'short', year:'2-digit' }); }
-  function fmtDT(s){ if (!s) return ''; var d = new Date(String(s).replace(' ','T')); return isNaN(d) ? '' : d.toLocaleString('ru-RU', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }); }
+  function fmtD(s){ if (!s) return ''; var d = new Date(String(s).replace(' ','T')); return isNaN(d) ? '' : d.toLocaleDateString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { day:'numeric', month:'short', year:'2-digit' }); }
+  function fmtDT(s){ if (!s) return ''; var d = new Date(String(s).replace(' ','T')); return isNaN(d) ? '' : d.toLocaleString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }); }
   function msg(t, err){ var m = $('msg'); m.textContent = t; m.className = 'msg' + (err ? ' err' : ''); m.style.display = 'block'; setTimeout(function(){ m.style.display = 'none'; }, 3500); }
 
   var pendingAction = null;
