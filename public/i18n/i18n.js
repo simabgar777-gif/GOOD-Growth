@@ -127,6 +127,7 @@
         }
         translateByValue();
         translateBlocks();
+        translateAttrs();
         observe();
       })
       .catch(function () {});
@@ -186,11 +187,13 @@
       if (!t) continue;
       var key = t.replace(/\s+/g, ' ').trim();
       if (!key) continue;
+      var lead = (t.match(/^\s*/) || [''])[0];
+      var trail = (t.match(/\s*$/) || [''])[0];
       var en = RU2EN[key];
-      if (en && en !== key) { n.nodeValue = en; continue; }   /* ставим как есть: переносы в абзацах не мешают */
+      if (en && en !== key) { n.nodeValue = lead + en + trail; continue; }
       if (key.length <= 120) {
         var pat = translatePatterns(key);
-        if (pat) { n.nodeValue = planNames(pat); }
+        if (pat) { n.nodeValue = lead + planNames(pat) + trail; }
       }
     }
   }
@@ -217,16 +220,32 @@
     }
   }
 
+  /* атрибуты: placeholder, title, aria-label — по значению словаря */
+  function translateAttrs() {
+    if (!RU2EN) return;
+    var els = document.querySelectorAll('[placeholder], [title], [aria-label]');
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      ['placeholder', 'title', 'aria-label'].forEach(function (attr) {
+        var v = el.getAttribute(attr);
+        if (!v) return;
+        var key = v.replace(/\s+/g, ' ').trim();
+        var en = RU2EN[key];
+        if (en && en !== key) el.setAttribute(attr, en);
+      });
+    }
+  }
+
   var pending = null;
   function observe() {
     if (!window.MutationObserver || !document.body) return;
     var mo = new MutationObserver(function () {
       if (pending) return;
-      pending = setTimeout(function () { pending = null; translateByValue(); translateBlocks(); }, 350);
+      pending = setTimeout(function () { pending = null; translateByValue(); translateBlocks(); translateAttrs(); }, 350);
     });
     mo.observe(document.body, { childList: true, subtree: true, characterData: true });
   }
-  window.ggRetranslate = function () { translateByValue(); translateBlocks(); };
+  window.ggRetranslate = function () { translateByValue(); translateBlocks(); translateAttrs(); };
 
   fetch(DICT_URL, { cache: 'no-store' })
     .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
