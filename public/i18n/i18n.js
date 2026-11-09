@@ -104,6 +104,7 @@
      крошка, чипы). Для них держим карту «русский текст → английский»
      и проходим по странице после загрузки и после изменений. */
   var RU2EN = null;
+  var PREFIX_IDX = null;      /* первые 44 знака → английский вариант */
 
   function buildValueMap() {
     if (LANG === 'ru') return;
@@ -112,16 +113,58 @@
       .then(function (ru) {
         if (!ru || !dict) return;
         var map = {};
+        var norm = function (v) { return String(v).replace(/\s+/g, ' ').trim(); };
         for (var k in ru) {
           if (typeof ru[k] !== 'string') continue;
           var en = dict[k];
-          if (typeof en === 'string' && en && en !== ru[k]) map[ru[k].trim()] = en;
+          if (typeof en === 'string' && en && en !== ru[k]) map[norm(ru[k])] = en;
         }
         RU2EN = map;
+        PREFIX_IDX = {};
+        for (var rk in map) {
+          var head = rk.slice(0, 44);
+          if (head.length >= 30 && !PREFIX_IDX[head]) PREFIX_IDX[head] = map[rk];
+        }
         translateByValue();
+        translateBlocks();
         observe();
       })
       .catch(function () {});
+  }
+
+
+  /* строки с числами: словарь не может знать все варианты */
+  var PATTERNS = [
+    [/^брендов: (\d+) (?:бренд|бренда|брендов)$/i, 'brands: $1'],
+    [/^каналов: (\d+) (?:канал|канала|каналов)$/i, 'channels: $1'],
+    [/^каналов: (.+)$/i, 'channels: $1'],
+    [/^публикаций в день: (\d+)$/i, 'posts a day: $1'],
+    [/^публикаций: (\d+) (?:пост|поста|постов) в день$/i, 'posts: $1 a day'],
+    [/^публикаций: (.+)$/i, 'posts: $1'],
+    [/^брендов: (.+)$/i, 'brands: $1'],
+    [/^Оплатить (.+)$/i, 'Pay $1'],
+    [/^или (.+) за год$/i, 'or $1 a year'],
+    [/^Сейчас у тебя тариф «(.+)»\.$/i, 'Your plan is “$1”.'],
+    [/^хватит тарифа «(.+)»$/i, 'the “$1” plan is enough'],
+    [/^(.+) ₽$/i, '$1 ₽']
+  ];
+
+  var PLANS = { 'Старт': 'Start', 'Рост': 'Growth', 'Про': 'Pro', 'Агентство': 'Agency', 'Безлимит': 'Unlimited' };
+  function planNames(text) {
+    var out = text;
+    for (var k in PLANS) out = out.split(k).join(PLANS[k]);
+    return out;
+  }
+
+  function translatePatterns(text) {
+    for (var i = 0; i < PATTERNS.length; i++) {
+      var p = PATTERNS[i];
+      if (p[0].test(text)) {
+        var out = text.replace(p[0], p[1]);
+        if (out !== text) return out;
+      }
+    }
+    return null;
   }
 
   function translateByValue() {
@@ -131,10 +174,36 @@
     while ((n = walker.nextNode())) {
       var t = n.nodeValue;
       if (!t) continue;
-      var key = t.trim();
+      var key = t.replace(/\s+/g, ' ').trim();
       if (!key) continue;
       var en = RU2EN[key];
-      if (en && en !== key) n.nodeValue = t.replace(key, en);
+      if (en && en !== key) { n.nodeValue = t.replace(key, en); continue; }
+      if (key.length <= 120) {
+        var pat = translatePatterns(key);
+        if (pat) { n.nodeValue = t.replace(key, planNames(pat)); }
+      }
+    }
+  }
+
+  /* абзацы часто разбиты на куски жирным — переводим блоком */
+  function translateBlocks() {
+    if (!RU2EN) return;
+    var els = document.querySelectorAll('p, li, h2, h3, h4, div, span, small');
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      if (el.closest('.gg-rail') || el.closest('script') || el.closest('style')) continue;
+      if (el.childElementCount > 6) continue;
+      var txt = (el.innerText || '').replace(/\s+/g, ' ').trim();
+      if (!txt || txt.length > 400) continue;
+      if (!/[А-Яа-яЁё]/.test(txt)) continue;
+      var en = RU2EN[txt];
+      if (!en && PREFIX_IDX && txt.length >= 30) en = PREFIX_IDX[txt.slice(0, 44)];
+      if (!en) continue;
+      if (/[<]/.test(el.innerHTML)) {
+        el.textContent = planNames(en);       /* теряем жирный, сохраняем смысл */
+      } else {
+        el.textContent = planNames(en);
+      }
     }
   }
 
@@ -143,11 +212,11 @@
     if (!window.MutationObserver || !document.body) return;
     var mo = new MutationObserver(function () {
       if (pending) return;
-      pending = setTimeout(function () { pending = null; translateByValue(); }, 350);
+      pending = setTimeout(function () { pending = null; translateByValue(); translateBlocks(); }, 350);
     });
     mo.observe(document.body, { childList: true, subtree: true, characterData: true });
   }
-  window.ggRetranslate = translateByValue;
+  window.ggRetranslate = function () { translateByValue(); translateBlocks(); };
 
   fetch(DICT_URL, { cache: 'no-store' })
     .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
