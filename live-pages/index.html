@@ -647,5 +647,34 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script>
+
+<script>
+/* язык на Столе и Цели: кнопки статичные, поэтому оживляем их здесь */
+(function () {
+  function ggLangPaint() {
+    var btns = document.querySelectorAll('[data-lang]');
+    if (!btns.length) return;
+    var cur = (window.ggLang && window.ggLang()) || 'ru';
+    for (var i = 0; i < btns.length; i++) {
+      var l = btns[i].getAttribute('data-lang');
+      var ready = !window.ggLangReady || window.ggLangReady(l);
+      btns[i].setAttribute('aria-pressed', l === cur ? 'true' : 'false');
+      btns[i].classList.toggle('is-on', l === cur);
+      if (!ready) btns[i].title = 'в работе'; else btns[i].removeAttribute('title');
+    }
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-lang]');
+    if (!b) return;
+    e.preventDefault();
+    var l = b.getAttribute('data-lang');
+    if (window.ggSetLang && !window.ggSetLang(l)) return;
+  });
+  document.addEventListener('gg:i18n', ggLangPaint);
+  ggLangPaint();
+  setTimeout(ggLangPaint, 400);
+  setTimeout(ggLangPaint, 1500);
+})();
+</script>
 </body>
 </html>
