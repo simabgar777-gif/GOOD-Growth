@@ -180,6 +180,19 @@
         step(a.scheduled, 'Поставил в очередь') +
         step(a.published, 'Опубликовал') +
       '</ul>' +
+      '<div class="ad-help">' +
+        '<button type="button" class="ad-help-btn" data-help="' + (u.id || '') + '">Помочь этому человеку</button>' +
+        '<div id="adHelp" class="ad-help-box" hidden>' +
+          '<label>Тема</label><input id="adHelpSubj" type="text" />' +
+          '<label>Письмо</label><textarea id="adHelpText" rows="12"></textarea>' +
+          '<div class="ad-help-acts">' +
+            '<button type="button" class="ad-send" id="adHelpSend">Отправить</button>' +
+            '<button type="button" class="ad-copy" id="adHelpCopy">Скопировать</button>' +
+            '<span class="ad-help-note" id="adHelpNote"></span>' +
+          '</div>' +
+        '</div>' +
+        '<h4 class="ad-h4">История заботы</h4><div id="adHelpHistory" class="ad-help-hist"></div>' +
+      '</div>' +
       '<h4 class="ad-h4">Последние посты</h4>' +
       ((d.posts || []).length
         ? '<ul class="ad-list">' + d.posts.map(function (p) {
@@ -200,6 +213,37 @@
         : '<p class="ad-empty">Входов нет.</p>');
   }
 
+  var helpUser = null;
+
+  function loadHelp(id) {
+    helpUser = id;
+    var box = document.getElementById('adHelp');
+    var note = document.getElementById('adHelpNote');
+    box.hidden = false;
+    note.textContent = 'Готовлю письмо…';
+    fetch('/api/admin/user/' + id + '/help', { credentials: 'same-origin', headers: { 'Cache-Control': 'no-cache' } })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        document.getElementById('adHelpSubj').value = d.subject || '';
+        document.getElementById('adHelpText').value = d.text || '';
+        note.textContent = d.resend ? 'Почта подключена — письмо уйдёт сразу.'
+                                   : 'Почта ещё не подключена: письмо сохранится и скопируется, отправишь вручную.';
+        paintHistory(d.history || []);
+      })
+      .catch(function () { note.textContent = 'Не удалось подготовить письмо.'; });
+  }
+
+  function paintHistory(list) {
+    var el = document.getElementById('adHelpHistory');
+    if (!el) return;
+    el.innerHTML = (list && list.length)
+      ? list.map(function (x) {
+          return '<div class="ad-hist-row"><b>' + (x.status === 'sent' ? 'отправлено' : (x.status === 'failed' ? 'ошибка' : 'скопировано')) +
+                 '</b><span>' + dt(x.created_at) + '</span><em>' + esc(x.subject || '') + '</em></div>';
+        }).join('')
+      : '<p class="ad-empty">Пока не писали.</p>';
+  }
+
   function openCard(id) {
     var dr = document.getElementById('adDrawer');
     dr.hidden = false;
@@ -216,6 +260,39 @@
   }
 
   document.addEventListener('click', function (e) {
+    var hb = e.target.closest && e.target.closest('button[data-help]');
+    if (hb) { loadHelp(hb.getAttribute('data-help')); return; }
+
+    if (e.target.closest && e.target.closest('#adHelpSend')) {
+      var note = document.getElementById('adHelpNote');
+      note.textContent = 'Отправляю…';
+      fetch('/api/admin/user/' + helpUser + '/help', {
+        method: 'POST', credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          subject: document.getElementById('adHelpSubj').value,
+          text: document.getElementById('adHelpText').value
+        })
+      }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (x) {
+          if (x.ok) {
+            var done = x.d.delivered === 'email' ? 'Отправлено на почту.' : (x.d.note || 'Сохранено.');
+            if (x.d.delivered === 'copy') { try { navigator.clipboard.writeText(document.getElementById('adHelpText').value); } catch (err) {} }
+            loadHelp(helpUser);
+            setTimeout(function () { document.getElementById('adHelpNote').textContent = done; }, 500);
+          } else { note.textContent = (x.d && x.d.error) || 'Не получилось.'; }
+        })
+        .catch(function () { note.textContent = 'Сеть недоступна.'; });
+      return;
+    }
+
+    if (e.target.closest && e.target.closest('#adHelpCopy')) {
+      var ta = document.getElementById('adHelpText');
+      ta.select();
+      try { navigator.clipboard.writeText(ta.value); document.getElementById('adHelpNote').textContent = 'Скопировано.'; } catch (err) {}
+      return;
+    }
+
     var n = e.target.closest && e.target.closest('button[data-card]');
     if (n) { openCard(n.getAttribute('data-card')); return; }
     if (e.target.closest && e.target.closest('#adClose')) {
