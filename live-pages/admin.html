@@ -32,6 +32,14 @@
     <a class="gg-btn-gold" href="/app">Вернуться на Стол</a>
   </div>
 
+  <div id="adDrawer" class="ad-drawer" hidden>
+    <div class="ad-drawer-head">
+      <div><span class="ad-drawer-lab">Карточка человека</span><h3 id="adCardName">—</h3><p id="adCardMail" class="ad-mail">—</p></div>
+      <button type="button" class="ad-close" id="adClose">×</button>
+    </div>
+    <div id="adCardBody" class="ad-drawer-body"></div>
+  </div>
+
   <div id="adBody" hidden>
     <div class="ad-cards" id="adCards"></div>
 
@@ -41,7 +49,7 @@
         <div class="ad-table-wrap">
           <table class="ad-table">
             <thead><tr>
-              <th>#</th><th>Человек</th><th>Пришёл</th><th>Тариф</th><th>Цели</th><th>Посты</th><th>Последний вход</th><th>Статус</th><th></th>
+              <th>#</th><th>Человек</th><th>Пришёл</th><th>Тариф</th><th>Цели</th><th>Посты</th><th>Последний вход</th><th>IP</th><th>Статус</th><th></th>
             </tr></thead>
             <tbody id="adUsers"></tbody>
           </table>
@@ -49,12 +57,17 @@
       </div>
     </div>
 
+    <div class="gg-blk" id="adIpsBlock" hidden>
+      <div class="gg-blk-h"><h2>Один IP — много людей</h2><span class="gg-blk-q">возможные боты</span></div>
+      <div class="gg-blk-b"><div id="adIps" class="ad-ips"></div></div>
+    </div>
+
     <div class="gg-blk">
       <div class="gg-blk-h"><h2>Входы</h2><span class="gg-blk-q">последние сессии</span></div>
       <div class="gg-blk-b">
         <div class="ad-table-wrap">
           <table class="ad-table">
-            <thead><tr><th>Когда</th><th>Кто</th><th>Действует до</th></tr></thead>
+            <thead><tr><th>Когда</th><th>Кто</th><th>IP</th><th>Действует до</th></tr></thead>
             <tbody id="adSessions"></tbody>
           </table>
         </div>
@@ -118,12 +131,13 @@
       }).join('');
       return '<tr>' +
         '<td class="ad-id">' + u.id + '</td>' +
-        '<td><b>' + esc(u.name || '—') + '</b><div class="ad-mail">' + esc(u.email) + '</div></td>' +
+        '<td><button type="button" class="ad-name" data-card="' + u.id + '">' + esc(u.name || '—') + '</button><div class="ad-mail">' + esc(u.email) + '</div></td>' +
         '<td>' + dt(u.created_at) + '</td>' +
         '<td><select class="ad-plan" data-id="' + u.id + '">' + opts + '</select></td>' +
         '<td>' + (u.goals || 0) + '</td>' +
         '<td>' + (u.posts || 0) + '</td>' +
         '<td>' + dt(u.last_login) + '</td>' +
+        '<td class="ad-ip">' + esc(u.last_ip || '—') + '</td>' +
         '<td>' + (u.banned ? '<span class="ad-badge is-bad">заблокирован</span>' : '<span class="ad-badge">активен</span>') + '</td>' +
         '<td class="ad-acts">' +
           '<button type="button" data-ban="' + u.id + '" data-next="' + (u.banned ? 0 : 1) + '">' + (u.banned ? 'Разблокировать' : 'Блокировать') + '</button>' +
@@ -132,10 +146,82 @@
       '</tr>';
     }).join('') || '<tr><td colspan="9" class="ad-empty">Пока никого.</td></tr>';
 
+    var ips = d.ips || [];
+    var ipsBlock = document.getElementById('adIpsBlock');
+    if (ips.length) {
+      ipsBlock.hidden = false;
+      document.getElementById('adIps').innerHTML = ips.map(function (x) {
+        return '<span class="ad-ipchip">' + esc(x.ip) + ' · людей: ' + x.n + '</span>';
+      }).join('');
+    }
+
     document.getElementById('adSessions').innerHTML = (d.sessions || []).map(function (x) {
-      return '<tr><td>' + dt(x.created_at) + '</td><td>' + esc(x.email || ('#' + x.user_id)) + '</td><td>' + dt(x.expires_at) + '</td></tr>';
+      return '<tr><td>' + dt(x.created_at) + '</td><td>' + esc(x.email || ('#' + x.user_id)) + '</td><td class="ad-ip">' + esc(x.ip || '—') + '</td><td>' + dt(x.expires_at) + '</td></tr>';
     }).join('') || '<tr><td colspan="3" class="ad-empty">Сессий нет.</td></tr>';
   }
+
+  function card(d) {
+    var f = d.facts || {}, a = d.activation || {}, u = d.user || {};
+    function step(ok, txt) { return '<li class="' + (ok ? 'is-done' : '') + '">' + (ok ? '✓' : '○') + ' ' + txt + '</li>'; }
+    var ips = (d.sessions || []).map(function (s) { return s.ip || '—'; }).filter(function (v, i, arr) { return arr.indexOf(v) === i; });
+    return '' +
+      '<div class="ad-facts">' +
+        '<div><span>Пришёл</span><b>' + dt(u.created_at) + '</b></div>' +
+        '<div><span>Тариф</span><b>' + esc(PLANS[u.plan] || u.plan || '—') + '</b></div>' +
+        '<div><span>Последний вход</span><b>' + dt(u.last_login) + '</b></div>' +
+        '<div><span>IP</span><b>' + esc(u.last_ip || ips[0] || '—') + '</b></div>' +
+        '<div><span>Постов</span><b>' + (f.posts || 0) + '</b></div>' +
+        '<div><span>В очереди</span><b>' + (f.scheduled || 0) + '</b></div>' +
+      '</div>' +
+      '<h4 class="ad-h4">Дошёл ли до результата</h4>' +
+      '<ul class="ad-steps">' +
+        step(a.madeGoal, 'Создал цель') +
+        step(a.madePost, 'Создал первый пост') +
+        step(a.scheduled, 'Поставил в очередь') +
+        step(a.published, 'Опубликовал') +
+      '</ul>' +
+      '<h4 class="ad-h4">Последние посты</h4>' +
+      ((d.posts || []).length
+        ? '<ul class="ad-list">' + d.posts.map(function (p) {
+            return '<li><b>' + esc(p.t || '—') + '</b><em>' + (p.published_at ? 'опубликован ' + dt(p.published_at) : (p.scheduled_at ? 'выйдет ' + dt(p.scheduled_at) : 'черновик')) + '</em></li>';
+          }).join('') + '</ul>'
+        : '<p class="ad-empty">Постов нет.</p>') +
+      '<h4 class="ad-h4">Цели</h4>' +
+      ((d.goals || []).length
+        ? '<ul class="ad-list">' + d.goals.map(function (g) {
+            return '<li><b>' + esc(g.t || '—') + '</b><em>' + dt(g.created_at) + '</em></li>';
+          }).join('') + '</ul>'
+        : '<p class="ad-empty">Целей нет.</p>') +
+      '<h4 class="ad-h4">Входы</h4>' +
+      ((d.sessions || []).length
+        ? '<ul class="ad-list">' + d.sessions.map(function (s) {
+            return '<li><b>' + dt(s.created_at) + '</b><em>' + esc(s.ip || '—') + '</em></li>';
+          }).join('') + '</ul>'
+        : '<p class="ad-empty">Входов нет.</p>');
+  }
+
+  function openCard(id) {
+    var dr = document.getElementById('adDrawer');
+    dr.hidden = false;
+    document.getElementById('adCardBody').innerHTML = '<p class="ad-empty">Загружаю…</p>';
+    fetch('/api/admin/user/' + id, { credentials: 'same-origin', headers: { 'Cache-Control': 'no-cache' } })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d || !d.user) { document.getElementById('adCardBody').innerHTML = '<p class="ad-empty">Не найдено.</p>'; return; }
+        document.getElementById('adCardName').textContent = d.user.name || ('#' + d.user.id);
+        document.getElementById('adCardMail').textContent = d.user.email;
+        document.getElementById('adCardBody').innerHTML = card(d);
+      })
+      .catch(function () { document.getElementById('adCardBody').innerHTML = '<p class="ad-empty">Сеть недоступна.</p>'; });
+  }
+
+  document.addEventListener('click', function (e) {
+    var n = e.target.closest && e.target.closest('button[data-card]');
+    if (n) { openCard(n.getAttribute('data-card')); return; }
+    if (e.target.closest && e.target.closest('#adClose')) {
+      document.getElementById('adDrawer').hidden = true;
+    }
+  });
 
   document.addEventListener('change', function (e) {
     var sel = e.target.closest && e.target.closest('.ad-plan');
