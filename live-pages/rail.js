@@ -2,6 +2,22 @@
 function T(k, d) { return (window.ggT ? window.ggT(k, d) : d); }
 /* общий перевод для всех блоков этого файла */
 function railT(k, d) { return (window.ggT ? window.ggT(k, d) : d); }
+
+/* админ-панель: пункт в меню виден только капитану */
+window.__ggIsAdmin = false;
+function paintAdminLink() {
+  var a = document.getElementById('ggAccAdmin');
+  if (a && window.__ggIsAdmin) a.hidden = false;
+}
+fetch('/api/admin/whoami', { credentials: 'same-origin' })
+  .then(function (r) { return r.ok ? r.json() : null; })
+  .then(function (d) {
+    window.__ggIsAdmin = !!(d && d.admin);
+    paintAdminLink();
+    setTimeout(paintAdminLink, 500);
+    setTimeout(paintAdminLink, 1600);
+  })
+  .catch(function () {});
 /* ============================================================
    GOOD Growth · поведение ЛЕВОЙ ПАНЕЛИ (приказ №76)
 
@@ -476,6 +492,7 @@ document.addEventListener('gg:i18n', function () {
     var rail = document.getElementById('gg-rail');
     if (!rail) return;
     document.body.classList.add('gg-acc-ready');
+    setTimeout(function () { if (typeof paintAdminLink === 'function') paintAdminLink(); }, 0);
 
     var acc = document.createElement('div');
     acc.className = 'gg-acc';
@@ -493,6 +510,7 @@ document.addEventListener('gg:i18n', function () {
         '<a role="menuitem" href="/app/billing">' + railT('rail.menu.billing', 'Оплата') + '</a>' +
         '<a role="menuitem" href="/partner/info">' + railT('rail.menu.partners', 'Партнёрам') + '</a>' +
         '<a role="menuitem" href="/partner/cabinet">' + railT('rail.menu.cabinet', 'Партнёрский кабинет') + '</a>' +
+        '<a role="menuitem" href="/admin" id="ggAccAdmin" hidden>Админ-панель</a>' +
         '<a role="menuitem" href="mailto:hello@growth.go-ood.com">' + railT('rail.menu.help', 'Помощь') + '</a>' +
         '<button type="button" role="menuitem" id="ggAccTheme">' + railT('rail.menu.theme', 'Сменить тему') + '</button>' +
         '<button type="button" role="menuitem" class="danger" id="ggAccOut">Выйти</button>' +
