@@ -244,6 +244,25 @@
       : '<p class="ad-empty">Пока не писали.</p>';
   }
 
+  function closeDrawer() {
+    var dr = document.getElementById('adDrawer');
+    if (dr) dr.hidden = true;
+    document.body.classList.remove('ad-drawer-open');
+  }
+
+  /* закрыть можно крестиком, кликом мимо карточки и клавишей Esc */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeDrawer();
+  });
+
+  document.addEventListener('pointerdown', function (e) {
+    var dr = document.getElementById('adDrawer');
+    if (!dr || dr.hidden) return;
+    if (e.target.closest && e.target.closest('#adDrawer')) return;
+    if (e.target.closest && e.target.closest('button[data-card]')) return;  /* клик по имени открывает заново */
+    closeDrawer();
+  });
+
   function openCard(id) {
     var dr = document.getElementById('adDrawer');
     dr.hidden = false;
@@ -295,9 +314,7 @@
 
     var n = e.target.closest && e.target.closest('button[data-card]');
     if (n) { openCard(n.getAttribute('data-card')); return; }
-    if (e.target.closest && e.target.closest('#adClose')) {
-      document.getElementById('adDrawer').hidden = true;
-    }
+    if (e.target.closest && e.target.closest('#adClose')) { closeDrawer(); return; }
   });
 
   document.addEventListener('change', function (e) {
