@@ -103,7 +103,7 @@ select:focus{border-color:rgba(232,165,79,.5)}
       <p class="clk-lab" data-i18n="clock.nextPost">Следующий пост</p>
       <p class="clk-when" id="clkWhen">—</p>
       <p class="clk-left" id="clkLeft">—</p>
-      <p class="clk-now">сейчас <b id="clkNow">—</b> МСК · в очереди <b id="clkQ">0</b></p>
+      <p class="clk-now"><span data-i18n="clock.now">сейчас </span><b id="clkNow">—</b> <span id="clkZone">МСК</span> · <span data-i18n="clock.queue">в очереди </span><b id="clkQ">0</b></p>
     </div>
   </section>
 
@@ -208,14 +208,14 @@ select:focus{border-color:rgba(232,165,79,.5)}
   var ALL = [], BRANDS = [];
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   var STATUS_RU = { scheduled: ggT('post.status.scheduled','запланирован'), failed: ggT('post.status.failed','сбой'), published: ggT('post.status.published','опубликован') };
-  function fmtDT(s){ if (!s) return '—'; var d = new Date(String(s).replace(' ','T')); return isNaN(d) ? String(s).slice(0,16) : d.toLocaleString('ru-RU', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }); }
+  function fmtDT(s){ if (!s) return '—'; var d = new Date(String(s).replace(' ','T')); return isNaN(d) ? String(s).slice(0,16) : d.toLocaleString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }); }
   function msg(t, err){ var m = $('msg'); m.textContent = t; m.className = 'msg' + (err ? ' err' : ''); m.style.display = 'block'; setTimeout(function(){ m.style.display = 'none'; }, 3800); }
 
   function tickClock(){
     try {
       var el = $('clock'); if (!el) return;
       var d = new Date(Date.now() + (3 * 60 + new Date().getTimezoneOffset()) * 60000);
-      el.textContent = d.toLocaleString('ru-RU', { weekday:'short', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit', second:'2-digit' }) + ' МСК';
+      el.textContent = d.toLocaleString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { weekday:'short', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit', second:'2-digit' }) + ' МСК';
     } catch (e) {}
   }
   setInterval(tickClock, 1000); tickClock();
@@ -459,7 +459,7 @@ select:focus{border-color:rgba(232,165,79,.5)}
     var leftMs = nTime.getTime() - t;
     var spanTxt = span(leftMs);
     el.left.textContent = leftMs > 0 ? T('clock.after', 'через ') + spanTxt : T('clock.outNow', 'выходит сейчас');
-    if (el.until) el.until.textContent = 'до выхода — ' + (leftMs > 0 ? span(leftMs).replace('через ', '') : 'сейчас');
+    if (el.until) el.until.textContent = T('clock.until', 'до выхода — ') + (leftMs > 0 ? spanTxt : T('clock.outNow', 'выходит сейчас'));
 
     /* дуга: сколько осталось от окна между прошлым и следующим постом */
     var prev = null;

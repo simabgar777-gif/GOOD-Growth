@@ -34,7 +34,7 @@
   function fmtDate(s) {
     if (!s) return '';
     var d = new Date(String(s).replace(' ', 'T'));
-    return isNaN(d) ? '' : d.toLocaleDateString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { day: 'numeric', month: 'short' });
+    return isNaN(d) ? '' : d.toLocaleDateString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : (window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU')), { day: 'numeric', month: 'short' });
   }
 
   var NUM = { goals: null, posts: null, published: null, channels: null };

@@ -211,7 +211,7 @@
       var text = src ? (src.textContent || '').trim().slice(0, 1200) : '';
       if (!text) return;
       var u = new SpeechSynthesisUtterance(text);
-      u.lang = (window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU');
+      u.lang = (window.ggLang && window.ggLang() === 'en' ? 'en-GB' : (window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'));
       u.rate = 1;
       u.onend = stop;
       u.onerror = stop;

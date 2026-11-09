@@ -80,7 +80,7 @@
   <script>
   (function () {
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const fmtDate = (s) => { if (!s) return '—'; const d = new Date(String(s).replace(' ', 'T')); return isNaN(d) ? '—' : d.toLocaleDateString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU'), { day: 'numeric', month: 'short' }); };
+    const fmtDate = (s) => { if (!s) return '—'; const d = new Date(String(s).replace(' ', 'T')); return isNaN(d) ? '—' : d.toLocaleDateString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : (window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU')), { day: 'numeric', month: 'short' }); };
     async function load() {
       try {
         const d = await (await fetch('/api/analytics')).json();

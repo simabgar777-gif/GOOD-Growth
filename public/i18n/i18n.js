@@ -135,6 +135,16 @@
 
   /* строки с числами: словарь не может знать все варианты */
   var PATTERNS = [
+    [/^(\d+) из (\d+)$/i, '$1 of $2'],
+    [/^Тариф: (Старт|Рост|Про|Агентство|Безлимит)$/i, function (m) {
+      var P2 = { 'Старт': 'Start', 'Рост': 'Growth', 'Про': 'Pro', 'Агентство': 'Agency', 'Безлимит': 'Unlimited' };
+      return 'Plan: ' + (P2[m[1]] || m[1]);
+    }],
+    [/^(\d+) из (\d+) · весь путь пройден$/i, '$1 of $2 · the whole path is done'],
+    [/^0?(\d) · сделано$/i, '0$1 · done'],
+    [/^Запланировать (\d+) (?:пост|поста|постов)$/i, 'Schedule $1 posts'],
+    [/^(\d+) (?:пост|поста|постов) ещё не вышли$/i, "$1 posts haven't gone out yet"],
+    [/^(\d+) (?:пост|поста|постов) в месяц$/i, '$1 posts a month'],
     [/^брендов: (\d+) (?:бренд|бренда|брендов)$/i, 'brands: $1'],
     [/^каналов: (\d+) (?:канал|канала|каналов)$/i, 'channels: $1'],
     [/^каналов: (.+)$/i, 'channels: $1'],
@@ -160,7 +170,7 @@
     for (var i = 0; i < PATTERNS.length; i++) {
       var p = PATTERNS[i];
       if (p[0].test(text)) {
-        var out = text.replace(p[0], p[1]);
+        var out = (typeof p[1] === 'function') ? text.replace(p[0], p[1]) : text.replace(p[0], p[1]);
         if (out !== text) return out;
       }
     }
