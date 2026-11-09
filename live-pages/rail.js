@@ -427,6 +427,15 @@ document.addEventListener('gg:i18n', function () {
     var map = { 'rail.menu.settings': 'Настройки', 'rail.menu.channels': 'Каналы', 'rail.menu.plans': 'Тарифы',
                 'rail.menu.billing': 'Оплата', 'rail.menu.partners': 'Партнёрам', 'rail.menu.cabinet': 'Партнёрский кабинет',
                 'rail.menu.help': 'Помощь', 'rail.menu.theme': 'Сменить тему', 'rail.menu.logout': 'Выйти' };
+    var planEl = document.getElementById('ggAccPlan');
+    if (planEl && window.ggPlanCode) {
+      var PN = {
+        start: railT('plan.start', 'Старт'), growth: railT('plan.growth', 'Рост'),
+        pro: railT('plan.pro', 'Про'), agency: railT('plan.agency', 'Агентство'),
+        unlimited: railT('plan.unlimited', 'Безлимит')
+      };
+      planEl.textContent = railT('rail.planLabel', 'тариф: ') + (PN[window.ggPlanCode] || window.ggPlanCode);
+    }
     var pop = document.getElementById('ggAccPop');
     if (!pop) return;
     var items = pop.querySelectorAll('a[role="menuitem"], button[role="menuitem"]');
@@ -445,6 +454,18 @@ document.addEventListener('gg:i18n', function () {
     }
   } catch (e) {}
 });
+
+/* подпись тарифа: имя зависит от языка, поэтому её перерисовываем */
+  function paintPlan() {
+    var el = document.getElementById('ggAccPlan');
+    if (!el || !window.ggPlanCode) return;
+    var PN = {
+      start: railT('plan.start', 'Старт'), growth: railT('plan.growth', 'Рост'),
+      pro: railT('plan.pro', 'Про'), agency: railT('plan.agency', 'Агентство'),
+      unlimited: railT('plan.unlimited', 'Безлимит')
+    };
+    el.textContent = railT('rail.planLabel', 'тариф: ') + (PN[window.ggPlanCode] || window.ggPlanCode);
+  }
 
 (function accountBlock() {
   function ready(fn) {
@@ -523,7 +544,12 @@ document.addEventListener('gg:i18n', function () {
     fetch('/api/plan', { credentials: 'same-origin' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
-        if (d && d.plan) acc.querySelector('#ggAccPlan').textContent = railT('rail.planLabel', 'тариф: ') + (NAMES[d.plan] || d.plan);
+        if (d && d.plan) {
+      window.ggPlanCode = d.plan;
+      paintPlan();
+      setTimeout(paintPlan, 900);      /* словарь может прийти позже — повторим */
+      setTimeout(paintPlan, 2500);
+    }
       })
       .catch(function () {});
   });
