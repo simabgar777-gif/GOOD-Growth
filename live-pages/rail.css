@@ -67,7 +67,7 @@ body.gg-with-rail {
 .gg-rail-logo i {
   display: block;
   font-style: normal;
-  font-size: 8px;
+  font-size: 10.5px;
   letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--fg-3, #8B8B95);
@@ -272,7 +272,7 @@ html[data-theme="light"] .gg-rail-out { color: #5F5B52 !important; }
 .gg-rail-logo { gap: 9px !important; padding: 2px 4px 14px !important; }
 .gg-rail-logo .gg-t { display: flex; flex-direction: column; justify-content: center; gap: 1px; }
 .gg-rail-logo b { font-size: 14px !important; line-height: 1.1 !important; }
-.gg-rail-logo i { font-size: 9px !important; letter-spacing: .14em !important; line-height: 1.2 !important; }
+.gg-rail-logo i { font-size: 11px !important; letter-spacing: .14em !important; line-height: 1.2 !important; }
 
 /* знак крупнее общего правила для иконок панели (там 16px) */
 .gg-rail-logo .gg-mark { width: 22px; height: 29px; }
@@ -342,7 +342,7 @@ body.gg-with-rail { transition: padding-left .22s ease; }
 }
 .gg-acc-tx { display: flex; flex-direction: column; min-width: 0; }
 .gg-acc-tx b { font-size: 12.5px; color: var(--ink, #F4F4F5); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.gg-acc-tx em { font-style: normal; font-size: 10.5px; color: var(--faint, #6E6E78); }
+.gg-acc-tx em { font-style: normal; font-size: 11px; color: var(--faint, #6E6E78); }
 .gg-acc-chev { margin-left: auto; font-size: 11px; opacity: .5; }
 
 .gg-acc-pop {
@@ -352,7 +352,7 @@ body.gg-with-rail { transition: padding-left .22s ease; }
 }
 .gg-acc-head { padding: 10px 10px 12px; border-bottom: 1px solid rgba(255,255,255,.07); margin-bottom: 6px; }
 .gg-acc-head b { display: block; font-size: 12px; color: var(--ink, #F4F4F5); word-break: break-all; }
-.gg-acc-head em { font-style: normal; font-size: 10.5px; color: var(--faint, #6E6E78); }
+.gg-acc-head em { font-style: normal; font-size: 11px; color: var(--faint, #6E6E78); }
 .gg-acc-pop a, .gg-acc-pop button {
   display: block; width: 100%; text-align: left; text-decoration: none;
   padding: 9px 10px; border-radius: 9px; border: 0; background: transparent;
