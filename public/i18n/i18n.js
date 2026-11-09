@@ -177,10 +177,10 @@
       var key = t.replace(/\s+/g, ' ').trim();
       if (!key) continue;
       var en = RU2EN[key];
-      if (en && en !== key) { n.nodeValue = t.replace(key, en); continue; }
+      if (en && en !== key) { n.nodeValue = en; continue; }   /* ставим как есть: переносы в абзацах не мешают */
       if (key.length <= 120) {
         var pat = translatePatterns(key);
-        if (pat) { n.nodeValue = t.replace(key, planNames(pat)); }
+        if (pat) { n.nodeValue = planNames(pat); }
       }
     }
   }
