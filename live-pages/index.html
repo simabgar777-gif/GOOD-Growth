@@ -823,7 +823,7 @@ html.gg-desk #deskSection[hidden] { display: block !important; }
 </script>
 
 <script>
-/* открыть конкретный пост: /app/strategy?goal=..&post=.. или #post-.. */
+/* открыть конкретный пост: сразу шаг «Посты» и редактор этого поста */
 (function () {
   function wanted() {
     try {
@@ -835,14 +835,32 @@ html.gg-desk #deskSection[hidden] { display: block !important; }
   }
   var id = wanted();
   if (!id) return;
+
+  var opened = false;
   var tries = 0;
-  var timer = setInterval(function () {
+  var findCard = setInterval(function () {
     var card = document.querySelector('.post-card[data-post-id="' + id + '"]');
-    if (card) {
-      clearInterval(timer);
-      card.classList.add('is-target');
-      try { card.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) { card.scrollIntoView(); }
-    } else if (++tries > 60) { clearInterval(timer); }
+    if (!card) { if (++tries > 60) clearInterval(findCard); return; }
+    clearInterval(findCard);
+
+    /* 1) уходим со шага «Цель» на «Посты» — иначе карточки не видно */
+    var step4 = document.querySelector('.ggstep-i[data-step="4"]');
+    if (step4 && !step4.classList.contains('is-on')) step4.click();
+
+    var n = 0;
+    var waitBtn = setInterval(function () {
+      var card2 = document.querySelector('.post-card[data-post-id="' + id + '"]');
+      var btn = document.querySelector('button[data-edit="' + id + '"]');
+      if (card2 && btn) {
+        clearInterval(waitBtn);
+        card2.classList.add('is-target');
+        try { card2.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) {}
+        if (!opened) {
+          opened = true;
+          setTimeout(function () { try { btn.click(); } catch (e) {} }, 500);
+        }
+      } else if (++n > 50) { clearInterval(waitBtn); }
+    }, 200);
   }, 250);
 })();
 </script>
