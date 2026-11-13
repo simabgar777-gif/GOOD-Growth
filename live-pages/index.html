@@ -3,6 +3,7 @@
 <head>
 <script>(function(){try{var h=document.documentElement;if(localStorage.getItem("gg_rail")==="1")h.classList.add("gg-rail-collapsed");h.classList.add("gg-acc-ready");}catch(e){}})();</script>
 <meta charset="utf-8" />
+<script>(function(){try{var p=location.pathname.replace(/\/+$/,"")||"/";if(p==="/app")document.documentElement.classList.add("gg-desk");}catch(e){}})();</script>
 <script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.removeAttribute("data-theme");d.setAttribute("data-theme-src","system")}else{d.setAttribute("data-theme",t==="light"?"light":"dark")}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>GOOD Growth — от цели до готовых постов</title>
@@ -411,6 +412,15 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 body.is-desk .ggstep, body.is-desk .gghead, body.is-desk .ggpath,
 body.is-desk #ggNext, body.is-desk #emptyState { display:none !important; }
     body.is-workshop #deskSection { display:none !important; }
+
+
+/* Стол без вспышки: прячем мастерскую ещё до загрузки скриптов (класс ставит head) */
+html.gg-desk .ggstep, html.gg-desk .gghead, html.gg-desk .ggpath,
+html.gg-desk #ggNext, html.gg-desk #emptyState,
+html.gg-desk .hero, html.gg-desk .composer, html.gg-desk #razbor,
+html.gg-desk #postsSec, html.gg-desk #journal { display: none !important; }
+html.gg-desk #deskSection { display: block !important; }
+html.gg-desk #deskSection[hidden] { display: block !important; }
 
 </style>
 </head>
