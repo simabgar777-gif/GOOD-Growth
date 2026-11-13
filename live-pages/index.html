@@ -295,7 +295,75 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
     .ggf-counter span { display:block; font-size:11px; color:var(--faint); }
     .ggf-reuse { display:none; } .ggf-reuse.open { display:block; }
 
-    /* «Стол» */
+    
+/* ══ СТОЛ v2 · вахтенный дашборд ══════════════════════════════ */
+.d2-head{display:flex;align-items:center;gap:14px;margin-bottom:4px}
+.d2-head h1{font-family:var(--font-display);font-weight:500;font-size:clamp(28px,3.4vw,44px);letter-spacing:-.02em;margin:0}
+.d2-search{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border:1px solid var(--border);border-radius:999px;
+  background:var(--bg-soft);color:var(--faint);font-size:13px}
+.d2-search .d2-ic{opacity:.7}
+.d2-create{display:inline-flex;align-items:center;padding:11px 20px;border-radius:999px;background:var(--amber);color:var(--amber-ink);
+  font-size:14px;font-weight:600;transition:.18s}
+.d2-create:hover{filter:brightness(1.06)}
+.d2-state{display:flex;align-items:center;gap:9px;flex-wrap:wrap;color:var(--muted);font-size:13.5px;margin:6px 0 24px}
+.d2-state i{font-style:normal;color:var(--faint)}
+.d2-state .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);display:inline-block}
+.d2-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.d2-tile{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-m,14px);padding:17px 19px 15px}
+.d2-lab{font-family:var(--font-mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint)}
+.d2-num{font-family:var(--font-display);font-size:38px;line-height:1.06;margin:7px 0 3px}
+.d2-num em{font-family:var(--font-body);font-style:normal;font-size:17px;color:var(--faint)}
+.d2-sub{font-size:12.5px;color:var(--muted)}
+.d2-sub b{color:var(--fg);font-weight:500}
+.d2-sub .up{color:var(--amber)}
+.d2-att{display:flex;align-items:center;gap:13px;padding:11px 0;border-bottom:1px solid var(--border)}
+.d2-att:last-child{border-bottom:0;padding-bottom:0}
+.d2-att:first-child{padding-top:0}
+.d2-tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;
+  border:1px solid rgba(232,163,61,.34);color:var(--amber);background:var(--amber-soft);white-space:nowrap}
+.d2-tag.q{border-color:var(--border-strong);color:var(--faint);background:transparent}
+.d2-att .tx{flex:1;font-size:14px}
+.d2-att .tx small{display:block;color:var(--faint);font-size:12.5px}
+.d2-go{font-size:12.5px;color:var(--amber);border-bottom:1px dotted rgba(232,163,61,.5);padding-bottom:1px;white-space:nowrap}
+.d2-week{display:flex;gap:8px;flex-wrap:wrap}
+.d2-day{flex:1;min-width:86px;border:1px solid var(--border);border-radius:var(--r-s,10px);padding:10px 12px;background:var(--bg-soft)}
+.d2-day .d{font-family:var(--font-mono);font-size:11px;letter-spacing:.13em;color:var(--faint)}
+.d2-day .t{font-family:var(--font-mono);font-size:13.5px;margin-top:3px}
+.d2-day.empty{border-style:dashed}
+.d2-day.empty .t{color:var(--faint)}
+.d2-cols{display:grid;grid-template-columns:1fr 1.25fr;gap:16px;align-items:start}
+.d2-next .k{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.d2-next .when{font-family:var(--font-display);font-size:28px;margin:9px 0 2px}
+.d2-next .ch{font-size:12.5px;color:var(--muted);margin-bottom:12px}
+.d2-next .title{font-size:16.5px;line-height:1.35;margin-bottom:16px}
+.d2-next .acts{display:flex;gap:9px}
+.d2-btn{display:inline-flex;align-items:center;padding:9px 16px;border-radius:999px;border:1px solid var(--border-strong);
+  background:transparent;font-size:13px;color:var(--fg)}
+.d2-btn:hover{background:var(--surface-2)}
+.d2-qrow{display:grid;grid-template-columns:16px 1fr auto;gap:11px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.d2-qrow:last-child{border-bottom:0;padding-bottom:0}
+.d2-qrow:first-child{padding-top:0}
+.d2-qrow .st{width:7px;height:7px;border-radius:50%;background:var(--faint);justify-self:center}
+.d2-qrow.pub .st{background:var(--amber)}
+.d2-qrow.plan .st{background:var(--muted)}
+.d2-qrow .t{font-size:14px}
+.d2-qrow .t small{display:block;color:var(--faint);font-size:12px}
+.d2-qrow .m{font-family:var(--font-mono);font-size:11px;color:var(--faint);white-space:nowrap}
+.d2-empty{color:var(--faint);font-size:13px;margin:0}
+.d2-path{padding:0}
+.d2-pathtrack{display:flex;align-items:center;gap:0;padding:14px 18px;flex-wrap:wrap;font-size:12px}
+.d2-pstep{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;color:var(--muted)}
+.d2-pstep b{color:var(--fg);font-weight:500}
+.d2-pstep:hover{color:var(--amber)}
+.d2-pln{width:40px;height:1px;background:var(--border-strong);margin:0 9px}
+@media (max-width:900px){
+  .d2-tiles{grid-template-columns:1fr}
+  .d2-cols{grid-template-columns:1fr}
+  .d2-search{display:none}
+  .d2-pln{width:22px;margin:0 6px}
+}
+
+/* «Стол» */
     #deskSection { padding-top:8px; }
     #deskSection .gg-topbar { display:flex; align-items:center; gap:12px; padding-bottom:14px;
       border-bottom:1px solid var(--border); margin-bottom:22px; }
@@ -339,6 +407,9 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
     /* показ: Стол или Мастерская */
     body.is-desk .hero, body.is-desk .composer, body.is-desk .subnav,
     body.is-desk #razbor, body.is-desk #postsSec, body.is-desk #journal { display:none !important; }
+/* на Столе живёт дашборд, а не мастерская: пошаговый навигатор и «путь» прячем */
+body.is-desk .ggstep, body.is-desk .gghead, body.is-desk .ggpath,
+body.is-desk #ggNext, body.is-desk #emptyState { display:none !important; }
     body.is-workshop #deskSection { display:none !important; }
 
 </style>
@@ -366,42 +437,70 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
     <main class="canvas" id="goalPage">
 
       <section id="deskSection" hidden aria-label="Стол">
-        <div class="gg-topbar"><h1 data-i18n="z.navDesk">Стол</h1><div class="gg-grow"></div>
-          <a class="desk-more" href="/app/strategy" data-i18n="desk.toWorkshop">В мастерскую →</a></div>
+  <div class="gg-topbar d2-head">
+    <h1 data-i18n="z.navDesk">Стол</h1>
+    <div class="gg-grow"></div>
+    <a class="d2-search" href="/app/posts"><span class="d2-ic">⌕</span><span data-i18n="dash.search">Поиск по постам</span></a>
+    <a class="d2-create" href="/app/strategy"><span data-i18n="dash.create">+ Создать пост</span></a>
+  </div>
 
-        <div class="gg-blk">
-          <div class="gg-blk-h"><h2 data-i18n="desk.today">Сегодня</h2><span class="gg-blk-q" data-i18n="desk.q.today">что происходит?</span></div>
-          <div class="gg-blk-b">
-            <div class="gg-tiles">
-              <div class="gg-tile"><div class="gg-n" id="deskGoals">—</div><div class="gg-l" data-i18n="desk.goals">целей разобрано</div></div>
-              <div class="gg-tile"><div class="gg-n" id="deskPosts">—</div><div class="gg-l" data-i18n="desk.posts">постов создано</div></div>
-              <div class="gg-tile"><div class="gg-n" id="deskPublished">—</div><div class="gg-l" data-i18n="desk.published">опубликовано</div></div>
-            </div>
-          </div>
-        </div>
+  <p class="d2-state" id="d2State" data-i18n="dash.loading">Собираю состояние…</p>
 
-        <div class="gg-blk">
-          <div class="gg-blk-h"><h2 data-i18n="desk.start">С чего начать</h2><span class="gg-blk-q" data-i18n="desk.q.start">какой шаг сейчас?</span></div>
-          <div class="gg-blk-b">
-            <a class="desk-step" id="deskStep" href="/app/strategy">
-              <span class="desk-step-t" id="deskStepTitle" data-i18n="desk.stepDefault">Задать цель</span>
-              <span class="desk-step-h" id="deskStepHint" data-i18n="desk.stepDefaultHint">С этого начинается всё</span>
-              <span class="desk-step-go">→</span>
-            </a>
-          </div>
-        </div>
+  <div class="d2-tiles">
+    <div class="d2-tile">
+      <div class="d2-lab" data-i18n="dash.published">Опубликовано</div>
+      <div class="d2-num" id="d2Published">—</div>
+      <div class="d2-sub" id="d2PublishedSub"></div>
+    </div>
+    <div class="d2-tile">
+      <div class="d2-lab" data-i18n="dash.drafts">Черновики без даты</div>
+      <div class="d2-num" id="d2Drafts">—</div>
+      <div class="d2-sub" data-i18n="dash.draftsSub">написаны — осталось выбрать время</div>
+    </div>
+    <div class="d2-tile">
+      <div class="d2-lab" data-i18n="dash.left">Осталось сегодня</div>
+      <div class="d2-num"><span id="d2Left">—</span> <em id="d2LeftMax"></em></div>
+      <div class="d2-sub" id="d2PlanSub"></div>
+    </div>
+  </div>
 
-        <div class="gg-blk" id="deskWaitBlk" hidden>
-          <div class="gg-blk-h"><h2 data-i18n="desk.wait">Что ждёт</h2><span class="gg-blk-q" data-i18n="desk.q.wait">что само не сделается?</span></div>
-          <div class="gg-blk-b" id="deskWait"></div>
-        </div>
+  <div class="gg-blk" id="d2Attention" hidden>
+    <div class="gg-blk-h"><h2 data-i18n="dash.attention">Требует внимания</h2></div>
+    <div class="gg-blk-b"><div id="d2AttRows"></div></div>
+  </div>
 
-        <div class="gg-blk">
-          <div class="gg-blk-h"><h2 data-i18n="desk.last">Последнее</h2><span class="gg-blk-q" data-i18n="index.q.journal">что уже было?</span>
-            <a class="desk-more" href="/app/strategy" data-i18n="desk.openAll">Открыть всё</a></div>
-          <div class="gg-blk-b" id="deskLast"></div>
-        </div>
-      </section>
+  <div class="gg-blk">
+    <div class="gg-blk-h"><h2 data-i18n="dash.rhythm">Ритм недели</h2><div class="gg-grow"></div><a class="d2-go" href="/app/schedule" data-i18n="dash.change">изменить</a></div>
+    <div class="gg-blk-b"><div class="d2-week" id="d2Week"></div></div>
+  </div>
+
+  <div class="d2-cols">
+    <div class="gg-blk">
+      <div class="gg-blk-h"><h2 data-i18n="dash.next">Следующий пост</h2></div>
+      <div class="gg-blk-b" id="d2Next"><p class="d2-empty" data-i18n="dash.nextEmpty">Пока ничего не запланировано.</p></div>
+    </div>
+    <div class="gg-blk">
+      <div class="gg-blk-h"><h2 data-i18n="dash.queue">Очередь</h2><div class="gg-grow"></div><a class="d2-go" href="/app/posts" id="d2QueueLink" data-i18n="dash.all">все</a></div>
+      <div class="gg-blk-b" id="d2Queue"><p class="d2-empty" data-i18n="dash.queueEmpty">Постов пока нет.</p></div>
+    </div>
+  </div>
+
+  <div class="gg-blk d2-path">
+    <div class="d2-pathtrack">
+      <a href="/app/strategy" class="d2-pstep"><b>01</b> <span data-i18n="dash.stepGoal">Цель</span></a>
+      <span class="d2-pln"></span>
+      <a href="/app/strategy" class="d2-pstep"><b>02</b> <span data-i18n="dash.stepReview">Разбор</span></a>
+      <span class="d2-pln"></span>
+      <a href="/app/schedule" class="d2-pstep"><b>03</b> <span data-i18n="dash.stepRhythm">Ритм</span></a>
+      <span class="d2-pln"></span>
+      <a href="/app/posts" class="d2-pstep"><b>04</b> <span data-i18n="dash.stepPosts">Посты</span></a>
+      <span class="d2-pln"></span>
+      <a href="/app/analytics" class="d2-pstep"><b>05</b> <span data-i18n="dash.stepResp">Отклик</span></a>
+      <div class="gg-grow"></div>
+      <a class="d2-go" href="/app/strategy" data-i18n="dash.openGoal">Открыть Цель →</a>
+    </div>
+  </div>
+</section>
 
       <header class="hero reveal in">
         <p class="eyebrow"><span data-i18n="eyebrow1">Система, которая управляет ростом</span><em>· что ты хочешь достичь?</em></p>
@@ -590,7 +689,7 @@ html[data-theme="light"] .post-media .tag-img{color:rgba(40,30,10,.75);border-co
 
       <p id="emptyState" hidden></p>
       <footer class="trust">
-        <span id="footMeta"><b>GOOD Growth</b> · <span data-i18n="trustLocal">локальный инструмент · данные хранятся только на этом компьютере</span></span>
+        <span id="footMeta"><b>GOOD Growth</b> · <span data-i18n="trustLocal">инструмент для небольших дел · данные под твоим аккаунтом</span></span>
         <span id="footMode">—</span> <button id="demoToggle" type="button" class="linkish" data-i18n="index.footer.demo">переключить демо</button>
       </footer>
     </main>
