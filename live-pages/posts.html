@@ -165,7 +165,7 @@ select:focus,input:focus{border-color:rgba(232,165,79,.5)}
         var act = e.target && e.target.getAttribute && e.target.getAttribute('data-act');
         if (!act) return;
         e.stopPropagation();
-        if (act === 'open') { location.href = '/app?goal=' + p.goal_id + '#post-' + p.id; return; }
+        if (act === 'open') { location.href = '/app/strategy?goal=' + p.goal_id + '&post=' + p.id; return; }
         if (act === 'publish') {
           var b = e.target; b.disabled = true; b.textContent = ggT('posts.publishing','Публикую…');
           fetch('/api/posts/' + p.id + '/publish', { method:'POST' }).then(function(r){ return r.json().then(function(d){ return { ok: r.ok, d: d }; }); }).then(function(x){

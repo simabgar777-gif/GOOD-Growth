@@ -243,7 +243,10 @@
       return;
     }
     box.innerHTML = hits.map(function (p) {
-      return '<a href="/app/posts?q=' + encodeURIComponent(needle) + '">' +
+      var href = p.goal_id
+        ? '/app/strategy?goal=' + p.goal_id + '&post=' + p.id
+        : '/app/posts?q=' + encodeURIComponent(needle);
+      return '<a href="' + href + '">' +
         esc(p.title || '—') + '<small>' + esc(statusOf(p)) + '</small></a>';
     }).join('') +
     '<a href="/app/posts?q=' + encodeURIComponent(needle) + '"><small>' +

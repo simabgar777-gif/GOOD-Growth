@@ -437,6 +437,10 @@ html.gg-desk #deskSection[hidden] { display: block !important; }
 .d2-res a small{display:block;color:var(--faint);font-size:11.5px;margin-top:2px}
 .d2-res .none{color:var(--faint);font-size:12.5px;padding:8px 10px}
 
+
+/* подсветка поста, к которому пришли из поиска */
+.post-card.is-target { border-color: rgba(232,163,61,.55) !important; box-shadow: 0 0 0 1px rgba(232,163,61,.35); }
+
 </style>
 </head>
 <body>
@@ -804,6 +808,31 @@ html.gg-desk #deskSection[hidden] { display: block !important; }
   ggLangPaint();
   setTimeout(ggLangPaint, 400);
   setTimeout(ggLangPaint, 1500);
+})();
+</script>
+
+<script>
+/* открыть конкретный пост: /app/strategy?goal=..&post=.. или #post-.. */
+(function () {
+  function wanted() {
+    try {
+      var q = new URLSearchParams(location.search).get('post');
+      if (q) return q;
+      var m = String(location.hash || '').match(/^#post-(\d+)$/);
+      return m ? m[1] : null;
+    } catch (e) { return null; }
+  }
+  var id = wanted();
+  if (!id) return;
+  var tries = 0;
+  var timer = setInterval(function () {
+    var card = document.querySelector('.post-card[data-post-id="' + id + '"]');
+    if (card) {
+      clearInterval(timer);
+      card.classList.add('is-target');
+      try { card.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) { card.scrollIntoView(); }
+    } else if (++tries > 60) { clearInterval(timer); }
+  }, 250);
 })();
 </script>
 </body>
