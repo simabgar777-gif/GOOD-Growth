@@ -427,7 +427,9 @@
           'onerror="this.remove()">'
         : '');
     var tag = p.image_status === 'pending' ? 'рисуем…'
-            : p.image_path ? 'картинка' : 'без картинки';
+            : p.image_path ? 'картинка'
+      : (p.image_status === 'pending' ? 'рисуем…'
+      : (p.image_status === 'error' ? 'не получилось' : 'без картинки'));
     var txt = String(p.text || p.body || '').trim();
     var lines = txt.split('\n');
     var title = (p.title || lines[0] || 'Пост').slice(0, 90);
@@ -817,7 +819,11 @@
       if (img) {
         img.disabled = true; img.textContent = 'Рисую…';
         fetch('/api/posts/' + st.id + '/image', { method: 'POST', credentials: 'same-origin' })
-          .then(function () { setTimeout(function () { renderPosts(goalId); box.remove(); }, 1200); })
+          .then(function () {
+            ggPollImage(st.id,
+              function () { renderPosts(goalId); box.remove(); },
+              function () { img.disabled = false; img.textContent = 'Не вышло — ещё раз'; });
+          })
           .catch(function () { img.disabled = false; img.textContent = 'Нарисовать другую'; });
         return;
       }
@@ -931,7 +937,23 @@
     });
   }
 
-  function renderPosts(goalId) {
+  
+/* ждём, пока картинка нарисуется: опрос статуса вместо «сдаться через секунду» */
+function ggPollImage(id, onDone, onFail) {
+  var tries = 0;
+  var t = setInterval(function () {
+    fetch('/api/posts/' + id + '/image', { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (d.status === 'done') { clearInterval(t); if (onDone) onDone(d); }
+        else if (d.status === 'error') { clearInterval(t); if (onFail) onFail(d); }
+        else if (++tries > 45) { clearInterval(t); if (onFail) onFail(d); }
+      })
+      .catch(function () { if (++tries > 45) { clearInterval(t); if (onFail) onFail(); } });
+  }, 2000);
+}
+
+function renderPosts(goalId) {
     var root = $('postsRoot'); if (!root || !goalId) return;
     Promise.all([
       fetch('/api/goals/' + goalId + '/posts', { credentials: 'same-origin' })
@@ -967,10 +989,15 @@
 
       root.querySelectorAll('[data-img]').forEach(function (b) {
         b.addEventListener('click', function () {
+          var pid = b.getAttribute('data-img');
           b.disabled = true; b.textContent = 'рисуем…';
-          fetch('/api/posts/' + b.getAttribute('data-img') + '/image', {
-            method: 'POST', credentials: 'same-origin'
-          }).then(function () { setTimeout(function () { renderPosts(goalId); }, 1500); })
+          fetch('/api/posts/' + pid + '/image', { method: 'POST', credentials: 'same-origin' })
+            .then(function () {
+              renderPosts(goalId);
+              ggPollImage(pid,
+                function () { renderPosts(goalId); },
+                function () { renderPosts(goalId); });
+            })
             .catch(function () { b.disabled = false; b.textContent = 'Картинка'; });
         });
       });
