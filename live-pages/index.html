@@ -761,7 +761,7 @@ html.gg-desk #deskSection[hidden] { display: block !important; }
 /* язык на Столе и Цели: кнопки статичные, поэтому оживляем их здесь */
 (function () {
   function ggLangPaint() {
-    var btns = document.querySelectorAll('[data-lang]');
+    var btns = document.querySelectorAll('button[data-lang]');
     if (!btns.length) return;
     var cur = (window.ggLang && window.ggLang()) || 'ru';
     for (var i = 0; i < btns.length; i++) {
@@ -773,7 +773,7 @@ html.gg-desk #deskSection[hidden] { display: block !important; }
     }
   }
   document.addEventListener('click', function (e) {
-    var b = e.target.closest && e.target.closest('[data-lang]');
+    var b = e.target.closest && e.target.closest('button[data-lang]');
     if (!b) return;
     e.preventDefault();
     var l = b.getAttribute('data-lang');
