@@ -689,3 +689,26 @@ function markActive() {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
+
+
+/* ── СТОЛ И ЦЕЛЬ: ссылки всегда ведут туда, куда написано ──────
+   На этих двух страницах нет мягкой навигации, но какой-то
+   обработчик отменял клики, и человек «застревал» на Столе.
+   Берём навигацию в свои руки: нажал — перешёл. */
+(function hardLinksOnDesk() {
+  var p = location.pathname.replace(/\/+$/, '') || '/app';
+  var onDesk = (p === '/app' || p.indexOf('/app/strategy') === 0);
+  if (!onDesk) return;
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (!href || href.charAt(0) !== '/' || href.charAt(1) === '/') return;
+    if (href === location.pathname + location.search) return;
+    if (a.hasAttribute('target') || a.hasAttribute('download') || a.hasAttribute('data-no-spa')) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    e.stopPropagation();
+    window.location.assign(href);
+  }, true);
+})();

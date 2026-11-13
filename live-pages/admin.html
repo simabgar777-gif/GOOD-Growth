@@ -43,6 +43,27 @@
   <div id="adBody" hidden>
     <div class="ad-cards" id="adCards"></div>
 
+    <div class="gg-blk" id="adEnginesBlock">
+      <div class="gg-blk-h"><h2>Движки картинок</h2><span class="gg-blk-q">чем рисуем и почём</span></div>
+      <div class="gg-blk-b">
+        <div class="ad-eng-list" id="adEngines"></div>
+        <div class="ad-eng-foot">
+          <label class="ad-eng-field">Основной движок
+            <select id="adEngPrimary">
+              <option value="auto">Авто: fal → резерв</option>
+              <option value="fal">Только fal</option>
+              <option value="pollinations">Только бесплатный</option>
+            </select>
+          </label>
+          <label class="ad-eng-field">Стоп-кран, ₽ в день
+            <input id="adEngBudget" type="number" min="0" step="50" value="300">
+          </label>
+          <button type="button" class="ad-btn" id="adEngSave">Сохранить</button>
+          <span class="ad-eng-last" id="adEngLast"></span>
+        </div>
+      </div>
+    </div>
+
     <div class="gg-blk">
       <div class="gg-blk-h"><h2>Пользователи</h2><span class="gg-blk-q">кто пришёл и что делает</span></div>
       <div class="gg-blk-b">
@@ -104,10 +125,68 @@
     })
     .catch(function () { document.getElementById('adDeny').hidden = false; });
 
+
+  /* ---- движки картинок ---- */
+  function engDot(on) { return '<span class="ad-eng-dot" style="background:' + (on ? '#4ade80' : '#e88a6f') + '"></span>'; }
+  function paintEngines(d) {
+    var box = document.getElementById('adEngines');
+    if (!box) return;
+    var today = {};
+    (d.stats && d.stats.today || []).forEach(function (x) { today[x.engine] = x.n; });
+    var month = {};
+    (d.stats && d.stats.thisMonth || []).forEach(function (x) { month[x.engine] = x.n; });
+    box.innerHTML = (d.engines || []).map(function (e) {
+      var n = today[e.id] || 0, m = month[e.id] || 0;
+      return '<div class="ad-eng' + (e.ready ? '' : ' is-off') + '">' +
+        engDot(e.ready) +
+        '<span class="ad-eng-t">' + esc(e.title) + '</span>' +
+        '<span class="ad-eng-meta">' + esc(e.model || '') + (e.watermark ? ' · с водяным знаком' : ' · без знака') + '</span>' +
+        '<span class="ad-eng-right">' +
+          '<span>' + (e.priceRub ? e.priceRub + ' ₽ за картинку' : 'бесплатно') + '</span>' +
+          '<span>сегодня: ' + num(n) + '</span>' +
+          '<span>месяц: ' + num(m) + '</span>' +
+        '</span>' +
+        (e.ready ? '' : '<span class="ad-eng-meta">' + esc(e.reason || 'не готов') + '</span>') +
+        '</div>';
+    }).join('');
+    var sel = document.getElementById('adEngPrimary');
+    if (sel && d.settings) sel.value = d.settings.primary || 'auto';
+    var bud = document.getElementById('adEngBudget');
+    if (bud && d.settings) bud.value = d.settings.budgetRub || 300;
+    var last = document.getElementById('adEngLast');
+    if (last) {
+      var parts = [];
+      if (d.spent) parts.push('потрачено сегодня: ' + d.spent.todayRub + ' ₽ · за месяц: ' + d.spent.monthRub + ' ₽');
+      if (d.lastDone && d.lastDone.engine) parts.push('последняя: ' + d.lastDone.engine);
+      if (d.lastError && d.lastError.msg) parts.push('последняя ошибка: ' + d.lastError.msg.slice(0, 90));
+      last.textContent = parts.join(' · ');
+    }
+  }
+  function loadEngines() {
+    fetch('/api/admin/engines', { credentials: 'same-origin', headers: { 'Cache-Control': 'no-cache' } })
+      .then(function (r) { return r.json(); })
+      .then(paintEngines)
+      .catch(function () {});
+  }
+  document.addEventListener('click', function (e) {
+    if (e.target && e.target.id === 'adEngSave') {
+      var primary = document.getElementById('adEngPrimary').value;
+      var budgetRub = Number(document.getElementById('adEngBudget').value) || 0;
+      fetch('/api/admin/engines', {
+        method: 'POST', credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ primary: primary, budgetRub: budgetRub })
+      }).then(function (r) { return r.json(); }).then(function () {
+        msg('Движки сохранены');
+        loadEngines();
+      }).catch(function () { msg('Не сохранилось', true); });
+    }
+  });
+
   function load() {
     fetch('/api/admin/overview', { credentials: 'same-origin', headers: { 'Cache-Control': 'no-cache' } })
       .then(function (r) { return r.json(); })
-      .then(paint)
+      .then(function (d) { paint(d); loadEngines(); })
       .catch(function () { msg('Не удалось загрузить данные', true); });
   }
 
