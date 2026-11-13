@@ -221,6 +221,56 @@
     if (link && posts.length) link.textContent = T('dash.all', 'все') + ' ' + posts.length;
   }
 
+  /* ───────────── поиск по постам ───────────── */
+  var ALL_POSTS = [];
+  function statusOf(p) {
+    if (p.published_at) return T('dash.stPublished', 'опубликован');
+    if (p.scheduled_at) return T('dash.stPlanned', 'запланирован');
+    return T('dash.stDraft', 'черновик, без даты');
+  }
+  function paintResults(q) {
+    var box = el('d2Res');
+    if (!box) return;
+    var needle = String(q || '').trim().toLowerCase();
+    if (needle.length < 2) { box.hidden = true; box.innerHTML = ''; return; }
+    var hits = ALL_POSTS.filter(function (p) {
+      var hay = ((p.title || '') + ' ' + (p.body || '') + ' ' + (p.goal_text || '')).toLowerCase();
+      return hay.indexOf(needle) !== -1;
+    }).slice(0, 6);
+    box.hidden = false;
+    if (!hits.length) {
+      box.innerHTML = '<div class="none">' + esc(T('dash.noHits', 'Ничего не нашлось.') ) + '</div>';
+      return;
+    }
+    box.innerHTML = hits.map(function (p) {
+      return '<a href="/app/posts?q=' + encodeURIComponent(needle) + '">' +
+        esc(p.title || '—') + '<small>' + esc(statusOf(p)) + '</small></a>';
+    }).join('') +
+    '<a href="/app/posts?q=' + encodeURIComponent(needle) + '"><small>' +
+    esc(T('dash.openInContent', 'Открыть в «Контенте»')) + ' →</small></a>';
+  }
+  function wireSearch() {
+    var input = el('d2Search');
+    var box = el('d2Res');
+    if (!input) return;
+    var timer = null;
+    input.addEventListener('input', function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () { paintResults(input.value); }, 180);
+    });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { input.value = ''; if (box) box.hidden = true; input.blur(); }
+      if (e.key === 'Enter' && input.value.trim().length > 1) {
+        location.href = '/app/posts?q=' + encodeURIComponent(input.value.trim());
+      }
+    });
+    document.addEventListener('click', function (e) {
+      if (!box || box.hidden) return;
+      if (box.contains(e.target) || e.target === input || (e.target.closest && e.target.closest('.d2-search'))) return;
+      box.hidden = true;
+    });
+  }
+
   /* ───────────── запуск ───────────── */
   Promise.all([
     get('/api/analytics'),
@@ -230,6 +280,8 @@
   ]).then(function (res) {
     var analytics = res[0], postsRes = res[1], schedRes = res[2], profile = res[3];
     var posts = (postsRes && postsRes.posts) || [];
+    ALL_POSTS = posts;
+    wireSearch();
     var sched = (schedRes && schedRes.scheduled) || [];
     paintState(sched, posts);
     paintTiles(analytics && analytics.totals, posts, profile);

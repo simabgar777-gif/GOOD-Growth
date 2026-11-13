@@ -189,6 +189,11 @@ select:focus,input:focus{border-color:rgba(232,165,79,.5)}
     var ch = $('fChannel');
     CH.forEach(function(x){ var o = document.createElement('option'); o.value = x; o.textContent = x; ch.appendChild(o); });
   }
+  /* поиск из адреса: /app/posts?q=слово */
+  try {
+    var qq = new URLSearchParams(location.search).get('q');
+    if (qq && $('fQuery')) { $('fQuery').value = qq; }
+  } catch (e) {}
   ['fStatus','fBrand','fChannel','fDate','fQuery'].forEach(function(id){
     $(id).addEventListener('change', render);
     if (id === 'fQuery') $(id).addEventListener('input', render);

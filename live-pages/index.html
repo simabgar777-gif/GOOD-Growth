@@ -422,6 +422,21 @@ html.gg-desk #postsSec, html.gg-desk #journal { display: none !important; }
 html.gg-desk #deskSection { display: block !important; }
 html.gg-desk #deskSection[hidden] { display: block !important; }
 
+
+.d2-searchwrap{position:relative}
+.d2-search{display:flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--border);border-radius:999px;
+  background:var(--bg-soft);color:var(--faint);min-width:230px}
+.d2-search:focus-within{border-color:rgba(232,163,61,.45)}
+.d2-search input{border:0;outline:0;background:transparent;color:var(--fg);font:inherit;font-size:13px;width:180px}
+.d2-search input::placeholder{color:var(--faint)}
+.d2-search input::-webkit-search-cancel-button{display:none}
+.d2-res{position:absolute;top:calc(100% + 8px);right:0;width:340px;z-index:60;background:var(--surface);
+  border:1px solid var(--border-strong);border-radius:12px;padding:8px;box-shadow:var(--shadow)}
+.d2-res a{display:block;padding:9px 10px;border-radius:8px;font-size:13.5px}
+.d2-res a:hover{background:var(--surface-2)}
+.d2-res a small{display:block;color:var(--faint);font-size:11.5px;margin-top:2px}
+.d2-res .none{color:var(--faint);font-size:12.5px;padding:8px 10px}
+
 </style>
 </head>
 <body>
@@ -450,7 +465,13 @@ html.gg-desk #deskSection[hidden] { display: block !important; }
   <div class="gg-topbar d2-head">
     <h1 data-i18n="z.navDesk">Стол</h1>
     <div class="gg-grow"></div>
-    <a class="d2-search" href="/app/posts"><span class="d2-ic">⌕</span><span data-i18n="dash.search">Поиск по постам</span></a>
+    <div class="d2-searchwrap">
+      <label class="d2-search" for="d2Search">
+        <span class="d2-ic">⌕</span>
+        <input id="d2Search" type="search" autocomplete="off" placeholder="Поиск по постам" data-i18n-attr="placeholder:dash.searchPh">
+      </label>
+      <div class="d2-res" id="d2Res" hidden></div>
+    </div>
     <a class="d2-create" href="/app/strategy"><span data-i18n="dash.create">+ Создать пост</span></a>
   </div>
 

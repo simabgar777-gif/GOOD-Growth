@@ -1143,5 +1143,8 @@
   "dash.stPlanned": "scheduled",
   "dash.stDraft": "draft, no date",
   "dash.loadFail": "Could not gather the state — refresh the page.",
-  "trustLocal": "a tool for small businesses · your data stays with your account"
+  "trustLocal": "a tool for small businesses · your data stays with your account",
+  "dash.searchPh": "Search posts",
+  "dash.noHits": "Nothing found.",
+  "dash.openInContent": "Open in Content"
 }
