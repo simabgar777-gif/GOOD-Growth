@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<script>(function(){try{var l=localStorage.getItem('gg_lang')||'';var q=(location.search.match(/[?&]lang=(en|hy)/i)||[])[1];var want=(q||l);if(want==='en'){document.documentElement.className+=' gg-i18n-wait';}}catch(e){}})();</script>
+<script>(function(){try{var l=localStorage.getItem('gg_lang')||'';var q=(location.search.match(/[?&]lang=(en|hy)/i)||[])[1];var want=(q||l);var r=document.documentElement;if(want==='en'){r.className+=' gg-i18n-wait';/* страховка: максимум 2.5с, чтобы страница не осталась скрытой */setTimeout(function(){try{r.classList.remove('gg-i18n-wait');}catch(e){}},2500);}}catch(e){}})();</script>
 <style>html.gg-i18n-wait body{visibility:hidden}</style>
 
 <script>(function(){try{var h=document.documentElement;if(localStorage.getItem("gg_rail")==="1")h.classList.add("gg-rail-collapsed");h.classList.add("gg-acc-ready");}catch(e){}})();</script>
