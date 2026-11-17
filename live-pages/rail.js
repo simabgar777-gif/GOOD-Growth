@@ -378,7 +378,7 @@ fetch('/api/admin/whoami', { credentials: 'same-origin' })
 
     if (existing) {
       existing.setAttribute('href', '/app');
-      existing.textContent = '← Стол';
+      existing.textContent = T('topline.back', '← Стол');
       return;
     }
     if (!bar) return;
@@ -386,7 +386,7 @@ fetch('/api/admin/whoami', { credentials: 'same-origin' })
     var a = document.createElement('a');
     a.className = 'gg-crumb';
     a.href = '/app';
-    a.textContent = '← Стол';
+    a.textContent = T('topline.back', '← Стол');
     bar.insertBefore(a, bar.firstChild);
   }
 
@@ -439,6 +439,8 @@ fetch('/api/admin/whoami', { credentials: 'same-origin' })
    Как у Buffer: одна точка входа ко всему личному. */
 /* словарь приходит позже — переводим меню, когда он готов */
 document.addEventListener('gg:i18n', function () {
+  try { var crumb = document.querySelector('.gg-crumb') || document.querySelector('.crumb a');
+        if (crumb) crumb.textContent = T('topline.back', '← Стол'); } catch (e) {}
   try {
     var map = { 'rail.menu.settings': 'Настройки', 'rail.menu.channels': 'Каналы', 'rail.menu.plans': 'Тарифы',
                 'rail.menu.billing': 'Оплата', 'rail.menu.partners': 'Партнёрам', 'rail.menu.cabinet': 'Партнёрский кабинет',

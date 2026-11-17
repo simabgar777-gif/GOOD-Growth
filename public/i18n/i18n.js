@@ -106,31 +106,62 @@
   var RU2EN = null;
   var PREFIX_IDX = null;      /* первые 44 знака → английский вариант */
 
-  function buildValueMap() {
-    if (LANG === 'ru') return;
+  var MAP_KEY = 'gg_ru_map_v1';
+
+  function finishMap(map) {
+    RU2EN = map;
+    PREFIX_IDX = {};
+    for (var rk in map) {
+      var head = rk.slice(0, 44);
+      if (head.length >= 30 && !PREFIX_IDX[head]) PREFIX_IDX[head] = map[rk];
+    }
+    translateByValue();
+    translateBlocks();
+    translateAttrs();
+    observe();
+  }
+
+  function mapFromDict(ru) {
+    var map = {};
+    var norm = function (v) { return String(v).replace(/\s+/g, ' ').trim(); };
+    for (var k in ru) {
+      if (typeof ru[k] !== 'string') continue;
+      var en = dict[k];
+      if (typeof en === 'string' && en && en !== ru[k]) map[norm(ru[k])] = en;
+    }
+    return map;
+  }
+
+  /* карта «русский → английский» живёт и в localStorage:
+     один удачный запрос — и дальше перевод не зависит от сети */
+  function buildValueMap(attempt) {
+    if (LANG === 'ru' || RU2EN) return;
+    if (!dict) return;
+
+    if (!attempt) {
+      try {
+        var cached = localStorage.getItem(MAP_KEY);
+        if (cached) {
+          var m = JSON.parse(cached);
+          if (m && m.__n) { finishMap(m); return; }
+        }
+      } catch (e) {}
+    }
+
     fetch('/i18n/ru.json', { cache: 'force-cache' })
-      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
       .then(function (ru) {
         if (!ru || !dict) return;
-        var map = {};
-        var norm = function (v) { return String(v).replace(/\s+/g, ' ').trim(); };
-        for (var k in ru) {
-          if (typeof ru[k] !== 'string') continue;
-          var en = dict[k];
-          if (typeof en === 'string' && en && en !== ru[k]) map[norm(ru[k])] = en;
-        }
-        RU2EN = map;
-        PREFIX_IDX = {};
-        for (var rk in map) {
-          var head = rk.slice(0, 44);
-          if (head.length >= 30 && !PREFIX_IDX[head]) PREFIX_IDX[head] = map[rk];
-        }
-        translateByValue();
-        translateBlocks();
-        translateAttrs();
-        observe();
+        var map = mapFromDict(ru);
+        map.__n = Object.keys(map).length;
+        try { localStorage.setItem(MAP_KEY, JSON.stringify(map)); } catch (e) {}
+        finishMap(map);
       })
-      .catch(function () {});
+      .catch(function () {
+        if ((attempt || 0) < 3) {
+          setTimeout(function () { buildValueMap((attempt || 0) + 1); }, 700);
+        }
+      });
   }
 
 
@@ -245,7 +276,10 @@
     });
     mo.observe(document.body, { childList: true, subtree: true, characterData: true });
   }
-  window.ggRetranslate = function () { translateByValue(); translateBlocks(); translateAttrs(); };
+  window.ggRetranslate = function () {
+    if (!RU2EN && LANG !== 'ru') { buildValueMap(); return; }
+    translateByValue(); translateBlocks(); translateAttrs();
+  };
 
   fetch(DICT_URL, { cache: 'no-store' })
     .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })

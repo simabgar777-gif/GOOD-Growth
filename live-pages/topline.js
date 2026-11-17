@@ -172,27 +172,36 @@ function T(k, d) { return (window.ggT ? window.ggT(k, d) : d); }
     if (rail && rail.parentNode === document.body) rail.insertAdjacentElement('afterend', band);
     else document.body.insertBefore(band, document.body.firstChild);
 
-    /* режим ИИ — настоящий */
-    fetch('/api/keys/deepseek/status', { credentials: 'same-origin' })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) {
-        var tx = band.querySelector('.gg-chip-tx');
-        if (!tx || !d) return;
-        tx.textContent = d.on ? T('topline.aiLive', 'ИИ: живой') : (d.demo ? T('topline.aiDemo', 'ИИ · демо') : T('topline.aiOff', 'ИИ · не подключён'));
-      })
-      .catch(function () {});
-
-    document.addEventListener('gg:i18n', function () {
-
-      var tx2 = band.querySelector('.gg-chip-tx');
-
-      if (!tx2) return;
-
-      var el2 = band.querySelector('#ggThemeBtn');
-
-      if (el2) { el2.title = T('topline.theme', 'Сменить тему'); el2.setAttribute('aria-label', T('topline.theme', 'Сменить тему')); }
-
-    });
+/* режим ИИ — настоящий */
+var ggLastAiMode = null;
+function ggPaintAi() {
+  var tx = band.querySelector('.gg-chip-tx');
+  if (!tx || !ggLastAiMode) return;
+  tx.textContent = ggLastAiMode.on ? T('topline.aiLive', 'ИИ: живой')
+    : (ggLastAiMode.demo ? T('topline.aiDemo', 'ИИ · демо') : T('topline.aiOff', 'ИИ · не подключён'));
+}
+fetch('/api/keys/deepseek/status', { credentials: 'same-origin' })
+  .then(function (r) { return r.ok ? r.json() : null; })
+  .then(function (d) {
+    if (!d) return;
+    ggLastAiMode = d;
+    ggPaintAi();
+    var el2 = band.querySelector('#ggThemeBtn');
+    if (el2) {
+      el2.title = T('topline.theme', 'Сменить тему');
+      el2.setAttribute('aria-label', T('topline.theme', 'Сменить тему'));
+    }
+  })
+  .catch(function () {});
+function ggAskAiMode() {
+  fetch('/api/keys/deepseek/status', { credentials: 'same-origin' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) { if (d) { ggLastAiMode = d; ggPaintAi(); } })
+    .catch(function () {});
+}
+document.addEventListener('gg:i18n', function () {
+  try { if (ggLastAiMode) ggPaintAi(); else ggAskAiMode(); } catch (e) {}
+});
 
     /* тема */
     var btn = band.querySelector('#ggThemeBtn');

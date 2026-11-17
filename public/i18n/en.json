@@ -1148,5 +1148,9 @@
   "dash.noHits": "Nothing found.",
   "dash.openInContent": "Open in Content",
   "login.stage.kicker": "Quiet, on purpose",
-  "login.free": "First review is free"
+  "login.free": "First review is free",
+  "step.response.q": "what worked and what is worth changing",
+  "step.response.empty": "Here you will see what worked. For now we show only what we know for sure.",
+  "step.response.openAnalytics": "Open analytics →",
+  "step.response.locked": "Step 5 opens after your first post goes out."
 }

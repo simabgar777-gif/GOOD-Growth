@@ -3,7 +3,7 @@
 <head>
 <script>(function(){try{var h=document.documentElement;if(localStorage.getItem("gg_rail")==="1")h.classList.add("gg-rail-collapsed");h.classList.add("gg-acc-ready");}catch(e){}})();</script>
 <meta charset="utf-8" />
-<script>(function(){try{var p=location.pathname.replace(/\/+$/,"")||"/";if(p==="/app")document.documentElement.classList.add("gg-desk");}catch(e){}})();</script>
+<script>(function(){try{var p=location.pathname.replace(/\/+$/,"")||"/";if(p==="/app")document.documentElement.classList.add("gg-desk");if(p.indexOf("/app")===0){document.documentElement.classList.add("gg-app");document.documentElement.classList.add("gg-boot");}}catch(e){}})();</script>
 <script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.removeAttribute("data-theme");d.setAttribute("data-theme-src","system")}else{d.setAttribute("data-theme",t==="light"?"light":"dark")}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>GOOD Growth — от цели до готовых постов</title>
@@ -452,6 +452,13 @@ html.gg-desk #deskSection[hidden] { display: block !important; }
   transition: opacity .4s, transform .4s; }
 .gg-toast-out { opacity: 0; transform: translateX(-50%) translateY(-8px); }
 
+
+/* кабинет: лендинговый верх не должен мелькать при загрузке */
+html.gg-app .hero, html.gg-app .subnav { display: none !important; }
+/* пока собирается мастерская — не показываем «сырые» блоки разбора */
+html.gg-boot .sheet-head, html.gg-boot .goal-quote, html.gg-boot .strategy-line,
+html.gg-boot #audience, html.gg-boot #rhythm, html.gg-boot #topics, html.gg-boot #chans,
+html.gg-boot #steps, html.gg-boot #postsSec, html.gg-boot #ggRhythm { display: none !important; }
 </style>
 </head>
 <body>
@@ -902,6 +909,26 @@ html.gg-desk #deskSection[hidden] { display: block !important; }
     setTimeout(function () { toast.classList.add('gg-toast-out'); }, 3200);
     setTimeout(function () { toast.remove(); }, 3800);
   }, 200);
+})();
+</script>
+
+<script>
+/* снять «загружаемся», когда мастерская готова (или через 4 секунды) */
+(function () {
+  var root = document.documentElement;
+  if (!root.classList.contains('gg-boot')) return;
+  function off() { root.classList.remove('gg-boot'); }
+  function wizardReady() { return !!(document.getElementById('ggStepHead') || document.querySelector('.ggstep-i.is-on')); }
+  function langReady() {
+    var l = window.ggLang ? window.ggLang() : 'ru';
+    return l === 'ru' || root.getAttribute('data-i18n-ready') === '1';
+  }
+  var n = 0;
+  var t = setInterval(function () {
+    if (wizardReady() && langReady()) { clearInterval(t); off(); return; }
+    /* страховка: через 15 секунд показываем страницу как есть (чтобы не осталась пустой) */
+    if (++n > 150) { clearInterval(t); off(); }
+  }, 100);   /* gg-boot-ready */
 })();
 </script>
 </body>
