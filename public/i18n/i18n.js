@@ -41,6 +41,18 @@
   if (READY.indexOf(LANG) < 0) LANG = 'ru';     /* языка ещё нет — остаёмся на русском */
   var DICT_URL = '/i18n/' + LANG + '.json';
   var dict = null;
+  /* страница может заранее загрузить словарь синхронно (en.dict.js):
+     тогда английский текст готов ДО первой отрисовки — русского кадра нет */
+  var SYNC_DICT = (window.__GG_DICT_LANG === LANG && window.__GG_JSON) ? window.__GG_JSON : null;
+  if (SYNC_DICT) dict = SYNC_DICT;
+  if (SYNC_DICT && window.__GG_RU2EN) {
+    RU2EN = window.__GG_RU2EN;
+    PREFIX_IDX = {};
+    for (var _k in RU2EN) {
+      var _h = _k.slice(0, 44);
+      if (_h.length >= 30 && !PREFIX_IDX[_h]) PREFIX_IDX[_h] = RU2EN[_k];
+    }
+  }
   try {
     document.documentElement.setAttribute('lang', LANG === 'hy' ? 'hy' : LANG);
     document.documentElement.setAttribute('data-lang', LANG);
@@ -290,6 +302,16 @@
   };
 
   setTimeout(ggI18nReady, 1600);
+  if (SYNC_DICT) {
+    apply();
+    if (!RU2EN) buildValueMap();
+    translateByValue();
+    translateBlocks();
+    translateAttrs();
+    observe();
+    ggI18nReady();
+    return;
+  }
   fetch(DICT_URL, { cache: 'no-store' })
     .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
     .then(function (data) { dict = data; apply(); buildValueMap(); })
