@@ -90,6 +90,15 @@
       }
     }
 
+    /* мета-описание: у английских страниц своё */
+    try {
+      var md = document.querySelector('meta[name="description"]');
+      if (md && LANG !== 'ru') {
+        var mk = 'meta.desc.' + (location.pathname.indexOf('/partner/info') === 0 ? 'partnerInfo' : 'login');
+        if (dict[mk]) md.setAttribute('content', dict[mk]);
+      }
+    } catch (e) {}
+
     document.documentElement.setAttribute('data-i18n-ready', '1');
     if (LANG === 'ru') ggI18nReady();
     try { document.dispatchEvent(new CustomEvent('gg:i18n', { detail: { lang: LANG } })); } catch (e) {}
@@ -187,6 +196,12 @@
 
   /* строки с числами: словарь не может знать все варианты */
   var PATTERNS = [
+    [/^РАЗБОР № (\d+)(.*)$/i, function (m) { return 'REVIEW № ' + m[1] + m[2]; }],
+    [/^Опубликован по расписанию в (.+)$/i, 'Published on schedule at $1'],
+    [/^(\d+) \/ 4096 знаков$/i, '$1 / 4096 characters'],
+    [/^темы — (\d+)$/i, 'topics — $1'],
+    [/^Готово: (\d+) постов? · в плане: (\d+)$/i, 'Done: $1 posts · planned: $2'],
+    [/^№ (\d+) · запланирован ·$/i, '# $1 · scheduled ·'],
     [/^(\d+) из (\d+)$/i, '$1 of $2'],
     [/^Тариф: (Старт|Рост|Про|Агентство|Безлимит)$/i, function (m) {
       var P2 = { 'Старт': 'Start', 'Рост': 'Growth', 'Про': 'Pro', 'Агентство': 'Agency', 'Безлимит': 'Unlimited' };
@@ -303,6 +318,8 @@
 
   setTimeout(ggI18nReady, 1600);
   if (SYNC_DICT) {
+    setTimeout(function () { translateAttrs(); translateByValue(); }, 700);
+    setTimeout(function () { translateAttrs(); }, 1500);
     apply();
     if (!RU2EN) buildValueMap();
     translateByValue();

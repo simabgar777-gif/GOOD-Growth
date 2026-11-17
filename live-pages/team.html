@@ -6,10 +6,15 @@
   var q=(location.search.match(/[?&]lang=([a-z]{2})/i)||[])[1];
   var want=(q||l||'').toLowerCase();
   if(want==='en'){
-    /* синхронный словарь: английский текст будет готов ДО первой отрисовки */
+    var r=document.documentElement;
+    r.className+=' gg-i18n-wait';
+    /* словарь синхронный: перевод будет готов до первой отрисовки */
     document.write('<script src="/i18n/en.dict.js"><\/script>');
+    /* страховка, чтобы страница не осталась скрытой */
+    setTimeout(function(){try{r.classList.remove('gg-i18n-wait');}catch(e){}},2500);
   }
 }catch(e){}})();</script>
+<style>html.gg-i18n-wait body{visibility:hidden}</style>
 
 <script>(function(){try{var h=document.documentElement;if(localStorage.getItem("gg_rail")==="1")h.classList.add("gg-rail-collapsed");h.classList.add("gg-acc-ready");}catch(e){}})();</script>
   <meta charset="utf-8" />

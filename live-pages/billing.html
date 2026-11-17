@@ -6,16 +6,21 @@
   var q=(location.search.match(/[?&]lang=([a-z]{2})/i)||[])[1];
   var want=(q||l||'').toLowerCase();
   if(want==='en'){
-    /* синхронный словарь: английский текст будет готов ДО первой отрисовки */
+    var r=document.documentElement;
+    r.className+=' gg-i18n-wait';
+    /* словарь синхронный: перевод будет готов до первой отрисовки */
     document.write('<script src="/i18n/en.dict.js"><\/script>');
+    /* страховка, чтобы страница не осталась скрытой */
+    setTimeout(function(){try{r.classList.remove('gg-i18n-wait');}catch(e){}},2500);
   }
 }catch(e){}})();</script>
+<style>html.gg-i18n-wait body{visibility:hidden}</style>
 
 <script>(function(){try{var h=document.documentElement;if(localStorage.getItem("gg_rail")==="1")h.classList.add("gg-rail-collapsed");h.classList.add("gg-acc-ready");}catch(e){}})();</script>
 <meta charset="utf-8">
 <script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.setAttribute("data-theme-src","system");}else{d.setAttribute("data-theme",t==="light"?"light":"dark");}}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title data-i18n="channels.meta.title">Каналы бренда — GOOD Growth</title>
+<title data-i18n="meta.title.billing">Каналы бренда — GOOD Growth</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
