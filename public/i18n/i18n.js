@@ -55,6 +55,12 @@
     }).filter(function (a) { return a && a.name && a.key; });
   }
 
+  /* страница может стоять скрытой, пока язык не готов (см. сниппет в <head>) */
+  function ggI18nReady() {
+    try { document.documentElement.classList.remove('gg-i18n-wait'); } catch (e) {}
+  }
+  window.ggI18nReady = ggI18nReady;
+
   function apply() {
     if (!dict) return;
 
@@ -73,6 +79,7 @@
     }
 
     document.documentElement.setAttribute('data-i18n-ready', '1');
+    if (LANG === 'ru') ggI18nReady();
     try { document.dispatchEvent(new CustomEvent('gg:i18n', { detail: { lang: LANG } })); } catch (e) {}
   }
 
@@ -110,6 +117,7 @@
 
   function finishMap(map) {
     RU2EN = map;
+    setTimeout(ggI18nReady, 60);
     PREFIX_IDX = {};
     for (var rk in map) {
       var head = rk.slice(0, 44);
@@ -281,6 +289,7 @@
     translateByValue(); translateBlocks(); translateAttrs();
   };
 
+  setTimeout(ggI18nReady, 1600);
   fetch(DICT_URL, { cache: 'no-store' })
     .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
     .then(function (data) { dict = data; apply(); buildValueMap(); })

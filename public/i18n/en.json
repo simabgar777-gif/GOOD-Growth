@@ -1152,5 +1152,6 @@
   "step.response.q": "what worked and what is worth changing",
   "step.response.empty": "Here you will see what worked. For now we show only what we know for sure.",
   "step.response.openAnalytics": "Open analytics →",
-  "step.response.locked": "Step 5 opens after your first post goes out."
+  "step.response.locked": "Step 5 opens after your first post goes out.",
+  "rail.menu.admin": "Admin panel"
 }
