@@ -1146,5 +1146,7 @@
   "trustLocal": "a tool for small businesses · your data stays with your account",
   "dash.searchPh": "Search posts",
   "dash.noHits": "Nothing found.",
-  "dash.openInContent": "Open in Content"
+  "dash.openInContent": "Open in Content",
+  "login.stage.kicker": "Quiet, on purpose",
+  "login.free": "First review is free"
 }

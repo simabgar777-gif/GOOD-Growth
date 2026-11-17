@@ -4,149 +4,318 @@
 <meta charset="utf-8">
 <script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.setAttribute("data-theme-src","system");}else{d.setAttribute("data-theme",t==="light"?"light":"dark");}}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
 <title data-i18n="login.meta.title">Вход — GOOD Growth</title>
+<meta name="description" content="GOOD Growth — мастерская системного роста: цель, стратегия, посты и картинки.">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
 <link rel="icon" type="image/x-icon" href="/favicon.ico?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,400&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#08090A;color:#F4F4F5}
-.gg-split{min-height:calc(100vh - 58px);display:grid;grid-template-columns:1.08fr 1fr}
-.gg-form-panel{display:flex;align-items:center;justify-content:center;padding:48px 40px;background:linear-gradient(180deg,#0B0C0E,#08090A)}
-.gg-form-box{width:100%;max-width:430px;text-align:left}
-.gg-form-box .card-inner{max-width:none;margin:0;text-align:left}
-.gg-mhead{text-align:center;margin-bottom:6px}
-.gg-mhead h1{font-size:27px;margin-bottom:10px;letter-spacing:-.01em;color:#F4F4F5}
-.gg-mhead .sub{text-align:center;color:#A1A1AA;font-size:15.5px;margin:0}
-form{margin-top:24px;display:flex;flex-direction:column;gap:12px;text-align:left}
-label{font-size:13.5px;font-weight:700;color:#C9C9D1}
-input{width:100%;padding:12px 14px;border:1px solid rgba(232,165,79,.28);border-radius:10px;font:inherit;font-size:15px;background:#111216;color:#F4F4F5}
-input::placeholder{color:#5F626B}
-.pw-wrap{display:block;position:relative}
-.pw-wrap input{padding-right:46px}
-.pw-eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:transparent;border:0;cursor:pointer;color:#8B8B95;padding:4px;line-height:0;border-radius:8px;transition:color 150ms linear}
-.pw-eye:hover{color:#E8A54F}
-.pw-eye svg{width:20px;height:20px}
+/* ══════════════════════════════════════════════════════════════
+   GOOD Growth · Дверь (вход)
+   Тёмный космос и свет свечи. Один экран — одна мысль.
+   Сцена слева — только CSS и SVG: без фотографий и стоков.
+   ══════════════════════════════════════════════════════════════ */
+:root{
+  --bg:#07080A; --bg-2:#0A0B0E; --surface:#101114; --surface-2:#141518;
+  --ink:#F4F1EA; --mut:#A29C90; --faint:#8A857C;
+  --copper:#E8A54F; --copper-lt:#F3C583; --copper-dp:#C97B3C;
+  --line:rgba(255,255,255,.07); --line-2:rgba(255,255,255,.13);
+  --danger:#E06C5A;
+  --serif:'Playfair Display','Noto Serif Armenian',Georgia,serif;
+  --sans:'Golos Text','Noto Sans Armenian',-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{
+  min-height:100%; background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-size:15.5px; line-height:1.55;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+#gg-header{display:none !important}
+
+.door{display:grid;grid-template-columns:1.15fr 1fr;min-height:100vh}
+
+/* ══════════ СЦЕНА ══════════ */
+.scene{
+  position:relative;overflow:hidden;isolation:isolate;
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:44px 52px 30px;
+  background:
+    radial-gradient(120% 90% at 12% 6%, rgba(232,165,79,.16), rgba(232,165,79,.04) 42%, transparent 68%),
+    radial-gradient(90% 70% at 88% 100%, rgba(232,165,79,.07), transparent 62%),
+    linear-gradient(168deg,#0C0D10 0%,#090A0C 52%,#07080A 100%);
+  border-right:1px solid var(--line);
+}
+/* тонкая бумажная сетка, гаснущая к краям (без mask: он резал соседей) */
+.scene::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(120% 90% at 18% 10%, transparent 22%, rgba(9,10,13,.62) 56%, rgba(7,8,10,.96) 84%),
+    linear-gradient(rgba(255,255,255,.020) 1px,transparent 1px) 0 0/100% 28px,
+    linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px) 0 0/28px 100%;
+}
+/* виньетка и тёплое отражение на «столе» */
+.scene::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(80% 60% at 50% 104%, rgba(232,165,79,.10), transparent 62%),
+    radial-gradient(120% 120% at 50% 50%, transparent 52%, rgba(0,0,0,.45) 100%);
+}
+/* линия стола и тёплое пятно света под ней */
+.horizon{position:absolute;left:0;right:0;bottom:26%;height:1px;z-index:0;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(243,197,131,.30) 22%,rgba(243,197,131,.42) 50%,rgba(243,197,131,.30) 78%,transparent)}
+.horizon::after{content:"";position:absolute;left:6%;right:6%;top:-52px;height:104px;
+  background:radial-gradient(60% 100% at 50% 100%,rgba(232,165,79,.16),transparent 72%);filter:blur(6px)}
+
+/* лампа: один медленный вздох */
+.lamp{position:absolute;left:-190px;top:-210px;width:620px;height:620px;z-index:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 50%,rgba(243,197,131,.22),rgba(232,165,79,.07) 42%,transparent 70%);
+  animation:breathe 11s var(--ease) infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.06);opacity:1}}
+
+/* пылинки в свете */
+.motes{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.motes i{position:absolute;display:block;width:2px;height:2px;border-radius:50%;
+  background:rgba(243,197,131,.75);filter:blur(.3px);
+  animation:drift 24s linear infinite}
+.motes i:nth-child(1){left:18%;top:74%;animation-duration:26s;animation-delay:-2s}
+.motes i:nth-child(2){left:31%;top:66%;animation-duration:31s;animation-delay:-9s;opacity:.6}
+.motes i:nth-child(3){left:44%;top:80%;animation-duration:23s;animation-delay:-14s;width:3px;height:3px}
+.motes i:nth-child(4){left:57%;top:70%;animation-duration:35s;animation-delay:-4s;opacity:.5}
+.motes i:nth-child(5){left:66%;top:84%;animation-duration:28s;animation-delay:-18s}
+.motes i:nth-child(6){left:76%;top:62%;animation-duration:33s;animation-delay:-11s;opacity:.45}
+.motes i:nth-child(7){left:86%;top:78%;animation-duration:25s;animation-delay:-7s}
+.motes i:nth-child(8){left:9%;top:58%;animation-duration:37s;animation-delay:-21s;opacity:.4}
+@keyframes drift{
+  0%{transform:translate3d(0,0,0);opacity:0}
+  12%{opacity:.7}
+  50%{transform:translate3d(26px,-46px,0)}
+  88%{opacity:.55}
+  100%{transform:translate3d(54px,-96px,0);opacity:0}
+}
+
+/* плёночное зерно поверх сцены */
+.grain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E")}
+
+/* содержимое сцены */
+.scene-top,.scene-mid,.scene-foot{position:relative;z-index:2}
+.scene-top{display:flex;align-items:center;gap:13px}
+.mark{width:26px;height:35px;display:block;filter:drop-shadow(0 0 16px rgba(232,165,79,.30))}
+.word{display:flex;flex-direction:column;line-height:1}
+.word b{font-size:14px;font-weight:600;letter-spacing:.01em;color:var(--ink)}
+.word span{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-top:5px}
+
+.scene-mid{max-width:430px;margin-top:auto;margin-bottom:auto;padding:34px 0 10px}
+.kicker{display:flex;align-items:center;gap:11px;margin-bottom:18px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--copper)}
+.kicker::before{content:"";width:28px;height:1px;background:linear-gradient(90deg,var(--copper),transparent)}
+.slogan{font-family:var(--serif);font-weight:500;font-size:clamp(36px,3.9vw,56px);line-height:1.05;
+  letter-spacing:-.02em;color:var(--ink)}
+.slogan em{font-style:italic;font-weight:400;color:var(--copper-lt)}
+.facts{list-style:none;margin:32px 0 0;display:grid;gap:17px;max-width:392px}
+.facts li{display:flex;gap:13px;align-items:flex-start;font-size:14px;line-height:1.45;color:#9C968B}
+.facts i{flex:none;width:7px;height:7px;margin-top:7px;transform:rotate(45deg);
+  border:1px solid rgba(232,165,79,.8);background:rgba(232,165,79,.12)}
+.facts b{display:block;color:var(--ink);font-weight:500;font-size:14.5px}
+
+.scene-foot{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  padding-top:18px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.scene-foot span:last-child{letter-spacing:.2em;opacity:.7}
+
+/* ══════════ ВХОД ══════════ */
+.entry{
+  position:relative;display:flex;align-items:center;justify-content:center;
+  padding:56px 44px;
+  background:radial-gradient(62% 46% at 78% -4%,rgba(232,165,79,.075),transparent 72%),var(--bg-2);
+}
+.entry-inner{width:100%;max-width:398px}
+
+.entry-head h1{font-family:var(--serif);font-weight:500;font-size:42px;line-height:1.04;letter-spacing:-.015em}
+.entry-head p{margin-top:12px;color:var(--mut);font-size:14.5px}
+
+.authed{display:none;margin:0 0 24px;border:1px solid rgba(232,165,79,.28);background:rgba(232,165,79,.06);
+  border-radius:12px;padding:14px 16px;font-size:14px;color:var(--copper-lt)}
+.authed .row{display:flex;gap:9px;flex-wrap:wrap;margin-top:11px}
+.authed a{display:inline-block;padding:8px 14px;border-radius:9px;text-decoration:none;font-size:13px;font-weight:600;
+  background:linear-gradient(180deg,var(--copper-lt),var(--copper));color:#1B1206}
+.authed a.ghost{background:transparent;border:1px solid var(--line-2);color:var(--ink);font-weight:500}
+
+form{margin-top:30px;display:flex;flex-direction:column;gap:18px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field label{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.field input{
+  width:100%;height:52px;padding:0 15px;border-radius:12px;
+  background:var(--surface);border:1px solid var(--line-2);
+  color:var(--ink);font-family:var(--sans);font-size:15px;
+  transition:border-color .2s var(--ease),background-color .2s var(--ease),box-shadow .2s var(--ease);
+}
+.field input::placeholder{color:#6E6A62}
+.field input:hover{border-color:rgba(255,255,255,.18)}
+.field input:focus{outline:none;border-color:rgba(232,165,79,.55);background:#0D0E11;
+  box-shadow:0 0 0 4px rgba(232,165,79,.10)}
+.field:focus-within label{color:var(--copper)}
+.field label{transition:color .2s var(--ease)}
+.pw-wrap{position:relative;display:block}
+.pw-wrap input{padding-right:52px}
+.pw-eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:9px;
+  background:transparent;color:var(--faint);cursor:pointer;transition:color .18s,background-color .18s}
+.pw-eye:hover,.pw-eye:focus-visible{color:var(--copper);background:rgba(255,255,255,.04);outline:none}
+.pw-eye svg{width:19px;height:19px}
 .pw-eye .off-i{display:none}
 .pw-eye.on .on-i{display:none}
 .pw-eye.on .off-i{display:block}
-.pw-eye{color:#E8A54F}
-.pw-eye:hover,.pw-eye:focus-visible{color:#F3C583}
-button.pw-eye,button.pw-eye:hover,button.pw-eye:active,button.pw-eye:focus{transform:translateY(-50%) !important}
-input[type="password"]::-ms-reveal,input[type="password"]::-ms-clear{display:none !important;height:0;width:0}
-input:focus{outline:none;border-color:rgba(232,165,79,.65);background:#0E0F12;box-shadow:0 0 0 3px rgba(232,165,79,.15)}
-button.btn{margin-top:6px;background:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);color:#1B1206;font-weight:700;font-size:15px;padding:12px 22px;border:1px solid rgba(255,255,255,.16);border-radius:10px;cursor:pointer;font-family:inherit;box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 10px 26px -10px rgba(0,0,0,.5);transition:transform 150ms cubic-bezier(.22,1,.36,1),background-color 150ms linear}
-button.btn:hover{background:linear-gradient(180deg,#F7C987,#EDAB5D 55%,#E8A54F);transform:translateY(-1px)}
-button.btn:disabled{opacity:.6;cursor:wait;transform:none}
-.msg{margin-top:14px;font-size:14.5px;border-radius:10px;padding:10px 14px;display:none;text-align:left}
-.msg.err{display:block;background:rgba(232,105,79,.10);color:#E88A6F;border:1px solid rgba(232,105,79,.30)}
-.msg.ok{display:block;background:rgba(232,165,79,.08);color:#F3C583;border:1px solid rgba(232,165,79,.25)}
-.alt{margin-top:18px;font-size:14px;color:#A1A1AA;text-align:center}
-.alt a{color:#E8A54F;font-weight:600;text-decoration:none}
-.alt a:hover{text-decoration:underline}
-.authed{display:none;margin:0 0 18px;background:rgba(232,165,79,.10);border:1px solid rgba(232,165,79,.35);color:#E8A54F;border-radius:12px;padding:14px 18px;font-size:15px;text-align:left}
-.authed .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-.authed a{display:inline-block;background:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);color:#1B1206;font-weight:600;font-size:14px;padding:9px 16px;border-radius:9px;text-decoration:none}
-.authed a.ghost{background:rgba(255,255,255,.04);color:#C9C9D1;border:1px solid rgba(255,255,255,.14)}
-.hint{font-size:12.5px;color:#8B8B95;margin-top:3px}
-.hint.bad{color:#E88A6F;font-weight:700}
-@media (max-width:900px){
-  .gg-split{grid-template-columns:1fr}
-  .gg-visual{display:none}
-  .gg-form-panel{padding:36px 22px}
-}
-@media (max-width:480px){
-  .gg-form-panel{padding:28px 18px}
-  .gg-mhead h1{font-size:23px}
-}
+input[type="password"]::-ms-reveal,input[type="password"]::-ms-clear{display:none!important;height:0;width:0}
 
-/* ── наш знак на страницах входа + старая шапка не нужна ────── */
-.ggv-top .gg-mark { width: 26px; height: 35px; display: block; }
-#gg-header { display: none !important; }
-</style>
-<link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"></head>
-<body>
-<main class="gg-split"><!-- O60 · LEFT PANEL — cinematic workshop (CSS/SVG only, no photos) -->
-<style>
-/* ==== O60 LEFT PANEL (.gg-visual / .ggv-*) ==== */
-.gg-visual{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:34px;padding:50px 54px 38px;overflow:hidden;color:#F4F4F5;background:linear-gradient(160deg,#111216 0%,#0E0F12 52%,#0B0C0E 100%);border-right:1px solid rgba(255,255,255,.06)}
-/* drafting grid, fades to edges */
-.gg-visual::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px) 0 0/100% 64px,linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px) 0 0/64px 100%;-webkit-mask-image:radial-gradient(130% 95% at 28% 18%,#000 26%,transparent 76%);mask-image:radial-gradient(130% 95% at 28% 18%,#000 26%,transparent 76%)}
-/* copper glow — breathes */
-.gg-visual::after{content:"";position:absolute;left:-170px;top:-170px;width:540px;height:540px;pointer-events:none;background:radial-gradient(circle,rgba(232,165,79,.17),rgba(232,165,79,.05) 45%,transparent 70%);animation:ggv-breathe 8s cubic-bezier(.22,1,.36,1) infinite}
-/* side ruler ticks */
-.ggv-axis{position:absolute;top:0;bottom:0;left:24px;width:9px;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,.13) 9px,transparent 9px) 0 0/9px 48px}
-.ggv-top{position:relative;display:flex;align-items:center;gap:12px}
-.ggv-top svg{display:block;filter:drop-shadow(0 0 14px rgba(232,165,79,.35))}
-.ggv-word{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#A1A1AA}
-.ggv-mid{position:relative;max-width:400px}
-.ggv-kicker{display:flex;align-items:center;gap:10px;margin:0 0 16px;font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#E8A54F}
-.ggv-kicker::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,#E8A54F,transparent)}
-.ggv-slogan{margin:0 0 26px;font-size:38px;line-height:1.12;font-weight:600;letter-spacing:-.02em;color:#F4F4F5}
-.ggv-slogan em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;color:#F3C583}
-.ggv-benefits{list-style:none;margin:0;padding:0;display:grid;gap:14px}
-.ggv-benefits li{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;line-height:1.5;color:#8B8B95}
-.ggv-benefits b{display:block;color:#F4F4F5;font-weight:600}
-.ggv-benefits i{flex:none;width:8px;height:8px;margin-top:6px;transform:rotate(45deg);border:1px solid rgba(232,165,79,.85);background:rgba(232,165,79,.14)}
-.ggv-foot{position:relative;display:flex;justify-content:space-between;gap:12px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06);font-size:12px;color:#8B8B95}
-.ggv-foot span:last-child{font-family:ui-monospace,Consolas,monospace;letter-spacing:.12em}
-/* entrance + breathe */
-@keyframes ggv-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-@keyframes ggv-breathe{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.07)}}
-.ggv-top,.ggv-mid,.ggv-foot{animation:ggv-in .7s cubic-bezier(.22,1,.36,1) both}
-.ggv-mid{animation-delay:.09s}
-.ggv-foot{animation-delay:.18s}
-/* ≤900px: compact hero band */
-@media (max-width:900px){
-  .gg-visual{flex-direction:row;align-items:center;gap:16px;padding:20px 22px;border-right:0;border-bottom:1px solid rgba(255,255,255,.06)}
-  .gg-visual::after{left:auto;right:-150px;top:-190px}
-  .ggv-axis,.ggv-kicker,.ggv-benefits,.ggv-foot{display:none}
-  .ggv-mid{max-width:none}
-  .ggv-slogan{margin:0;font-size:19px}
-  .ggv-slogan br{display:none}
-  .ggv-slogan em{display:inline}
+.btn{margin-top:6px;height:52px;border:1px solid rgba(255,255,255,.14);border-radius:12px;cursor:pointer;
+  font-family:var(--sans);font-size:15px;font-weight:600;letter-spacing:.01em;color:#1B1206;
+  background:linear-gradient(180deg,#F6CC8C,var(--copper) 58%,#DF9A48);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 12px 30px -14px rgba(232,165,79,.55);
+  transition:transform .18s var(--ease),filter .18s var(--ease),box-shadow .18s var(--ease)}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.04);box-shadow:inset 0 1px 0 rgba(255,255,255,.42),0 16px 34px -14px rgba(232,165,79,.62)}
+.btn:active{transform:translateY(0)}
+.btn:focus-visible{outline:2px solid rgba(243,197,131,.7);outline-offset:3px}
+.btn:disabled{opacity:.62;cursor:wait;transform:none;filter:grayscale(.1)}
+
+.msg{display:none;margin-top:16px;border-radius:11px;padding:11px 14px;font-size:13.5px}
+.msg.err{display:block;background:rgba(224,108,90,.08);border:1px solid rgba(224,108,90,.28);color:#EDA08F}
+.msg.ok{display:block;background:rgba(232,165,79,.07);border:1px solid rgba(232,165,79,.24);color:var(--copper-lt)}
+
+.links{margin-top:26px;display:flex;flex-direction:column;gap:10px;font-size:13.5px;color:var(--mut)}
+.links a{color:var(--copper-lt);text-decoration:none;border-bottom:1px solid rgba(243,197,131,.28);padding-bottom:1px;
+  transition:color .18s,border-color .18s}
+.links a:hover{color:var(--copper);border-color:rgba(232,165,79,.6)}
+.links .sep{color:var(--faint);opacity:.5}
+
+.note{margin-top:34px;display:flex;align-items:center;gap:9px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.note::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--copper);box-shadow:0 0 10px rgba(232,165,79,.6)}
+
+/* появление: тихо и с задержкой */
+.scene-top,.scene-mid,.scene-foot,.entry-inner{animation:rise .85s var(--ease) both}
+.scene-mid{animation-delay:.08s}
+.scene-foot{animation-delay:.18s}
+.entry-inner{animation-delay:.24s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ── ≤1080: сцена уже, форма ближе ── */
+@media (max-width:1080px){
+  .door{grid-template-columns:1fr 1fr}
+  .scene{padding:38px 36px 26px}
+  .entry{padding:48px 32px}
 }
-@media (max-width:560px){
-  .ggv-slogan{display:none}
-  .gg-visual{justify-content:center;padding:16px 20px}
+/* ── ≤900: одна колонна, сцена — тихая шапка ── */
+@media (max-width:900px){
+  .door{grid-template-columns:1fr}
+  .scene{padding:22px 20px 26px;border-right:0;border-bottom:1px solid var(--line);
+    min-height:0;justify-content:flex-start;gap:0}
+  .scene-mid{margin:16px 0 0;padding:0;max-width:none}
+  .facts,.scene-foot,.horizon,.kicker{display:none}
+  .slogan{font-size:clamp(24px,6.2vw,32px);line-height:1.14}
+  .mark{width:22px;height:30px}
+  .entry{padding:36px 20px 54px;align-items:flex-start}
+  .entry-inner{max-width:460px;margin:0 auto}
+  .motes i:nth-child(n+5){display:none}
+  .entry-head h1{font-size:clamp(32px,9vw,40px)}
+}
+@media (max-width:460px){
+  .entry-head h1{font-size:32px}
+  .entry{padding:30px 16px 46px}
+  .scene{padding:18px 16px 22px}
+  .slogan{font-size:clamp(22px,6.4vw,28px)}
 }
 @media (prefers-reduced-motion:reduce){
-  .ggv-top,.ggv-mid,.ggv-foot,.gg-visual::after{animation:none}
+  .lamp,.motes i,.scene-top,.scene-mid,.scene-foot,.entry-inner{animation:none}
 }
 </style>
-<aside class="gg-visual">
-  <i class="ggv-axis" aria-hidden="true"></i>
-  <div class="ggv-top">
-    <svg class="gg-mark" viewBox="238 162 74 101" aria-hidden="true" fill="none" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M256 193 244 180 244 252" stroke="#F8961D"/><path d="M306 168 263 209" stroke="#28A992"/><path d="M287 216 245 257" stroke="#E01F27"/><path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg>
-    <span class="ggv-word" data-i18n="common.brand">Good&nbsp;Growth</span>
-  </div>
-  <div class="ggv-mid">
-    <p class="ggv-kicker" data-i18n="common.kicker">Мастерская роста</p>
-    <h2 class="ggv-slogan"><span data-i18n="common.slogan.a">Рост — не удача.</span> <br><em data-i18n="common.slogan.b">Это ремесло.</em></h2>
-    <ul class="ggv-benefits">
-      <li><i aria-hidden="true"></i><span><b data-i18n="common.b1.title">Система вместо хаоса</b><br><span data-i18n="common.b1.text">цель, метрика и недельный ритм</span></span></li>
-      <li><i aria-hidden="true"></i><span><b data-i18n="common.b2.title">Практика на твоём проекте</b><br><span data-i18n="common.b2.text">делаешь руками, а не смотришь вебинары</span></span></li>
-      <li><i aria-hidden="true"></i><span><b data-i18n="common.b3.title">Разбор с наставником</b><br><span data-i18n="common.b3.text">живая обратная связь каждую неделю</span></span></li>
-    </ul>
-  </div>
-  <footer class="ggv-foot">
-    <span data-i18n="common.footer">© GOOD Growth · мастерская системного роста</span>
-    <span>MMXXVI</span>
-  </footer>
-</aside>
-<section class="gg-form-panel"><div class="gg-form-box"><div class="gg-mhead"><div class="authed" id="authed"><span data-i18n="login.authed">Вы уже вошли. Мастерская ждёт.</span><div class="row"><a href="/app" data-i18n="login.authed.open">Открыть мастерскую</a><a class="ghost" href="/profile" data-i18n="login.authed.profile">Профиль</a></div></div>
-  <h1 data-i18n="login.h1">Вход</h1>
-  <p class="sub" data-i18n="login.sub">С возвращением. Твоя мастерская ждёт.</p>
-  <form id="loginForm" novalidate>
-    <div><label for="email" data-i18n="login.label.email">Email</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
-    <div><label for="password" data-i18n="login.label.password">Пароль</label><span class="pw-wrap"><input id="password" name="password" type="password" autocomplete="current-password" required placeholder="••••••••"><button type="button" class="pw-eye" id="pwEye" aria-label="Показать пароль" data-i18n-attr="aria-label:common.eye.show"><svg class="on-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg><svg class="off-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button></span></div>
-    <button class="btn" type="submit" id="submitBtn" data-i18n="login.submit">Войти</button>
-  </form>
-  <div class="msg" id="msg"></div>
-  <p class="alt"><span data-i18n="login.forgot.q">Забыли пароль?</span> <a href="/forgot-password" data-i18n="login.forgot.a">Восстановить</a></p>
-  <p class="alt"><span data-i18n="login.here.q">Впервые здесь?</span> <a href="/signup" data-i18n="login.here.a">Создать аккаунт</a></p>
-</div></div></section></main>
+</head>
+<body>
+<main class="door">
+
+  <!-- ═══ СЦЕНА: мастерская ночью ═══ -->
+  <aside class="scene" aria-hidden="false">
+    <i class="lamp" aria-hidden="true"></i>
+    <i class="horizon" aria-hidden="true"></i>
+    <div class="motes" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <div class="scene-top">
+      <svg class="mark" viewBox="238 162 74 101" fill="none" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M256 193 244 180 244 252" stroke="#F8961D"/><path d="M306 168 263 209" stroke="#28A992"/><path d="M287 216 245 257" stroke="#E01F27"/><path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg>
+      <span class="word"><b data-i18n="common.brand">GOOD Growth</b><span data-i18n="common.kicker">Мастерская роста</span></span>
+    </div>
+
+    <div class="scene-mid">
+      <p class="kicker" data-i18n="login.scene.kicker">Тихо, по делу</p>
+      <h2 class="slogan"><span data-i18n="common.slogan.a">Рост — не удача.</span><br><em data-i18n="common.slogan.b">Это ремесло.</em></h2>
+      <ul class="facts">
+        <li><i aria-hidden="true"></i><span><b data-i18n="common.b1.title">Система вместо хаоса</b><span data-i18n="common.b1.text">цель, метрика и недельный ритм</span></span></li>
+        <li><i aria-hidden="true"></i><span><b data-i18n="common.b2.title">Практика на твоём проекте</b><span data-i18n="common.b2.text">делаешь руками, а не смотришь вебинары</span></span></li>
+        <li><i aria-hidden="true"></i><span><b data-i18n="common.b3.title">Разбор с наставником</b><span data-i18n="common.b3.text">живая обратная связь каждую неделю</span></span></li>
+      </ul>
+    </div>
+
+    <div class="scene-foot">
+      <span data-i18n="common.footer">© GOOD Growth · мастерская системного роста</span>
+      <span>MMXXVI</span>
+    </div>
+  </aside>
+
+  <!-- ═══ ВХОД ═══ -->
+  <section class="entry">
+    <div class="entry-inner">
+      <div class="authed" id="authed">
+        <span data-i18n="login.authed">Вы уже вошли. Мастерская ждёт.</span>
+        <div class="row">
+          <a href="/app" data-i18n="login.authed.open">Открыть мастерскую</a>
+          <a class="ghost" href="/profile" data-i18n="login.authed.profile">Профиль</a>
+        </div>
+      </div>
+
+      <header class="entry-head">
+        <h1 data-i18n="login.h1">Вход</h1>
+        <p data-i18n="login.sub">С возвращением. Твоя мастерская ждёт.</p>
+      </header>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="email" data-i18n="login.label.email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+        </div>
+        <div class="field">
+          <label for="password" data-i18n="login.label.password">Пароль</label>
+          <span class="pw-wrap">
+            <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="••••••••">
+            <button type="button" class="pw-eye" id="pwEye" aria-label="Показать пароль" data-i18n-attr="aria-label:common.eye.show">
+              <svg class="on-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="off-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </span>
+        </div>
+        <button class="btn" type="submit" id="submitBtn" data-i18n="login.submit">Войти</button>
+      </form>
+
+      <div class="msg" id="msg"></div>
+
+      <div class="links">
+        <span><span data-i18n="login.forgot.q">Забыли пароль?</span> <a href="/forgot-password" data-i18n="login.forgot.a">Восстановить</a></span>
+        <span><span data-i18n="login.here.q">Впервые здесь?</span> <a href="/signup" data-i18n="login.here.a">Создать аккаунт</a></span>
+      </div>
+
+      <p class="note" data-i18n="login.free">Первый разбор — бесплатно</p>
+    </div>
+  </section>
+</main>
+
 <script src="/i18n/i18n.js"></script>
 <script>
 (function(){
