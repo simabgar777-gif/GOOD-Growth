@@ -157,6 +157,29 @@
     rows.innerHTML = out.join('');
   }
 
+
+  /* ───────────── статус пути: где ты сейчас ───────────── */
+  function paintPath(totals, rhythm) {
+    var done = [
+      !!(totals && totals.goals > 0),                              /* 01 Цель */
+      !!(totals && (totals.posts > 0 || totals.goals > 0)),        /* 02 Разбор */
+      !!(rhythm && (rhythm.slots || []).length),                   /* 03 Ритм */
+      !!(totals && totals.posts > 0),                              /* 04 Посты */
+      !!(totals && totals.published > 0)                           /* 05 Отклик */
+    ];
+    var now = done.indexOf(false);
+    if (now < 0) now = done.length;                                /* всё пройдено */
+    var steps = document.querySelectorAll('.d2-pstep');
+    for (var i = 0; i < steps.length; i++) {
+      var n = Number(steps[i].getAttribute('data-pstep')) || (i + 1);
+      steps[i].classList.toggle('is-done', !!done[n - 1]);
+      steps[i].classList.toggle('is-now', n === now);
+      var t = steps[i].getAttribute('data-tip') || '';
+      steps[i].setAttribute('title', (done[n - 1] ? T('dash.pathDone', 'пройдено') : T('dash.pathTodo', 'впереди'))
+        + (n === now ? ' · ' + T('dash.pathNow', 'сейчас здесь') : ''));
+    }
+  }
+
   /* ───────────── ритм недели ───────────── */
   function paintWeek(rhythm) {
     var box = el('d2Week');
@@ -289,6 +312,7 @@
     paintState(sched, posts);
     paintTiles(analytics && analytics.totals, posts, profile);
     paintWeek(schedRes && schedRes.rhythm);
+    paintPath(analytics && analytics.totals, schedRes && schedRes.rhythm);
     paintNext(sched);
     paintQueue(posts);
   }).catch(function () {
@@ -304,6 +328,7 @@
         paintState(sched, posts);
         paintTiles(res[0] && res[0].totals, posts, res[3]);
         paintWeek(res[2] && res[2].rhythm);
+        paintPath(res[0] && res[0].totals, res[2] && res[2].rhythm);
         paintNext(sched);
         paintQueue(posts);
       }).catch(function () {});

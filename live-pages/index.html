@@ -25,6 +25,16 @@ html.gg-desk main#goalPage.gg-wizard {
 html.gg-desk .gg-rail-collapsed main#goalPage.gg-wizard { padding-left: 32px !important; }
 html.gg-desk #deskSection { max-width: 1080px; margin: 0 auto; }
 
+
+/* статус шагов на полосе пути */
+.d2-pstep.is-done{color:var(--amber)}
+.d2-pstep.is-done b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;
+  background:var(--amber);color:#16120b;font-size:10px}
+.d2-pstep.is-now{color:var(--fg);font-weight:600}
+.d2-pstep.is-now b{box-shadow:0 0 0 2px rgba(232,163,61,.45);border-radius:50%;width:20px;height:20px;
+  display:inline-grid;place-items:center}
+.d2-pstep.is-now::after{content:'•';color:var(--amber);font-size:14px;line-height:1}
+
 </style>
 
 <script>(function(){try{var h=document.documentElement;if(localStorage.getItem("gg_rail")==="1")h.classList.add("gg-rail-collapsed");h.classList.add("gg-acc-ready");}catch(e){}})();</script>
@@ -568,15 +578,15 @@ html.gg-boot #steps, html.gg-boot #postsSec, html.gg-boot #ggRhythm { display: n
 
   <div class="gg-blk d2-path">
     <div class="d2-pathtrack">
-      <a href="/app/strategy" class="d2-pstep"><b>01</b> <span data-i18n="dash.stepGoal">Цель</span></a>
+      <a href="/app/strategy" class="d2-pstep" data-pstep="1"><b>01</b> <span data-i18n="dash.stepGoal">Цель</span></a>
       <span class="d2-pln"></span>
-      <a href="/app/strategy?step=2" class="d2-pstep"><b>02</b> <span data-i18n="dash.stepReview">Разбор</span></a>
+      <a href="/app/strategy?step=2" class="d2-pstep" data-pstep="2"><b>02</b> <span data-i18n="dash.stepReview">Разбор</span></a>
       <span class="d2-pln"></span>
-      <a href="/app/schedule" class="d2-pstep"><b>03</b> <span data-i18n="dash.stepRhythm">Ритм</span></a>
+      <a href="/app/schedule" class="d2-pstep" data-pstep="3"><b>03</b> <span data-i18n="dash.stepRhythm">Ритм</span></a>
       <span class="d2-pln"></span>
-      <a href="/app/posts" class="d2-pstep"><b>04</b> <span data-i18n="dash.stepPosts">Посты</span></a>
+      <a href="/app/posts" class="d2-pstep" data-pstep="4"><b>04</b> <span data-i18n="dash.stepPosts">Посты</span></a>
       <span class="d2-pln"></span>
-      <a href="/app/analytics" class="d2-pstep"><b>05</b> <span data-i18n="dash.stepResp">Отклик</span></a>
+      <a href="/app/analytics" class="d2-pstep" data-pstep="5"><b>05</b> <span data-i18n="dash.stepResp">Отклик</span></a>
       <div class="gg-grow"></div>
       <a class="d2-go" href="/app/strategy" data-i18n="dash.openGoal">Открыть Цель →</a>
     </div>
