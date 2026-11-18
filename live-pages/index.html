@@ -14,7 +14,18 @@
     setTimeout(function(){try{r.classList.remove('gg-i18n-wait');}catch(e){}},2500);
   }
 }catch(e){}})();</script>
-<style>html.gg-i18n-wait body{visibility:hidden}</style>
+<style>html.gg-i18n-wait body{visibility:hidden}
+/* Стол по центру: убираем отступ, зарезервированный под навигацию шагов */
+html.gg-desk main#goalPage.gg-wizard {
+  padding-left: 32px !important;
+  padding-right: 32px !important;
+  max-width: 1180px !important;
+  margin: 0 auto !important;
+}
+html.gg-desk .gg-rail-collapsed main#goalPage.gg-wizard { padding-left: 32px !important; }
+html.gg-desk #deskSection { max-width: 1080px; margin: 0 auto; }
+
+</style>
 
 <script>(function(){try{var h=document.documentElement;if(localStorage.getItem("gg_rail")==="1")h.classList.add("gg-rail-collapsed");h.classList.add("gg-acc-ready");}catch(e){}})();</script>
 <meta charset="utf-8" />
