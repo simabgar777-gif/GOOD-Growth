@@ -1300,5 +1300,9 @@
   "footer.legal": "Документы",
   "cookie.text": "Мы используем cookie, чтобы сайт работал: вход, язык, тема. Без рекламных трекеров.",
   "cookie.accept": "Принять",
-  "cookie.more": "Подробнее"
+  "cookie.more": "Подробнее",
+  "signup.consent.before": "Принимаю",
+  "signup.consent.and": "и",
+  "signup.consent.privacy": "политику конфиденциальности",
+  "signup.msg.consent": "Чтобы создать аккаунт, прими соглашение и политику конфиденциальности."
 }
