@@ -1475,6 +1475,18 @@ function renderPosts(goalId) {
     window.ggRefreshWizard = refresh;
     refresh();
     showStep(1);
+    /* можно прийти сразу на нужный шаг: /app/strategy?step=2 */
+    try {
+      var _st = Number(new URLSearchParams(location.search).get('step'));
+      if (_st >= 2 && _st <= 5) {
+        setTimeout(function () {
+          try {
+            if (window.ggRefreshWizard) window.ggRefreshWizard();
+            showStep(_st);
+          } catch (e) {}
+        }, 120);
+      }
+    } catch (e) {}
     } catch (e) { console.warn('buildWizard', e); }
   }
 
