@@ -51,11 +51,14 @@ input::placeholder{color:#5F626B}
 button.pw-eye,button.pw-eye:hover,button.pw-eye:active,button.pw-eye:focus{transform:translateY(-50%) !important}
 input[type="password"]::-ms-reveal,input[type="password"]::-ms-clear{display:none !important;height:0;width:0}
 input:focus{outline:none;border-color:rgba(232,165,79,.65);background:#0E0F12;box-shadow:0 0 0 3px rgba(232,165,79,.15)}
-.consent{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:1.55;color:#A29C90;margin:4px 0 2px;cursor:pointer}
-.consent input{appearance:none;-webkit-appearance:none;width:17px;height:17px;margin:2px 0 0;flex:none;border:1px solid rgba(232,165,79,.55);border-radius:4px;background:#111216;display:grid;place-items:center;cursor:pointer}
-.consent input:checked{background:linear-gradient(180deg,#F0BC72,#E8A54F);border-color:#E8A54F}
-.consent input:checked::after{content:'✓';color:#1B1206;font-size:11px;font-weight:700;line-height:1}
-.consent input:focus-visible{outline:2px solid rgba(232,165,79,.5);outline-offset:2px}
+.consent{position:relative;display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:1.55;color:#A29C90;margin:4px 0 2px;cursor:pointer}
+.consent input{position:absolute;left:0;top:0;width:18px;height:18px;margin:0;opacity:0;cursor:pointer}
+.consent-mark{width:18px;height:18px;flex:none;margin-top:1px;border:1px solid rgba(232,165,79,.55);border-radius:4px;background:#111216;display:grid;place-items:center;transition:background .15s,border-color .15s}
+.consent-mark::after{content:'';width:9px;height:5px;border-left:2px solid #1B1206;border-bottom:2px solid #1B1206;transform:rotate(-45deg) scale(.6);opacity:0;transition:opacity .12s,transform .12s}
+.consent input:checked + .consent-mark{background:linear-gradient(180deg,#F0BC72,#E8A54F);border-color:#E8A54F}
+.consent input:checked + .consent-mark::after{opacity:1;transform:rotate(-45deg) scale(1)}
+.consent input:focus-visible + .consent-mark{outline:2px solid rgba(232,165,79,.5);outline-offset:2px}
+.consent-tx{display:block}
 .consent a{color:#E8A54F;text-decoration:none;border-bottom:1px dotted rgba(232,165,79,.5)}
 button.btn{margin-top:6px;background:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);color:#1B1206;font-weight:700;font-size:15px;padding:12px 22px;border:1px solid rgba(255,255,255,.16);border-radius:10px;cursor:pointer;font-family:inherit;box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 10px 26px -10px rgba(0,0,0,.5);transition:transform 150ms cubic-bezier(.22,1,.36,1),background-color 150ms linear}
 button.btn:hover{background:linear-gradient(180deg,#F7C987,#EDAB5D 55%,#E8A54F);transform:translateY(-1px)}
@@ -167,7 +170,8 @@ button.btn:disabled{opacity:.6;cursor:wait;transform:none}
       <div class="hint" id="pwHint" data-i18n="signup.hint">Минимум 8 символов. Храним только хэш — сам пароль не увидит даже сервер. Только английские буквы, цифры и символы.</div></div>
     <label class="consent" for="consent">
       <input type="checkbox" id="consent" name="consent" required>
-      <span><span data-i18n="signup.consent.before">Принимаю</span> <a href="/terms" target="_blank" rel="noopener" data-i18n="legal.nav.terms">Соглашение</a> <span data-i18n="signup.consent.and">и</span> <a href="/privacy" target="_blank" rel="noopener" data-i18n="signup.consent.privacy">политику конфиденциальности</a></span>
+      <span class="consent-mark" aria-hidden="true"></span>
+      <span class="consent-tx"><span data-i18n="signup.consent.before">Принимаю</span> <a href="/terms" target="_blank" rel="noopener" data-i18n="legal.nav.terms">Соглашение</a> <span data-i18n="signup.consent.and">и</span> <a href="/privacy" target="_blank" rel="noopener" data-i18n="signup.consent.privacy">политику конфиденциальности</a></span>
     </label>
     <button class="btn" type="submit" id="submitBtn" data-i18n="signup.submit">Создать аккаунт</button>
   </form>
