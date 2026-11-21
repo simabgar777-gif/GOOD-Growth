@@ -60,7 +60,7 @@
   <p class="sub" style="margin:0 0 14px">сообщество VK — второй канал: посты уходят и туда, и в Telegram</p>
   <div class="chan-row">
     <input id="vkGroup" value="243557218" placeholder="id сообщества (например 243557218)" aria-label="id сообщества VK">
-    <input id="vkToken" type="password" placeholder="токен сообщества — права wall, photos, manage" aria-label="Токен VK" style="margin-top:10px">
+    <input id="vkToken" type="password" placeholder="токен пользователя (wall, photos, groups, offline)" aria-label="Токен VK" style="margin-top:10px">
     <button type="button" class="chan-go" id="vkGo">Подключить VK</button>
     <button type="button" class="chan-go" id="vkTest" style="margin-left:8px">Проверить публикацию</button>
   </div>
@@ -119,7 +119,7 @@
     .then(function (d) {
       if (!d) return say('Состояние не пришло — обнови страницу.');
       if (d.connected) say('подключено: ' + (d.title || d.group_id), true);
-      else say('ещё не подключено — вставь id сообщества и токен.');
+      else say('ещё не подключено — нужен токен пользователя с правами wall, photos, groups, offline.');
     })
     .catch(function () { say('Состояние не пришло — обнови страницу.'); });
   var TB = document.getElementById('vkTest');
