@@ -62,6 +62,7 @@
     <input id="vkGroup" value="243557218" placeholder="id сообщества (например 243557218)" aria-label="id сообщества VK">
     <input id="vkToken" type="password" placeholder="токен сообщества — права wall, photos, manage" aria-label="Токен VK" style="margin-top:10px">
     <button type="button" class="chan-go" id="vkGo">Подключить VK</button>
+    <button type="button" class="chan-go" id="vkTest" style="margin-left:8px">Проверить публикацию</button>
   </div>
   <p class="chan-hint" id="vkStatus">Проверяю…</p>
 </div>
@@ -121,6 +122,19 @@
       else say('ещё не подключено — вставь id сообщества и токен.');
     })
     .catch(function () { say('Состояние не пришло — обнови страницу.'); });
+  var TB = document.getElementById('vkTest');
+  if (TB) TB.addEventListener('click', function () {
+    TB.disabled = true; say('Пробую опубликовать тестовый пост…');
+    fetch('/api/vk/test', { method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin',
+      body: JSON.stringify({}) })
+      .then(function (r) { return r.json().then(function (d) { return { s: r.status, d: d }; }); })
+      .then(function (res) {
+        TB.disabled = false;
+        if (res.s === 200 && res.d.ok) say('тестовый пост опубликован ✓ (id ' + res.d.post_id + ')', true);
+        else say((res.d && res.d.error) || 'VK отказал.', false);
+      })
+      .catch(function () { TB.disabled = false; say('Сервер не отвечает.', false); });
+  });
   B.addEventListener('click', function () {
     var group = (G.value || '').trim(), token = (T.value || '').trim();
     if (!group || token.length < 20) return say('Нужны id сообщества и токен целиком.', false);
