@@ -54,6 +54,18 @@
   <p class="chan-hint" id="chanStatus"></p>
 </div>
 
+
+<div class="chan-tg" id="vkBox" style="margin-top:16px">
+  <h2>VK</h2>
+  <p class="sub" style="margin:0 0 14px">сообщество VK — второй канал: посты уходят и туда, и в Telegram</p>
+  <div class="chan-row">
+    <input id="vkGroup" value="243557218" placeholder="id сообщества (например 243557218)" aria-label="id сообщества VK">
+    <input id="vkToken" type="password" placeholder="токен сообщества — права wall, photos, manage" aria-label="Токен VK" style="margin-top:10px">
+    <button type="button" class="chan-go" id="vkGo">Подключить VK</button>
+  </div>
+  <p class="chan-hint" id="vkStatus">Проверяю…</p>
+</div>
+
 <script>
 (function () {
   var NETS = [
@@ -94,6 +106,38 @@
 </script>
 </div>
 
+
+<script>
+(function () {
+  var G = document.getElementById('vkGroup'), T = document.getElementById('vkToken');
+  var B = document.getElementById('vkGo'), S = document.getElementById('vkStatus');
+  if (!B) return;
+  function say(t, ok) { S.textContent = t; S.style.color = ok === false ? '#E0453A' : ''; }
+  fetch('/api/vk/status', { credentials: 'same-origin' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d) return say('Состояние не пришло — обнови страницу.');
+      if (d.connected) say('подключено: ' + (d.title || d.group_id), true);
+      else say('ещё не подключено — вставь id сообщества и токен.');
+    })
+    .catch(function () { say('Состояние не пришло — обнови страницу.'); });
+  B.addEventListener('click', function () {
+    var group = (G.value || '').trim(), token = (T.value || '').trim();
+    if (!group || token.length < 20) return say('Нужны id сообщества и токен целиком.', false);
+    B.disabled = true; say('Проверяю токен в VK…');
+    fetch('/api/vk/connect', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin',
+      body: JSON.stringify({ group_id: group, token: token })
+    }).then(function (r) { return r.json().then(function (d) { return { s: r.status, d: d }; }); })
+      .then(function (res) {
+        B.disabled = false;
+        if (res.s === 200 && res.d.ok) { T.value = ''; say('подключено: ' + (res.d.title || res.d.group_id), true); }
+        else say((res.d && res.d.error) || 'VK не принял токен.', false);
+      })
+      .catch(function () { B.disabled = false; say('Сервер не отвечает — попробуй ещё раз.', false); });
+  });
+})();
+</script>
 <script src="/theme.js" defer></script>
 <script src="/topline.js" defer></script>
 <script src="/rail.js" defer></script>
