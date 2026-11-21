@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru" data-lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Подключение VK · GOOD Growth</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>(function(){try{
+  var l=localStorage.getItem('gg_lang')||'';
+  var q=(location.search.match(/[?&]lang=([a-z]{2})/i)||[])[1];
+  if((q||l||'')==='en'){var r=document.documentElement;r.className+=' gg-i18n-wait';document.write('<script src="/i18n/en.dict.js"><\/script>');setTimeout(function(){try{r.classList.remove('gg-i18n-wait')}catch(e){}},2500);}
+}catch(e){}})();</script>
+<style>html.gg-i18n-wait body{visibility:hidden}</style>
+<link rel="stylesheet" href="/style-c.css">
+<link rel="stylesheet" href="/theme.css">
+<style>
+:root{--bg:#07080A;--line:rgba(236,226,206,.12);--ink:#F4F1EA;--mut:#A29C90;--copper:#E8A54F;--copper-lt:#F3C583}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);
+  font-family:'Golos Text',system-ui,-apple-system,'Segoe UI',sans-serif}
+.card{width:min(560px,calc(100vw - 40px));border:1px solid var(--line);border-radius:18px;padding:30px 28px;
+  background:linear-gradient(180deg,#0E0F12,#0A0B0E);text-align:center}
+.mark{width:44px;height:44px;margin:0 auto 18px;display:grid;place-items:center;border-radius:12px;
+  border:1px solid rgba(232,165,79,.35);color:var(--copper);font-weight:700}
+h1{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:26px;margin:0 0 10px}
+p{color:var(--mut);font-size:14px;line-height:1.65;margin:0 0 8px}
+.ok{color:#8ED08A}
+.bad{color:#E0453A}
+a.btn{display:inline-block;margin-top:18px;padding:11px 18px;border-radius:11px;text-decoration:none;
+  border:1px solid rgba(232,165,79,.55);background:rgba(232,165,79,.14);color:var(--copper-lt);font-size:14px}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="mark">VK</div>
+  <h1 id="h">Подключаю сообщество…</h1>
+  <p id="m">Проверяю ответ VK и сохраняю доступ.</p>
+  <a class="btn" href="/partner/channels" id="back" style="display:none">← Вернуться в каналы</a>
+</main>
+<script>
+(function () {
+  var h = document.getElementById('h'), m = document.getElementById('m'), back = document.getElementById('back');
+  var group = '243557218';
+  try {
+    var qs = new URLSearchParams(location.search);
+    if (qs.get('group')) group = qs.get('group').replace(/[^0-9]/g, '') || group;
+  } catch (e) {}
+
+  var hash = String(location.hash || '').replace(/^#/, '');
+  var params = new URLSearchParams(hash);
+  var token = params.get('access_token') || '';
+  var err = params.get('error_description') || params.get('error') || '';
+
+  function done(title, text, ok) {
+    h.textContent = title;
+    h.className = ok ? 'ok' : 'bad';
+    m.textContent = text;
+    back.style.display = 'inline-block';
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  }
+
+  if (!token) {
+    if (err) return done('VK не дал доступ', decodeURIComponent(err), false);
+    return done('Токен не пришёл', 'Похоже, окно закрылось раньше. Нажми «Войти через VK» ещё раз.', false);
+  }
+  if (token.length < 20) return done('Токен подозрительно короткий', 'Попробуй авторизоваться ещё раз.', false);
+
+  done('Сохраняю…', 'Проверяю сообщество через VK.', true);
+  fetch('/api/vk/connect', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin',
+    body: JSON.stringify({ group_id: group, token: token })
+  }).then(function (r) { return r.json().then(function (d) { return { s: r.status, d: d }; }); })
+    .then(function (res) {
+      if (res.s === 200 && res.d.ok) {
+        done('Сообщество подключено ✓', '«' + (res.d.title || group) + '» готово. Теперь посты будут уходить и в VK.', true);
+      } else {
+        done('VK отказал', (res.d && res.d.error) || 'Не удалось подключить.', false);
+      }
+    })
+    .catch(function () { done('Сервер не ответил', 'Попробуй ещё раз через минуту.', false); });
+})();
+</script>
+<script src="/legal.js" defer></script>
+</body>
+</html>
