@@ -72,7 +72,7 @@
 (function () {
   var NETS = [
     ['Telegram',      'ok',   'T',  'фото 16:9 · до 4096 знаков · видео да'],
-    ['VK',            'soon', 'VK', 'фото 16:9 · до 4096 · видео да'],
+    ['VK',            'verify', 'VK', 'ждёт подтверждения профиля в VK'],
     ['Instagram',     'soon', 'IG', 'фото 1:1 · до 2200 · видео да'],
     ['Facebook',      'soon', 'F',  'фото 1.91:1 · до 63 206 · видео да'],
     ['YouTube',       'soon', 'YT', 'видео 16:9 · описание до 5000'],
@@ -90,7 +90,7 @@
     return '<div class="chan-card ' + n[1] + '">' +
       '<span class="chan-ic">' + esc(n[2]) + '</span>' +
       '<span class="chan-tx"><b>' + esc(n[0]) + '</b><em>' + esc(n[3]) + '</em></span>' +
-      '<span class="chan-st">' + (ok ? 'подключён' : 'скоро') + '</span>' +
+      '<span class="chan-st">' + (ok ? 'подключён' : (n[1] === 'verify' ? 'нужна проверка' : 'скоро')) + '</span>' +
       '</div>';
   }).join('');
 
