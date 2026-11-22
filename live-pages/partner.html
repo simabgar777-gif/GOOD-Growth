@@ -358,7 +358,7 @@
     function openMemory(brandId, brandName) {
       id = brandId;
       document.getElementById('memoBrand').textContent = brandName || '';
-      ['memoTone', 'memoFacts', 'memoStop', 'memoAud'].forEach(function (k) {
+      ['memoTone', 'memoFacts', 'memoStop', 'memoAud', 'memoLimits'].forEach(function (k) {
         var el = document.getElementById(k); if (el) el.value = '';
       });
       back.hidden = false;
@@ -371,6 +371,7 @@
           document.getElementById('memoFacts').value = m.facts || '';
           document.getElementById('memoStop').value = m.stop || '';
           document.getElementById('memoAud').value = m.audience || '';
+          document.getElementById('memoLimits').value = m.limits || '';
         }).catch(function () {});
     }
     function closeMemory() { back.hidden = true; }
@@ -398,7 +399,8 @@
           tone: document.getElementById('memoTone').value,
           facts: document.getElementById('memoFacts').value,
           stop: document.getElementById('memoStop').value,
-          audience: document.getElementById('memoAud').value
+          audience: document.getElementById('memoAud').value,
+          limits: document.getElementById('memoLimits').value
         })
       }).then(function (r) { return r.json().then(function (d) { return { s: r.status, d: d }; }); })
         .then(function (res) {
@@ -440,6 +442,9 @@
 
         <label class="memo-l" for="memoAud"><span data-i18n="memory.audience">Аудитория</span><em data-i18n="memory.audHint">кто наши клиенты</em></label>
         <textarea id="memoAud" rows="2" maxlength="600" placeholder="Мамы и бабушки, 28–45, Тбилиси; ценят заботу и цену."></textarea>
+
+        <label class="memo-l" for="memoLimits"><span data-i18n="memory.limits">Границы</span><em data-i18n="memory.limitsHint">чего не говорим от лица владельца</em></label>
+        <textarea id="memoLimits" rows="2" maxlength="700" placeholder="Не говорим о политике, деньгах и клиентах. Не обещаем сроков, которые не обсуждали."></textarea>
 
         <div class="memo-foot">
           <span class="memo-hint" id="memoSay" data-i18n="memory.savedHint">Заполни хотя бы тон и факты — уже станет точнее.</span>

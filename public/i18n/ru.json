@@ -1322,5 +1322,7 @@
   "memory.fail": "Не сохранилось.",
   "memory.nonet": "Сервер не отвечает.",
   "memory.flag": "памятка",
-  "memory.filled": "памятка бренда заполнена"
+  "memory.filled": "памятка бренда заполнена",
+  "memory.limits": "Границы",
+  "memory.limitsHint": "чего не говорим от лица владельца"
 }

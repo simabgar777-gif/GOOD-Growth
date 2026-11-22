@@ -88,7 +88,17 @@ def server_state():
 
 
 def snapshot():
-    data = {"local": local_state(), "server": server_state()[0]}
+    srv, err = server_state()
+    old = {}
+    if os.path.exists(BASE):
+        try:
+            old = json.loads(io.open(BASE, encoding="utf-8").read())
+        except Exception:
+            old = {}
+    if err:
+        print("  сервер сейчас недоступен (%s) — оставляю прежние серверные хеши" % err)
+        srv = old.get("server", {})
+    data = {"local": local_state(), "server": srv}
     io.open(BASE, "w", encoding="utf-8", newline="\n").write(json.dumps(data, ensure_ascii=False, indent=1))
     print("  эталон записан: %d локальных файлов, %d серверных" % (len(data["local"]), len(data["server"])))
     return 0

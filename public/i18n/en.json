@@ -1322,5 +1322,7 @@
   "memory.fail": "Did not save.",
   "memory.nonet": "The server is not answering.",
   "memory.flag": "memory",
-  "memory.filled": "brand memory is filled"
+  "memory.filled": "brand memory is filled",
+  "memory.limits": "Limits",
+  "memory.limitsHint": "what we never say on the owner’s behalf"
 }
