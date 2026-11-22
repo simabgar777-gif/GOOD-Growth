@@ -111,9 +111,11 @@
           '<td class="muted">' + b.channels + '</td>' +
           '<td class="muted">' + fmtDate(b.last_published_at) + '</td></tr>').join('');
         document.getElementById('tableWrap').innerHTML = d.brands.length
+        if (window.ggSkeletonDone) window.ggSkeletonDone();
           ? '<table><thead><tr><th>' + ggT('analytics.th.brand','Бренд') + '</th><th>' + ggT('analytics.th.goals','Цели') + '</th><th>' + ggT('analytics.th.posts','Посты') + '</th><th>' + ggT('analytics.th.published','Публикации') + '</th><th>' + ggT('analytics.th.channels','Каналы') + '</th><th>' + ggT('analytics.th.last','Последняя публ.') + '</th></tr></thead><tbody>' + rows + '</tbody></table>'
           : '<div class="empty">' + ggT('analytics.empty','Брендов пока нет. Создай первый на странице «К брендам» — и здесь появится статистика.') + '</div>';
       } catch (e) {
+    if (window.ggSkeletonDone) window.ggSkeletonDone();
         document.getElementById('tableWrap').innerHTML = '<div class="empty">' + ggT('analytics.err','Не удалось загрузить: ') + esc(e.message) + '</div>';
       }
     }
@@ -126,5 +128,7 @@
 <script src="/topline.js" defer></script>
 <script src="/rail.js" defer></script>
 <script src="/legal.js" defer></script>
+<script>window.GG_SKELETON = {targets:[{sel:'#totals',kind:'tiles',count:4},{sel:'#tableWrap',kind:'table',count:5}]};</script>
+<script src="/skeleton.js"></script>
 </body>
 </html>

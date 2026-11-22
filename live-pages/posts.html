@@ -218,6 +218,7 @@ select:focus,input:focus{border-color:rgba(232,165,79,.5)}
       ALL = d.posts || []; BRANDS = d.brands || [];
       if (!$('fBrand').options.length) fillBrands();
       render();
+      if (window.ggSkeletonDone) window.ggSkeletonDone();
     }).catch(function(e){ if (e.message !== 'auth') msg(ggT('posts.msg.loadFail','Не удалось загрузить склад'), true); });
   }
   load();
@@ -227,5 +228,7 @@ select:focus,input:focus{border-color:rgba(232,165,79,.5)}
 <script src="/topline.js" defer></script>
 <script src="/rail.js" defer></script>
 <script src="/legal.js" defer></script>
+<script>window.GG_SKELETON = {targets:[{sel:'#grid',kind:'cards',count:6}]};</script>
+<script src="/skeleton.js"></script>
 </body>
 </html>

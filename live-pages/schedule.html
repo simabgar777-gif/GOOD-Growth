@@ -321,6 +321,7 @@ select:focus{border-color:rgba(232,165,79,.5)}
       BRANDS = d.brands || [];
       if (!$('fBrand').options.length) fillBrands();
       render();
+      if (window.ggSkeletonDone) window.ggSkeletonDone();
     }).catch(function(e){ if (e.message !== 'auth') msg(ggT('schedule.msg.loadFail','Не удалось загрузить расписание'), true); });
   }
   var spreadBtn = document.getElementById('spreadAll');
@@ -495,5 +496,7 @@ select:focus{border-color:rgba(232,165,79,.5)}
 })();
 </script>
 <script src="/legal.js" defer></script>
+<script>window.GG_SKELETON = {targets:[{sel:'#grid',kind:'cards',count:6}]};</script>
+<script src="/skeleton.js"></script>
 </body>
 </html>
