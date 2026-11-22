@@ -17,10 +17,34 @@ BG = (7, 8, 10)
 INK = (244, 241, 234)
 MUT = (150, 145, 134)
 COPPER = (232, 165, 79)
-ORANGE = (242, 160, 61)
-RED = (224, 71, 58)
-GREEN = (89, 196, 106)
-TEAL = (53, 214, 192)
+
+# Знак GOOD — каноническая геометрия бренд-пакета (viewBox 238.58 162.26 73.34 100.16,
+# stroke-width 11, round cap/join). Снята пиксельно с референса и подогнана
+# под оригинал студии по IoU масок.
+# Источник правды: бренд-пакет _mark.js (C:\Users\боос\.minimax-agent\projects\good-growth-logo\_mark.js)
+ORANGE = (248, 150, 29)   # #F8961D
+TEAL = (40, 169, 146)     # #28A992
+RED = (224, 31, 39)       # #E01F27
+GREEN = (76, 184, 83)     # #4CB853
+
+# Отрезки в координатах знака (единый масштаб по обеим осям, без искажений)
+SEGS = [
+    (256.25, 190.88, 244.60, 179.70, ORANGE),   # оранжевый: верхний крюк
+    (244.60, 179.70, 244.08, 256.64, ORANGE),   # оранжевый: левая стойка
+    (306.42, 167.76, 264.33, 209.33, TEAL),     # бирюзовая диагональ
+    (287.58, 214.62, 244.33, 256.92, RED),      # красная диагональ
+    (294.50, 233.19, 305.70, 243.90, GREEN),    # зелёный: нижний крюк
+    (305.70, 243.90, 306.40, 170.20, GREEN),    # зелёный: правая стойка
+]
+STROKE = 11.0   # толщина штриха в координатах знака
+
+# границы чернил знака (с учётом скруглённых концов)
+_xs = [v for s in SEGS for v in (s[0], s[2])]
+_ys = [v for s in SEGS for v in (s[1], s[3])]
+INK_X0, INK_X1 = min(_xs) - STROKE / 2, max(_xs) + STROKE / 2
+INK_Y0, INK_Y1 = min(_ys) - STROKE / 2, max(_ys) + STROKE / 2
+INK_W = INK_X1 - INK_X0   # ширина чернил = 73.34
+INK_H = INK_Y1 - INK_Y0   # высота чернил = 100.16
 
 
 def radial(w, h, cx, cy, rx, ry, peak):
@@ -52,28 +76,23 @@ def background(w, h, glow=(0.55, 0.30), grid=28):
     return Image.composite(img, dark, mask)
 
 
-def stroke(d, p1, p2, width, color):
-    d.line([p1, p2], fill=color, width=width)
-    r = width / 2
-    for p in (p1, p2):
-        d.ellipse([p[0] - r, p[1] - r, p[0] + r, p[1] + r], fill=color)
-
-
 def draw_mark(d, x, y, size):
-    k = size
-    lw = max(6, int(k * 0.115))
-    L = (x + k * 0.10, y + k * 0.12)
-    Lb = (x + k * 0.10, y + k * 0.88)
-    M = (x + k * 0.50, y + k * 0.66)
-    Rt = (x + k * 0.90, y + k * 0.12)
-    Rb = (x + k * 0.90, y + k * 0.88)
-    # левый штрих: красный низ, оранжевый верх
-    stroke(d, L, Lb, lw, RED)
-    mid = (L[0], L[1] + (Lb[1] - L[1]) * 0.55)
-    stroke(d, L, mid, lw, ORANGE)
-    stroke(d, L, M, lw, TEAL)
-    stroke(d, M, Rt, lw, GREEN)
-    stroke(d, Rt, Rb, lw, GREEN)
+    """Знак GOOD четырьмя обводками — ровно на месте прежнего глифа M:
+    та же ширина чернил, тот же левый край и тот же центр по вертикали.
+    Геометрия — из бренд-пакета (единый масштаб по обеим осям).
+    Всё остальное в обложке не тронуто."""
+    target = 0.913 * size             # ширина чернил у прежнего глифа
+    s = target / INK_W               # единый масштаб: ширина и высота вместе
+    off_x = (x + 0.0435 * size) - INK_X0 * s
+    off_y = (y + 0.5 * size) - ((INK_Y0 + INK_Y1) / 2) * s
+    lw = max(6, int(round(STROKE * s)))
+    r = lw / 2
+    for x1, y1, x2, y2, color in SEGS:
+        p1 = (off_x + x1 * s, off_y + y1 * s)
+        p2 = (off_x + x2 * s, off_y + y2 * s)
+        d.line([p1, p2], fill=color, width=lw)
+        for p in (p1, p2):
+            d.ellipse([p[0] - r, p[1] - r, p[0] + r, p[1] + r], fill=color)
 
 
 def F(path, size):
