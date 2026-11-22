@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ru" data-lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Памятка бренда — предпросмотр</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style-c.css">
+<link rel="stylesheet" href="/theme.css">
+<style>
+body{margin:0;background:#07080A;color:#F4F1EA;font-family:'Golos Text',system-ui,-apple-system,'Segoe UI',sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:34px 28px 60px}
+h1{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:30px;margin:0 0 6px}
+.sub{color:#8A857C;font-size:13px;margin:0 0 26px}
+.card{border:1px solid rgba(236,226,206,.12);border-radius:16px;padding:18px 20px;background:#0C0D10;margin-bottom:14px}
+.card-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.card-top h2{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:19px;margin:0}
+.badge{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#8ED08A;border:1px solid rgba(142,208,138,.35);border-radius:999px;padding:2px 9px}
+.meta{color:#8A857C;font-size:12.5px;margin:0}
+.mini{background:transparent;border:1px solid rgba(236,226,206,.18);color:#CFC9BD;border-radius:9px;padding:6px 12px;font-size:12px;cursor:pointer}
+.mini.memo-btn{color:#F3C583;border-color:rgba(232,165,79,.4)}
+  /* Памятка бренда */
+  .memo-flag{font-family:var(--font-mono,monospace);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:#E8A54F;border:1px solid rgba(232,165,79,.35);border-radius:999px;padding:2px 8px;margin-left:2px}
+  .memo-btn{color:#F3C583;border-color:rgba(232,165,79,.4)}
+  .memo-back{position:fixed;inset:0;background:rgba(4,5,7,.72);backdrop-filter:blur(6px);z-index:9000;
+    display:grid;place-items:center;padding:20px}
+  .memo-back[hidden]{display:none!important}
+  .memo{width:min(620px,100%);max-height:92vh;overflow:auto;border:1px solid rgba(232,165,79,.22);border-radius:18px;
+    background:linear-gradient(180deg,#0E0F12,#090A0C);padding:22px 24px 20px;box-shadow:0 30px 70px rgba(0,0,0,.6)}
+  .memo-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:6px}
+  .memo-top h2{margin:0;font-family:var(--font-display,serif);font-weight:500;font-size:21px;line-height:1.2;color:#F4F1EA}
+  .memo-top h2 b{color:#E8A54F;font-weight:500}
+  .memo-x{margin-left:auto;background:transparent;border:0;color:#8A857C;font-size:15px;cursor:pointer;padding:2px 4px}
+  .memo-x:hover{color:#E8A54F}
+  .memo-sub{margin:0 0 16px;font-size:12.5px;line-height:1.55;color:#8A857C;max-width:460px}
+  .memo-l{display:flex;align-items:baseline;gap:8px;margin:14px 0 6px;font-size:12px;color:#CFC9BD}
+  .memo-l em{font-style:normal;font-size:11px;color:#7C776E}
+  .memo input,.memo textarea{width:100%;background:#111216;border:1px solid rgba(236,226,206,.14);border-radius:10px;
+    padding:10px 12px;color:#F4F1EA;font:inherit;font-size:13.5px;line-height:1.5;resize:vertical;box-sizing:border-box}
+  .memo input:focus,.memo textarea:focus{outline:none;border-color:rgba(232,165,79,.6);box-shadow:0 0 0 3px rgba(232,165,79,.12)}
+  .memo input::placeholder,.memo textarea::placeholder{color:#5F626B}
+  .memo-foot{display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap}
+  .memo-hint{flex:1 1 220px;font-size:11.5px;color:#7C776E;line-height:1.5}
+  .memo-hint.ok{color:#8ED08A}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Бренды</h1>
+  <p class="sub">Предпросмотр «Памятки бренда» — так это будет в кабинете.</p>
+
+  <div class="card">
+    <div class="card-top"><h2>Мастерская «Тихий ремонт»</h2><span class="memo-flag">памятка</span><span class="badge">активен</span></div>
+    <p class="meta">Постов: 12 · ремонт велосипедов, Ереван</p>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+      <button class="mini">Открыть</button>
+      <button class="mini memo-btn">Памятка</button>
+      <button class="mini">Каналы</button>
+      <button class="mini">Переименовать</button>
+      <button class="mini">Пауза</button>
+    </div>
+  </div>
+
+<div class="memo-back" id="memoBack">
+      <div class="memo" role="dialog" aria-modal="true" aria-labelledby="memoTitle">
+        <div class="memo-top">
+          <h2 id="memoTitle"><span data-i18n="memory.title">Памятка бренда</span> · <b id="memoBrand">Мастерская «Тихий ремонт»</b></h2>
+          <button class="memo-x" type="button" id="memoClose" aria-label="Закрыть">✕</button>
+        </div>
+        <p class="memo-sub" data-i18n="memory.sub">Что система должна помнить о бренде — в каждом разборе и каждом посте.</p>
+
+        <label class="memo-l" for="memoTone"><span data-i18n="memory.tone">Тон голоса</span><em data-i18n="memory.toneHint">тёплый, экспертный, дерзкий…</em></label>
+        <input id="memoTone" maxlength="200" value="тёплый, по делу, без пафоса; говорим как сосед, а не как реклама">
+
+        <label class="memo-l" for="memoFacts"><span data-i18n="memory.facts">Ключевые факты</span><em data-i18n="memory.factsHint">продукты, ценности, детали</em></label>
+        <textarea id="memoFacts" rows="3" maxlength="1200">Мастерская ремонта велосипедов в Ереване. Чиним за 1 день, есть выезд по городу. Работаем с 2019 года, починили 4000 велосипедов.</textarea>
+
+        <label class="memo-l" for="memoStop"><span data-i18n="memory.stop">Стоп-слова</span><em data-i18n="memory.stopHint">чего никогда не говорим</em></label>
+        <textarea id="memoStop" rows="2" maxlength="600">Не обещаем «гарантированный результат». Не ругаем другие мастерские. Не пишем «дёшево».</textarea>
+
+        <label class="memo-l" for="memoAud"><span data-i18n="memory.audience">Аудитория</span><em data-i18n="memory.audHint">кто наши клиенты</em></label>
+        <textarea id="memoAud" rows="2" maxlength="600">Городские велосипедисты 25–45 лет, Ереван. Катаются каждый день, ценят скорость и честную цену.</textarea>
+
+        <div class="memo-foot">
+          <span class="memo-hint" id="memoSay" data-i18n="memory.savedHint">Заполни хотя бы тон и факты — уже станет точнее.</span>
+          <button class="btn btn-quiet" type="button" id="memoCancel" data-i18n="common.cancel">Отмена</button>
+          <button class="btn btn-primary" type="button" id="memoSave" data-i18n="common.save">Сохранить</button>
+        </div>
+      </div>
+    </div>
+</div>
+</body>
+</html>
