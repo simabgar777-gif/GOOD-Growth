@@ -1,0 +1,229 @@
+﻿
+GOOD GROWTH — SOCIAL MEDIA KIT (EN)
+===================================
+
+> For Mariam. Everything needed to create the page and fill it in — step by step.
+> Do not invent copy: paste what is here. If something does not fit, ask the Captain.
+
+Website: https://growth.go-ood.com/
+Email: hello@go-ood.com
+Voice: warm, honest, no pathos, no pressure.
+
+------------------------------------------------------------
+
+1. Page profile
+---------------
+
+  Field | Value
+  Name | **GOOD Growth**
+  Handle | `@goodgrowth`
+  Short description (≤150) | From one goal — a strategy, posts and images. Growth is not luck, it is craft.
+  Website | https://growth.go-ood.com/
+  Email | hello@go-ood.com
+  Category (FB) | Business · Marketing · Software company
+  Category (VK) | Business · Marketing · Business tools
+  Location | Yerevan, Armenia
+
+Full description (≤2000)
+------------------------
+
+    GOOD Growth is a workshop for growth.
+    
+    We do one thing: turn a goal into a review, a rhythm and ready posts. You write what
+    you want in one sentence. We show who to speak to and about what, how often, and we
+    build the texts and images. No one-size-fits-all templates: every brand has its own
+    memo — voice, facts, stop-words, audience. That is why posts sound like you, not like
+    advertising.
+    
+    Growth is not luck. It is craft. We do not promise to "blow up in a week" and we do not
+    feed you numbers for pretty reports. Five steps, a calm rhythm, an honest result:
+    
+      1. Goal — one sentence about your work.
+      2. Review — who to speak to and about what.
+      3. Rhythm — how many times a week.
+      4. Posts — texts and images.
+      5. Feedback — what worked.
+    
+    What matters: we do not write "user", we do not send manipulative notifications and we
+    do not sell data. Your texts stay yours.
+    
+    Start with one goal. The first review is free.
+
+------------------------------------------------------------
+
+2. Visuals
+----------
+
+    Avatar square 1024   https://growth.go-ood.com/avatar-logo-square.png
+    Avatar round  1024   https://growth.go-ood.com/avatar-logo-round.png
+    Cover 1200×630       https://growth.go-ood.com/og-goal.png
+
+Logo only, no text — an avatar is 40 pixels in a feed and type turns to mush there.
+Facebook: use the square (it crops to a circle itself). VK / Telegram: use the round file.
+
+Cover rules:
+
+    · dark cosmos background (#07080A), warm light, copper
+    · show the product screen or the mark; no stock people
+    · no discount shouting, no "only 2 spots left", no countdowns
+    · serif for headlines (Georgia), mono for captions
+
+------------------------------------------------------------
+
+3. First five posts
+-------------------
+
+Publish one per day, same time. Morning or evening works better than mid-workday.
+
+Post 1 — introduction
+---------------------
+
+Title: The growth workshop
+
+Body:
+
+    My name is Albert. I am building GOOD Growth.
+    
+    It is a workshop: you bring a goal — "I want people to know about my bicycle shop"
+    or "I want to sell" — and we work out who to speak to and about what, then build posts.
+    
+    No promises to "blow up in a week". No templates for everyone. Five steps and a calm rhythm.
+    
+    Growth is not luck. It is craft.
+
+CTA: The first review is free: growth.go-ood.com
+Visual: og-goal.png
+
+Post 2 — the pain
+-----------------
+
+Title: "I wrote a goal and got emptiness"
+
+Body:
+
+    Familiar? You open a service, type "I want to sell". You press the button. You get ten
+    posts that are not about you. Because the service had nothing to say — it did not know
+    your clients, your voice, or what you never want to say.
+    
+    We do the opposite: three short questions first, then the review. Sometimes two minutes
+    of questions beat a whole day of rewriting.
+
+CTA: Start with one goal — growth.go-ood.com
+Visual: dark card with "Goal · review · rhythm · posts"
+
+Post 3 — our approach
+---------------------
+
+Title: Five steps instead of chaos
+
+Body:
+
+    Growth has an order. We did not invent it — we just noticed it works:
+    
+    1. Goal — one sentence about your work.
+    2. Review — who to speak to and about what.
+    3. Rhythm — how many times a week.
+    4. Posts — texts and images.
+    5. Feedback — what worked.
+    
+    No step can be skipped. Five steps and a calm rhythm — that is the whole secret.
+
+CTA: See how it looks: growth.go-ood.com
+Visual: screenshot of the Goal screen
+
+Post 4 — case
+-------------
+
+Title: A bicycle workshop in Yerevan
+
+Body:
+
+    They came with one sentence: "I want people to know about us and come to fix their wheels".
+    
+    We built the brand memo: voice — bold, short sentences, no emoji. Facts — fixed in a day,
+    pickup service, since 2019. Stop-words — "guaranteed result" and "cheap".
+    
+    Then the posts wrote themselves — and sounded like the owner of the shop, not like an ad.
+    
+    Growth is not luck. It is craft.
+
+CTA: Your own brand memo is free on start: growth.go-ood.com
+Visual: photo of the workshop or a dark quote card
+
+Post 5 — invitation
+-------------------
+
+Title: One goal. Twenty minutes.
+
+Body:
+
+    You do not need a deck, a brief or a media plan. One sentence about what you do and who
+    for is enough.
+    
+    Write the goal. We work out who to speak to and about what, and build the first posts.
+    The first review is free. After that, you decide.
+
+CTA: growth.go-ood.com
+Visual: og-goal.png
+
+------------------------------------------------------------
+
+4. Editorial rubrics
+--------------------
+
+  Rubric | Why | Example topic | Frequency
+  **Craft** | show how the work is built | "Why a brand memo matters more than a prompt" | weekly
+  **Post-mortem** | trust through honesty | "Three posts we would rewrite" | every 2 weeks
+  **Behind the scenes** | closeness | "How we fixed generation: one parameter broke everything" | every 2 weeks
+  **Client stories** | proof | "A bicycle workshop: 12 posts in one evening" | when available
+  **Product** | news without noise | "Brand memory is here: four fields" | when there is news
+
+Rule: never more than one post a day. Three good posts a week beat seven empty ones.
+
+------------------------------------------------------------
+
+5. FAQ auto-answers
+-------------------
+
+  Question | Answer
+  What is GOOD Growth? | A growth workshop: from one goal — a review, a rhythm, posts and images. No generic templates.
+  How much does it cost? | You can start free: one brand, one post a day. Then plans — 490 ₽, 990 ₽, 2,990 ₽. No hidden charges.
+  What makes you different? | The brand memo: voice, facts, stop-words, audience. That is why posts sound like you. And we do not promise miracles.
+  How do I start? | Open growth.go-ood.com, write your goal in one sentence, press “Break down the goal”. The first review is free.
+  What if I do not like it? | The first review costs nothing. After that it is monthly, no annual lock-in.
+
+------------------------------------------------------------
+
+6. Checklist for Mariam
+-----------------------
+
+    1. Create the page: name GOOD Growth, handle @goodgrowth
+    2. Paste the short description
+    3. Paste the full description
+    4. Upload the avatar (square 1024)
+    5. Upload the cover (og-goal.png, 1200×630)
+    6. Add website, email, category, location
+    7. Publish posts 1–5, one per day
+    8. Save the FAQ answers as templates if the service allows it
+    9. Send the page link to the Captain
+
+------------------------------------------------------------
+
+7. Voice — allowed and forbidden
+--------------------------------
+
+Allowed:
+
+    · short sentences, real details, numbers from the work
+    · honesty about limits: "not yet", "we are building it"
+    · silence instead of a call to action (not every post sells)
+
+Forbidden:
+
+    · "user" — say "person", "you"
+    · "guaranteed result", "blow up in a week", "cheap"
+    · artificial urgency: "only 2 spots left", countdowns
+    · emoji fireworks in every paragraph, caps, exclamation marks
+    · promoting other services or promising on a client's behalf
+
+_If in doubt — ask. One honest post beats five beautiful posts about nothing._
