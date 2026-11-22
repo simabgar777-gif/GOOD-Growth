@@ -315,7 +315,9 @@
     paintPath(analytics && analytics.totals, schedRes && schedRes.rhythm);
     paintNext(sched);
     paintQueue(posts);
+    document.documentElement.classList.add('desk-ready');
   }).catch(function () {
+    document.documentElement.classList.add('desk-ready');
     var b = el('d2State');
     if (b) b.textContent = T('dash.loadFail', 'Не удалось собрать состояние — обнови страницу.');
   });

@@ -35,6 +35,28 @@ html.gg-desk #deskSection { max-width: 1080px; margin: 0 auto; }
   display:inline-grid;place-items:center}
 .d2-pstep.is-now::after{content:'•';color:var(--amber);font-size:14px;line-height:1}
 
+
+/* «скелетон» загрузки: тихий, в нашем свете */
+@keyframes sk-glow { 0% { opacity:.55 } 50% { opacity:1 } 100% { opacity:.55 } }
+.d2-skel { display:block; }
+html.desk-ready .d2-skel { display:none !important; }
+.sk { position:relative; overflow:hidden; border-radius:10px;
+  background:linear-gradient(180deg, rgba(236,226,206,.055), rgba(236,226,206,.03));
+  border:1px solid rgba(236,226,206,.06); }
+.sk::after { content:''; position:absolute; inset:0;
+  background:linear-gradient(100deg, transparent 20%, rgba(232,165,79,.10) 45%, transparent 70%);
+  transform:translateX(-100%); animation: sk-sweep 2.6s cubic-bezier(.4,0,.6,1) infinite; }
+@keyframes sk-sweep { 0% { transform:translateX(-100%) } 55% { transform:translateX(100%) } 100% { transform:translateX(100%) } }
+@media (prefers-reduced-motion: reduce) { .sk::after { animation:none; opacity:.35 } }
+.sk-line { height:10px; border-radius:6px; margin:8px 0; }
+.sk-tiles { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:18px 0; }
+.sk-tile { height:112px; }
+.sk-big { height:150px; margin:16px 0; }
+.sk-two { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+.sk-half { height:190px; }
+@media (max-width:820px) { .sk-tiles { grid-template-columns:1fr } .sk-two { grid-template-columns:1fr } }
+
+html:not(.desk-ready) #deskSection > *:not(.d2-skel):not(.d2-head){display:none !important}
 </style>
 
 <script>(function(){try{var h=document.documentElement;if(localStorage.getItem("gg_rail")==="1")h.classList.add("gg-rail-collapsed");h.classList.add("gg-acc-ready");}catch(e){}})();</script>
@@ -534,6 +556,21 @@ html.gg-boot #steps, html.gg-boot #postsSec, html.gg-boot #ggRhythm { display: n
     <a class="d2-create" href="/app/strategy"><span data-i18n="dash.create">+ Создать пост</span></a>
   </div>
 
+
+  <div class="d2-skel" id="d2Sk" aria-hidden="true">
+    <div class="sk sk-line" style="width:180px;height:14px"></div>
+    <div class="sk-tiles">
+      <div class="sk sk-tile"></div>
+      <div class="sk sk-tile"></div>
+      <div class="sk sk-tile"></div>
+    </div>
+    <div class="sk sk-big"></div>
+    <div class="sk-two">
+      <div class="sk sk-half"></div>
+      <div class="sk sk-half"></div>
+    </div>
+    <div class="sk sk-line" style="width:60%"></div>
+  </div>
   <p class="d2-state" id="d2State" data-i18n="dash.loading">Собираю состояние…</p>
 
   <div class="d2-tiles">
