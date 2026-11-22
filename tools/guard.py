@@ -63,6 +63,8 @@ def file_hash(path):
 def local_state():
     state = {}
     for rel in repo_files():
+        if rel.endswith(".guard-baseline.json"):
+            continue
         full = os.path.join(ROOT, rel)
         if os.path.isfile(full):
             state[rel] = file_hash(full)
