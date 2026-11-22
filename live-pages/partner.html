@@ -351,7 +351,7 @@
 
 <script>
   /* Памятка бренда */
-  (function () {
+  function initBrandMemory() {
     var back = document.getElementById('memoBack');
     if (!back) return;
     var id = 0;
@@ -416,7 +416,10 @@
           say.textContent = ggT('memory.nonet', 'Сервер не отвечает.');
         });
     });
-  })();
+  }
+  /* модалка ниже в разметке — запускаем после её появления */
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initBrandMemory);
+  else initBrandMemory();
 </script>
     <div class="memo-back" id="memoBack" hidden>
       <div class="memo" role="dialog" aria-modal="true" aria-labelledby="memoTitle">
