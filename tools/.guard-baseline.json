@@ -128,7 +128,9 @@
   "server.js": "2349956790aec73e0becefb1c63886785b87903dfd70712f81dbf8b640757569",
   "start-good-growth.bat": "c60f481b469e1f80a9b21d800a4644bcf4871e4b9a64e32003c342954edaac80",
   "test_deploy.sh": "605f4097ce9360aabc776f572b6dc491780f512a6b94d29bc7e7b5d52ec7b370",
+  "tools/.guard-baseline.json": "633f715980f8af7f79ec9804e13b658b52381443f6dd632ad2523e61729695f8",
   "tools/build-legal.py": "89a769926df5e43f6b589587b445addf65eb604afb2cf1c663ee3d5df94c78c2",
+  "tools/guard.py": "da3909c0c3e52def86790adce49b49a3467075cb842f2cd8851de7f3d3b56443",
   "tools/make-vk-covers.py": "05ae166f246fbcfb91a4731fe9b317a6ef44f5dc606789d55634ea3977f69e35",
   "verify_coverage.py": "2f001f422a2d125313f77347e9ea74d272d154bf9dcb6f6662b218ab10291927",
   "verify_diff.py": "dd7f0f37c794b14a7ceacdbb18007c6cd3a12e3a510f80b6e043a2106c437431",
@@ -139,7 +141,7 @@
   "verify_text.py": "33851d870423eb794cccce72c01e31c677bb6849baab46302db22574d468c4aa"
  },
  "server": {
-  "/opt/goodgrowth/repo/server.js": "439e7cfa0890981b2ea7a19ab7926fc4",
+  "/opt/goodgrowth/repo/server.js": "1e742644834e74003ca802fb87f81b1a",
   "/opt/goodgrowth/repo/db.js": "ef0fe2d9406719688ff78e37d1bd39da",
   "/opt/goodgrowth/repo/public/app.js": "d3bc258830dc65cae48ce437ec98b04f",
   "/var/www/app/index.html": "f24f0f60c8c765c1e454605dc354aa72",
