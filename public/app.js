@@ -841,6 +841,80 @@ async function loadGoal(id) {
 
 /* ================= отправка цели ================= */
 
+/* ── умные вопросы перед разбором ─────────────────────────────
+   Если цель короткая и размытая — сначала 2–3 вопроса.
+   Если просьба недобросовестная — вежливый отказ. */
+function ggClarifyPanel(questions, baseGoal) {
+  let box = document.getElementById('ggClarify');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'ggClarify';
+    box.style.cssText = 'margin-top:14px;border:1px solid rgba(232,165,79,.28);border-radius:14px;' +
+      'background:rgba(232,165,79,.05);padding:16px 18px;text-align:left';
+    form.parentNode.insertBefore(box, form.nextSibling);
+  }
+  box.innerHTML = '';
+  const title = document.createElement('p');
+  title.style.cssText = 'margin:0 0 10px;font-size:13px;color:#E8C48C';
+  title.textContent = 'Уточним пару вещей — разбор станет точнее';
+  box.appendChild(title);
+
+  const inputs = [];
+  questions.forEach((q, i) => {
+    const lab = document.createElement('label');
+    lab.style.cssText = 'display:block;margin:10px 0 4px;font-size:12px;color:#CFC9BD';
+    lab.textContent = (i + 1) + '. ' + q.q + (q.hint ? ' — ' + q.hint : '');
+    const inp = document.createElement('input');
+    inp.type = 'text';
+    inp.placeholder = q.ph || 'ответ в двух словах';
+    inp.maxLength = 200;
+    inp.style.cssText = 'width:100%;box-sizing:border-box;background:#111216;border:1px solid rgba(236,226,206,.16);' +
+      'border-radius:9px;padding:9px 12px;color:#F4F1EA;font:inherit;font-size:13.5px';
+    inputs.push(inp);
+    box.appendChild(lab);
+    box.appendChild(inp);
+  });
+
+  const row = document.createElement('div');
+  row.style.cssText = 'display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap';
+  const go = document.createElement('button');
+  go.type = 'button';
+  go.className = 'btn btn-primary';
+  go.textContent = 'Дальше — разобрать';
+  const skip = document.createElement('button');
+  skip.type = 'button';
+  skip.className = 'btn';
+  skip.textContent = 'Пропустить';
+  skip.style.cssText = 'background:transparent;border:1px solid rgba(236,226,206,.2);color:#CFC9BD;' +
+    'border-radius:10px;padding:10px 14px;font:inherit;font-size:13px;cursor:pointer';
+  row.appendChild(go);
+  row.appendChild(skip);
+  box.appendChild(row);
+
+  const hint = document.createElement('p');
+  hint.style.cssText = 'margin:8px 0 0;font-size:11.5px;color:#7C776E';
+  hint.textContent = 'Можно ответить на что знаешь — остальное пропусти.';
+  box.appendChild(hint);
+
+  skip.addEventListener('click', () => {
+    box.remove();
+    window.__ggClarified = true;
+    form.requestSubmit();
+  });
+  go.addEventListener('click', () => {
+    const parts = [];
+    questions.forEach((q, i) => {
+      const v = (inputs[i].value || '').trim();
+      if (v) parts.push(q.q.replace(/\?$/, '') + ': ' + v);
+    });
+    if (parts.length) goalEl.value = baseGoal + '\n\nУточнения:\n' + parts.join('\n');
+    box.remove();
+    window.__ggClarified = true;
+    form.requestSubmit();
+  });
+  setTimeout(() => { try { inputs[0].focus(); } catch (e) {} }, 80);
+}
+
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   clearError();
@@ -851,6 +925,22 @@ form.addEventListener('submit', async (e) => {
     goalEl.focus();
     return;
   }
+  /* первый шаг: уточняющие вопросы (один раз) */
+  if (!window.__ggClarified && goal.length < 90) {
+    try {
+      const cr = await fetch('/api/clarify', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ goal, brand_id: brandState.id })
+      }).then((r) => r.json());
+      if (cr && cr.blocked) { showError(cr.reply || 'С этим не помогу.'); return; }
+      if (cr && Array.isArray(cr.questions) && cr.questions.length) {
+        goBtn.disabled = false;
+        ggClarifyPanel(cr.questions, goal);
+        return;
+      }
+    } catch (err) { /* не мешаем основному пути */ }
+  }
+  window.__ggClarified = false;
   goBtn.disabled = true;
   if (mode.ai === 'demo') setStatus('Собираю разбор (демо-режим, локально)…');
   else startHonestProgress(30, 'Разум думает…');
