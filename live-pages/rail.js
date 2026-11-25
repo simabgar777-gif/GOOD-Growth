@@ -39,6 +39,8 @@ fetch('/api/admin/whoami', { credentials: 'same-origin' })
      пути проверяются раньше (/partner/channels до /partner). */
   var path = (location.pathname || '/').replace(/\/+$/, '') || '/app';
   var MAP = [
+    ['/partner/cabinet', 'partners'],
+    ['/partner/program', 'partners'],
     ['/partner/channels', 'channels'],
     ['/partner/team', 'team'],
     ['/partner/info', 'partners'],
@@ -578,6 +580,7 @@ document.addEventListener('gg:i18n', function () {
 /* один активный пункт меню: побеждает самое длинное совпадение адреса */
 function markActive() {
   var MAPS = [
+    ['/partner/cabinet', 'partners'], ['/partner/program', 'partners'],
     ['/partner/channels', 'channels'], ['/partner/info', 'partners'],
     ['/partner/team', 'team'], ['/partner/analytics', 'analytics'],
     ['/app/strategy', 'strategy'], ['/app/posts', 'posts'], ['/app/schedule', 'schedule'],
