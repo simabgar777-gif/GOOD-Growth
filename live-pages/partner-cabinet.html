@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<script>(function(){try{
+  var l=localStorage.getItem('gg_lang')||'';
+  var q=(location.search.match(/[?&]lang=([a-z]{2})/i)||[])[1];
+  var want=(q||l||'').toLowerCase();
+  if(want==='en'){
+    var r=document.documentElement;
+    r.className+=' gg-i18n-wait';
+    /* словарь синхронный: перевод будет готов до первой отрисовки */
+    document.write('<script src="/i18n/en.dict.js"><\/script>');
+    /* страховка, чтобы страница не осталась скрытой */
+    setTimeout(function(){try{r.classList.remove('gg-i18n-wait');}catch(e){}},2500);
+  }
+}catch(e){}})();</script>
+<style>html.gg-i18n-wait body{visibility:hidden}</style>
+
+<script>(function(){try{var h=document.documentElement;if(localStorage.getItem("gg_rail")==="1")h.classList.add("gg-rail-collapsed");h.classList.add("gg-acc-ready");}catch(e){}})();</script>
+<meta charset="utf-8">
+<script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.setAttribute("data-theme-src","system");}else{d.setAttribute("data-theme",t==="light"?"light":"dark");}}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title data-i18n="channels.meta.title">Каналы бренда — GOOD Growth</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
+<link rel="icon" type="image/x-icon" href="/favicon.ico?v=2">
+
+<link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"><link rel="stylesheet" href="/rail.css"><link rel="stylesheet" href="/blocks.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="gg-with-rail">
+<aside class="gg-rail" id="gg-rail" aria-label="Разделы GOOD Growth" data-i18n-attr="aria-label:rail.group"><a class="gg-rail-logo" href="/app"><span class="gg-m"><svg class="gg-mark" viewBox="238 162 74 101" aria-hidden="true" fill="none" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M256 193 244 180 244 252" stroke="#F8961D"/><path d="M306 168 263 209" stroke="#28A992"/><path d="M287 216 245 257" stroke="#E01F27"/><path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg></span><span class="gg-t"><b>GOOD Growth</b><i data-i18n="rail.tagline">мастерская роста</i></span></a><nav class="gg-rail-nav"><a href="/app" data-k="app"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="11" height="11" rx="2.5"/><path d="M5.5 8h5"/></svg><span data-i18n="rail.app">Стол</span></a><a href="/app/strategy" data-k="strategy"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="2"/></svg><span data-i18n="rail.strategy">Цель</span></a><a href="/app/posts" data-k="posts"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="11" height="10" rx="2"/><path d="M2.5 6.5h11"/></svg><span data-i18n="rail.posts">Контент</span></a><a href="/app/schedule" data-k="schedule"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="11" height="10" rx="2"/><path d="M5 1.8v2.4M11 1.8v2.4M2.5 7h11"/></svg><span data-i18n="rail.schedule">Публикации</span></a><a href="/partner" data-k="brands"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 5.5h11v8h-11z"/><path d="M5.5 5.5V4a2.5 2.5 0 0 1 5 0v1.5"/></svg><span data-i18n="rail.brands">Бренды</span></a><a href="/partner/channels" data-k="channels"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 5.8L3.6 8.4l2.6 2.6"/><path d="M9.8 5.8l2.6 2.6-2.6 2.6"/></svg><span data-i18n="rail.channels">Каналы</span></a><a href="/app/analytics" data-k="analytics"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5h11"/><path d="M4.5 12.5V8M8 12.5V4.2M11.5 12.5V9.6"/></svg><span data-i18n="rail.analytics">Аналитика</span></a><a href="/partner/team" data-k="team"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.8" cy="6.2" r="2"/><circle cx="11.2" cy="7" r="1.5"/><path d="M2.6 13.2c0-2 1.5-3.1 3.2-3.1s3.2 1.1 3.2 3.1"/><path d="M10.1 13.2c0-1.5.9-2.4 2.1-2.4s2.1.9 2.1 2.4"/></svg><span data-i18n="rail.team">Команда</span></a><a href="/partner/info" data-k="partners"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="4" cy="8" r="1.7"/><circle cx="12" cy="4.6" r="1.7"/><circle cx="12" cy="11.4" r="1.7"/><path d="M5.5 7.3l4.9-2M5.5 8.7l4.9 2"/></svg><span data-i18n="rail.partners">Партнёрам</span></a><a href="/app/billing" data-k="billing"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1.8" y="3.8" width="12.4" height="8.4" rx="1.6"/><path d="M1.8 6.8h12.4"/><path d="M4.5 9.8h3"/></svg><span data-i18n="rail.billing">Оплата</span></a><a href="/pricing" data-k="pricing"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 2.2H3.4a1.2 1.2 0 0 0-1.2 1.2v5.2l6.2 6.2a1.2 1.2 0 0 0 1.7 0l3.5-3.5a1.2 1.2 0 0 0 0-1.7z"/><circle cx="5.6" cy="5.6" r="1.1"/></svg><span data-i18n="rail.pricing">Тарифы</span></a></nav><div class="gg-rail-foot"><a href="/profile" data-k="profile"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.8v1.6M8 12.6v1.6M1.8 8h1.6M12.6 8h1.6M3.6 3.6l1.1 1.1M11.3 11.3l1.1 1.1M12.4 3.6l-1.1 1.1M4.7 11.3l-1.1 1.1"/></svg><span data-i18n="rail.settings">Настройки</span></a><button type="button" class="gg-rail-theme" id="ggRailTheme"><span class="gg-ico">☾</span><span class="gg-tx" data-i18n="rail.theme.dark">Тёмная</span></button><button type="button" class="gg-rail-out" id="ggRailOut" data-i18n="rail.logout">Выйти</button></div></aside>
+<script src="/i18n/i18n.js"></script>
+<div class="wrap">
+<h1 data-i18n="rail.menu.cabinet">Партнёрский кабинет</h1>
+<p class="sub">твоя ссылка, переходы и начисления — без звёздочек</p>
+
+<div id="pcRoot"><p class="pc-load" data-i18n="channels.loading2">Загружаю…</p></div>
+
+<script>
+(function () {
+  var root = document.getElementById('pcRoot');
+  function money(n) {
+    var v = Number(n || 0);
+    var s2 = (Math.round(v * 100) / 100).toFixed(2).replace(/\.00$/, '');
+    var parts = s2.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return parts.join(',');
+  }
+
+  var PLAN_NAMES = { 490: 'Рост', 990: 'Профи', 2990: 'Агентство', 5990: 'Безлимит' };
+  function matrixHtml(rows) {
+    if (!rows || !rows.length) return '';
+    var head = '<tr><th>Тариф</th><th>Цена</th><th>Друг 25%</th><th>Проводник 35%</th><th>Посол 45%</th></tr>';
+    var body = rows.map(function (r) {
+      var name = PLAN_NAMES[r.price] || '';
+      return '<tr><td>' + name + '</td><td>' + r.price + ' ₽</td>' +
+        '<td>' + money(r.friend) + ' ₽</td><td>' + money(r.guide) + ' ₽</td><td>' + money(r.ambassador) + ' ₽</td></tr>';
+    }).join('');
+    return '<section class="pc-link" style="margin-top:18px">' +
+      '<p class="pr-lbl">что платим</p>' +
+      '<table class="compare" style="width:100%">' + head + body + '</table>' +
+      '<p class="pc-hint" style="margin-top:10px">Ставка 25–45%, но не выше 900 ₽ за одного клиента в месяц. ' +
+      'На дорогих тарифах потолок срабатывает — пишем это крупно, а не в сноске.</p>' +
+    '</section>';
+  }
+
+  function levelHtml(p) {
+    var done = Math.max(0, Math.min(100, Math.round((p.paid_clients / Math.max(1, p.paid_clients + p.to_next)) * 100)));
+    return '<section class="pc-link" style="margin-top:18px">' +
+      '<p class="pr-lbl">твой уровень</p>' +
+      '<div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">' +
+        '<b style="font:400 26px/1.2 Georgia,serif">' + p.title + '</b>' +
+        '<span style="color:#F3C583;font:600 15px/1 Consolas,monospace">' + p.rate + '% · до ' + p.cap + ' ₽ за клиента</span>' +
+      '</div>' +
+      '<div style="height:8px;border-radius:99px;background:#15171c;overflow:hidden;margin:12px 0 8px">' +
+        '<i style="display:block;height:100%;width:' + done + '%;background:linear-gradient(90deg,#E8A54F,#F3C583)"></i>' +
+      '</div>' +
+      '<p class="pc-hint">Привёл оплативших: ' + p.paid_clients +
+        (p.next_title ? ' · до «' + p.next_title + '» осталось ' + p.to_next : ' · выше некуда, ты Посол') +
+      '</p>' +
+    '</section>';
+  }
+
+  function moneyHtml(p) {
+    var left = Math.max(0, 1000 - Number(p.pending_rub || 0));
+    return '<div class="pc-stats" style="margin-top:16px">' +
+      '<div class="pc-stat"><b>' + p.clicks + '</b><span>переходов</span></div>' +
+      '<div class="pc-stat"><b>' + p.signups + '</b><span>регистраций</span></div>' +
+      '<div class="pc-stat"><b>' + p.paid_clients + '</b><span>оплатили</span></div>' +
+      '<div class="pc-stat"><b>' + money(p.pending_rub) + ' ₽</b><span>копится</span></div>' +
+    '</div>' +
+    '<p class="pc-hint" style="margin-top:10px">' +
+      (left > 0
+        ? 'Копится ' + money(p.pending_rub) + ' ₽ из 1 000 ₽. Наберётся тысяча — выплата до 5 числа следующего месяца.'
+        : 'Порог собран: ' + money(p.pending_rub) + ' ₽ · выплата до 5 числа следующего месяца.') +
+    '</p>' +
+    (Number(p.paid_rub || 0) > 0 ? '<p class="pc-hint">Уже выплачено: ' + money(p.paid_rub) + ' ₽</p>' : '');
+  }
+
+  function linkHtml(p) {
+    return '<section class="pc-link">' +
+      '<p class="pr-lbl">твоя ссылка · код ' + p.code + '</p>' +
+      '<div class="pc-link-row">' +
+        '<input id="pcLink" readonly value="' + p.link + '">' +
+        '<button type="button" class="pr-go" id="pcCopy">Скопировать</button>' +
+      '</div>' +
+      '<p class="pc-hint">Ссылка живёт 60 дней после перехода. Клиент вернётся — останется твоим.</p>' +
+    '</section>';
+  }
+
+  function wireCopy() {
+    var btn = document.getElementById('pcCopy');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var inp = document.getElementById('pcLink');
+      inp.select();
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(inp.value).catch(function () { try { document.execCommand('copy'); } catch (e) {} });
+        } else { try { document.execCommand('copy'); } catch (e) {} }
+        btn.textContent = 'Скопировано';
+        setTimeout(function () { btn.textContent = 'Скопировать'; }, 1600);
+      } catch (e) {}
+    });
+  }
+
+  function paint(p) {
+    root.innerHTML = linkHtml(p) + levelHtml(p) + moneyHtml(p) + matrixHtml(p.matrix) +
+      '<p class="pc-hint" style="margin-top:16px"><a href="/partner/program" style="color:#F3C583">Как это работает →</a></p>' +
+      '<div class="pr-honest" style="margin-top:18px"><b>Честно:</b> оплаты пока не подключены — ' +
+      'начисления начнутся вместе с ними. Правила и проценты уже те, что в таблице. ' +
+      'Порог выплаты 1 000 ₽, холд 30 дней, выплата до 5 числа.</div>';
+    wireCopy();
+  }
+
+  function joinState(note) {
+    root.innerHTML =
+      '<div class="pc-empty">' +
+        '<h2>Стать партнёром</h2>' +
+        '<p>' + (note || 'Включи участие — получишь код и ссылку сразу. Ставка 25%, до 500 ₽ за клиента.') + '</p>' +
+        '<div class="pc-acts">' +
+          '<button type="button" class="pr-go" id="pcJoin">Включить участие</button>' +
+          '<a class="step-go ghost" href="/partner/program">Как это работает</a>' +
+        '</div>' +
+        '<p class="pc-hint" id="pcJoinSay"></p>' +
+      '</div>';
+    var b = document.getElementById('pcJoin');
+    b.addEventListener('click', function () {
+      b.disabled = true;
+      fetch('/api/partner/join', { method: 'POST', credentials: 'same-origin' })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (res) {
+          if (!res.ok) {
+            if (res.j && res.j.needAuth) { location.href = '/login?next=/partner/cabinet'; return; }
+            document.getElementById('pcJoinSay').textContent = (res.j && res.j.error) || 'Не получилось.';
+            b.disabled = false;
+            return;
+          }
+          load();
+        })
+        .catch(function () { b.disabled = false; document.getElementById('pcJoinSay').textContent = 'Сервер не отвечает.'; });
+    });
+  }
+
+  function load() {
+    fetch('/api/partner/me', { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : { ready: false }; })
+      .then(function (d) {
+        if (!d || !d.ready || !d.partner) { joinState(d && d.note); return; }
+        paint(d.partner);
+      })
+      .catch(function () { root.innerHTML = '<p class="pc-load">Не удалось загрузить кабинет. Обнови страницу.</p>'; });
+  }
+
+  load();
+})();
+</script>
+</div>
+
+<script src="/theme.js" defer></script>
+<script src="/topline.js" defer></script>
+<script src="/rail.js" defer></script>
+<script src="/legal.js" defer></script>
+</body>
+</html>
