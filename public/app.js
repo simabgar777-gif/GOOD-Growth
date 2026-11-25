@@ -369,11 +369,17 @@ function renderPostCard(p) {
   const card = el('section', 'post-card');
   card.dataset.postId = p.id;
 
-  /* картинка */
+  /* картинка или своё видео */
   let imgWrap;
-  if (p.image_path && p.image_status === 'done') {
+  if (p.media_kind === 'video' && p.media_path) {
+    imgWrap = el('video', 'post-img');
+    imgWrap.src = p.media_path;
+    imgWrap.controls = true;
+    imgWrap.preload = 'metadata';
+    imgWrap.setAttribute('aria-label', 'Видео к посту: ' + p.title);
+  } else if ((p.media_path || p.image_path) && (p.image_status === 'done' || p.media_kind === 'image')) {
     imgWrap = el('img', 'post-img');
-    imgWrap.src = p.image_path;
+    imgWrap.src = p.media_path || p.image_path;
     imgWrap.alt = 'Картинка к посту: ' + p.title;
     imgWrap.loading = 'lazy';
   } else {
@@ -422,6 +428,41 @@ function renderPostCard(p) {
   const btnSave = el('button', 'btn btn-mini', 'Сохранить'); btnSave.type = 'button';
   const btnRegen = el('button', 'btn btn-mini', 'Перегенерировать'); btnRegen.type = 'button';
   const btnImg = el('button', 'btn btn-mini', 'Картинка'); btnImg.type = 'button';
+  const btnMedia = el('button', 'btn btn-mini', 'Своё фото/видео'); btnMedia.type = 'button';
+  const mediaInput = el('input'); mediaInput.type = 'file';
+  mediaInput.accept = 'image/jpeg,image/png,image/webp,video/mp4,video/webm';
+  mediaInput.style.display = 'none';
+  btnMedia.addEventListener('click', () => mediaInput.click());
+  mediaInput.addEventListener('change', async () => {
+    const f = mediaInput.files && mediaInput.files[0];
+    if (!f) return;
+    const isVideo = f.type.startsWith('video/');
+    if (f.size > (isVideo ? 48 : 10) * 1024 * 1024) {
+      showError((isVideo ? 'Видео' : 'Фото') + ' слишком большое: до ' + (isVideo ? '48' : '10') + ' МБ.');
+      mediaInput.value = '';
+      return;
+    }
+    btnMedia.disabled = true;
+    btnMedia.textContent = 'Загружаю…';
+    try {
+      const r = await fetch('/api/posts/' + p.id + '/media?kind=' + (isVideo ? 'video' : 'image'), {
+        method: 'POST',
+        headers: { 'Content-Type': f.type || 'application/octet-stream' },
+        body: f
+      });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(d.error || 'Не получилось загрузить');
+      const fresh = d.post || {};
+      Object.assign(p, fresh);
+      card.replaceWith(renderPostCard(p));
+    } catch (err) {
+      showError(err.message);
+      btnMedia.disabled = false;
+      btnMedia.textContent = 'Своё фото/видео';
+    } finally {
+      mediaInput.value = '';
+    }
+  });
   const btnPub = el('button', 'btn btn-mini publish', p.published_at ? 'Опубликовано ✓' : 'Опубликовать'); btnPub.type = 'button';
   if (p.published_at) btnPub.disabled = true;
   const btnDel = el('button', 'btn btn-mini danger', 'Удалить'); btnDel.type = 'button';
@@ -592,7 +633,7 @@ function renderPostCard(p) {
   if (btnApprove) btnApprove.title = 'Пометить пост согласованным — публикацию выполнит публикатор';
   if (canPublish) btnPub.title = 'Отправить пост в канал';
   btnDel.title = 'Удалить пост';
-  actions.appendChild(btnRegen); actions.appendChild(btnImg); actions.appendChild(btnSay); actions.appendChild(btnSave);
+  actions.appendChild(btnRegen); actions.appendChild(btnImg); actions.appendChild(btnMedia); actions.appendChild(mediaInput); actions.appendChild(btnSay); actions.appendChild(btnSave);
   if (btnApprove) actions.appendChild(btnApprove);
   if (canPublish) actions.appendChild(btnPub);
   if (p.published_at) btnSched.disabled = true;
