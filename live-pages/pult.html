@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Пульт двойника — GOOD Growth</title>
+<style>
+  :root{
+    --bg:#07080A; --panel:#0C0E11; --line:rgba(236,226,206,.12); --ink:#F4F1EA;
+    --mut:#8A857C; --copper:#E8A54F; --copper-lt:#F3C583; --ok:#8ED08A; --bad:#E07A6A;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:'Golos Text',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;line-height:1.6}
+  .wrap{max-width:900px;margin:0 auto;padding:34px 24px 80px}
+  .top{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+  h1{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:26px;margin:0 0 4px}
+  .sub{margin:0;color:var(--mut);font-size:12.5px}
+  .mono{font-family:Consolas,monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--copper)}
+  .bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 20px;
+    border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--panel)}
+  select,button{font:inherit}
+  select{background:#111216;color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:13px}
+  button{border-radius:9px;padding:8px 13px;font-size:12.5px;cursor:pointer;border:1px solid var(--line);
+    background:transparent;color:#CFC9BD;transition:.15s}
+  button:hover{border-color:rgba(232,165,79,.5);color:var(--copper-lt)}
+  button.primary{background:var(--copper);border-color:var(--copper);color:#171410;font-weight:600}
+  button.primary:hover{background:var(--copper-lt)}
+  button:disabled{opacity:.5;cursor:default}
+  .count{margin-left:auto;color:var(--mut);font-size:12px}
+  .card{border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:var(--panel);margin-bottom:12px}
+  .card h2{margin:0 0 2px;font-size:16.5px;font-weight:600;line-height:1.35}
+  .alt{color:var(--mut);font-size:12px;margin:0 0 10px}
+  .body{white-space:pre-wrap;font-size:13.5px;color:#E4DFD4;margin:0 0 10px}
+  .cta{color:var(--copper-lt);font-size:12.5px;margin:0 0 12px}
+  .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .badge{font-family:Consolas,monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+    border:1px solid var(--line);border-radius:999px;padding:2px 8px;color:var(--mut)}
+  .badge.published{color:var(--ok);border-color:rgba(142,208,138,.4)}
+  .badge.rejected{color:var(--bad);border-color:rgba(224,122,106,.4)}
+  .say{margin:14px 0 0;font-size:12.5px;color:var(--mut);min-height:20px}
+  .say.ok{color:var(--ok)} .say.err{color:var(--bad)}
+  .empty{border:1px dashed var(--line);border-radius:14px;padding:26px;text-align:center;color:var(--mut)}
+  .foot{margin-top:26px;border-top:1px solid var(--line);padding-top:14px;color:#6F6A61;font-size:11.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <div class="mono">GOOD Growth · двойник BOOS</div>
+      <h1>Пульт</h1>
+      <p class="sub">Черновики двойника. Публикация — только по твоему нажатию.</p>
+    </div>
+  </div>
+
+  <div class="bar">
+    <label for="chat" style="color:#8A857C;font-size:12px">Канал</label>
+    <select id="chat"></select>
+    <button id="reload">Обновить</button>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div id="list"></div>
+  <p class="say" id="say" role="status" aria-live="polite"></p>
+
+  <div class="foot">
+    Пульт виден только Капитану. Одобрение уходит в Телеграм сразу; если бот не админ канала — придёт ошибка и ничего не опубликуется.
+  </div>
+</div>
+
+<script>
+(function () {
+  var list = document.getElementById('list');
+  var say = document.getElementById('say');
+  var chatSel = document.getElementById('chat');
+  var countEl = document.getElementById('count');
+
+  function tell(text, kind) {
+    say.className = 'say' + (kind ? ' ' + kind : '');
+    say.textContent = text || '';
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  function render(data) {
+    var posts = data.posts || [];
+    countEl.textContent = posts.length ? (posts.length + ' черновиков') : '';
+    if (!chatSel.options.length) {
+      (data.channels || []).forEach(function (c) {
+        var o = document.createElement('option');
+        o.value = c.chat_id || '';
+        o.textContent = (c.title || '') + (c.chat_id ? ' · ' + c.chat_id : '');
+        chatSel.appendChild(o);
+      });
+      if (!data.channels || !data.channels.length) {
+        var o2 = document.createElement('option');
+        o2.value = ''; o2.textContent = 'канал не настроен';
+        chatSel.appendChild(o2);
+      }
+    }
+    if (!posts.length) {
+      list.innerHTML = '<div class="empty">Черновиков нет. Двойник пока молчит.</div>';
+      return;
+    }
+    list.innerHTML = posts.map(function (p) {
+      var st = p.status || 'draft';
+      var cls = st === 'published' ? 'published' : st === 'rejected' ? 'rejected' : '';
+      return '<div class="card" data-id="' + p.id + '">' +
+        '<h2>' + esc(p.title) + '</h2>' +
+        (p.title_alt ? '<p class="alt">' + esc(p.title_alt) + '</p>' : '') +
+        '<div class="body">' + esc(p.body) + '</div>' +
+        (p.cta ? '<p class="cta">' + esc(p.cta) + '</p>' : '') +
+        '<div class="row">' +
+          '<span class="badge ' + cls + '">' + esc(st) + '</span>' +
+          '<button class="primary" data-act="publish">Опубликовать</button>' +
+          '<button data-act="reject">В архив</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  function load() {
+    tell('Читаю двойника…');
+    fetch('/api/pult/drafts', { credentials: 'same-origin' })
+      .then(function (r) { return r.json().then(function (d) { return { s: r.status, d: d }; }); })
+      .then(function (res) {
+        if (res.s === 403) { list.innerHTML = '<div class="empty">Пульт доступен только Капитану. Войди под своим аккаунтом.</div>'; tell(''); return; }
+        if (res.s !== 200) { tell((res.d && res.d.error) || 'Не смог прочитать.', 'err'); return; }
+        render(res.d);
+        tell(res.d.botReady ? '' : 'Telegram-бот не настроен, публикация не сработает.', res.d.botReady ? '' : 'err');
+      })
+      .catch(function () { tell('Сервер не отвечает.', 'err'); });
+  }
+
+  list.addEventListener('click', function (e) {
+    var btn = e.target.closest('button[data-act]');
+    if (!btn) return;
+    var card = btn.closest('.card');
+    var id = Number(card.getAttribute('data-id'));
+    var act = btn.getAttribute('data-act');
+    btn.disabled = true;
+    if (act === 'reject') {
+      fetch('/api/pult/reject', {
+        method: 'POST', credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id })
+      }).then(function () { tell('Убрал в архив.', 'ok'); load(); })
+        .catch(function () { btn.disabled = false; tell('Не получилось убрать.', 'err'); });
+      return;
+    }
+    var chat = chatSel.value || '';
+    tell('Публикую в ' + (chat || 'канал по умолчанию') + '…');
+    fetch('/api/pult/publish', {
+      method: 'POST', credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id, chat: chat })
+    }).then(function (r) { return r.json().then(function (d) { return { s: r.status, d: d }; }); })
+      .then(function (res) {
+        if (res.s === 200 && res.d && res.d.ok) {
+          tell('Опубликовано в ' + (res.d.chat || 'канал') + (res.d.note ? ' · ' + res.d.note : ''), 'ok');
+          load();
+        } else {
+          btn.disabled = false;
+          tell((res.d && res.d.error) || 'Telegram не принял.', 'err');
+        }
+      })
+      .catch(function () { btn.disabled = false; tell('Сервер не ответил.', 'err'); });
+  });
+
+  document.getElementById('reload').addEventListener('click', load);
+  load();
+})();
+</script>
+</body>
+</html>
