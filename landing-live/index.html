@@ -1,0 +1,1522 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GOOD Growth — система, которая управляет ростом</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="GOOD Growth" />
+<meta property="og:title" content="GOOD Growth — от цели до готовых постов" />
+<meta property="og:url" content="https://growth.go-ood.com/" />
+<meta property="og:description" content="GOOD Growth — мастерская роста: из одной цели — стратегия, посты и картинки. Первый разбор бесплатно." /
+  <meta property="og:image" content="https://growth.go-ood.com/og-goal.png" />
+<meta property="og:image:alt" content="GOOD Growth — рост не удача, это ремесло" /
+  <meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="ru_RU" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="GOOD Growth — от цели до готовых постов" />
+<meta name="twitter:description" content="GOOD Growth — мастерская роста: из одной цели — стратегия, посты и картинки. Первый разбор бесплатно." /
+  <meta name="twitter:image" content="https://growth.go-ood.com/og-goal.png" />
+<meta name="description" content="Опиши своё дело — получи стратегию и готовые посты с картинками для Telegram. От цели — до готовых постов. За один вечер.">
+<meta name="theme-color" content="#08090A">
+<style>
+/* ============================================================
+   GOOD Growth — design pilot
+   1. tokens   2. base   3. nav   4. hero   5. dashboard
+   6. steps    7. bento  8. cta   9. footer  10. motion
+   ============================================================ */
+
+/* 1. tokens ------------------------------------------------ */
+:root{
+  --bg:#08090A;
+  --bg-soft:#0B0C0E;
+  --surface:#0E0F12;
+  --surface-2:#111216;
+  --line:rgba(255,255,255,.06);
+  --line-2:rgba(255,255,255,.10);
+  --fg:#F4F4F5;
+  --fg-2:#A1A1AA;
+  --fg-3:#8B8B95;
+  --copper:#E8A54F;
+  --copper-lt:#F3C583;
+  --copper-dp:#C97B3C;
+  --copper-06:rgba(232,165,79,.06);
+  --copper-10:rgba(232,165,79,.10);
+  --copper-16:rgba(232,165,79,.16);
+  --green:#7CCB7A;
+  --r-btn:6px;
+  --r-card:12px;
+  --ease:cubic-bezier(.22,.68,.24,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --max:1180px;
+}
+
+/* 2. base -------------------------------------------------- */
+*,*::before,*::after{box-sizing:border-box}
+html{
+  -webkit-text-size-adjust:100%;
+  scroll-behavior:smooth;
+  scroll-padding-top:92px;
+  background:var(--bg);
+}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  font-feature-settings:"kern" 1,"liga" 1,"calt" 1;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4,p,figure{margin:0}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+svg{display:block}
+::selection{background:rgba(232,165,79,.26);color:#fff}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#08090A}
+::-webkit-scrollbar-thumb{background:#222327;border-radius:6px;border:2px solid #08090A}
+::-webkit-scrollbar-thumb:hover{background:#2e2f34}
+:focus-visible{outline:2px solid var(--copper);outline-offset:3px;border-radius:8px}
+
+.wrap{width:min(var(--max),calc(100% - 48px));margin-inline:auto}
+.grain{
+  position:fixed;inset:0;z-index:70;pointer-events:none;opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.dim{color:var(--fg-2)}
+
+/* 3. nav --------------------------------------------------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;height:68px;
+  display:flex;align-items:center;
+}
+.nav::before{
+  content:"";position:absolute;inset:0;
+  background:rgba(8,9,10,.74);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  backdrop-filter:blur(16px) saturate(140%);
+  opacity:0;transition:opacity 260ms var(--ease);
+}
+.nav::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:var(--line);opacity:0;transition:opacity 260ms var(--ease);
+}
+.nav.is-stuck::before{opacity:1}
+.nav.is-stuck::after{opacity:1}
+.nav-in{position:relative;flex:1;display:flex;align-items:center;gap:28px}
+.brand{display:inline-flex;align-items:center;gap:10px;flex:none}
+.brand-mark{
+  width:26px;height:26px;border-radius:7px;flex:none;
+  background:linear-gradient(145deg,#F2BC73,var(--copper) 45%,var(--copper-dp));
+  box-shadow:0 0 0 1px rgba(255,255,255,.10) inset,0 6px 18px -8px rgba(232,165,79,.7);
+  display:grid;place-items:center;
+}
+.brand-mark svg{width:16px;height:16px}
+.brand-name{font-size:15px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.brand-name i{font-style:normal;color:var(--fg-2);font-weight:500}
+.nav-links{display:flex;align-items:center;gap:26px;margin-left:8px}
+.nav-links a{font-size:13.5px;color:var(--fg-2);transition:opacity 150ms var(--ease)}
+.nav-links a:hover{color:var(--fg)}
+.nav-actions{display:flex;align-items:center;gap:10px;margin-left:auto}
+.nav-login{font-size:13.5px;color:var(--fg-2);padding:8px 6px}
+.nav-login:hover{color:var(--fg)}
+.nav-cta-short{display:none}
+.nav-burger{
+  display:none;width:40px;height:40px;flex:none;
+  align-items:center;justify-content:center;
+  border:1px solid var(--line-2);border-radius:8px;
+  background:rgba(255,255,255,.03);cursor:pointer;
+  transition:background-color 150ms linear,border-color 150ms linear;
+}
+.nav-burger:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.17)}
+.nav-burger svg{width:18px;height:18px;stroke:var(--fg);stroke-width:1.6;stroke-linecap:round;fill:none}
+.nav-menu{
+  display:none;position:fixed;top:68px;left:12px;right:12px;z-index:90;
+  border:1px solid var(--line-2);border-radius:12px;
+  background:rgba(11,12,14,.96);
+  -webkit-backdrop-filter:blur(18px) saturate(130%);backdrop-filter:blur(18px) saturate(130%);
+  box-shadow:0 30px 80px -30px rgba(0,0,0,.9);
+  padding:8px;
+}
+.nav-menu.open{display:block}
+.nav-menu a{
+  display:flex;align-items:center;justify-content:space-between;
+  height:46px;padding:0 14px;border-radius:8px;
+  font-size:14.5px;color:var(--fg-2);
+}
+.nav-menu a:hover,.nav-menu a:focus-visible{background:rgba(255,255,255,.05);color:var(--fg)}
+.nav-menu a svg{width:14px;height:14px;stroke:var(--fg-3);stroke-width:1.6;stroke-linecap:round;fill:none}
+.pulse-dot.green{background:var(--green);box-shadow:0 0 0 0 rgba(124,203,122,.4),0 0 8px rgba(124,203,122,.6);animation:none}
+
+/* buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  height:46px;padding:0 20px;border-radius:var(--r-btn);
+  font-size:14.5px;font-weight:600;letter-spacing:-.005em;
+  border:1px solid transparent;cursor:pointer;white-space:nowrap;
+  will-change:transform;
+  transition:transform 150ms var(--ease),box-shadow 150ms var(--ease),background-color 150ms var(--ease),opacity 150ms;
+}
+.btn svg{width:15px;height:15px;flex:none}
+.btn-primary{
+  color:#1B1206;
+  background:linear-gradient(180deg,#F3C07C 0%,var(--copper) 42%,#DE9B46 100%);
+  box-shadow:0 1px 0 rgba(255,255,255,.38) inset,0 10px 26px -14px rgba(232,165,79,.85);
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.45) inset,0 16px 34px -14px rgba(232,165,79,.95)}
+.btn-primary:active{transform:translateY(0)}
+.btn-ghost{
+  color:var(--fg);
+  background:rgba(255,255,255,.035);
+  border-color:var(--line-2);
+  box-shadow:0 1px 0 rgba(255,255,255,.05) inset;
+}
+.btn-ghost:hover{transform:translateY(-1px);background:rgba(255,255,255,.06)}
+.btn-sm{height:36px;padding:0 14px;font-size:13px;border-radius:var(--r-btn)}
+.btn-sm svg{width:13px;height:13px}
+
+/* 4. hero -------------------------------------------------- */
+.hero{position:relative;padding:132px 0 78px;overflow:hidden;isolation:isolate}
+.hero-bg{position:absolute;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
+.blob{position:absolute;border-radius:50%;will-change:transform,opacity}
+.blob-a{
+  width:1100px;height:760px;left:50%;top:-380px;margin-left:-550px;
+  background:radial-gradient(closest-side,rgba(232,165,79,.17),rgba(232,165,79,.05) 46%,transparent 72%);
+  animation:breathe-a 26s var(--ease) infinite;
+}
+.blob-b{
+  width:820px;height:820px;right:-260px;top:40px;
+  background:radial-gradient(closest-side,rgba(201,123,60,.14),rgba(201,123,60,.04) 50%,transparent 72%);
+  animation:breathe-b 34s var(--ease) infinite;
+}
+.blob-c{
+  width:700px;height:700px;left:-240px;top:180px;
+  background:radial-gradient(closest-side,rgba(126,86,46,.14),rgba(126,86,46,.03) 52%,transparent 74%);
+  animation:breathe-c 30s var(--ease) infinite;
+}
+.hero-grid{
+  position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:
+    linear-gradient(to right,rgba(255,255,255,.045) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:76px 76px;
+  opacity:.6;
+  -webkit-mask-image:radial-gradient(72% 56% at 50% 26%,#000 0%,rgba(0,0,0,.55) 48%,transparent 78%);
+  mask-image:radial-gradient(72% 56% at 50% 26%,#000 0%,rgba(0,0,0,.55) 48%,transparent 78%);
+}
+.hero-spot{
+  position:absolute;left:0;top:0;width:760px;height:760px;margin:-380px 0 0 -380px;
+  z-index:-1;border-radius:50%;pointer-events:none;opacity:0;
+  background:radial-gradient(closest-side,rgba(232,165,79,.06),rgba(232,165,79,.025) 45%,transparent 68%);
+  transform:translate3d(var(--sx,50vw),var(--sy,42vh),0);
+  transition:opacity 500ms var(--ease);
+  will-change:transform;
+}
+.hero.has-pointer .hero-spot{opacity:1}
+.hero-vignette{
+  position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(120% 80% at 50% 10%,transparent 40%,rgba(8,9,10,.55) 82%,var(--bg) 100%);
+}
+.hero-inner{position:relative;z-index:2;max-width:1120px;margin-inline:auto;text-align:center}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  height:30px;padding:0 13px 0 11px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.09);
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+  box-shadow:0 1px 0 rgba(255,255,255,.06) inset;
+  font-size:12.5px;letter-spacing:.005em;color:var(--fg-2);
+}
+.pulse-dot{position:relative;width:6px;height:6px;border-radius:50%;background:var(--copper);flex:none}
+.pulse-dot::after{
+  content:"";position:absolute;inset:-4px;border-radius:50%;
+  border:1px solid rgba(232,165,79,.55);
+  animation:ping 2.8s var(--ease) infinite;
+}
+.hero h1{
+  margin-top:26px;
+  font-size:clamp(2.5rem,5.55vw,4.5rem);
+  line-height:1.03;
+  letter-spacing:-.038em;
+  font-weight:600;
+  text-wrap:balance;
+  color:#F7F7F8;
+}
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(178deg,#FFF8EE 8%,#F6D3A0 58%,#E8A54F 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 0 60px rgba(232,165,79,.20);
+}
+.lede{
+  margin:24px auto 0;max-width:610px;
+  font-size:clamp(15px,1.3vw,17.5px);line-height:1.66;color:var(--fg-2);
+  text-wrap:pretty;
+}
+.lede b{color:#DCDCE0;font-weight:500}
+.hero-cta{margin-top:34px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.micro{margin-top:18px;font-size:12.5px;color:#8E8E98;letter-spacing:.012em;text-wrap:balance;max-width:420px;margin-inline:auto}
+.micro span{display:inline-block;margin:0 5px;color:#63636B}
+
+/* dashboard shell */
+.dash-wrap{position:relative;max-width:1080px;margin:52px auto 0;perspective:1500px}
+.dash-tilt{
+  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  transform-style:preserve-3d;
+  transition:transform 400ms var(--ease-out);
+  will-change:transform;
+}
+.dash{
+  position:relative;
+  border-radius:var(--r-card);
+  border:1px solid rgba(255,255,255,.085);
+  background:linear-gradient(180deg,#101114 0%,#0C0D0F 42%,#0A0B0D 100%);
+  overflow:hidden;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.07) inset,
+    0 0 0 1px rgba(0,0,0,.6),
+    0 60px 140px -50px rgba(0,0,0,.95),
+    0 24px 60px -30px rgba(232,165,79,.14);
+  text-align:left;
+}
+.dash::before{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:radial-gradient(120% 55% at 50% -12%,rgba(232,165,79,.10),transparent 62%);
+}
+.dash-top{
+  position:relative;display:flex;align-items:center;gap:12px;
+  height:42px;padding:0 14px;border-bottom:1px solid rgba(255,255,255,.055);
+}
+.dots{display:flex;gap:5px}
+.dots i{width:8px;height:8px;border-radius:50%;background:#2A2B30;display:block}
+.dots i:nth-child(2){background:#26272B}
+.dots i:nth-child(3){background:#222327}
+.dash-url{
+  flex:1;max-width:320px;margin-inline:auto;
+  height:24px;border-radius:5px;background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  font-size:11px;color:#8E8E98;letter-spacing:.01em;
+}
+.dash-url svg{width:9px;height:9px;opacity:.7}
+.dash-top-right{display:flex;align-items:center;gap:8px}
+.avatar{
+  width:24px;height:24px;border-radius:50%;flex:none;
+  display:grid;place-items:center;font-size:10px;font-weight:600;color:#1B1206;
+  background:linear-gradient(145deg,#F2BC73,#D08A3F);
+  box-shadow:0 0 0 1px rgba(255,255,255,.12) inset;
+}
+.dash-body{position:relative;display:grid;grid-template-columns:174px minmax(0,1fr)}
+
+/* left rail */
+.rail{border-right:1px solid rgba(255,255,255,.055);padding:14px 10px;display:flex;flex-direction:column;gap:2px}
+.rail-label{font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:#5E5E67;padding:4px 10px 8px;font-weight:600}
+.rail-item{
+  display:flex;align-items:center;gap:9px;height:32px;padding:0 10px;border-radius:6px;
+  font-size:12.5px;color:#9A9AA4;position:relative;
+}
+.rail-item svg{width:14px;height:14px;flex:none;opacity:.85}
+.rail-item.on{color:var(--fg);background:rgba(255,255,255,.055);box-shadow:0 1px 0 rgba(255,255,255,.05) inset}
+.rail-item.on::before{
+  content:"";position:absolute;left:0;top:8px;bottom:8px;width:2px;border-radius:2px;
+  background:linear-gradient(180deg,var(--copper-lt),var(--copper-dp));
+}
+.rail-item.on svg{color:var(--copper);opacity:1}
+.rail-spacer{flex:1}
+.rail-foot{
+  margin:6px 4px 0;padding:10px;border-radius:8px;
+  border:1px solid rgba(232,165,79,.16);background:rgba(232,165,79,.05);
+  font-size:10.5px;line-height:1.5;color:#A9A9B3;
+}
+.rail-foot b{display:block;color:var(--copper-lt);font-weight:600;font-size:11px;margin-bottom:2px}
+
+/* dashboard main */
+.dash-main{padding:16px 18px 18px;min-width:0}
+.dash-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.dash-head h2{font-size:16px;font-weight:600;letter-spacing:-.02em;line-height:1.3}
+.dash-head p{font-size:11px;color:#84848E;margin-top:2px}
+.dash-head-act{display:flex;align-items:center;gap:6px;flex:none}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:5px;
+  border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035);
+  font-size:10.5px;color:#A6A6B0;white-space:nowrap;letter-spacing:.005em;
+}
+.chip svg{width:11px;height:11px;opacity:.8}
+.chip-live{color:#D6B183;border-color:rgba(232,165,79,.22);background:rgba(232,165,79,.07)}
+.chip-green{color:#9BD89A;border-color:rgba(124,203,122,.22);background:rgba(124,203,122,.07)}
+.livedot{width:5px;height:5px;border-radius:50%;background:var(--copper);flex:none;animation:blink 2.4s var(--ease) infinite}
+
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:13px}
+.kpi{
+  border:1px solid rgba(255,255,255,.055);border-radius:8px;
+  background:linear-gradient(180deg,rgba(255,255,255,.032),rgba(255,255,255,.012));
+  padding:10px 11px 11px;
+}
+.kpi-label{display:block;font-size:10.5px;color:#84848E;letter-spacing:.01em}
+.kpi-value{
+  display:block;margin-top:5px;font-size:20px;font-weight:600;letter-spacing:-.03em;
+  color:#F1F1F3;font-variant-numeric:tabular-nums;
+}
+.kpi-delta{display:block;margin-top:3px;font-size:10.5px;color:var(--green);font-variant-numeric:tabular-nums}
+.kpi-delta.n{color:#84848E}
+
+.dash-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:9px;margin-top:9px}
+.panel{border:1px solid rgba(255,255,255,.055);border-radius:8px;background:#0E0F12;min-width:0}
+
+/* chart */
+.chart-card{padding:12px 13px 10px;display:flex;flex-direction:column}
+.chart-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.chart-title{display:block;font-size:11.5px;font-weight:600;color:#E4E4E7;letter-spacing:-.005em}
+.chart-sub{display:block;font-size:10px;color:#7E7E88;margin-top:1px}
+.chart-plot{position:relative;margin-top:9px;aspect-ratio:640/196;width:100%;overflow:hidden;border-radius:4px;background:#0E0F12}
+.chart-svg{width:100%;height:100%}
+.grid-line{stroke:rgba(255,255,255,.055);stroke-width:1}
+.chart-fill{opacity:0;transition:opacity 900ms var(--ease) 700ms}
+.chart-line{opacity:0;transition:opacity 500ms var(--ease) 220ms}
+.chart-dot,.chart-halo{opacity:0;transition:opacity 500ms var(--ease)}
+.chart-halo{transform-box:fill-box;transform-origin:center;animation:halo 3.2s var(--ease) infinite}
+.chart-wipe{
+  position:absolute;inset:0;background:#0E0F12;
+  border-right:1px solid rgba(232,165,79,.45);
+  box-shadow:6px 0 22px rgba(232,165,79,.20);
+  transform:translateX(-1%);
+}
+.dash.is-live .chart-wipe{animation:wipe 1650ms cubic-bezier(.55,.02,.22,1) 480ms forwards}
+.dash.is-live .chart-line{opacity:1}
+.dash.is-live .chart-fill{opacity:1}
+.dash.is-live .chart-dot,.dash.is-live .chart-halo{opacity:1;transition-delay:1900ms}
+.chart-tip{
+  position:absolute;right:9%;top:4%;
+  display:flex;flex-direction:column;gap:1px;
+  padding:6px 9px;border-radius:6px;
+  border:1px solid rgba(232,165,79,.24);background:rgba(20,16,11,.92);
+  box-shadow:0 8px 20px -10px rgba(0,0,0,.9);
+  opacity:0;transform:translateY(6px);
+  transition:opacity 420ms var(--ease),transform 420ms var(--ease);
+}
+.dash.is-live .chart-tip{opacity:1;transform:none;transition-delay:1850ms}
+.chart-tip b{font-size:12px;font-weight:600;letter-spacing:-.01em;color:#F6E3C6;font-variant-numeric:tabular-nums}
+.chart-tip span{font-size:9.5px;color:#8E8E98}
+.chart-axis{display:flex;justify-content:space-between;margin-top:7px;padding:0 2px}
+.chart-axis span{font-size:9.5px;color:#5F5F68;letter-spacing:.02em}
+
+/* plan */
+.plan-card{padding:12px 12px 10px;display:flex;flex-direction:column}
+.plan-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.plan-head b{font-size:11.5px;font-weight:600;color:#E4E4E7}
+.plan-head span{font-size:10px;color:#7E7E88}
+.plan-list{list-style:none;margin:9px 0 0;padding:0;display:flex;flex-direction:column;gap:7px;flex:1}
+.plan-item{display:flex;align-items:center;gap:8px;min-width:0}
+.thumb{
+  width:26px;height:26px;border-radius:5px;flex:none;
+  border:1px solid rgba(255,255,255,.07);
+  background:radial-gradient(120% 90% at 20% 15%,#6B4A2F,transparent 62%),radial-gradient(90% 90% at 85% 85%,#2A1C14,transparent),linear-gradient(155deg,#3B2A1D,#15100C);
+}
+.thumb.t2{background:radial-gradient(110% 90% at 80% 15%,#3E4A44,transparent 60%),radial-gradient(90% 90% at 20% 85%,#1C2422,transparent),linear-gradient(155deg,#22302C,#0F1413)}
+.thumb.t3{background:radial-gradient(120% 90% at 30% 20%,#4C4740,transparent 60%),radial-gradient(90% 90% at 80% 90%,#221E19,transparent),linear-gradient(155deg,#302B25,#13100D)}
+.plan-txt{min-width:0;flex:1}
+.plan-txt b{display:block;font-size:10.5px;font-weight:500;color:#D4D4D8;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.plan-txt span{display:block;font-size:9.5px;color:#71717A;margin-top:1px}
+.state{font-size:9px;padding:2px 6px;border-radius:4px;flex:none;letter-spacing:.01em}
+.state-ready{color:#9BD89A;background:rgba(124,203,122,.10);border:1px solid rgba(124,203,122,.18)}
+.state-rev{color:#E5B478;background:rgba(232,165,79,.10);border:1px solid rgba(232,165,79,.2)}
+.state-dr{color:#8E8E98;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07)}
+.plan-foot{
+  display:flex;align-items:center;gap:6px;margin-top:9px;padding-top:8px;
+  border-top:1px solid rgba(255,255,255,.05);font-size:9.5px;color:#7E7E88;
+}
+.plan-foot b{color:#B9B9C2;font-weight:500}
+.plan-foot .mini{width:5px;height:5px;border-radius:50%;background:var(--copper);flex:none}
+.plan-foot .ago{margin-left:auto}
+
+/* floating chips around dashboard */
+.float{
+  position:absolute;z-index:3;border-radius:8px;
+  border:1px solid rgba(255,255,255,.09);
+  background:rgba(16,17,20,.86);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  box-shadow:0 18px 40px -20px rgba(0,0,0,.9),0 1px 0 rgba(255,255,255,.06) inset;
+  padding:9px 12px;display:flex;align-items:center;gap:9px;
+  font-size:11.5px;color:#D4D4D8;
+}
+.float-a{top:-46px;right:-10px;animation:float-a 9s var(--ease) infinite}
+.float-b{bottom:-17px;left:-26px;animation:float-b 11s var(--ease) infinite}
+.float .ok{
+  width:18px;height:18px;border-radius:50%;flex:none;display:grid;place-items:center;
+  background:rgba(124,203,122,.14);border:1px solid rgba(124,203,122,.28);color:#9BD89A;
+}
+.float .ok svg{width:10px;height:10px}
+.float .ai{
+  width:18px;height:18px;border-radius:5px;flex:none;display:grid;place-items:center;
+  background:rgba(232,165,79,.14);border:1px solid rgba(232,165,79,.28);color:var(--copper-lt);
+}
+.float .ai svg{width:10px;height:10px}
+.float b{font-weight:600;color:#F1F1F3}
+.float i{font-style:normal;color:#8E8E98;font-size:10.5px}
+
+/* 5. steps ------------------------------------------------- */
+.steps-sec{position:relative;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.016),rgba(255,255,255,0))}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.step{padding:30px 26px 34px;border-left:1px solid var(--line);position:relative}
+.step:first-child{border-left:0;padding-left:0}
+.step:last-child{padding-right:0}
+.step-n{
+  font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--copper);
+  display:flex;align-items:center;gap:8px;
+}
+.step-n::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,rgba(232,165,79,.35),transparent)}
+.step h3{margin-top:12px;font-size:14.5px;font-weight:600;letter-spacing:-.012em;line-height:1.4;color:#EDEDF0}
+.step p{margin-top:6px;font-size:13px;line-height:1.55;color:var(--fg-3)}
+
+/* 6. bento ------------------------------------------------- */
+.features{padding:112px 0 24px;position:relative}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,370px);gap:0 52px;align-items:end}
+.sec-head .eyebrow{grid-column:1 / -1;justify-self:start;margin-bottom:22px}
+.sec-head h2{
+  font-size:clamp(1.85rem,3.15vw,2.65rem);line-height:1.12;letter-spacing:-.034em;font-weight:600;
+  color:#F4F4F5;max-width:720px;
+}
+.sec-head h2 .dim{color:#8E8E98}
+.sec-head p{font-size:14.5px;line-height:1.68;color:var(--fg-2);max-width:370px;justify-self:end;padding-bottom:5px}
+.sec-head p b{color:#DCDCE0;font-weight:500}
+
+.bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px;margin-top:44px;align-items:stretch}
+.cell{min-width:0;display:flex}
+.cell-a{grid-column:span 7}
+.cell-b{grid-column:span 5}
+.cell-c,.cell-d,.cell-e{grid-column:span 4}
+.cell-f{grid-column:span 12}
+
+.card{
+  position:relative;width:100%;
+  border-radius:var(--r-card);
+  border:1px solid rgba(255,255,255,.07);
+  background:
+    radial-gradient(120% 100% at 0% 0%,rgba(255,255,255,.045),transparent 46%),
+    linear-gradient(180deg,#0F1013 0%,#0B0C0E 100%);
+  padding:22px 22px 20px;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  will-change:transform;
+  transform:translateZ(0);
+  box-shadow:0 1px 0 rgba(255,255,255,.045) inset;
+  transition:transform 150ms var(--ease),box-shadow 150ms var(--ease);
+}
+.card::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(300px circle at var(--gx,50%) var(--gy,0%),rgba(232,165,79,.15),transparent 66%);
+  opacity:0;transition:opacity 150ms var(--ease);
+}
+.card::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(232,165,79,.22),inset 0 1px 0 rgba(255,255,255,.07);
+  opacity:0;transition:opacity 150ms var(--ease);
+}
+.card:hover{transform:translateY(-4px) scale(1.008);box-shadow:0 24px 50px -24px rgba(0,0,0,.95),0 12px 30px -18px rgba(232,165,79,.28)}
+.card:hover::before{opacity:1}
+.card:hover::after{opacity:1}
+.card > *{position:relative;z-index:1}
+.card-ico{
+  width:32px;height:32px;border-radius:8px;display:grid;place-items:center;flex:none;
+  border:1px solid rgba(255,255,255,.09);
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
+  color:#D9D9DE;box-shadow:0 1px 0 rgba(255,255,255,.06) inset;
+}
+.card-ico svg{width:16px;height:16px}
+.card-top{display:flex;align-items:center;gap:10px}
+.badge{
+  margin-left:auto;font-size:10px;letter-spacing:.02em;padding:3px 8px;border-radius:999px;
+  border:1px solid rgba(232,165,79,.24);background:rgba(232,165,79,.08);color:#E7B778;white-space:nowrap;
+}
+.badge.mute{border-color:rgba(255,255,255,.10);background:rgba(255,255,255,.04);color:#9A9AA4}
+.card h3{margin-top:16px;font-size:16.5px;font-weight:600;letter-spacing:-.018em;line-height:1.35;color:#F2F2F4}
+.card p{margin-top:7px;font-size:13.5px;line-height:1.62;color:#94949E;max-width:44ch}
+
+/* card visuals */
+.vis{margin-top:auto;padding-top:18px}
+.sheet{
+  border:1px solid rgba(255,255,255,.07);border-radius:8px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,.008));
+}
+.sheet-row{display:flex;align-items:center;gap:10px;padding:9px 11px;border-top:1px solid rgba(255,255,255,.05);font-size:11.5px}
+.sheet-row:first-child{border-top:0}
+.sheet-row span{color:#7E7E88;width:74px;flex:none;letter-spacing:.01em}
+.sheet-row b{color:#DADAE0;font-weight:500;letter-spacing:-.005em}
+.sheet-row .tag{
+  margin-left:auto;font-size:9.5px;color:#9BD89A;padding:1px 6px;border-radius:4px;
+  background:rgba(124,203,122,.09);border:1px solid rgba(124,203,122,.18);white-space:nowrap;
+}
+.sheet-row .tag.warm{color:#E7B778;background:rgba(232,165,79,.08);border-color:rgba(232,165,79,.2)}
+.sheet-foot{
+  display:flex;align-items:center;gap:7px;padding:9px 11px;border-top:1px solid rgba(255,255,255,.05);
+  font-size:10.5px;color:#84848E;background:rgba(255,255,255,.015);
+}
+.sheet-foot svg{width:11px;height:11px;color:var(--copper)}
+
+.posts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.post{
+  border:1px solid rgba(255,255,255,.07);border-radius:8px;overflow:hidden;
+  background:rgba(255,255,255,.02);
+}
+.post-img{
+  position:relative;aspect-ratio:16/9;width:100%;
+  box-shadow:inset 0 0 26px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.07),inset 0 0 0 1px rgba(255,255,255,.04);
+}
+.post-img.p1{background:radial-gradient(120% 100% at 18% 12%,#7A5634,transparent 58%),radial-gradient(90% 90% at 82% 88%,#2C1E14,transparent),linear-gradient(150deg,#43301F,#16110D)}
+.post-img.p1{background:radial-gradient(circle at 30% 26%,rgba(255,219,170,.38) 0,rgba(255,219,170,.10) 9%,transparent 26%),radial-gradient(120% 100% at 18% 12%,#7A5634,transparent 58%),radial-gradient(90% 90% at 82% 88%,#2C1E14,transparent),linear-gradient(150deg,#43301F,#16110D)}
+.post-img.p2{background:radial-gradient(circle at 74% 28%,rgba(232,165,79,.45) 0,rgba(232,165,79,.10) 9%,transparent 28%),radial-gradient(110% 100% at 78% 8%,#5B4A38,transparent 55%),radial-gradient(90% 90% at 16% 88%,#1B1611,transparent),linear-gradient(150deg,#2E251C,#0E0B08)}
+.post-body{padding:8px 9px 9px}
+.post-body b{display:block;font-size:10.5px;font-weight:500;color:#D4D4D8;line-height:1.35}
+.post-body span{display:block;font-size:9px;color:#6F6F78;margin-top:3px}
+.regen{
+  display:inline-flex;align-items:center;gap:6px;margin-top:11px;
+  height:26px;padding:0 9px;border-radius:5px;align-self:flex-start;
+  border:1px solid rgba(232,165,79,.22);background:rgba(232,165,79,.07);
+  font-size:10.5px;color:#E7B778;
+}
+.regen svg{width:11px;height:11px}
+
+.metric-vis{margin-top:auto;padding-top:16px}
+.metric-num{font-size:28px;font-weight:600;letter-spacing:-.04em;line-height:1;color:#F1F1F3;font-variant-numeric:tabular-nums}
+.metric-sub{display:flex;align-items:center;gap:6px;margin-top:5px;font-size:10.5px;color:#84848E}
+.metric-sub .up{color:var(--green)}
+.spark{margin-top:10px;width:100%;height:34px}
+
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:auto;padding-top:18px}
+.day{display:flex;flex-direction:column;align-items:center;gap:6px}
+.day span{font-size:9px;color:#6F6F78;letter-spacing:.02em}
+.day i{
+  display:block;width:100%;aspect-ratio:1;max-width:26px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);
+}
+.day.done i{background:rgba(232,165,79,.16);border-color:rgba(232,165,79,.34);box-shadow:0 0 0 3px rgba(232,165,79,.05)}
+.day.today i{background:linear-gradient(180deg,#F3C07C,var(--copper));border-color:transparent;box-shadow:0 0 0 3px rgba(232,165,79,.12),0 6px 14px -6px rgba(232,165,79,.7)}
+.day.weekend span{color:#4E4E56}
+.week-foot{display:flex;align-items:center;gap:6px;margin-top:12px;font-size:10.5px;color:#7E7E88}
+.week-foot b{color:#C9C9D0;font-weight:500}
+.week-foot .d{width:5px;height:5px;border-radius:50%;background:var(--copper)}
+
+.chan{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:7px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);margin-top:Auto}
+.chan-av{width:26px;height:26px;border-radius:50%;flex:none;background:radial-gradient(120% 120% at 30% 20%,#F3C583,#C97B3C 70%);display:grid;place-items:center;color:#241505;font-size:10px;font-weight:700}
+.chan-t{min-width:0;flex:1}
+.chan-t b{display:block;font-size:11.5px;font-weight:500;color:#DEDEE3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chan-t span{display:block;font-size:9.5px;color:#71717A}
+.chan-add{
+  display:flex;align-items:center;justify-content:center;gap:6px;margin-top:7px;
+  border:1px dashed rgba(255,255,255,.10);border-radius:7px;height:30px;
+  font-size:10.5px;color:#6F6F78;
+}
+.chan-add svg{width:10px;height:10px}
+
+.net-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.net{
+  display:flex;align-items:center;gap:7px;height:28px;padding:0 9px;
+  border:1px solid rgba(255,255,255,.07);border-radius:6px;background:rgba(255,255,255,.02);
+  font-size:10.5px;color:#A6A6B0;white-space:nowrap;
+}
+.net svg{width:11px;height:11px;flex:none}
+
+.partner{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:16px}
+.card-row{flex-direction:row;align-items:center;gap:20px;padding:20px 24px}
+.card-row .card-ico{align-self:flex-start;margin-top:2px}
+.card-row-txt{flex:1;min-width:0}
+.card-row-txt h3{display:flex;align-items:center;gap:11px;margin-top:0;font-size:15.5px;flex-wrap:wrap}
+.card-row-txt p{margin-top:5px;max-width:56ch;font-size:13px}
+.card-row .partner{margin-top:0;padding-top:0;flex:none}
+.card-row .badge{margin-left:0}
+.stack{display:flex}
+.stack i{
+  width:26px;height:26px;border-radius:50%;margin-left:-8px;border:1.5px solid #0C0D0F;
+  background:linear-gradient(145deg,#3A3B42,#202127);
+}
+.stack i:first-child{margin-left:0;background:linear-gradient(145deg,#6E5A44,#3A2E22)}
+.stack i:nth-child(2){background:linear-gradient(145deg,#5B5348,#2E2A24)}
+.stack i:nth-child(3){background:linear-gradient(145deg,#4A4640,#26231F)}
+.stack i.more{display:grid;place-items:center;font-size:9px;color:#C9C9D0;background:#1A1B20;font-style:normal}
+.partner-txt{font-size:11px;color:#84848E;line-height:1.45}
+.partner-txt b{display:block;color:#D4D4D8;font-weight:500;font-size:11.5px}
+
+/* 7. final cta --------------------------------------------- */
+.cta-sec{padding:104px 0 72px}
+.cta-panel{
+  position:relative;overflow:hidden;border-radius:var(--r-card);
+  border:1px solid rgba(255,255,255,.09);
+  background:
+    radial-gradient(120% 110% at 50% 128%,rgba(232,165,79,.20),rgba(232,165,79,.05) 46%,transparent 66%),
+    linear-gradient(180deg,#0E0F12 0%,#0A0B0C 100%);
+  padding:92px 32px 84px;text-align:center;
+  box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 40px 100px -60px rgba(0,0,0,.9);
+}
+.cta-panel::before{
+  content:"";position:absolute;top:0;left:12%;right:12%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(232,165,79,.55),transparent);
+}
+.rings{
+  position:absolute;left:50%;bottom:-430px;width:1000px;height:1000px;
+  transform:translateX(-50%);border-radius:50%;pointer-events:none;
+  background:repeating-radial-gradient(circle at center,rgba(232,165,79,.30) 0 1px,transparent 1px 66px);
+  -webkit-mask-image:radial-gradient(circle at center,#000 26%,rgba(0,0,0,.35) 52%,transparent 70%);
+  mask-image:radial-gradient(circle at center,#000 26%,rgba(0,0,0,.35) 52%,transparent 70%);
+  opacity:.22;
+}
+.cta-inner{position:relative;z-index:1}
+.cta-panel h2{
+  margin-top:20px;font-size:clamp(2rem,4.4vw,3.4rem);line-height:1.06;letter-spacing:-.038em;font-weight:600;
+  color:#F7F7F8;
+}
+.cta-panel h2 em{
+  font-style:normal;
+  background:linear-gradient(178deg,#FFF8EE 10%,#F6D3A0 60%,#E8A54F 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.cta-panel p{margin:18px auto 0;max-width:520px;font-size:15.5px;line-height:1.66;color:var(--fg-2)}
+.cta-panel .hero-cta{margin-top:30px}
+.quote{
+  display:block;max-width:520px;margin:34px auto 0;padding-left:14px;
+  border-left:2px solid rgba(232,165,79,.5);
+  font-size:12.5px;line-height:1.65;color:#A6A6B0;text-align:left;
+}
+.quote b{color:#E4E4E7;font-weight:500}
+
+/* 8. footer ------------------------------------------------ */
+.footer{border-top:1px solid var(--line);padding:26px 0 34px}
+.footer-in{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.footer .brand-name{font-size:13.5px}
+.footer .brand-mark{width:22px;height:22px;border-radius:6px}
+.footer .brand-mark svg{width:13px;height:13px}
+.footer-note{font-size:12px;color:#6F6F78;margin-left:2px}
+.soc{display:flex;align-items:center;gap:6px;margin-left:auto}
+.soc-a{
+  display:grid;place-items:center;width:30px;height:30px;border-radius:8px;
+  border:1px solid var(--line);color:#8B8B95;
+  transition:color 150ms var(--ease),border-color 150ms var(--ease),background-color 150ms var(--ease);
+}
+.soc-a:hover{color:var(--fg);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.03)}
+.soc-a svg{width:15px;height:15px}
+.footer-links{display:flex;align-items:center;gap:18px;font-size:12px;color:#8B8B95}
+.footer-links a{color:#8B8B95}
+.footer-links a:hover{color:var(--fg)}
+.footer-links .sep{width:3px;height:3px;border-radius:50%;background:#3A3A42}
+
+/* 9. reveal / motion --------------------------------------- */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 600ms var(--ease-out),transform 600ms var(--ease-out)}
+.reveal.in{opacity:1;transform:none}
+.reveal-fade{opacity:0;transition:opacity 700ms var(--ease-out)}
+.reveal-fade.in{opacity:1}
+
+.hero-inner > *{animation:rise 800ms var(--ease-out) both}
+.hero-inner > *:nth-child(1){animation-delay:60ms}
+.hero-inner > *:nth-child(2){animation-delay:130ms}
+.hero-inner > *:nth-child(3){animation-delay:200ms}
+.hero-inner > *:nth-child(4){animation-delay:270ms}
+.hero-inner > *:nth-child(5){animation-delay:340ms}
+
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes breathe-a{
+  0%,100%{transform:translate3d(-18px,-10px,0) scale(1);opacity:.82}
+  50%{transform:translate3d(34px,26px,0) scale(1.13);opacity:1}
+}
+@keyframes breathe-b{
+  0%,100%{transform:translate3d(0,0,0) scale(1.04);opacity:.72}
+  50%{transform:translate3d(-52px,38px,0) scale(.92);opacity:1}
+}
+@keyframes breathe-c{
+  0%,100%{transform:translate3d(0,0,0) scale(.96);opacity:.62}
+  50%{transform:translate3d(44px,-32px,0) scale(1.1);opacity:.95}
+}
+@keyframes ping{
+  0%{transform:scale(.6);opacity:0}
+  24%{transform:scale(.9);opacity:.8}
+  100%{transform:scale(2.1);opacity:0}
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes halo{
+  0%,100%{transform:scale(1);opacity:.28}
+  50%{transform:scale(2.1);opacity:0}
+}
+@keyframes wipe{from{transform:translateX(-1%)}to{transform:translateX(101%)}}
+@keyframes float-a{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes float-b{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* 10. responsive ------------------------------------------- */
+@media (max-width:1080px){
+  .float-a{right:-8px}
+  .float-b{left:-8px}
+}
+@media (max-width:960px){
+  .dash-body{grid-template-columns:1fr}
+  .rail{display:none}
+  .float{display:none}
+  .sec-head{grid-template-columns:1fr;gap:18px}
+  .sec-head p{justify-self:start;max-width:560px}
+  .bento{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .cell-a,.cell-b{grid-column:span 6}
+  .cell-c,.cell-d{grid-column:span 3}
+  .cell-e,.cell-f{grid-column:span 6}
+  .steps{grid-template-columns:1fr 1fr}
+  .step{padding:26px 22px}
+  .step:nth-child(1),.step:nth-child(2){border-bottom:1px solid var(--line)}
+  .step:nth-child(odd){border-left:0;padding-left:0}
+  .step:nth-child(even){padding-right:0}
+}
+@media (max-width:820px){
+  .nav-links{display:none}
+  .nav-burger{display:inline-flex}
+  .nav-login{display:none}
+  .nav::before{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+  .hero{padding:112px 0 64px}
+  .dash-wrap{margin-top:36px}
+  .dash-grid{grid-template-columns:1fr}
+  .plan-card{display:none}
+  .features{padding:88px 0 16px}
+  .cta-sec{padding:80px 0 56px}
+  .cta-panel{padding:68px 22px 64px}
+}
+@media (max-width:640px){
+  .wrap{width:calc(100% - 36px)}
+  .hero{padding:96px 0 56px}
+  .hero h1{font-size:38px}
+  .hero h1{letter-spacing:-.03em}
+  .micro{font-size:11.5px;max-width:330px}
+  .micro span{margin:0 3px}
+  .hero h1 br{display:none}
+  .sec-head h2 br{display:none}
+  .hero-cta .btn{width:100%}
+  .hero-cta{flex-direction:column}
+  .kpis{grid-template-columns:1fr 1fr}
+  .kpi:nth-child(3){grid-column:span 2}
+  .bento{grid-template-columns:1fr;gap:12px}
+  .cell-a,.cell-b,.cell-c,.cell-d,.cell-e,.cell-f{grid-column:span 1}
+  .steps{grid-template-columns:1fr}
+  .step{border-left:0;padding:20px 0;border-bottom:1px solid var(--line)}
+  .step:last-child{border-bottom:0;padding-bottom:0}
+  .sec-head h2{font-size:clamp(1.7rem,7vw,2.2rem)}
+  .footer-in{flex-direction:column;align-items:flex-start;gap:12px}
+  .footer-links{margin-left:0}
+  .dash-main{padding:13px 12px 14px}
+  .dash-head{flex-direction:column;gap:8px}
+  .dash-url{display:none}
+  .chart-tip{right:4%;top:2%}
+  .card{padding:18px 16px 16px}
+  .card-row{flex-direction:column;align-items:flex-start;gap:14px;padding:18px 16px}
+  .card-row .partner{padding-top:2px}
+  .cta-panel h2 br{display:none}
+}
+@media (max-width:560px){
+  .nav-login{display:none}
+  .nav-cta-long{display:none}
+  .nav-cta-short{display:inline}
+  .nav-in{gap:12px}
+  .nav-actions{gap:0}
+}
+@media (max-width:400px){
+  .hero h1{font-size:34px}
+  .dash{padding:0}
+  .kpi-value{font-size:17px}
+  .kpi{padding:8px 9px 9px}
+  .chip{font-size:9.5px;padding:0 7px}
+  .chart-axis span{font-size:8.5px}
+  .posts{grid-template-columns:1fr 1fr}
+  .float{display:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    animation-delay:0ms !important;
+    transition-duration:.001ms !important;
+    transition-delay:0ms !important;
+  }
+  .reveal,.reveal-fade{opacity:1 !important;transform:none !important}
+  .chart-wipe{display:none}
+  .hero-spot{display:none}
+}
+
+/* ── наш знак в шапке лендинга ─────────────────────────────── */
+.brand-mark{ width:30px;height:30px;border-radius:9px;
+  background:rgba(255,255,255,.05);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.12) !important; }
+.brand-mark .gg-mark{ width:18px;height:24px;display:block;margin:auto }
+@media (max-width:768px){ .brand-mark{width:28px;height:28px} .brand-mark .gg-mark{width:16px;height:22px} }
+</style>
+<noscript><style>.reveal,.reveal-fade{opacity:1!important;transform:none!important}.chart-wipe{display:none}</style></noscript>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="GOOD Growth — на главную">
+      <span class="brand-mark" aria-hidden="true"><svg class="gg-mark" viewBox="238 162 74 101" aria-hidden="true" fill="none" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M256 193 244 180 244 252" stroke="#F8961D"/><path d="M306 168 263 209" stroke="#28A992"/><path d="M287 216 245 257" stroke="#E01F27"/><path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg></span>
+      <span class="brand-name">GOOD&nbsp;<i>Growth</i></span>
+    </a>
+    <nav class="nav-links" aria-label="Основная навигация">
+      <a href="#features">Возможности</a>
+      <a href="#steps">Как это работает</a>
+      <a href="/partner/info">Партнёрам</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="nav-login" href="/login">Войти</a>
+      <a class="btn btn-primary btn-sm" href="/signup"><span class="nav-cta-long">Регистрация</span><span class="nav-cta-short">Регистрация</span></a>
+      <button class="nav-burger" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="navMenu">
+        <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 4.5h14M2 9h14M2 13.5h14"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav class="nav-menu" id="navMenu" aria-label="Мобильное меню">
+    <a href="#features">Возможности <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
+    <a href="#steps">Как это работает <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
+    <a href="/partner/info">Партнёрам <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
+    <a href="/login">Войти <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="blob blob-a"></div>
+    <div class="blob blob-b"></div>
+    <div class="blob blob-c"></div>
+  </div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-spot" id="spot" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div class="hero-inner">
+      <span class="eyebrow"><span class="pulse-dot green"></span>Пилот · +38% за месяц</span>
+      <h1>GOOD Growth — система, <br>которая управляет <em>ростом</em></h1>
+      <p class="lede">Опиши своё дело — получи стратегию и готовые посты с картинками для Telegram. <b>За один вечер.</b></p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="/signup">
+          Регистрация
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#steps">          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5.5v13l10-6.5-10-6.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          Как это работает
+        </a>
+      </div>
+      <p class="micro">5 простых вопросов<span>·</span>без карты<span>·</span>один бренд, один канал</p>
+    </div>
+
+    <!-- dashboard -->
+    <div class="dash-wrap reveal" id="dashWrap" data-reveal data-live>
+      <div class="float float-a" aria-hidden="true">
+        <span class="ok"><svg viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.5 4.5L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span>Пост готов к публикации</span>
+      </div>
+      <div class="float float-b" aria-hidden="true">
+        <span class="ai"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v4m0 10v4M3 12h4m10 0h4M6.3 6.3l2.8 2.8m5.8 5.8 2.8 2.8m0-11.4-2.8 2.8m-5.8 5.8-2.8 2.8" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span>
+        <span><b>Стратегия собрана</b> <i>· 6 тем, 4 поста в неделю</i></span>
+      </div>
+
+      <div class="dash-tilt" id="tilt">
+        <div class="dash" id="dash" role="img" aria-label="Рабочий экран GOOD Growth: обзор роста канала, график подписчиков и план публикаций на неделю">
+          <div class="dash-top" aria-hidden="true">
+            <div class="dots"><i></i><i></i><i></i></div>
+            <div class="dash-url">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="10.5" width="14" height="9.5" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" stroke="currentColor" stroke-width="1.8"/></svg>
+              growth.go-ood.com / обзор
+            </div>
+            <div class="dash-top-right">
+              <span class="chip">окт 2026</span>
+              <span class="avatar" aria-hidden="true">АК</span>
+            </div>
+          </div>
+
+          <div class="dash-body">
+            <aside class="rail" aria-hidden="true">
+              <div class="rail-label">Кабинет</div>
+              <div class="rail-item on">
+                <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6" stroke="currentColor" stroke-width="1.7"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6" stroke="currentColor" stroke-width="1.7"/></svg>
+                Обзор
+              </div>
+              <div class="rail-item">
+                <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.4" stroke="currentColor" stroke-width="1.7"/></svg>
+                Стратегия
+              </div>
+              <div class="rail-item">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 20 8l-8 4.5L4 8l8-4.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m4 12.5 8 4.5 8-4.5" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+                Контент
+              </div>
+              <div class="rail-item">
+                <svg viewBox="0 0 24 24" fill="none"><rect x="3.8" y="5.2" width="16.4" height="15" rx="2.2" stroke="currentColor" stroke-width="1.7"/><path d="M8 3v4M16 3v4M3.8 10.2h16.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                Календарь
+              </div>
+              <div class="rail-item">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M20.5 3.5 3.8 9.9l6.2 2.6 2.6 6.2 7.9-15.2Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+                Каналы
+              </div>
+              <div class="rail-spacer"></div>
+              <div class="rail-foot">
+                <b>Ритм недели</b>
+                4 из 4 постов готовы
+              </div>
+            </aside>
+
+            <div class="dash-main">
+              <div class="dash-head">
+                <div>
+                  <h2>Обзор роста</h2>
+                  <p>Канал @good.growth · 7 дней</p>
+                </div>
+                <div class="dash-head-act">
+                  <span class="chip chip-live"><i class="livedot"></i>Публикация в 18:00</span>
+                  <span class="chip">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M7 10h10l-1 9H8l-1-9Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.5 10V7a2.5 2.5 0 0 1 5 0v3" stroke="currentColor" stroke-width="1.7"/></svg>
+                    Неделя
+                  </span>
+                </div>
+              </div>
+
+              <div class="kpis">
+                <div class="kpi">
+                  <span class="kpi-label">Подписчики</span>
+                  <strong class="kpi-value" data-count="2418">2 418</strong>
+                  <span class="kpi-delta">+128 за неделю</span>
+                </div>
+                <div class="kpi">
+                  <span class="kpi-label">Охват</span>
+                  <strong class="kpi-value" data-count="41.2" data-suffix="K">41,2K</strong>
+                  <span class="kpi-delta">+18% к прошлой</span>
+                </div>
+                <div class="kpi">
+                  <span class="kpi-label">Вовлечённость</span>
+                  <strong class="kpi-value" data-count="6.8" data-suffix="%">6,8%</strong>
+                  <span class="kpi-delta">+0,9 п.п.</span>
+                </div>
+              </div>
+
+              <div class="dash-grid">
+                <section class="panel chart-card">
+                  <div class="chart-head">
+                    <div>
+                      <span class="chart-title">Рост подписчиков</span>
+                      <span class="chart-sub">10 — 16 октября</span>
+                    </div>
+                    <span class="chip chip-green">
+                      <svg viewBox="0 0 24 24" fill="none"><path d="M6 15.5 12 9l6 6.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      +18%
+                    </span>
+                  </div>
+
+                  <div class="chart-plot">
+                    <svg class="chart-svg" viewBox="0 0 640 196" preserveAspectRatio="none" aria-hidden="true">
+                      <defs>
+                        <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stop-color="#E8A54F" stop-opacity=".24"/>
+                          <stop offset="55%" stop-color="#E8A54F" stop-opacity=".07"/>
+                          <stop offset="100%" stop-color="#E8A54F" stop-opacity="0"/>
+                        </linearGradient>
+                        <linearGradient id="lineGrad" x1="0" y1="1" x2="1" y2="0">
+                          <stop offset="0%" stop-color="#8A5B2A"/>
+                          <stop offset="42%" stop-color="#E8A54F"/>
+                          <stop offset="100%" stop-color="#F7D69C"/>
+                        </linearGradient>
+                      </defs>
+                      <g class="grid-line">
+                        <line x1="0" y1="52" x2="640" y2="52"/>
+                        <line x1="0" y1="100" x2="640" y2="100"/>
+                        <line x1="0" y1="148" x2="640" y2="148"/>
+                        <line x1="0" y1="195" x2="640" y2="195"/>
+                      </g>
+                      <path class="chart-fill" fill="url(#areaFill)" d="M0 168 L40 164 C70 162 78 149 104 147 C130 145 140 156 168 150 C196 144 206 123 234 119 C262 115 272 126 300 118 C328 110 338 91 366 87 C394 83 404 95 432 89 C460 83 470 63 498 57 C526 51 538 43 566 37 C590 32 600 29 616 25 L616 196 L0 196 Z"/>
+                      <path class="chart-line" fill="none" stroke="url(#lineGrad)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" d="M0 168 L40 164 C70 162 78 149 104 147 C130 145 140 156 168 150 C196 144 206 123 234 119 C262 115 272 126 300 118 C328 110 338 91 366 87 C394 83 404 95 432 89 C460 83 470 63 498 57 C526 51 538 43 566 37 C590 32 600 29 616 25"/>
+                      <circle class="chart-halo" cx="616" cy="25" r="5" fill="none" stroke="#E8A54F" stroke-width="1.2"/>
+                      <circle class="chart-dot" cx="616" cy="25" r="4" fill="#F7D69C" stroke="#0E0F12" stroke-width="2"/>
+                    </svg>
+                    <div class="chart-wipe" aria-hidden="true"></div>
+                    <div class="chart-tip" aria-hidden="true"><b>2 418</b><span>16 окт</span></div>
+                  </div>
+                  <div class="chart-axis" aria-hidden="true">
+                    <span>пн</span><span>вт</span><span>ср</span><span>чт</span><span>пт</span><span>сб</span><span>вс</span>
+                  </div>
+                </section>
+
+                <aside class="panel plan-card">
+                  <div class="plan-head"><b>План на неделю</b><span>4 из 4</span></div>
+                  <ul class="plan-list">
+                    <li class="plan-item">
+                      <span class="thumb"></span>
+                      <div class="plan-txt"><b>Почему гости возвращаются</b><span>Сегодня, 18:00</span></div>
+                      <span class="state state-ready">Готово</span>
+                    </li>
+                    <li class="plan-item">
+                      <span class="thumb t2"></span>
+                      <div class="plan-txt"><b>Три ошибки в меню сезон</b><span>Ср, 12:00</span></div>
+                      <span class="state state-rev">На ревью</span>
+                    </li>
+                    <li class="plan-item">
+                      <span class="thumb t3"></span>
+                      <div class="plan-txt"><b>Как мы выбираем зерно</b><span>Пт, 10:00</span></div>
+                      <span class="state state-dr">Черновик</span>
+                    </li>
+                  </ul>
+                  <div class="plan-foot">
+                    <span class="mini"></span>AI-стратегия обновлена<span class="ago">2 мин назад</span>
+                  </div>
+                </aside>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STEPS ================= -->
+<section class="steps-sec" id="steps">
+  <div class="wrap">
+    <div class="steps" data-stagger-group>
+      <div class="step" data-reveal>
+        <div class="step-n">01</div>
+        <h3>Расскажи о деле</h3>
+        <p>Пять простых вопросов. Без брифов на двадцать страниц.</p>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step-n">02</div>
+        <h3>AI строит стратегию</h3>
+        <p>Аудитория, темы, ритм и каналы — под твой бизнес.</p>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step-n">03</div>
+        <h3>Система создаёт посты</h3>
+        <p>Текст и картинки. Не понравилось — перегенерируй.</p>
+      </div>
+      <div class="step" data-reveal>
+        <div class="step-n">04</div>
+        <h3>Публикация и рост</h3>
+        <p>Метрики, анализ и что делать дальше — каждую неделю.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BENTO ================= -->
+<section class="features" id="features">
+  <div class="wrap">
+    <div class="sec-head" data-stagger-group>
+      <span class="eyebrow" data-reveal><span class="pulse-dot"></span>Что внутри</span>
+      <h2 data-reveal>Не редактор постов. <br><span class="dim">Система, которая ведёт к росту.</span></h2>
+      <p data-reveal>Мы управляем ростом, а не публикациями. Другие отвечают «когда». <b>Мы отвечаем «что делать, чтобы расти».</b></p>
+    </div>
+
+    <div class="bento" data-stagger-group>
+
+      <!-- A -->
+      <div class="cell cell-a" data-reveal>
+        <article class="card">
+          <div class="card-top">
+            <span class="card-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 13.9 9l5.6 1.9-5.6 2L12 18.5l-1.9-5.6L4.5 11l5.6-2L12 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M18.5 16.5 19.3 19l2.5.8-2.5.9-.8 2.4" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" opacity=".55"/></svg>
+            </span>
+            <span class="badge">Ядро системы</span>
+          </div>
+          <h3>AI-стратегия</h3>
+          <p>Живой AI собирает стратегию под твоё дело: аудитория, темы, ритм, каналы. Не шаблон из курса — рабочий план.</p>
+          <div class="vis">
+            <div class="sheet">
+              <div class="sheet-row"><span>Аудитория</span><b>Владельцы кофеен, 25–40</b></div>
+              <div class="sheet-row"><span>Темы</span><b>6 направлений</b><i class="tag">подобраны</i></div>
+              <div class="sheet-row"><span>Ритм</span><b>4 поста в неделю</b></div>
+              <div class="sheet-row"><span>Каналы</span><b>Telegram · 1 канал</b><i class="tag warm">фокус</i></div>
+              <div class="sheet-foot">
+                <svg viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.5 4.5L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Стратегия готова · тон: тёплый, экспертный
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- B -->
+      <div class="cell cell-b" data-reveal>
+        <article class="card">
+          <div class="card-top">
+            <span class="card-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="4.5" width="17" height="15" rx="2.2" stroke="currentColor" stroke-width="1.6"/><path d="m3.9 16.4 4.6-4.5 3.4 3.3 3.2-3.1 4.9 4.6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="15.6" cy="8.9" r="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
+            </span>
+            <span class="badge mute">Текст + картинка</span>
+          </div>
+          <h3>Посты с картинками</h3>
+          <p>Текст и визуал в одном потоке. Не понравилось — перегенерируй за пару секунд.</p>
+          <div class="vis">
+            <div class="posts">
+              <div class="post">
+                <div class="post-img p1"></div>
+                <div class="post-body"><b>Почему гости возвращаются</b><span>Готов · 18:00</span></div>
+              </div>
+              <div class="post">
+                <div class="post-img p2"></div>
+                <div class="post-body"><b>Как мы выбираем зерно</b><span>Черновик</span></div>
+              </div>
+            </div>
+            <span class="regen">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M19.5 12a7.5 7.5 0 1 1-2.3-5.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M19.8 3.8v4.4h-4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Перегенерировать
+            </span>
+          </div>
+        </article>
+      </div>
+
+      <!-- C -->
+      <div class="cell cell-c" data-reveal>
+        <article class="card">
+          <div class="card-top">
+            <span class="card-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5V13m5.3 6.5V9m5.3 10.5V5.5M20 19.5v-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+          </div>
+          <h3>Метрики и анализ</h3>
+          <p>Охват, подписчики, вовлечённость. И что делать дальше.</p>
+          <div class="metric-vis">
+            <div class="metric-num">41,2K</div>
+            <div class="metric-sub">охват за 7 дней <span class="up">+18%</span></div>
+            <svg class="spark" viewBox="0 0 120 34" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#7CCB7A" stop-opacity=".22"/>
+                  <stop offset="100%" stop-color="#7CCB7A" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0 28 14 25 26 27 40 19 52 21 66 13 80 15 94 8 106 10 120 4 L120 34 0 34Z" fill="url(#sparkFill)"/>
+              <path d="M0 28 14 25 26 27 40 19 52 21 66 13 80 15 94 8 106 10 120 4" fill="none" stroke="#7CCB7A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+            </svg>
+          </div>
+        </article>
+      </div>
+
+      <!-- D -->
+      <div class="cell cell-d" data-reveal>
+        <article class="card">
+          <div class="card-top">
+            <span class="card-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="3.8" y="5.2" width="16.4" height="15" rx="2.2" stroke="currentColor" stroke-width="1.6"/><path d="M8 3v4M16 3v4M3.8 10.2h16.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="15" r="1.6" fill="currentColor"/></svg>
+            </span>
+          </div>
+          <h3>Ритм публикаций</h3>
+          <p>Система держит ритм и напоминает, что выходит на этой неделе.</p>
+          <div class="week" aria-hidden="true">
+            <div class="day done"><span>пн</span><i></i></div>
+            <div class="day done"><span>вт</span><i></i></div>
+            <div class="day today"><span>ср</span><i></i></div>
+            <div class="day"><span>чт</span><i></i></div>
+            <div class="day"><span>пт</span><i></i></div>
+            <div class="day weekend"><span>сб</span><i></i></div>
+            <div class="day weekend"><span>вс</span><i></i></div>
+          </div>
+          <div class="week-foot"><span class="d"></span><b>4 поста в неделю</b> · держим ритм</div>
+        </article>
+      </div>
+
+      <!-- E -->
+      <div class="cell cell-e" data-reveal>
+        <article class="card">
+          <div class="card-top">
+            <span class="card-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M20.5 3.5 3.8 9.9l6.2 2.6 2.6 6.2 7.9-15.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m10 12.5 4.6-4.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </span>
+          </div>
+          <h3>Все соцсети</h3>
+          <p>Публикация туда, где живёт твоя аудитория. Один бренд — все площадки, без копипасты.</p>
+          <div class="vis">
+            <div class="chan" style="margin-top:0">
+              <span class="chan-av">G</span>
+              <div class="chan-t"><b>@good.growth</b><span>Основной канал</span></div>
+              <span class="chip chip-green">Подключён</span>
+            </div>
+            <div class="net-grid" aria-label="Поддерживаемые соцсети">
+              <span class="net"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4.5 12.5 4.5 4.5L19.5 6.5" stroke="#7CCB7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Telegram</span>
+              <span class="net"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4.5 12.5 4.5 4.5L19.5 6.5" stroke="#7CCB7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>VK</span>
+              <span class="net"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4.5 12.5 4.5 4.5L19.5 6.5" stroke="#7CCB7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Pinterest</span>
+              <span class="net"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4.5 12.5 4.5 4.5L19.5 6.5" stroke="#7CCB7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Facebook</span>
+              <span class="net"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4.5 12.5 4.5 4.5L19.5 6.5" stroke="#7CCB7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Instagram</span>
+              <span class="net"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4.5 12.5 4.5 4.5L19.5 6.5" stroke="#7CCB7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>X (Twitter)</span>
+              <span class="net"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4.5 12.5 4.5 4.5L19.5 6.5" stroke="#7CCB7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>LinkedIn</span>
+              <span class="net"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4.5 12.5 4.5 4.5L19.5 6.5" stroke="#7CCB7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>YouTube</span>
+              <span class="net"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4.5 12.5 4.5 4.5L19.5 6.5" stroke="#7CCB7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>TikTok</span>
+              <span class="net"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4.5 12.5 4.5 4.5L19.5 6.5" stroke="#7CCB7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Одноклассники</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- F -->
+      <div class="cell cell-f" data-reveal>
+        <article class="card card-row">
+          <span class="card-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8.5" r="3.2" stroke="currentColor" stroke-width="1.6"/><path d="M3.6 19.2c.5-3 2.7-4.7 5.4-4.7s4.9 1.7 5.4 4.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="17" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.5" opacity=".7"/><path d="M15.4 14.8c2.6-.3 4.6 1.2 5.1 3.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".7"/></svg>
+          </span>
+          <div class="card-row-txt">
+            <h3>Режим партнёра <span class="badge">В разработке</span></h3>
+            <p>Работаешь с брендами? Веди несколько проектов из одного кабинета — со своей стратегией и ритмом у каждого.</p>
+          </div>
+          <div class="partner">
+            <div class="stack" aria-hidden="true"><i></i><i></i><i></i><i class="more">+3</i></div>
+            <div class="partner-txt"><b>Агентствам и продюсерам</b>Один аккаунт — несколько брендов</div>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= FINAL CTA ================= -->
+<section class="cta-sec" id="cta">
+  <div class="wrap">
+    <div class="cta-panel reveal" data-reveal>
+      <div class="rings" aria-hidden="true"></div>
+      <div class="cta-inner">
+        <span class="eyebrow"><span class="pulse-dot"></span>Первый шаг</span>
+        <h2>Первый пост —<br><em>бесплатно.</em></h2>
+        <p>Пять простых вопросов о деле — и у тебя есть стратегия, ритм и готовый пост для Telegram. За один вечер.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="/app/onboard">
+            Первый пост — бесплатно
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13m0 0-5-5m5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#steps">Как это работает</a>
+        </div>
+        <p class="micro">без карты<span>·</span>5 простых вопросов<span>·</span>1 бренд, 1 канал</p>
+        <div class="quote">Другие отвечают «когда». <b>Мы отвечаем «что делать, чтобы расти».</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-in">
+    <a class="brand" href="#top" aria-label="GOOD Growth">
+      <span class="brand-mark" aria-hidden="true"><svg class="gg-mark" viewBox="238 162 74 101" aria-hidden="true" fill="none" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M256 193 244 180 244 252" stroke="#F8961D"/><path d="M306 168 263 209" stroke="#28A992"/><path d="M287 216 245 257" stroke="#E01F27"/><path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg></span>
+      <span class="brand-name">GOOD&nbsp;<i>Growth</i></span>
+    </a>
+    <span class="footer-note">© 2026 · система, которая управляет ростом</span>
+    <div class="soc" aria-label="Соцсети GOOD Growth">
+      <a class="soc-a" href="#" aria-label="Telegram — скоро"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m21 4.5-18.5 7.2 5.9 2.1 2.2 6 3.1-3.8 4.7 3.4L21 4.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></a>
+      <a class="soc-a" href="#" aria-label="VK — скоро"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><text x="12" y="15.2" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor">VK</text></svg></a>
+      <a class="soc-a" href="#" aria-label="X — скоро"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5.5 5.5 13 13M18.5 5.5l-13 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+      <a class="soc-a" href="#" aria-label="Facebook — скоро"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.5"/><path d="M13.5 8.5h1.8V6.6h-1.8c-1.5 0-2.5 1-2.5 2.5v1.4H9.3v1.9h1.7V18h2v-5.6h1.8l.3-1.9h-2.1V9.3c0-.5.2-.8.5-.8Z" fill="currentColor"/></svg></a>
+      <a class="soc-a" href="#" aria-label="Instagram — скоро"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.6" stroke="currentColor" stroke-width="1.5"/><circle cx="16.6" cy="7.4" r="1.1" fill="currentColor"/></svg></a>
+      <a class="soc-a" href="#" aria-label="YouTube — скоро"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="6.5" width="18" height="11" rx="3.5" stroke="currentColor" stroke-width="1.5"/><path d="m10.5 9.8 4 2.2-4 2.2Z" fill="currentColor"/></svg></a>
+    </div>
+    <div class="footer-links">
+      <a href="#features">Возможности</a>
+      <span class="sep" aria-hidden="true"></span>
+      <a href="#steps">Как это работает</a>
+      <span class="sep" aria-hidden="true"></span>
+      <a href="/partner/info">Партнёрам</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- nav state ---------- */
+  var nav = document.getElementById("nav");
+  var lastStuck = null;
+  function onScroll(){
+    var stuck = window.pageYOffset > 8;
+    if(stuck !== lastStuck){ nav.classList.toggle("is-stuck", stuck); lastStuck = stuck; }
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+
+  /* ---------- stagger delays ---------- */
+  var groups = document.querySelectorAll("[data-stagger-group]");
+  for(var g=0; g<groups.length; g++){
+    var kids = groups[g].querySelectorAll("[data-reveal]");
+    for(var k=0; k<kids.length; k++){
+      kids[k].setAttribute("data-delay", String(k * 70));
+    }
+  }
+
+  /* ---------- counters ---------- */
+  function nf(v, dec){
+    var s = dec > 0 ? v.toFixed(dec).replace(".", ",") : String(Math.round(v));
+    return s.replace(/\B(?=(\d{3})+(?!\d))/g, "\u00A0");
+  }
+  function countUp(el){
+    if(el.dataset.done) return;
+    el.dataset.done = "1";
+    var target = parseFloat(el.getAttribute("data-count"));
+    var suffix = el.getAttribute("data-suffix") || "";
+    var dec = (String(target).split(".")[1] || "").length;
+    if(reduce){ el.textContent = nf(target, dec) + suffix; return; }
+    var dur = 1300, t0 = 0;
+    function tick(t){
+      if(!t0) t0 = t;
+      var p = Math.min(1, (t - t0) / dur);
+      var e = 1 - Math.pow(1 - p, 3);
+      el.textContent = nf(target * e, dec) + suffix;
+      if(p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  /* ---------- reveal ---------- */
+  var items = document.querySelectorAll("[data-reveal]");
+
+  function activate(el){
+    var d = parseInt(el.getAttribute("data-delay") || "0", 10);
+    if(d) el.style.transitionDelay = d + "ms";
+    el.classList.add("in");
+    if(el.hasAttribute("data-live")){
+      var dash = el.querySelector(".dash");
+      if(dash){
+        window.setTimeout(function(){ dash.classList.add("is-live"); }, reduce ? 0 : d + 180);
+        var nums = el.querySelectorAll("[data-count]");
+        for(var i=0;i<nums.length;i++) countUp(nums[i]);
+      }
+    }
+  }
+
+  if(reduce || !("IntersectionObserver" in window)){
+    for(var i=0;i<items.length;i++) activate(items[i]);
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      for(var i=0;i<entries.length;i++){
+        if(entries[i].isIntersecting){
+          activate(entries[i].target);
+          io.unobserve(entries[i].target);
+        }
+      }
+    }, {rootMargin:"0px 0px -10% 0px", threshold:0.12});
+    for(var j=0;j<items.length;j++) io.observe(items[j]);
+  }
+
+  /* ---------- burger menu ---------- */
+  var burger = document.getElementById("navBurger");
+  var menu = document.getElementById("navMenu");
+  if (burger && menu){
+    var closeMenu = function(){ menu.classList.remove("open"); burger.setAttribute("aria-expanded","false"); };
+    burger.addEventListener("click", function(){
+      var open = menu.classList.toggle("open");
+      burger.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    menu.addEventListener("click", function(e){ if (e.target && e.target.tagName === "A") closeMenu(); });
+    document.addEventListener("keydown", function(e){ if (e.key === "Escape") closeMenu(); });
+    window.addEventListener("resize", function(){ if (window.innerWidth > 820) closeMenu(); });
+  }
+
+  /* ---------- hero spotlight ---------- */
+  var hero = document.getElementById("hero");
+  var spot = document.getElementById("spot");
+  if(hero && spot && !reduce){
+    var rafS = null, sx = 0, sy = 0;
+    hero.addEventListener("pointermove", function(e){
+      var r = hero.getBoundingClientRect();
+      sx = e.clientX - r.left;
+      sy = e.clientY - r.top;
+      if(!rafS){
+        rafS = requestAnimationFrame(function(){
+          rafS = null;
+          spot.style.setProperty("--sx", sx + "px");
+          spot.style.setProperty("--sy", sy + "px");
+          hero.classList.add("has-pointer");
+        });
+      }
+    }, {passive:true});
+    hero.addEventListener("pointerleave", function(){ hero.classList.remove("has-pointer"); });
+  }
+
+  /* ---------- dashboard tilt ---------- */
+  var tilt = document.getElementById("tilt");
+  var wrap = document.getElementById("dashWrap");
+  if(tilt && wrap && !reduce && window.matchMedia("(min-width: 1024px)").matches){
+    var rafT = null, tx = 0, ty = 0;
+    wrap.addEventListener("pointermove", function(e){
+      var r = wrap.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width - 0.5;
+      var py = (e.clientY - r.top) / r.height - 0.5;
+      tx = (-py * 2.4).toFixed(2);
+      ty = (px * 3.0).toFixed(2);
+      if(!rafT){
+        rafT = requestAnimationFrame(function(){
+          rafT = null;
+          tilt.style.setProperty("--rx", tx + "deg");
+          tilt.style.setProperty("--ry", ty + "deg");
+        });
+      }
+    }, {passive:true});
+    wrap.addEventListener("pointerleave", function(){
+      tilt.style.setProperty("--rx", "0deg");
+      tilt.style.setProperty("--ry", "0deg");
+    });
+  }
+
+  /* ---------- card cursor glow ---------- */
+  var cards = document.querySelectorAll(".card");
+  for(var c=0;c<cards.length;c++){
+    (function(card){
+      card.addEventListener("pointermove", function(e){
+        var r = card.getBoundingClientRect();
+        card.style.setProperty("--gx", (e.clientX - r.left) + "px");
+        card.style.setProperty("--gy", (e.clientY - r.top) + "px");
+      }, {passive:true});
+    })(cards[c]);
+  }
+
+  /* ---------- smooth anchor fallback (file://) ---------- */
+  var anchors = document.querySelectorAll('a[href^="#"]');
+  for(var a=0;a<anchors.length;a++){
+    anchors[a].addEventListener("click", function(e){
+      var id = this.getAttribute("href");
+      if(id.length < 2) return;
+      var t = document.querySelector(id);
+      if(!t) return;
+      e.preventDefault();
+      var y = t.getBoundingClientRect().top + window.pageYOffset - 84;
+      window.scrollTo({top:y, behavior: reduce ? "auto" : "smooth"});
+    });
+  }
+})();
+</script>
+<script>
+/* Кнопка в шапке смотрит на НАСТОЯЩУЮ сессию, а не на sessionStorage.
+   Раньше после выхода в браузере оставался gg_user — и лендинг
+   продолжал показывать «Мастерская» гостю. */
+(function () {
+  function paint(u) {
+    var l = document.querySelector(".nav-login");
+    var c = document.querySelector(".nav-actions .btn-primary.btn-sm");
+    try { sessionStorage.removeItem("gg_user"); } catch (e) {}
+    if (u) {
+      var nm = String(u.name || u.email || "").split(" ")[0];
+      if (l) { l.textContent = "Мастерская"; l.href = "/app"; }
+      if (c) { c.textContent = nm ? "Открыть мастерскую" : "Открыть мастерскую"; c.href = "/app"; }
+    } else {
+      if (l) { l.textContent = "Войти"; l.href = "/login"; }
+      if (c) { c.textContent = "Регистрация"; c.href = "/signup"; }
+    }
+  }
+  fetch("/api/me", { credentials: "same-origin" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) { paint(d && (d.user || (d.id ? d : null))); })
+    .catch(function () { paint(null); });
+})();
+</script><script src="/legal.js" defer></script>
+</body>
+</html>
