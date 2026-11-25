@@ -1,11 +1,86 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Партнёрская программа — GOOD Growth</title>
-<meta name="description" content="Приводишь клиентов — получаешь долю с их платежей. Три уровня: Друг 25%, Проводник 35%, Посол 45%. До 900 ₽ за клиента в месяц.">
+<script>(function(){try{
+  var l=localStorage.getItem('gg_lang')||'';
+  var q=(location.search.match(/[?&]lang=([a-z]{2})/i)||[])[1];
+  var want=(q||l||'').toLowerCase();
+  if(want==='en'){
+    var r=document.documentElement;
+    r.className+=' gg-i18n-wait';
+    /* словарь синхронный: перевод будет готов до первой отрисовки */
+    document.write('<script src="/i18n/en.dict.js"><\/script>');
+    /* страховка, чтобы страница не осталась скрытой */
+    setTimeout(function(){try{r.classList.remove('gg-i18n-wait');}catch(e){}},2500);
+  }
+}catch(e){}})();</script>
+<style>html.gg-i18n-wait body{visibility:hidden}</style>
+
+<script>(function(){try{var h=document.documentElement;if(localStorage.getItem("gg_rail")==="1")h.classList.add("gg-rail-collapsed");h.classList.add("gg-acc-ready");}catch(e){}})();</script>
+  <meta charset="utf-8" />
+<script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.setAttribute("data-theme-src","system");}else{d.setAttribute("data-theme",t==="light"?"light":"dark");}}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <title data-i18n="info.meta.title">Партнёрам — GOOD Growth</title>
+  <meta name="description" content="Зарабатывайте с GOOD Growth: подписка, комиссия или white-label. Для агентств, фрилансеров и бренд-менеджеров." />
+  <style>
+  :root{
+    --pg-bg:#08090A; --pg-surface:#0E0F12; --pg-surface2:#111216;
+    --pg-line:rgba(255,255,255,.06); --pg-line2:rgba(255,255,255,.10);
+    --pg-fg:#F4F4F5; --pg-fg2:#A1A1AA; --pg-fg3:#8B8B95;
+    --pg-copper:#E8A54F; --pg-copper-lt:#F3C583; --pg-copper-dp:#C97B3C;
+    --pg-grad:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);
+    --pg-ink:#1B1206;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--pg-bg);color:var(--pg-fg);font:16px/1.65 'Segoe UI',Tahoma,sans-serif}
+  .wrap{max-width:1120px;margin:0 auto;padding:28px 22px 70px}
+  .back{color:var(--pg-fg3);text-decoration:none;font-size:14px}
+  .back:hover{color:var(--pg-copper)}
+  h1{font:400 36px/1.15 Georgia,serif;margin:14px 0 10px;letter-spacing:-.01em}
+  h2{font:400 26px/1.2 Georgia,serif;margin:44px 0 12px}
+  h3{font:600 17px/1.3 inherit;margin:0 0 6px}
+  .lead{color:var(--pg-fg2);font-size:17px;max-width:60ch;margin:0 0 10px}
+  .kicker{font:500 12px/1 Consolas,monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--pg-copper);margin:0 0 14px}
+  .models{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin:24px 0 8px}
+  .model{background:var(--pg-surface);border:1px solid var(--pg-line2);border-radius:12px;padding:22px 20px;position:relative;transition:transform .18s ease,border-color .2s ease,box-shadow .2s ease}
+  .model:hover{transform:translateY(-3px);border-color:rgba(232,165,79,.4);box-shadow:0 14px 34px -18px rgba(0,0,0,.35)}
+  .model .tag{font:600 11px/1 Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--pg-copper);margin-bottom:10px}
+  .model h3{font-size:20px;font-family:Georgia,serif;font-weight:400}
+  .model .price{font:600 15px/1.3 inherit;color:var(--pg-copper-lt);margin:8px 0 10px}
+  .model p{margin:0;color:var(--pg-fg2);font-size:14px}
+  .model .fit{margin-top:12px;font-size:13px;color:var(--pg-fg3)}
+  .model .fit b{color:var(--pg-fg);font-weight:600}
+  .steps{counter-reset:st;margin:20px 0 0;padding:0;list-style:none}
+  .steps li{counter-increment:st;display:grid;grid-template-columns:52px 1fr;gap:16px;padding:16px 0;border-top:1px solid var(--pg-line)}
+  .steps li::before{content:"0" counter(st);font:500 13px/1.6 Consolas,monospace;letter-spacing:.1em;color:var(--pg-copper)}
+  .steps b{display:block;margin-bottom:2px}
+  .steps span{color:var(--pg-fg2);font-size:14.5px}
+  .compare{width:100%;border-collapse:collapse;background:var(--pg-surface);border:1px solid var(--pg-line);border-radius:12px;overflow:hidden;margin-top:20px;font-size:14px}
+  .compare th,.compare td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--pg-line)}
+  .compare th{font:500 11.5px/1 Consolas,monospace;letter-spacing:.07em;text-transform:uppercase;color:var(--pg-fg3);background:var(--pg-surface2)}
+  .compare tr:last-child td{border-bottom:0}
+  .cta-band{margin-top:50px;background:linear-gradient(135deg,rgba(232,165,79,.08),rgba(232,165,79,.04));border:1px solid rgba(232,165,79,.18);border-radius:12px;padding:30px 28px}
+  .cta-band h2{margin-top:0}
+  .mail{display:inline-block;margin-top:6px;background:var(--pg-grad);color:var(--pg-ink);padding:12px 26px;border-radius:8px;font-weight:600;text-decoration:none;border:1px solid rgba(255,255,255,.16);transition:box-shadow .2s ease,transform 150ms cubic-bezier(.22,1,.36,1)}
+  .mail:hover{box-shadow:0 10px 26px -10px rgba(0,0,0,.5);transform:translateY(-1px)}
+  .mail.ghost{background:transparent;color:var(--pg-copper);border:1px solid rgba(232,165,79,.45);margin-left:8px}
+  .mail.ghost:hover{background:rgba(232,165,79,.08)}
+  .note{color:var(--pg-fg3);font-size:13px}
+  .faq{margin-top:12px}
+  .faq details{border-top:1px solid var(--pg-line);padding:14px 0}
+  .faq summary{cursor:pointer;font-weight:600}
+  .faq p{color:var(--pg-fg2);margin:10px 0 0}
+  @media (max-width:640px){.models{grid-template-columns:1fr}h1{font-size:30px}}</style>
+<link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"><link rel="stylesheet" href="/rail.css"><link rel="stylesheet" href="/blocks.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+
   :root{--bg:#07080A;--panel:#0C0E11;--line:rgba(236,226,206,.12);--ink:#F4F1EA;--mut:#8A857C;
         --copper:#E8A54F;--copper-lt:#F3C583;--ok:#8ED08A}
   *{box-sizing:border-box}
@@ -38,9 +113,12 @@
   .progress i{display:block;height:100%;background:linear-gradient(90deg,#E8A54F,#F3C583);width:0}
   .say{font-size:12.5px;color:var(--mut);min-height:18px;margin-top:8px}
   @media (max-width:720px){ .levels{grid-template-columns:1fr} h1{font-size:30px} }
+
 </style>
+  <title>Партнёрская программа — GOOD Growth</title>
 </head>
-<body>
+<body class="gg-with-rail">
+<aside class="gg-rail" id="gg-rail" aria-label="Разделы GOOD Growth" data-i18n-attr="aria-label:rail.group"><a class="gg-rail-logo" href="/app"><span class="gg-m"><svg class="gg-mark" viewBox="238 162 74 101" aria-hidden="true" fill="none" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M256 193 244 180 244 252" stroke="#F8961D"/><path d="M306 168 263 209" stroke="#28A992"/><path d="M287 216 245 257" stroke="#E01F27"/><path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg></span><span class="gg-t"><b>GOOD Growth</b><i data-i18n="rail.tagline">мастерская роста</i></span></a><nav class="gg-rail-nav"><a href="/app" data-k="app"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="11" height="11" rx="2.5"/><path d="M5.5 8h5"/></svg><span data-i18n="rail.app">Стол</span></a><a href="/app/strategy" data-k="strategy"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="2"/></svg><span data-i18n="rail.strategy">Цель</span></a><a href="/app/posts" data-k="posts"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="11" height="10" rx="2"/><path d="M2.5 6.5h11"/></svg><span data-i18n="rail.posts">Контент</span></a><a href="/app/schedule" data-k="schedule"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="11" height="10" rx="2"/><path d="M5 1.8v2.4M11 1.8v2.4M2.5 7h11"/></svg><span data-i18n="rail.schedule">Публикации</span></a><a href="/partner" data-k="brands"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 5.5h11v8h-11z"/><path d="M5.5 5.5V4a2.5 2.5 0 0 1 5 0v1.5"/></svg><span data-i18n="rail.brands">Бренды</span></a><a href="/partner/channels" data-k="channels"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 5.8L3.6 8.4l2.6 2.6"/><path d="M9.8 5.8l2.6 2.6-2.6 2.6"/></svg><span data-i18n="rail.channels">Каналы</span></a><a href="/app/analytics" data-k="analytics"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5h11"/><path d="M4.5 12.5V8M8 12.5V4.2M11.5 12.5V9.6"/></svg><span data-i18n="rail.analytics">Аналитика</span></a><a href="/partner/team" data-k="team"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.8" cy="6.2" r="2"/><circle cx="11.2" cy="7" r="1.5"/><path d="M2.6 13.2c0-2 1.5-3.1 3.2-3.1s3.2 1.1 3.2 3.1"/><path d="M10.1 13.2c0-1.5.9-2.4 2.1-2.4s2.1.9 2.1 2.4"/></svg><span data-i18n="rail.team">Команда</span></a><a href="/partner/info" data-k="partners"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="4" cy="8" r="1.7"/><circle cx="12" cy="4.6" r="1.7"/><circle cx="12" cy="11.4" r="1.7"/><path d="M5.5 7.3l4.9-2M5.5 8.7l4.9 2"/></svg><span data-i18n="rail.partners">Партнёрам</span></a><a href="/app/billing" data-k="billing"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1.8" y="3.8" width="12.4" height="8.4" rx="1.6"/><path d="M1.8 6.8h12.4"/><path d="M4.5 9.8h3"/></svg><span data-i18n="rail.billing">Оплата</span></a><a href="/pricing" data-k="pricing"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 2.2H3.4a1.2 1.2 0 0 0-1.2 1.2v5.2l6.2 6.2a1.2 1.2 0 0 0 1.7 0l3.5-3.5a1.2 1.2 0 0 0 0-1.7z"/><circle cx="5.6" cy="5.6" r="1.1"/></svg><span data-i18n="rail.pricing">Тарифы</span></a></nav><div class="gg-rail-foot"><a href="/profile" data-k="profile"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.8v1.6M8 12.6v1.6M1.8 8h1.6M12.6 8h1.6M3.6 3.6l1.1 1.1M11.3 11.3l1.1 1.1M12.4 3.6l-1.1 1.1M4.7 11.3l-1.1 1.1"/></svg><span data-i18n="rail.settings">Настройки</span></a><button type="button" class="gg-rail-theme" id="ggRailTheme"><span class="gg-ico">☾</span><span class="gg-tx" data-i18n="rail.theme.dark">Тёмная</span></button><button type="button" class="gg-rail-out" id="ggRailOut" data-i18n="rail.logout">Выйти</button></div></aside>
 <div class="wrap">
   <div class="mono">GOOD Growth · партнёрам</div>
   <h1>Приводи клиентов —<br>получай долю с их платежей</h1>
@@ -96,7 +174,6 @@
 
   <p class="note" style="margin-top:26px">Вопросы — hello@go-ood.com. Мы не обещаем «золотые горы»: считаешь по таблице и видишь сам.</p>
 </div>
-
 <script>
 (function () {
   var say = document.getElementById('say');
@@ -143,5 +220,9 @@
   });
 })();
 </script>
+<script src="/theme.js" defer></script>
+<script src="/topline.js" defer></script>
+<script src="/rail.js" defer></script>
+<script src="/legal.js" defer></script>
 </body>
 </html>
