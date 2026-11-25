@@ -1387,18 +1387,18 @@ warmForm.addEventListener('submit', async (e) => {
 /* при открытии быстрой формы старая логика остаётся: form submit -> /api/analyze {goal} */
 
 /* Order 81: format & model picker */
-const GG_COSTS = { fast: 10, smart: 30, creative: 50, image: 5, video: 100 };
-const GG_PLAN_MONTH_RUB = 490; /* тариф «Старт»: 490 ₽/мес — счётчик показывает долю от него */
 const ggPick = { profile: 'smart', format: 'text' };
-function ggCost() { return GG_COSTS[ggPick.profile] + (ggPick.format === 'image' ? GG_COSTS.image : 0); }
-function ggPaintCounter() {
+/* Квоты честные: сервер считает посты в день, а не рубли */
+async function ggPaintCounter() {
   const rub = document.getElementById('ggCostRub');
   const pct = document.getElementById('ggCostPct');
-  if (!rub) return;
-  const c = ggCost();
-  rub.textContent = c + ' ₽';
-  const p = Math.round(c * 100 / GG_PLAN_MONTH_RUB);
-  pct.textContent = '≈ ' + p + '% от лимита тарифа · ' + Math.max(1, Math.floor(GG_PLAN_MONTH_RUB / Math.max(c, 1))) + ' such posts в месяц';
+  try {
+    const r = await fetch('/api/plan-quota');
+    if (!r.ok) return;
+    const d = await r.json();
+    if (rub) rub.textContent = 'осталось ' + d.remaining + ' из ' + d.daily_max + ' постов';
+    if (pct) pct.textContent = 'сегодня · тариф «' + (d.code || 'start') + '»';
+  } catch (e) { /* сервер молчит — не рисуем выдуманное */ }
 }
 function ggPaintPick() {
   document.querySelectorAll('#ggProfileRow .ggf-opt').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.profile === ggPick.profile)));
@@ -1411,6 +1411,7 @@ document.addEventListener('click', (e) => {
   const f = e.target.closest && e.target.closest('#ggFormatRow .ggf-opt');
   if (f) { ggPick.format = f.dataset.format; ggPaintPick(); }
 });
+ggPaintCounter(); /* сразу показываем правду о квоте, не «30 ₽» из разметки */
 
 /* Order 70: schedule popover styles (inject once) */
 (function schedStyles() {
