@@ -164,6 +164,9 @@ def build(src, dst, title, subtitle):
     print("  %s · %.1f КБ" % (os.path.basename(dst), os.path.getsize(dst) / 1024))
 
 
+if len(sys.argv) > 2:
+    build(sys.argv[1], sys.argv[2], "GOOD Growth", sys.argv[3] if len(sys.argv) > 3 else "ДОКУМЕНТ")
+    raise SystemExit
 build(os.path.join(ROOT, "marketing", "social-media-kit.md"),
       os.path.join(ROOT, "marketing", "GOOD-Growth-social-kit-RU.docx"),
       "GOOD Growth", "ПАКЕТ ДЛЯ СОЦСЕТЕЙ · ДЛЯ МАРИАМ")

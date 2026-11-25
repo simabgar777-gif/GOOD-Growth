@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>GOOD Growth — партнёрская программа</title>
+<style>
+  :root{--ink:#1C1A17;--mut:#6B655C;--copper:#B8762A;--line:#E3DCD0;--paper:#FBF9F5}
+  *{box-sizing:border-box}
+  body{margin:0;background:#EDE8DF;color:var(--ink);
+    font-family:'Golos Text',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.62}
+  .sheet{max-width:900px;margin:28px auto 60px;background:var(--paper);border-radius:4px;
+    box-shadow:0 20px 50px rgba(28,20,10,.18);overflow:hidden}
+  .band{background:#07080A;color:#F4F1EA;padding:34px 56px 30px;display:flex;align-items:center;gap:22px}
+  .band img{width:64px;height:64px;border-radius:12px;background:#0C0D10;padding:6px}
+  .band .t{font-family:Georgia,serif;font-size:27px;line-height:1.15}
+  .band .s{font-family:Consolas,monospace;font-size:11px;letter-spacing:.18em;color:#E8A54F;margin-top:6px}
+  main{padding:40px 56px 56px}
+  h1{font-family:Georgia,serif;font-weight:600;font-size:30px;margin:0 0 18px;color:#17150F}
+  h2{font-family:Georgia,serif;font-weight:600;font-size:21px;margin:34px 0 12px;color:#17150F;
+    padding-bottom:8px;border-bottom:1px solid var(--line)}
+  h3{font-family:Georgia,serif;font-weight:600;font-size:17px;margin:24px 0 8px;color:#2A2620}
+  p{margin:0 0 12px}
+  a{color:var(--copper);text-decoration:none;border-bottom:1px solid rgba(184,118,42,.3)}
+  code{font-family:Consolas,monospace;font-size:12.5px;background:#F1ECE2;padding:1px 5px;border-radius:4px}
+  pre{font-family:Consolas,monospace;font-size:12.5px;line-height:1.6;background:#0F1114;color:#E9E4D9;
+    padding:16px 18px;border-radius:10px;overflow:auto;margin:10px 0 16px;white-space:pre-wrap}
+  pre code{background:none;padding:0;color:inherit}
+  table{border-collapse:collapse;width:100%;margin:12px 0 18px;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+  th{background:#F3EEE3;font-weight:600;font-size:12.5px;letter-spacing:.02em;color:#3A342B}
+  tr:nth-child(even) td{background:#FCFAF6}
+  ul{margin:8px 0 16px;padding-left:20px}
+  li{margin:3px 0}
+  blockquote{margin:14px 0;padding:12px 16px;background:#F4EFE4;border-left:3px solid var(--copper);
+    color:#4A443B;font-size:14px}
+  hr.rule{border:0;border-top:1px solid var(--line);margin:30px 0}
+  @media print{body{background:#fff}.sheet{box-shadow:none;margin:0}.band{padding:26px 40px}main{padding:26px 40px}}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="band">
+    <img src="https://growth.go-ood.com/avatar-logo-square.png" alt="">
+    <div>
+      <div class="t">GOOD Growth</div>
+      <div class="s">ПАРТНЁРСКАЯ ПРОГРАММА · ДЛЯ КАПИТАНА</div>
+    </div>
+  </div>
+  <main>
+<h1>Партнёрская программа GOOD Growth</h1>
+<blockquote>Собрано 25.11.2026. Решения Капитана и правки Квена учтены.</blockquote>
+<blockquote>Ничего не врезано в кабинет — это структура для утверждения.</blockquote>
+<h2>1. Суть в трёх строках</h2>
+<pre>
+Приводишь клиентов в GOOD Growth — получаешь процент с их платежей.
+Процент растёт с числом клиентов: 25% → 35% → 45%.
+Срок — 12 месяцев на первых двух уровнях, пожизненно — только «Посол».
+</pre>
+<hr class="rule">
+<h2>2. Уровни</h2>
+<table>
+<tr><th>Уровень</th><th>Как получить</th><th>Ставка</th><th>Потолок за клиента в месяц</th><th>Срок выплат</th></tr>
+<tr><td><strong>Друг</strong></td><td>сразу после регистрации партнёра</td><td>25%</td><td>500 ₽</td><td>12 месяцев</td></tr>
+<tr><td><strong>Проводник</strong></td><td>10 оплативших клиентов</td><td>35%</td><td>700 ₽</td><td>12 месяцев</td></tr>
+<tr><td><strong>Посол</strong></td><td>50 оплативших клиентов</td><td>45%</td><td>900 ₽</td><td>пожизненно, пока клиент платит</td></tr>
+</table>
+<p><strong>Что значит «оплативший клиент»:</strong> человек, который оплатил тариф, прошёл холд 30 дней и не вернул платёж. Считаются уникальные люди — один и тот же клиент не считается дважды.</p>
+<p><strong>Счётчик накопительный:</strong> клиенты уходят — счётчик не падает. Заработанный уровень не снимается за паузу.</p>
+<hr class="rule">
+<h2>3. Матрица выплат</h2>
+<p>Считается так: <code>выплата = min(ставка × цена тарифа, потолок уровня)</code></p>
+<table>
+<tr><th>Тариф</th><th>Цена</th><th>Друг 25%</th><th>Проводник 35%</th><th>Посол 45%</th></tr>
+<tr><td>Старт</td><td>0 ₽</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>Рост</td><td>490 ₽</td><td><strong>122,50 ₽</strong></td><td><strong>171,50 ₽</strong></td><td><strong>220,50 ₽</strong></td></tr>
+<tr><td>Профи</td><td>990 ₽</td><td><strong>247,50 ₽</strong></td><td><strong>346,50 ₽</strong></td><td><strong>445,50 ₽</strong></td></tr>
+<tr><td>Агентство</td><td>2 990 ₽</td><td><strong>500 ₽</strong></td><td><strong>700 ₽</strong></td><td><strong>900 ₽</strong></td></tr>
+<tr><td>Безлимит</td><td>5 990 ₽</td><td>500 ₽</td><td>700 ₽</td><td>900 ₽</td></tr>
+</table>
+<p>Проверка логики: на «Росте» и «Профи» потолок не мешает — работает чистый процент. На «Агентстве» и «Безлимите» процент упирается в потолок, но <strong>лестница сохраняется</strong> (500 → 700 → 900). На бесплатном «Старте» выплаты нет — там нет платежа.</p>
+<hr class="rule">
+<h2>4. Как считается выплата</h2>
+<pre>
+1. Уровень партнёра берётся на момент расчёта (переход возможен раз в сутки).
+2. Для каждого активного клиента партнёра:
+      выпата_клиента = min(ставка_уровня × цена_его_тарифа, потолок_уровня)
+3. Сумма за месяц = сумма по всем клиентам.
+4. Порог выплаты: 1 000 ₽. Меньше — копится, показываем счётчик «640 из 1 000».
+5. Холд 30 дней с даты оплаты клиента — на возвраты и споры.
+6. Выплата до 5 числа месяца, следующим за расчётным.
+</pre>
+<p><strong>Правила пожизненности (одной строкой каждое):</strong></p>
+<pre>
+· уровень считается по накопленному числу оплативших, а не по активным сейчас
+· когда партнёр стал Послом — все его живые клиенты становятся пожизненными
+· клиент ушёл на паузу и вернулся — выплаты по нему возобновляются
+· истёкшие 12 месяцев на клиентах, приведённых до статуса Посла, не продлеваются
+· ставка применяется текущая: стал Послом — 45% на всех живых клиентов
+</pre>
+<hr class="rule">
+<h2>5. Правила, без которых программа ломается</h2>
+<table>
+<tr><th>Правило</th><th>Как</th><th>Зачем</th></tr>
+<tr><td>Cookie 60 дней</td><td>ссылка партнёра живёт 60 дней</td><td>человек думает и возвращается — это нормально</td></tr>
+<tr><td>Кто первый, того и клиент</td><td>один партнёр на клиента, первый засчитанный</td><td>конец спорам «это мой клиент»</td></tr>
+<tr><td>Самоприглашение запрещено</td><td>нельзя быть партнёром своего же клиента</td><td>иначе двойная выгода</td></tr>
+<tr><td>Нет партнёров-под-партнёрами</td><td>партнёр приводит <strong>клиентов</strong>, не партнёров</td><td>сетевой маркетинг — не наше</td></tr>
+<tr><td>Накрутка</td><td>уровень снимается <strong>после ручного разбора</strong> и разговора</td><td>фейк — обман; но сначала спрашиваем</td></tr>
+<tr><td>Прозрачность</td><td>«25–45%, до 900 ₽ за клиента в месяц» — крупно, не в сноске</td><td>мы не ловим на цифру</td></tr>
+</table>
+<hr class="rule">
+<h2>6. Вехи после «Посла»</h2>
+<p>Процент выше 45% не растёт — маржа. Но путь продолжается:</p>
+<table>
+<tr><th>Веха</th><th>Что даём</th><th>Сумма</th></tr>
+<tr><td>100 клиентов</td><td>разовая премия + значок «Посол пути» в кабинете</td><td>решает Капитан</td></tr>
+<tr><td>250 клиентов</td><td>встреча с командой (живая, не онлайн)</td><td>решает Капитан</td></tr>
+<tr><td>500 клиентов</td><td>разговор о партнёрстве в проекте: доля или совместный продукт</td><td>решает Капитан</td></tr>
+</table>
+<p>Деньги на вехах — <strong>разовые</strong>, не проценты. Так мы не привязываем будущую маржу.</p>
+<hr class="rule">
+<h2>7. Тексты в кабинете партнёра</h2>
+<p><strong>Карточка уровня:</strong></p>
+<pre>
+Твой уровень: Проводник
+Ставка: 25–45%, до 900 ₽ за клиента в месяц
+Привёл оплативших: 12
+До «Посла»: 38 клиентов
+</pre>
+<p><strong>Счётчик денег (не давление):</strong></p>
+<pre>
+Копится 640 ₽ из 1 000 ₽
+Выплата — до 5 декабря, прямо на карту
+</pre>
+<p><strong>Матрица — открыто, без кликов в глубину:</strong></p>
+<pre>
+Рост 490 → 122,50 / 171,50 / 220,50
+Профи 990 → 247,50 / 346,50 / 445,50
+Агентство 2990 → 500 / 700 / 900
+Безлимит 5990 → 500 / 700 / 900
+</pre>
+<hr class="rule">
+<h2>8. Тексты для страницы «Партнёрам»</h2>
+<p><strong>Заголовок:</strong> Приводи клиентов — получай долю с их платежей</p>
+<p><strong>Подзаголовок:</strong></p>
+<p>Три уровня. Процент растёт вместе с числом клиентов. Никаких сетевых схем и «приведи партнёра» — только клиенты.</p>
+<p><strong>Блок «как это работает»:</strong></p>
+<pre>
+1. Регистрируешься — получаешь ссылку. Ставка 25%.
+2. Приводишь 10 оплативших — становишься Проводником: 35%.
+3. Приводишь 50 — становишься Послом: 45% пожизненно.
+4. Выплата раз в месяц, от 1 000 ₽, до 5 числа.
+</pre>
+<p><strong>Блок «честно о деньгах»:</strong></p>
+<pre>
+Ставка от 25% до 45%, но не выше 900 ₽ за одного клиента в месяц.
+Мы пишем это крупно, а не в сноске: на дорогих тарифах потолок срабатывает.
+Зато на «Росте» и «Профи» процент работает полностью.
+</pre>
+<p><strong>Блок «что нельзя» (открытым текстом):</strong></p>
+<pre>
+· нельзя быть партнёром своего же клиента
+· нельзя приводить партнёров — программа только про клиентов
+· накрутка не засчитывается; спор разбираем руками, а не автоматом
+</pre>
+<p><strong>CTA:</strong> Стать партнёром → /partner</p>
+<hr class="rule">
+<h2>9. Что нужно решить Капитану</h2>
+<pre>
+1. Суммы разовых премий на вехах (100 / 250 / 500 клиентов)
+2. Кнопка «Стать партнёром» — сразу открытая ссылка или заявка на проверку?
+3. Пожизненность «Посла» — оставляем только для клиентов, приведённых
+   в статусе Посла, или распространяем на всех его живых клиентов?
+   (в структуре выше — распространяем на всех живых)
+</pre>
+<hr class="rule">
+<h2>10. Что делаем в коде, когда утвердим</h2>
+<pre>
+1. В таблицу партнёров: уровень, накопленные оплатившие, счётчик
+2. Пересчёт при оплате и при возврате
+3. Кабинет: карточка уровня, счётчик денег, матрица
+4. Страница /partner с текстами выше (RU + EN)
+5. Тест: партнёр-тест, 3 клиента, проверить начисление и порог
+</pre>
+  </main>
+</div>
+</body>
+</html>

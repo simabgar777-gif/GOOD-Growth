@@ -4,8 +4,10 @@ import io, os, re, sys
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRC = os.path.join(ROOT, "marketing", "social-media-kit.md")
-OUT = os.path.join(ROOT, "marketing", "social-media-kit.html")
+SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, "marketing", "social-media-kit.md")
+OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(ROOT, "marketing", "social-media-kit.html")
+TITLE = sys.argv[3] if len(sys.argv) > 3 else "GOOD Growth — пакет для соцсетей"
+SUBTITLE = sys.argv[4] if len(sys.argv) > 4 else "__SUBTITLE__"
 
 md = io.open(SRC, encoding="utf-8").read()
 lines = md.split("\n")
@@ -109,7 +111,7 @@ HTML = """<!doctype html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<title>GOOD Growth — пакет для соцсетей</title>
+<title>__TITLE__</title>
 <style>
   :root{--ink:#1C1A17;--mut:#6B655C;--copper:#B8762A;--line:#E3DCD0;--paper:#FBF9F5}
   *{box-sizing:border-box}
@@ -150,7 +152,7 @@ HTML = """<!doctype html>
     <img src="https://growth.go-ood.com/avatar-logo-square.png" alt="">
     <div>
       <div class="t">GOOD Growth</div>
-      <div class="s">ПАКЕТ ДЛЯ СОЦСЕТЕЙ · ДЛЯ МАРИАМ</div>
+      <div class="s">__SUBTITLE__</div>
     </div>
   </div>
   <main>
@@ -160,5 +162,6 @@ __BODY__
 </body>
 </html>
 """
+HTML = HTML.replace("__TITLE__", TITLE).replace("__SUBTITLE__", SUBTITLE)
 io.open(OUT, "w", encoding="utf-8", newline="\n").write(HTML.replace("__BODY__", body))
 print("  social-media-kit.html ·", round(os.path.getsize(OUT) / 1024, 1), "КБ")

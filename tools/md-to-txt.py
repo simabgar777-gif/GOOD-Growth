@@ -48,6 +48,9 @@ def convert(src, dst):
     print("  %s · %.1f КБ" % (os.path.basename(dst), os.path.getsize(dst) / 1024))
 
 
+if len(sys.argv) > 2:
+    convert(sys.argv[1], sys.argv[2])
+    raise SystemExit
 convert(os.path.join(ROOT, "marketing", "social-media-kit.md"),
         os.path.join(ROOT, "marketing", "GOOD-Growth-social-kit-RU.txt"))
 convert(os.path.join(ROOT, "marketing", "social-media-kit.en.md"),
