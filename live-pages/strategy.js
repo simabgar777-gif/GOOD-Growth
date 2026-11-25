@@ -421,12 +421,15 @@
     var many = (window.__ggPending || 0) > 1;   /* много в работе — кольца не нужны */
     var img = (pending && !many ? imgStepsHtml(p.id, p.__elapsed || 0) : '') +
       '<div class="ground"></div><div class="flare"><i></i></div>' +
-      (p.image_path
-        ? '<img src="' + esc(p.image_path) + '" alt="" ' +
-          'style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" ' +
-          'onerror="this.remove()">'
-        : '');
-    var tag = p.image_status === 'pending' ? 'рисуем…'
+      (p.media_kind === 'video' && p.media_path
+        ? '<video src="' + esc(p.media_path) + '" controls preload="metadata" ' +
+          'style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2"></video>'
+        : ((p.media_path || p.image_path)
+          ? '<img src="' + esc(p.media_path || p.image_path) + '" alt="" ' +
+            'style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" ' +
+            'onerror="this.remove()">'
+          : ''));
+    var tag = (p.media_kind === 'video' && p.media_path) ? 'видео' : p.image_status === 'pending' ? 'рисуем…'
             : p.image_path ? 'картинка'
       : (p.image_status === 'pending' ? 'рисуем…'
       : (p.image_status === 'error' ? 'не получилось' : 'без картинки'));
@@ -458,6 +461,7 @@
 
     /* тихие действия — второй строкой, чтобы не спорили с главными */
     var more = '<button type="button" class="mini" data-edit="' + p.id + '">Редактировать</button>' +
+      '<button type="button" class="mini" title="Фото или видео с компьютера (до 10 / 48 МБ)" data-media="' + p.id + '">Своё медиа</button>' +
       '<button type="button" class="mini" data-copy="1">Скопировать</button>' +
       '<button type="button" class="mini" data-listen="' + p.id + '">Прослушать</button>' +
       '<button type="button" class="mini" data-regen="' + p.id + '">Перегенерировать</button>' +
@@ -1036,6 +1040,42 @@ function renderPosts(goalId) {
               setTimeout(function () { renderPosts(goalId); }, 600);
             })
             .catch(function (e) { b.disabled = false; b.textContent = 'Перегенерировать'; alert(e.message); });
+        });
+      });
+
+      /* свой файл клиента: фото или видео */
+      var mediaInput = document.getElementById('ggMediaInput');
+      if (!mediaInput) {
+        mediaInput = document.createElement('input');
+        mediaInput.type = 'file';
+        mediaInput.id = 'ggMediaInput';
+        mediaInput.accept = 'image/jpeg,image/png,image/webp,video/mp4,video/webm';
+        mediaInput.style.display = 'none';
+        document.body.appendChild(mediaInput);
+      }
+      root.querySelectorAll('[data-media]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var pid = Number(b.getAttribute('data-media'));
+          mediaInput.value = '';
+          mediaInput.onchange = function () {
+            var f = mediaInput.files && mediaInput.files[0];
+            if (!f) return;
+            var isVideo = f.type.indexOf('video/') === 0;
+            var limitMb = isVideo ? 48 : 10;
+            if (f.size > limitMb * 1024 * 1024) { alert('Файл больше ' + limitMb + ' МБ'); return; }
+            b.disabled = true; b.textContent = 'Загружаю…';
+            fetch('/api/posts/' + pid + '/media?kind=' + (isVideo ? 'video' : 'image'), {
+              method: 'POST', credentials: 'same-origin',
+              headers: { 'Content-Type': f.type || 'application/octet-stream' },
+              body: f
+            }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+              .then(function (res) {
+                if (!res.ok) throw new Error((res.j && res.j.error) || 'Не получилось загрузить');
+                renderPosts(goalId);
+              })
+              .catch(function (e) { b.disabled = false; b.textContent = 'Своё фото/видео'; alert(e.message); });
+          };
+          mediaInput.click();
         });
       });
 

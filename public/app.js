@@ -428,7 +428,7 @@ function renderPostCard(p) {
   const btnSave = el('button', 'btn btn-mini', 'Сохранить'); btnSave.type = 'button';
   const btnRegen = el('button', 'btn btn-mini', 'Перегенерировать'); btnRegen.type = 'button';
   const btnImg = el('button', 'btn btn-mini', 'Картинка'); btnImg.type = 'button';
-  const btnMedia = el('button', 'btn btn-mini', 'Своё фото/видео'); btnMedia.type = 'button';
+  const btnMedia = el('button', 'btn btn-mini', 'Своё медиа'); btnMedia.type = 'button';
   const mediaInput = el('input'); mediaInput.type = 'file';
   mediaInput.accept = 'image/jpeg,image/png,image/webp,video/mp4,video/webm';
   mediaInput.style.display = 'none';
@@ -458,7 +458,7 @@ function renderPostCard(p) {
     } catch (err) {
       showError(err.message);
       btnMedia.disabled = false;
-      btnMedia.textContent = 'Своё фото/видео';
+      btnMedia.textContent = 'Своё медиа';
     } finally {
       mediaInput.value = '';
     }
