@@ -212,6 +212,51 @@
       '<div class="rows">' + legend + '</div></div>';
   }
 
+/* универсальный круг: секторы с подсказками при наведении */
+  function donutRows(rows, centerLabel) {
+    var total = rows.reduce(function (a, b) { return a + b.n; }, 0);
+    if (!total) return '<p class="an-empty">Пока пусто — нечего показывать.</p>';
+    var R = 58, r = 38, cx = 72, cy = 72, ang = -Math.PI / 2;
+    var parts = '';
+    rows.forEach(function (b) {
+      var frac = b.n / total;
+      var a2 = ang + frac * Math.PI * 2;
+      var large = frac > 0.5 ? 1 : 0;
+      var x1 = cx + R * Math.cos(ang), y1 = cy + R * Math.sin(ang);
+      var x2 = cx + R * Math.cos(a2), y2 = cy + R * Math.sin(a2);
+      var xi2 = cx + r * Math.cos(a2), yi2 = cy + r * Math.sin(a2);
+      var xi1 = cx + r * Math.cos(ang), yi1 = cy + r * Math.sin(ang);
+      var pct = Math.round(frac * 100);
+      parts += '<path d="M' + x1.toFixed(1) + ' ' + y1.toFixed(1) +
+        ' A' + R + ' ' + R + ' 0 ' + large + ' 1 ' + x2.toFixed(1) + ' ' + y2.toFixed(1) +
+        ' L' + xi2.toFixed(1) + ' ' + yi2.toFixed(1) +
+        ' A' + r + ' ' + r + ' 0 ' + large + ' 0 ' + xi1.toFixed(1) + ' ' + yi1.toFixed(1) + ' Z" fill="' + b.color + '" opacity=".92">' +
+        '<title>' + esc(b.name) + ' · ' + b.n + ' · ' + pct + '%</title></path>';
+      ang = a2;
+    });
+    var legend = rows.map(function (b) {
+      var pct = Math.round((b.n / total) * 100);
+      return '<div class="row"><span class="dot" style="background:' + b.color + '"></span>' +
+        esc(b.name) + '<b>' + b.n + ' <small style="color:#6F6A61">' + pct + '%</small></b></div>';
+    }).join('');
+    return '<div class="an-donut"><svg width="144" height="144" viewBox="0 0 144 144">' +
+      '<circle cx="72" cy="72" r="48" fill="none" stroke="rgba(236,226,206,.05)" stroke-width="20"></circle>' +
+      parts +
+      '<text x="72" y="66" text-anchor="middle" font-size="9" fill="#6F6A61" font-family="monospace" letter-spacing="1.2">' + esc(centerLabel) + '</text>' +
+      '<text x="72" y="88" text-anchor="middle" font-size="22" fill="#F4F1EA" font-family="Georgia,serif">' + total + '</text></svg>' +
+      '<div class="rows">' + legend + '</div></div>';
+  }
+
+  /* «стол и улица»: что вышло, что ещё в столе */
+  function deskStreet(t) {
+    var published = Number(t.published || 0);
+    var drafts = Math.max(0, Number(t.posts || 0) - published);
+    return donutRows([
+      { name: 'вышло в люди', n: published, color: '#8ED08A' },
+      { name: 'осталось в столе', n: drafts, color: '#E8A54F' }
+    ], 'ПОСТОВ');
+  }
+
   /* дуга ритма: публикации за 7 дней против цели 3 в неделю */
   function gauge(last7) {
     var target = 3;
@@ -323,6 +368,7 @@
         '<div class="an-card"><h2>Публикации за 30 дней</h2><p class="cap">что вышло в люди</p>' + bigChart(d.daily) + '</div>' +
         '<div class="an-cols-right">' +
           '<div class="an-card"><h2>По брендам</h2><p class="cap">у кого что выходит</p>' + donut(d.brands, d.totals.published) + '</div>' +
+          '<div class="an-card"><h2>Стол и улица</h2><p class="cap">что вышло, что ещё в столе</p>' + deskStreet(d.totals) + '</div>' +
           '<div class="an-card"><h2>Ритм и план</h2><p class="cap">последние 7 дней · норма 3 публикации</p>' +
             '<div class="an-pair">' + gauge(d.counts.last7) + ring(Math.min(3, d.counts.last7), 3) + '</div>' +
           '</div>' +
