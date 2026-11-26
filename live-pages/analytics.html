@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
 <script>(function(){try{
@@ -8,126 +8,293 @@
   if(want==='en'){
     var r=document.documentElement;
     r.className+=' gg-i18n-wait';
-    /* словарь синхронный: перевод будет готов до первой отрисовки */
     document.write('<script src="/i18n/en.dict.js"><\/script>');
-    /* страховка, чтобы страница не осталась скрытой */
     setTimeout(function(){try{r.classList.remove('gg-i18n-wait');}catch(e){}},2500);
   }
 }catch(e){}})();</script>
 <style>html.gg-i18n-wait body{visibility:hidden}</style>
-
 <script>(function(){try{var h=document.documentElement;if(localStorage.getItem("gg_rail")==="1")h.classList.add("gg-rail-collapsed");h.classList.add("gg-acc-ready");}catch(e){}})();</script>
-  <meta charset="utf-8" />
+<meta charset="utf-8">
 <script>(function(){try{var t=localStorage.getItem("gg_theme")||"dark";var d=document.documentElement;if(t==="system"){d.setAttribute("data-theme-src","system");}else{d.setAttribute("data-theme",t==="light"?"light":"dark");}}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <title data-i18n="analytics.meta.title">Аналитика — GOOD Growth</title>
-  <style>
-  :root{
-    --pg-bg:#08090A; --pg-surface:#0E0F12; --pg-surface2:#111216;
-    --pg-line:rgba(255,255,255,.06); --pg-line2:rgba(255,255,255,.10);
-    --pg-fg:#F4F4F5; --pg-fg2:#A1A1AA; --pg-fg3:#8B8B95;
-    --pg-copper:#E8A54F; --pg-copper-lt:#F3C583; --pg-copper-dp:#C97B3C;
-    --pg-grad:linear-gradient(180deg,#F0BC72,#E8A54F 55%,#DF9A48);
-    --pg-ink:#1B1206;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--pg-bg);color:var(--pg-fg);font:16px/1.6 'Segoe UI',Tahoma,sans-serif}
-  .wrap{max-width:1000px;margin:0 auto;padding:24px 28px 60px}
-  .back{color:var(--pg-fg3);text-decoration:none;font-size:12.5px}
-  .back:hover{color:var(--pg-copper)}
-  /* ── блоки: числа и таблица переодеты, разметку даёт blocks.css ── */
-  .totals{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
-  .tcard{background:var(--pg-surface2);border-radius:8px;padding:11px 12px;
-         box-shadow:inset 0 0 0 1px var(--pg-line)}
-  .tcard .n{font:700 21px/1.1 -apple-system,'Segoe UI',sans-serif;letter-spacing:-.04em;color:var(--pg-copper-lt)}
-  .tcard .l{color:var(--pg-fg2);font-size:10.5px;margin-top:2px}
-  .tcard.coral .n{color:var(--pg-copper)}
-  table{width:100%;border-collapse:collapse}
-  th{text-align:left;padding:0 0 10px;font:700 10px/1 inherit;letter-spacing:.08em;
-     text-transform:uppercase;color:var(--pg-fg3)}
-  td{text-align:left;padding:11px 0;font-size:13.5px;border-bottom:1px solid var(--pg-line)}
-  tr:last-child td{border-bottom:0}
-  td.n{font-weight:600;color:var(--pg-copper-lt)}
-  td.muted{color:var(--pg-fg3)}
-  .name{font-weight:600}
-  .empty{border:1px dashed var(--pg-line2);border-radius:8px;padding:26px;
-         text-align:center;color:var(--pg-fg3);font-size:12.5px}
-  .hint{color:var(--pg-fg3);font-size:12px;margin-top:14px}
-  @media (max-width:640px){th,td{font-size:12.5px}}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Аналитика — GOOD Growth</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="stylesheet" href="/style-c.css"><link rel="stylesheet" href="/theme.css"><link rel="stylesheet" href="/rail.css"><link rel="stylesheet" href="/blocks.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--an-bg:#0A0B0D;--an-panel:#101114;--an-panel2:#14161A;--an-line:rgba(236,226,206,.10);
+        --an-ink:#F4F1EA;--an-mut:#8A857C;--an-copper:#E8A54F;--an-copper-lt:#F3C583;
+        --an-ok:#8ED08A;--an-warn:#E0A46A;--an-bad:#E07A6A}
+  .an-wrap{max-width:1220px;margin:0 auto;padding:30px 26px 90px}
+  .an-kick{font:500 10.5px/1 'JetBrains Mono',Consolas,monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--an-copper);margin:0 0 10px}
+  h1.an-h1{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:32px;margin:0 0 6px}
+  .an-sub{margin:0 0 24px;color:var(--an-mut);font-size:13.5px}
+
+  /* плитки */
+  .an-tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+  .an-tile{border:1px solid var(--an-line);border-radius:14px;background:linear-gradient(180deg,#111216,#0D0E11);padding:14px 16px 10px;position:relative;overflow:hidden}
+  .an-tile .l{font:500 9px/1 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#6F6A61;margin:0 0 8px}
+  .an-tile .n{font-size:26px;line-height:1;color:var(--an-ink);font-family:'Playfair Display',Georgia,serif}
+  .an-tile .n small{font-size:11px;color:var(--an-mut);font-family:'Golos Text',sans-serif;margin-left:6px}
+  .an-tile svg{display:block;width:100%;height:34px;margin-top:8px;opacity:.9}
+
+  /* сетка */
+  .an-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;align-items:start}
+  .an-card{border:1px solid var(--an-line);border-radius:16px;background:var(--an-panel);padding:18px 20px}
+  .an-card h2{margin:0 0 4px;font:500 14px/1.2 'Golos Text',sans-serif;color:var(--an-ink)}
+  .an-card .cap{margin:0 0 14px;font:500 9px/1 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#6F6A61}
+  .an-chart{width:100%;height:220px;display:block}
+  .an-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--an-mut)}
+  .an-legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
+
+  /* пончик */
+  .an-donut{display:flex;gap:16px;align-items:center}
+  .an-donut svg{flex:none}
+  .an-donut .rows{flex:1;min-width:0}
+  .an-donut .row{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#CFC9BD;margin:0 0 6px}
+  .an-donut .row b{margin-left:auto;color:var(--an-ink);font-weight:600}
+  .an-donut .dot{width:8px;height:8px;border-radius:2px;flex:none}
+
+  /* подсказки */
+  .an-ins{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+  .an-ins .col{border:1px solid var(--an-line);border-radius:14px;background:var(--an-panel);padding:14px 16px}
+  .an-ins .col h3{margin:0 0 10px;font:500 10px/1 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase}
+  .an-ins .col.good h3{color:var(--an-ok)}
+  .an-ins .col.warn h3{color:var(--an-warn)}
+  .an-ins .col.miss h3{color:#9C968B}
+  .an-ins p{margin:0 0 8px;font-size:12.5px;line-height:1.5;color:#CFC9BD;display:flex;gap:8px}
+  .an-ins p:last-child{margin-bottom:0}
+  .an-ins p .b{flex:none;color:inherit;opacity:.85}
+
+  /* активность */
+  .an-act{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(236,226,206,.06);font-size:13px;color:#CFC9BD}
+  .an-act:last-child{border-bottom:0}
+  .an-act .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .an-act .d{color:var(--an-mut);font-size:11.5px;flex:none}
+  .an-act .bd{font-size:11px;color:var(--an-copper);border:1px solid rgba(232,165,79,.3);border-radius:999px;padding:2px 8px;flex:none}
+
+  /* партнёр */
+  .an-partner{display:flex;align-items:center;gap:16px;flex-wrap:wrap;border:1px solid rgba(232,165,79,.28);
+    border-radius:16px;background:linear-gradient(180deg,rgba(232,165,79,.08),rgba(232,165,79,.02));padding:16px 20px;margin-bottom:16px}
+  .an-partner .k{font:500 9px/1 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--an-copper);margin:0 0 6px}
+  .an-partner .v{font-size:15px;color:var(--an-ink)}
+  .an-partner .v small{color:var(--an-mut);font-size:12px}
+  .an-partner a{margin-left:auto;color:var(--an-copper-lt);text-decoration:none;font-size:13px;border-bottom:1px solid rgba(232,169,79,.4)}
+  .an-empty{padding:26px;text-align:center;color:var(--an-mut);font-size:13px}
+  @media (max-width:1080px){ .an-tiles{grid-template-columns:repeat(3,1fr)} .an-grid{grid-template-columns:1fr} .an-ins{grid-template-columns:1fr} }
+  @media (max-width:640px){ .an-tiles{grid-template-columns:repeat(2,1fr)} }
+</style>
 </head>
 <body class="gg-with-rail">
 <aside class="gg-rail" id="gg-rail" aria-label="Разделы GOOD Growth" data-i18n-attr="aria-label:rail.group"><a class="gg-rail-logo" href="/app"><span class="gg-m"><svg class="gg-mark" viewBox="238 162 74 101" aria-hidden="true" fill="none" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M256 193 244 180 244 252" stroke="#F8961D"/><path d="M306 168 263 209" stroke="#28A992"/><path d="M287 216 245 257" stroke="#E01F27"/><path d="M293 227 306.5 244 306.5 176" stroke="#4CB853"/></svg></span><span class="gg-t"><b>GOOD Growth</b><i data-i18n="rail.tagline">мастерская роста</i></span></a><nav class="gg-rail-nav"><a href="/app" data-k="app"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="11" height="11" rx="2.5"/><path d="M5.5 8h5"/></svg><span data-i18n="rail.app">Стол</span></a><a href="/app/strategy" data-k="strategy"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="2"/></svg><span data-i18n="rail.strategy">Цель</span></a><a href="/app/posts" data-k="posts"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="11" height="10" rx="2"/><path d="M2.5 6.5h11"/></svg><span data-i18n="rail.posts">Контент</span></a><a href="/app/schedule" data-k="schedule"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="3" width="11" height="10" rx="2"/><path d="M5 1.8v2.4M11 1.8v2.4M2.5 7h11"/></svg><span data-i18n="rail.schedule">Публикации</span></a><a href="/partner" data-k="brands"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 5.5h11v8h-11z"/><path d="M5.5 5.5V4a2.5 2.5 0 0 1 5 0v1.5"/></svg><span data-i18n="rail.brands">Бренды</span></a><a href="/partner/channels" data-k="channels"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 5.8L3.6 8.4l2.6 2.6"/><path d="M9.8 5.8l2.6 2.6-2.6 2.6"/></svg><span data-i18n="rail.channels">Каналы</span></a><a href="/app/analytics" data-k="analytics"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5h11"/><path d="M4.5 12.5V8M8 12.5V4.2M11.5 12.5V9.6"/></svg><span data-i18n="rail.analytics">Аналитика</span></a><a href="/partner/team" data-k="team"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.8" cy="6.2" r="2"/><circle cx="11.2" cy="7" r="1.5"/><path d="M2.6 13.2c0-2 1.5-3.1 3.2-3.1s3.2 1.1 3.2 3.1"/><path d="M10.1 13.2c0-1.5.9-2.4 2.1-2.4s2.1.9 2.1 2.4"/></svg><span data-i18n="rail.team">Команда</span></a><a href="/partner/info" data-k="partners"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="4" cy="8" r="1.7"/><circle cx="12" cy="4.6" r="1.7"/><circle cx="12" cy="11.4" r="1.7"/><path d="M5.5 7.3l4.9-2M5.5 8.7l4.9 2"/></svg><span data-i18n="rail.partners">Партнёрам</span></a><a href="/app/billing" data-k="billing"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1.8" y="3.8" width="12.4" height="8.4" rx="1.6"/><path d="M1.8 6.8h12.4"/><path d="M4.5 9.8h3"/></svg><span data-i18n="rail.billing">Оплата</span></a><a href="/pricing" data-k="pricing"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 2.2H3.4a1.2 1.2 0 0 0-1.2 1.2v5.2l6.2 6.2a1.2 1.2 0 0 0 1.7 0l3.5-3.5a1.2 1.2 0 0 0 0-1.7z"/><circle cx="5.6" cy="5.6" r="1.1"/></svg><span data-i18n="rail.pricing">Тарифы</span></a></nav><div class="gg-rail-foot"><a href="/profile" data-k="profile"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.8v1.6M8 12.6v1.6M1.8 8h1.6M12.6 8h1.6M3.6 3.6l1.1 1.1M11.3 11.3l1.1 1.1M12.4 3.6l-1.1 1.1M4.7 11.3l-1.1 1.1"/></svg><span data-i18n="rail.settings">Настройки</span></a><button type="button" class="gg-rail-theme" id="ggRailTheme"><span class="gg-ico">☾</span><span class="gg-tx" data-i18n="rail.theme.dark">Тёмная</span></button><button type="button" class="gg-rail-out" id="ggRailOut" data-i18n="rail.logout">Выйти</button></div></aside>
-  <div class="wrap">
-    <div class="gg-topbar">
-      <h1 data-i18n="analytics.h1">Аналитика</h1>
-      <div class="gg-grow"></div>
-      
-      
-    </div>
+<script src="/i18n/i18n.js"></script>
 
-    <div class="gg-blk">
-      <div class="gg-blk-h">
-        <h2 data-i18n="analytics.blk.summary">Сводка</h2>
-        <span class="gg-blk-q" data-i18n="analytics.q.summary">что в цифрах?</span>
-      </div>
-      <div class="gg-blk-b"><div class="totals" id="totals"></div></div>
-    </div>
+<div class="an-wrap">
+  <p class="an-kick">GOOD Growth · аналитика</p>
+  <h1 class="an-h1">Аналитика</h1>
+  <p class="an-sub">где всё хорошо, где споткнулись и чего не хватает — по твоим цифрам</p>
+  <div id="anRoot"><p class="an-empty">Собираю цифры…</p></div>
+</div>
 
-    <div class="gg-blk">
-      <div class="gg-blk-h">
-        <h2 data-i18n="analytics.blk.brands">Бренды</h2>
-        <span class="gg-blk-q" data-i18n="analytics.q.brands">у кого что?</span>
-      </div>
-      <div class="gg-blk-b" id="tableWrap"></div>
-    </div>
+<script>
+(function () {
+  var root = document.getElementById('anRoot');
+  var COLORS = ['#E8A54F', '#8ED08A', '#6FA8F5', '#C58AF0', '#E07A6A', '#35D6C0'];
 
-    <p class="hint" data-i18n="analytics.hint">Публикация считается по кнопке «Опубликовать». Каналы — привязанные Telegram-каналы бренда.</p>
-  </div>
-  <script src="/i18n/i18n.js"></script>
-  <script>
-  (function () {
-    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const fmtDate = (s) => { if (!s) return '—'; const d = new Date(String(s).replace(' ', 'T')); return isNaN(d) ? '—' : d.toLocaleDateString((window.ggLang && window.ggLang() === 'en' ? 'en-GB' : (window.ggLang && window.ggLang() === 'en' ? 'en-GB' : 'ru-RU')), { day: 'numeric', month: 'short' }); };
-    async function load() {
-      try {
-        const d = await (await fetch('/api/analytics')).json();
-        const t = d.totals;
-        document.getElementById('totals').innerHTML =
-          tcard(t.brands, ggT('analytics.tile.brands','брендов')) + tcard(t.goals, ggT('analytics.tile.goals','целей')) +
-          tcard(t.posts, ggT('analytics.tile.posts','постов')) + '<div class="tcard coral"><div class="n">' + t.published + '</div><div class="l">' + ggT('analytics.tile.published','публикаций') + '</div></div>' +
-          tcard(t.channels, ggT('analytics.tile.channels','каналов'));
-        const rows = d.brands.map((b) =>
-          '<tr><td class="name">' + esc(b.name) + '</td>' +
-          '<td class="n">' + b.goals + '</td><td class="n">' + b.posts + '</td>' +
-          '<td class="n" style="color:var(--coral)">' + b.published + '</td>' +
-          '<td class="muted">' + b.channels + '</td>' +
-          '<td class="muted">' + fmtDate(b.last_published_at) + '</td></tr>').join('');
-        document.getElementById('tableWrap').innerHTML = d.brands.length
-          ? '<table><thead><tr><th>' + ggT('analytics.th.brand','Бренд') + '</th><th>' + ggT('analytics.th.goals','Цели') + '</th><th>' + ggT('analytics.th.posts','Посты') + '</th><th>' + ggT('analytics.th.published','Публикации') + '</th><th>' + ggT('analytics.th.channels','Каналы') + '</th><th>' + ggT('analytics.th.last','Последняя публ.') + '</th></tr></thead><tbody>' + rows + '</tbody></table>'
-          : '<div class="empty">' + ggT('analytics.empty','Брендов пока нет. Создай первый на странице «К брендам» — и здесь появится статистика.') + '</div>';
-      } catch (e) {
-    if (window.ggSkeletonDone) window.ggSkeletonDone();
-        document.getElementById('tableWrap').innerHTML = '<div class="empty">' + ggT('analytics.err','Не удалось загрузить: ') + esc(e.message) + '</div>';
-      }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function plural(n, hint) { return hint; }
+  function mon(n) { return Number(n || 0).toLocaleString('ru-RU'); }
+  function dateRu(iso) {
+    if (!iso) return '';
+    var d = new Date(String(iso).replace(' ', 'T'));
+    if (isNaN(d.getTime())) return String(iso).slice(0, 10);
+    return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+  }
+
+  /* мини-график для плитки */
+  function spark(values, color) {
+    var w = 120, h = 34, max = Math.max.apply(null, values.concat([1]));
+    var step = values.length > 1 ? w / (values.length - 1) : w;
+    var pts = values.map(function (v, i) {
+      var x = i * step;
+      var y = h - (v / max) * (h - 4) - 2;
+      return x.toFixed(1) + ',' + y.toFixed(1);
+    });
+    var area = '0,' + h + ' ' + pts.join(' ') + ' ' + w + ',' + h;
+    return '<svg viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none">' +
+      '<polygon points="' + area + '" fill="' + color + '" opacity=".10"></polygon>' +
+      '<polyline points="' + pts.join(' ') + '" fill="none" stroke="' + color + '" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></polyline>' +
+    '</svg>';
+  }
+
+  /* большой график публикаций */
+  function bigChart(daily) {
+    var w = 720, h = 220, pad = { l: 34, r: 12, t: 12, b: 24 };
+    var max = Math.max.apply(null, daily.map(function (x) { return x.n; }).concat([1]));
+    var iw = w - pad.l - pad.r, ih = h - pad.t - pad.b;
+    var step = daily.length > 1 ? iw / (daily.length - 1) : iw;
+    var pts = daily.map(function (x, i) {
+      var px = pad.l + i * step;
+      var py = pad.t + ih - (x.n / max) * ih;
+      return { x: px, y: py, v: x.n, d: x.d };
+    });
+    var line = pts.map(function (p) { return p.x.toFixed(1) + ',' + p.y.toFixed(1); }).join(' ');
+    var area = pad.l + ',' + (pad.t + ih) + ' ' + line + ' ' + (pad.l + iw) + ',' + (pad.t + ih);
+    var grid = '';
+    for (var g = 0; g <= 3; g++) {
+      var gy = pad.t + (ih / 3) * g;
+      grid += '<line x1="' + pad.l + '" y1="' + gy + '" x2="' + (w - pad.r) + '" y2="' + gy + '" stroke="rgba(236,226,206,.08)" stroke-width="1"/>';
+      grid += '<text x="' + (pad.l - 8) + '" y="' + (gy + 3) + '" text-anchor="end" font-size="9" fill="#6F6A61" font-family="monospace">' + Math.round(max - (max / 3) * g) + '</text>';
     }
-    function tcard(n, l) { return '<div class="tcard"><div class="n">' + n + '</div><div class="l">' + l + '</div></div>'; }
-    load();
-  })();
-  </script>
-<script src="/gg-header.js" defer></script>
+    var labels = '';
+    [0, 7, 14, 21, 29].forEach(function (i) {
+      if (!daily[i]) return;
+      var p = pts[i];
+      labels += '<text x="' + p.x + '" y="' + (h - 6) + '" text-anchor="middle" font-size="9" fill="#6F6A61" font-family="monospace">' + daily[i].d.slice(5).replace('-', '.') + '</text>';
+    });
+    return '<svg class="an-chart" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none">' +
+      grid +
+      '<polygon points="' + area + '" fill="url(#anGrad)" opacity=".28"/>' +
+      '<defs><linearGradient id="anGrad" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0%" stop-color="#E8A54F" stop-opacity=".55"/><stop offset="100%" stop-color="#E8A54F" stop-opacity="0"/>' +
+      '</linearGradient></defs>' +
+      '<polyline points="' + line + '" fill="none" stroke="#E8A54F" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>' +
+      labels +
+    '</svg>';
+  }
+
+  /* пончик публикаций по брендам */
+  function donut(brands) {
+    var rows = brands.filter(function (b) { return b.published > 0; });
+    if (!rows.length) return '<p class="an-empty">Пока нет публикаций — нечего показывать в разрезе брендов.</p>';
+    var total = rows.reduce(function (a, b) { return a + b.published; }, 0);
+    var R = 54, r = 34, cx = 64, cy = 64, ang = -Math.PI / 2;
+    var parts = '';
+    rows.forEach(function (b, i) {
+      var frac = b.published / total;
+      var a2 = ang + frac * Math.PI * 2;
+      var large = frac > 0.5 ? 1 : 0;
+      var x1 = cx + R * Math.cos(ang), y1 = cy + R * Math.sin(ang);
+      var x2 = cx + R * Math.cos(a2), y2 = cy + R * Math.sin(a2);
+      var xi2 = cx + r * Math.cos(a2), yi2 = cy + r * Math.sin(a2);
+      var xi1 = cx + r * Math.cos(ang), yi1 = cy + r * Math.sin(ang);
+      var col = COLORS[i % COLORS.length];
+      parts += '<path d="M' + x1.toFixed(1) + ' ' + y1.toFixed(1) +
+        ' A' + R + ' ' + R + ' 0 ' + large + ' 1 ' + x2.toFixed(1) + ' ' + y2.toFixed(1) +
+        ' L' + xi2.toFixed(1) + ' ' + yi2.toFixed(1) +
+        ' A' + r + ' ' + r + ' 0 ' + large + ' 0 ' + xi1.toFixed(1) + ' ' + yi1.toFixed(1) + ' Z" fill="' + col + '" opacity=".9"></path>';
+      ang = a2;
+    });
+    var legend = rows.map(function (b, i) {
+      return '<div class="row"><span class="dot" style="background:' + COLORS[i % COLORS.length] + '"></span>' +
+        esc(b.name) + '<b>' + b.published + '</b></div>';
+    }).join('');
+    return '<div class="an-donut"><svg width="128" height="128" viewBox="0 0 128 128">' + parts +
+      '<text x="64" y="60" text-anchor="middle" font-size="10" fill="#6F6A61" font-family="monospace">ВСЕГО</text>' +
+      '<text x="64" y="78" text-anchor="middle" font-size="19" fill="#F4F1EA" font-family="Georgia,serif">' + total + '</text></svg>' +
+      '<div class="rows">' + legend + '</div></div>';
+  }
+
+  function tiles(t, daily) {
+    var series = daily.map(function (x) { return x.n; });
+    var flat = daily.map(function () { return 0; });
+    var line = '<svg viewBox="0 0 120 34" preserveAspectRatio="none"><line x1="0" y1="26" x2="120" y2="26" stroke="rgba(236,226,206,.10)" stroke-width="1"/></svg>';
+    return '<div class="an-tiles">' +
+      tile('Бренды', t.brands, plural(t.brands, 'в работе'), line) +
+      tile('Цели', t.goals, plural(t.goals, 'разборов'), line) +
+      tile('Посты', t.posts, plural(t.posts, 'написано'), line) +
+      tile('Публикации', t.published, plural(t.published, 'вышло'), spark(series, '#8ED08A')) +
+      tile('Каналы', t.channels, plural(t.channels, 'привязано'), line) +
+    '</div>';
+  }
+  function tile(label, n, hint, sparkSvg) {
+    return '<div class="an-tile"><p class="l">' + label + '</p>' +
+      '<div class="n">' + mon(n) + '<small>' + hint + '</small></div>' + sparkSvg + '</div>';
+  }
+
+  function insights(list) {
+    var good = list.filter(function (x) { return x.kind === 'good'; });
+    var warn = list.filter(function (x) { return x.kind === 'warn'; });
+    var miss = list.filter(function (x) { return x.kind === 'miss'; });
+    function col(cls, title, items, mark) {
+      var body = items.length
+        ? items.map(function (i) { return '<p><span class="b">' + mark + '</span><span>' + esc(i.text) + '</span></p>'; }).join('')
+        : '<p><span class="b">·</span><span>Пока нечего отметить</span></p>';
+      return '<div class="col ' + cls + '"><h3>' + title + '</h3>' + body + '</div>';
+    }
+    return '<div class="an-ins">' +
+      col('good', 'Что хорошо', good, '✓') +
+      col('warn', 'Где споткнулись', warn, '!') +
+      col('miss', 'Чего не хватает', miss, '·') +
+    '</div>';
+  }
+
+  function partnerStrip(p) {
+    if (!p) return '';
+    return '<div class="an-partner">' +
+      '<div><p class="k">Партнёрка</p><p class="v">' + esc(p.title) + ' <small>' + p.rate + '% · до ' + p.cap + ' ₽</small></p></div>' +
+      '<div><p class="k">Клиентов</p><p class="v">' + p.paid_clients + '</p></div>' +
+      '<div><p class="k">Копится</p><p class="v">' + mon(p.pending_rub) + ' ₽ <small>из 1 000 ₽</small></p></div>' +
+      '<a href="/partner/cabinet">Открыть кабинет →</a>' +
+    '</div>';
+  }
+
+  function activity(recent) {
+    if (!recent.length) return '<p class="an-empty">Публикаций пока нет. Опубликуй первый пост — здесь появится история.</p>';
+    return recent.map(function (r) {
+      return '<div class="an-act">' +
+        (r.brand ? '<span class="bd">' + esc(r.brand) + '</span>' : '') +
+        '<span class="t">' + esc(r.title || 'Без заголовка') + '</span>' +
+        '<span class="d">' + dateRu(r.published_at) + '</span>' +
+      '</div>';
+    }).join('');
+  }
+
+  function paint(d) {
+    root.innerHTML =
+      partnerStrip(d.partner) +
+      tiles(d.totals, d.daily) +
+      '<div class="an-grid">' +
+        '<div class="an-card"><h2>Публикации за 30 дней</h2><p class="cap">что вышло в люди</p>' + bigChart(d.daily) + '</div>' +
+        '<div class="an-card"><h2>По брендам</h2><p class="cap">у кого что выходит</p>' + donut(d.brands) + '</div>' +
+      '</div>' +
+      insights(d.insights) +
+      '<div class="an-grid" style="margin-top:16px">' +
+        '<div class="an-card"><h2>Последние публикации</h2><p class="cap">свежее сверху</p>' + activity(d.recent) + '</div>' +
+        '<div class="an-card"><h2>Бренды</h2><p class="cap">цели · посты · публикации · каналы</p>' + brandsTable(d.brands) + '</div>' +
+      '</div>';
+  }
+
+  function brandsTable(rows) {
+    if (!rows.length) return '<p class="an-empty">Брендов пока нет. Создай первый на странице «К брендам».</p>';
+    return '<table style="width:100%;border-collapse:collapse;font-size:12.5px">' +
+      '<tr style="color:#6F6A61;font:500 9px/1 monospace;letter-spacing:.12em;text-transform:uppercase">' +
+        '<td style="padding:6px 0">Бренд</td><td>Цели</td><td>Посты</td><td>Публ.</td><td>Каналы</td></tr>' +
+      rows.map(function (b) {
+        var dim = b.posts === 0 ? 'opacity:.55' : '';
+        return '<tr style="border-top:1px solid rgba(236,226,206,.06);' + dim + '">' +
+          '<td style="padding:9px 0">' + esc(b.name) + '</td>' +
+          '<td>' + b.goals + '</td><td>' + b.posts + '</td>' +
+          '<td style="color:#E8A54F">' + b.published + '</td>' +
+          '<td style="color:' + (b.channels ? '#8ED08A' : '#8A857C') + '">' + b.channels + '</td></tr>';
+      }).join('') + '</table>';
+  }
+
+  fetch('/api/analytics/deep', { credentials: 'same-origin' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d) { root.innerHTML = '<p class="an-empty">Нужен вход, чтобы увидеть аналитику.</p>'; return; }
+      paint(d);
+      if (window.ggSkeletonDone) window.ggSkeletonDone();
+    })
+    .catch(function () { root.innerHTML = '<p class="an-empty">Не удалось собрать цифры. Обнови страницу.</p>'; });
+})();
+</script>
+
 <script src="/theme.js" defer></script>
 <script src="/topline.js" defer></script>
 <script src="/rail.js" defer></script>
 <script src="/legal.js" defer></script>
-<script>window.GG_SKELETON = {targets:[{sel:'#totals',kind:'tiles',count:4},{sel:'#tableWrap',kind:'table',count:5}]};</script>
-<script src="/skeleton.js"></script>
 </body>
 </html>
