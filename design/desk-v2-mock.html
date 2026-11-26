@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Стол — макет</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0b0d; --bg-soft:#101013; --surface:#141418; --surface-2:#191920;
+    --fg:#f3f1ea; --muted:#a09c92; --faint:#8a857c;
+    --border:rgba(255,255,255,.09); --border-strong:rgba(255,255,255,.18);
+    --amber:#e8a33d; --amber-ink:#171310; --amber-soft:rgba(232,163,61,.12);
+    --danger:#e06c5a;
+    --font-display:'Playfair Display',Georgia,serif;
+    --font-body:'Golos Text',-apple-system,'Segoe UI',sans-serif;
+    --font-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+    --r-s:10px; --r-m:14px; --r-l:20px;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;cursor:pointer;color:inherit}
+  .wrap{max-width:1180px;margin:0 auto;padding:34px 32px 70px}
+
+  /* ── строка заголовка ── */
+  .head{display:flex;align-items:center;gap:18px;margin-bottom:6px}
+  .head h1{font-family:var(--font-display);font-weight:500;font-size:44px;letter-spacing:-.02em;margin:0}
+  .grow{flex:1}
+  .search{display:flex;align-items:center;gap:9px;padding:9px 14px;border:1px solid var(--border);border-radius:999px;
+          background:var(--bg-soft);color:var(--faint);font-size:13px;min-width:230px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;border:1px solid var(--border-strong);
+       background:transparent;font-size:14px;font-weight:500;transition:.18s}
+  .btn:hover{border-color:var(--border-strong);background:var(--surface)}
+  .btn-gold{background:var(--amber);color:var(--amber-ink);border-color:transparent;font-weight:600}
+  .btn-gold:hover{filter:brightness(1.05);background:var(--amber)}
+
+  /* ── строка состояния ── */
+  .state{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13.5px;margin:2px 0 30px;flex-wrap:wrap}
+  .state i{font-style:normal;color:var(--faint)}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);display:inline-block}
+
+  /* ── плитки ── */
+  .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+  .tile{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-m);padding:18px 20px 16px}
+  .tile .lab{font-family:var(--font-mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint)}
+  .tile .num{font-family:var(--font-display);font-size:40px;line-height:1.05;margin:8px 0 4px}
+  .tile .sub{font-size:12.5px;color:var(--muted)}
+  .tile .sub b{color:var(--fg);font-weight:500}
+  .tile .sub .up{color:var(--amber)}
+
+  /* ── внимание ── */
+  .blk{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-m);margin-bottom:16px}
+  .blk-h{display:flex;align-items:baseline;gap:10px;padding:16px 20px 0}
+  .blk-h h2{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin:0;font-weight:500}
+  .blk-b{padding:12px 20px 18px}
+  .att{display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid var(--border)}
+  .att:last-child{border-bottom:0;padding-bottom:0}
+  .att .tag{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:999px;
+            border:1px solid rgba(232,163,61,.35);color:var(--amber);background:var(--amber-soft);white-space:nowrap}
+  .att .tag.q{border-color:var(--border-strong);color:var(--faint);background:transparent}
+  .att .tx{flex:1;font-size:14px;color:var(--fg)}
+  .att .tx small{display:block;color:var(--faint);font-size:12.5px}
+  .att .go{font-size:13px;color:var(--amber);border-bottom:1px dotted rgba(232,163,61,.5);padding-bottom:1px;white-space:nowrap}
+
+  /* ── ритм ── */
+  .week{display:flex;gap:8px;flex-wrap:wrap}
+  .day{flex:1;min-width:88px;border:1px solid var(--border);border-radius:var(--r-s);padding:10px 12px;background:var(--bg-soft)}
+  .day .d{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.14em;color:var(--faint)}
+  .day .t{font-family:var(--font-mono);font-size:14px;margin-top:3px;color:var(--fg)}
+  .day.empty .t{color:var(--faint)}
+  .day.empty{border-style:dashed}
+  .day.done{border-color:rgba(232,163,61,.3)}
+  .day.done .t{color:var(--amber)}
+
+  /* ── две колонки ── */
+  .cols{display:grid;grid-template-columns:1fr 1.25fr;gap:16px;align-items:start}
+  .next{padding:20px}
+  .next .k{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+  .next .when{font-family:var(--font-display);font-size:30px;margin:10px 0 2px}
+  .next .ch{font-size:12.5px;color:var(--muted);margin-bottom:14px}
+  .next .title{font-size:17px;line-height:1.35;margin-bottom:18px}
+  .next .acts{display:flex;gap:10px}
+  .next .acts .btn{padding:9px 16px;font-size:13px}
+
+  .qrow{display:grid;grid-template-columns:18px 1fr auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--border)}
+  .qrow:last-child{border-bottom:0}
+  .qrow .st{width:7px;height:7px;border-radius:50%;background:var(--faint);justify-self:center}
+  .qrow.pub .st{background:var(--amber)}
+  .qrow.plan .st{background:var(--muted)}
+  .qrow .t{font-size:14px}
+  .qrow .t small{display:block;color:var(--faint);font-size:12px}
+  .qrow .m{font-family:var(--font-mono);font-size:11px;color:var(--faint);white-space:nowrap}
+
+  /* ── путь ── */
+  .path{display:flex;align-items:center;gap:0;padding:16px 20px;color:var(--faint);font-size:12px;flex-wrap:wrap}
+  .path .s{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;letter-spacing:.06em}
+  .path .s b{color:var(--fg);font-weight:500}
+  .path .s.on b{color:var(--amber)}
+  .path .ln{width:44px;height:1px;background:var(--border-strong);margin:0 10px}
+  .path .ln.on{background:rgba(232,163,61,.55)}
+
+  @media (max-width:900px){
+    .tiles{grid-template-columns:1fr}
+    .cols{grid-template-columns:1fr}
+    .head h1{font-size:32px}
+    .search{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <h1>Стол</h1>
+    <div class="grow"></div>
+    <div class="search">⌕ Поиск по постам</div>
+    <button class="btn btn-gold">+ Создать пост</button>
+  </div>
+
+  <div class="state">
+    <span class="dot"></span>
+    Сейчас 14:20 МСК
+    <i>·</i> 58 постов в очереди
+    <i>·</i> следующий — сегодня в 19:00
+  </div>
+
+  <div class="tiles">
+    <div class="tile">
+      <div class="lab">Опубликовано</div>
+      <div class="num">11</div>
+      <div class="sub"><span class="up">+3</span> за последнюю неделю</div>
+    </div>
+    <div class="tile">
+      <div class="lab">Черновики без даты</div>
+      <div class="num">12</div>
+      <div class="sub">написаны — осталось выбрать время</div>
+    </div>
+    <div class="tile">
+      <div class="lab">Осталось сегодня</div>
+      <div class="num">3 <span style="font-family:var(--font-body);font-size:18px;color:var(--faint)">из 4</span></div>
+      <div class="sub">по тарифу «Старт»</div>
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><h2>Требует внимания</h2></div>
+    <div class="blk-b">
+      <div class="att">
+        <span class="tag">срочно</span>
+        <span class="tx">12 постов написаны, но без даты<small>Пока у них нет времени — они не выйдут</small></span>
+        <a class="go" href="#">Разложить по ритму</a>
+      </div>
+      <div class="att">
+        <span class="tag q">обычно</span>
+        <span class="tx">Картинки идут через резерв<small>С водяным знаком: пополнить fal на $5</small></span>
+        <a class="go" href="#">Открыть движки</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="blk-h"><h2>Ритм недели</h2><div class="grow"></div><a class="go" href="#" style="font-size:12.5px">изменить</a></div>
+    <div class="blk-b">
+      <div class="week">
+        <div class="day done"><div class="d">ПН</div><div class="t">09:00</div></div>
+        <div class="day done"><div class="d">ВТ</div><div class="t">09:00</div></div>
+        <div class="day done"><div class="d">СР</div><div class="t">13:00</div></div>
+        <div class="day"><div class="d">ЧТ</div><div class="t">13:00</div></div>
+        <div class="day empty"><div class="d">ПТ</div><div class="t">—</div></div>
+        <div class="day"><div class="d">СБ</div><div class="t">19:00</div></div>
+        <div class="day empty"><div class="d">ВС</div><div class="t">—</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div class="blk next">
+      <div class="k">Следующий пост</div>
+      <div class="when">сегодня 19:00</div>
+      <div class="ch">Telegram · @good_ark_2026</div>
+      <div class="title">«Мифы и факты — 3»</div>
+      <div class="acts">
+        <button class="btn">Открыть</button>
+        <button class="btn">Перенести</button>
+      </div>
+    </div>
+
+    <div class="blk">
+      <div class="blk-h"><h2>Очередь</h2><div class="grow"></div><a class="go" href="#" style="font-size:12.5px">все 58 →</a></div>
+      <div class="blk-b">
+        <div class="qrow pub">
+          <span class="st"></span>
+          <span class="t">Разбор по существу — 5<small>опубликован</small></span>
+          <span class="m">11 нояб · 13:00</span>
+        </div>
+        <div class="qrow plan">
+          <span class="st"></span>
+          <span class="t">Мифы и факты — 3<small>запланирован</small></span>
+          <span class="m">сегодня · 19:00</span>
+        </div>
+        <div class="qrow">
+          <span class="st"></span>
+          <span class="t">Гид по размерам и посадке — 1<small>черновик, без даты</small></span>
+          <span class="m">—</span>
+        </div>
+        <div class="qrow">
+          <span class="st"></span>
+          <span class="t">5 кофеен Еревана, где удобно работать<small>черновик, без даты</small></span>
+          <span class="m">—</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="blk">
+    <div class="path">
+      <span class="s on"><b>01</b> Цель</span><span class="ln on"></span>
+      <span class="s on"><b>02</b> Разбор</span><span class="ln on"></span>
+      <span class="s on"><b>03</b> Ритм</span><span class="ln on"></span>
+      <span class="s on"><b>04</b> Посты</span><span class="ln on"></span>
+      <span class="s on"><b>05</b> Отклик</span>
+      <div class="grow"></div>
+      <a class="go" href="/app/strategy" style="font-size:12.5px">Открыть Цель →</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+- generic [active] [ref=e1]:
+  - complementary "Разделы GOOD Growth" [ref=e2]:
+    - link "GOOD Growth мастерская роста" [ref=e3] [cursor=pointer]:
+      - /url: /app
+      - generic [ref=e10]:
+        - generic [ref=e11]: GOOD Growth
+        - generic [ref=e12]: мастерская роста
+    - navigation [ref=e13]:
+      - link "Стол" [ref=e14] [cursor=pointer]:
+        - /url: /app
+      - link "Цель" [ref=e18] [cursor=pointer]:
+        - /url: /app/strategy
+      - link "Контент" [ref=e23] [cursor=pointer]:
+        - /url: /app/posts
+      - link "Публикации" [ref=e27] [cursor=pointer]:
+        - /url: /app/schedule
+      - link "Бренды" [ref=e32] [cursor=pointer]:
+        - /url: /partner
+      - link "Каналы" [ref=e37] [cursor=pointer]:
+        - /url: /partner/channels
+      - link "Аналитика" [ref=e42] [cursor=pointer]:
+        - /url: /app/analytics
+      - link "Команда" [ref=e46] [cursor=pointer]:
+        - /url: /partner/team
+      - link "Партнёрам" [ref=e53] [cursor=pointer]:
+        - /url: /partner/info
+      - link "Оплата" [ref=e60] [cursor=pointer]:
+        - /url: /app/billing
+      - link "Тарифы" [ref=e64] [cursor=pointer]:
+        - /url: /pricing
+    - 'button "◈ Мой аккаунт тариф: — ⌃" [ref=e70] [cursor=pointer]':
+      - generic [ref=e71]: ◈
+      - generic [ref=e72]:
+        - generic [ref=e73]: Мой аккаунт
+        - emphasis [ref=e74]: "тариф: —"
+      - generic [ref=e75]: ⌃
+  - generic [ref=e76]:
+    - link "← Стол" [ref=e77] [cursor=pointer]:
+      - /url: /app
+    - generic [ref=e78]:
+      - generic "Режим разбора" [ref=e79]: ИИ · не подключён
+      - group "Language" [ref=e82]:
+        - button "RU" [pressed] [ref=e83] [cursor=pointer]
+        - button "EN" [ref=e84] [cursor=pointer]
+        - button "ՀԱ" [ref=e85] [cursor=pointer]
+      - button "Сменить тему" [ref=e86] [cursor=pointer]: ◐
+  - generic [ref=e87]:
+    - heading "Расписание публикаций" [level=1] [ref=e89]
+    - paragraph [ref=e90]: Посты, которые уйдут в канал сами — в выбранное время. Часы сервера идут по Москве.
+    - generic [ref=e91]:
+      - region "Часы публикаций" [ref=e92]:
+        - generic [ref=e93]:
+          - generic:
+            - generic: —
+            - generic: МСК
+        - generic [ref=e154]:
+          - paragraph [ref=e155]: Следующий пост
+          - paragraph [ref=e156]: —
+          - paragraph [ref=e157]: —
+          - paragraph [ref=e158]: сейчас — МСК · в очереди 0
+      - region "Который час" [ref=e159]:
+        - generic [ref=e221]:
+          - paragraph [ref=e222]: Сейчас · Москва
+          - paragraph [ref=e223]: "--:--:--"
+          - paragraph [ref=e224]: —
+          - paragraph [ref=e225]: —
+    - generic [ref=e227]:
+      - generic [ref=e228]:
+        - heading "Ритм" [level=2] [ref=e229]
+        - generic [ref=e230]: сколько раз в неделю?
+      - generic [ref=e231]:
+        - paragraph [ref=e232]: Не «сколько хочешь», а сколько выдержишь — вместе с проверкой и правками.
+        - generic [ref=e233]:
+          - button "3× Три раза в неделю 12 постов в месяц · самое устойчивое для мастера" [ref=e234] [cursor=pointer]:
+            - generic [ref=e235]: 3×
+            - generic [ref=e236]:
+              - generic [ref=e237]: Три раза в неделю
+              - paragraph [ref=e238]: 12 постов в месяц · самое устойчивое для мастера
+          - button "1× Раз в неделю 4 поста в месяц · чтобы просто не пропадать" [ref=e240] [cursor=pointer]:
+            - generic [ref=e241]: 1×
+            - generic [ref=e242]:
+              - generic [ref=e243]: Раз в неделю
+              - paragraph [ref=e244]: 4 поста в месяц · чтобы просто не пропадать
+          - button "5× Пять раз в неделю 20 постов в месяц · рабочий будний ритм" [ref=e246] [cursor=pointer]:
+            - generic [ref=e247]: 5×
+            - generic [ref=e248]:
+              - generic [ref=e249]: Пять раз в неделю
+              - paragraph [ref=e250]: 20 постов в месяц · рабочий будний ритм
+          - button "✎ Своё число например 3 в день, если идёт раскрутка" [ref=e252] [cursor=pointer]:
+            - generic [ref=e253]: ✎
+            - generic [ref=e254]:
+              - generic [ref=e255]: Своё число
+              - paragraph [ref=e256]: например 3 в день, если идёт раскрутка
+    - generic [ref=e258]:
+      - generic [ref=e259]:
+        - heading "Очередь" [level=2] [ref=e260]
+        - generic [ref=e261]: когда выйдет?
+        - button "Разложить посты по ритму" [ref=e262] [cursor=pointer]
+      - generic [ref=e264]:
+        - combobox [ref=e265]:
+          - option "Все статусы" [selected]
+          - option "Запланированы"
+          - option "Со сбоем"
+          - option "Опубликованы по плану"
+        - combobox [ref=e266]:
+          - option "Все бренды" [selected]
+  - button "Свернуть панель" [expanded] [ref=e267] [cursor=pointer]

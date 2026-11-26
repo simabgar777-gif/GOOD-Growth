@@ -1,0 +1,56 @@
+{
+ "with": [
+  {
+   "id": 86,
+   "goal_id": 47,
+   "title": "Восьмёрка: три минуты — и колесо ровное",
+   "body": "Колесо ведёт влево. Вы уже привыкли подруливать. Так нельзя.\n\nВосьмёрка — это не косметика. Это потеря скорости на каждом метре и неравномерный износ колодок. Чиним за один день.\n\nКладём колесо на станок. Смотрим на зазоры. Подтягиваем спицы по одной — четверть оборота, потом ещё. Крутим, проверяем, повторяем. Пока не станет ровно.\n\nНикакой магии. Только рука и станок.",
+   "cta": "Привозите колесо — выправим за день",
+   "image_status": "none",
+   "image_path": null,
+   "source": "live",
+   "model": "deepseek-chat",
+   "created_at": "2026-11-22 05:05:43",
+   "updated_at": null,
+   "published_at": null,
+   "published_message_id": null,
+   "published_channel": null,
+   "approved_at": null,
+   "approved_by": null,
+   "scheduled_at": null,
+   "schedule_status": null,
+   "schedule_note": null,
+   "variants": null,
+   "image_prompt": null,
+   "image_engine": null,
+   "published_vk": null
+  }
+ ],
+ "without": [
+  {
+   "id": 87,
+   "goal_id": 48,
+   "title": "Прокол в дороге: что делать",
+   "body": "Прокололись на перекрёстке? Не паникуйте.\n\nСнимите колесо, вытащите камеру. Найдите причину — часто это стекло или гвоздь, застрявшие в покрышке. Если оставить их, новая камера лопнет через километр.\n\nПроверьте обод: острые края или торчащая спица — ещё одна причина. Замените камеру или заклейте, накачайте до нужного давления. Оно указано на боковине покрышки.\n\nЕсли сомневаетесь — привозите. Посмотрим и починим.",
+   "cta": "Привозите колесо — найдём причину и починим",
+   "image_status": "none",
+   "image_path": null,
+   "source": "live",
+   "model": "deepseek-chat",
+   "created_at": "2026-11-22 05:06:04",
+   "updated_at": null,
+   "published_at": null,
+   "published_message_id": null,
+   "published_channel": null,
+   "approved_at": null,
+   "approved_by": null,
+   "scheduled_at": null,
+   "schedule_status": null,
+   "schedule_note": null,
+   "variants": null,
+   "image_prompt": null,
+   "image_engine": null,
+   "published_vk": null
+  }
+ ]
+}

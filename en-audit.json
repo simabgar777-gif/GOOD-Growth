@@ -1,0 +1,89 @@
+{
+ "/app": {
+  "h1": "Goal",
+  "n": 59,
+  "sample": [
+   "одна фраза о деле",
+   "кому и о чём",
+   "сколько раз в неделю",
+   "тексты и картинки"
+  ]
+ },
+ "/app/schedule": {
+  "h1": "Sign in",
+  "n": 1,
+  "sample": [
+   "Как работает"
+  ]
+ },
+ "/app/posts": {
+  "h1": "Sign in",
+  "n": 1,
+  "sample": [
+   "Как работает"
+  ]
+ },
+ "/app/billing": {
+  "h1": "Payment",
+  "n": 0,
+  "sample": []
+ },
+ "/app/analytics": {
+  "h1": "Sign in",
+  "n": 1,
+  "sample": [
+   "Как работает"
+  ]
+ },
+ "/app/profile": {
+  "h1": "Sign in",
+  "n": 1,
+  "sample": [
+   "Как работает"
+  ]
+ },
+ "/pricing": {
+  "h1": "Plans",
+  "n": 0,
+  "sample": []
+ },
+ "/partner": {
+  "h1": "Sign in",
+  "n": 1,
+  "sample": [
+   "Как работает"
+  ]
+ },
+ "/partner/info": {
+  "h1": "For partners",
+  "n": 0,
+  "sample": []
+ },
+ "/partner/channels": {
+  "h1": "Channels",
+  "n": 0,
+  "sample": []
+ },
+ "/partner/team": {
+  "h1": "Sign in",
+  "n": 1,
+  "sample": [
+   "Как работает"
+  ]
+ },
+ "/admin": {
+  "h1": "Админ-панель",
+  "n": 33,
+  "sample": [
+   "Админ-панель",
+   "весь корабль на одном экране",
+   "Только для капитана. Здесь видно всех, кто пришёл,",
+   "Доступ только капитану"
+  ]
+ },
+ "/cabinet": {
+  "h1": "404 Not Found",
+  "n": 0,
+  "sample": []
+ }
+}
