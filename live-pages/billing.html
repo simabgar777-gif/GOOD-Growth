@@ -42,6 +42,77 @@
   <button type="button" class="pl-cur" data-cur="usd">$</button>
 </div>
 
+
+<section class="bill-card" id="subCard" style="margin-bottom:18px">
+  <p class="bill-lbl">подписка</p>
+  <p class="bill-load" id="subLoad">Загружаю…</p>
+  <div id="subBody" hidden>
+    <p style="margin:0 0 6px;font-size:18px">Тариф: <b id="subPlan">—</b></p>
+    <p style="margin:0 0 6px;color:#A1A1AA;font-size:13.5px" id="subPeriod"></p>
+    <p style="margin:0 0 14px;color:#A1A1AA;font-size:13.5px" id="subState"></p>
+    <button type="button" class="pl-go" id="subCancel" style="display:none">Отменить подписку</button>
+    <p style="margin:10px 0 0;font-size:13px;color:#F3C583" id="subSay"></p>
+  </div>
+</section>
+
+<script>
+(function () {
+  var load = document.getElementById('subLoad');
+  var body = document.getElementById('subBody');
+  var say = document.getElementById('subSay');
+  var NAMES = { start: 'Старт', growth: 'Рост', pro: 'Про', agency: 'Агентство', unlimited: 'Безлимит' };
+
+  function fmt(iso) {
+    if (!iso) return '';
+    try {
+      var d = new Date(iso);
+      return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+    } catch (e) { return ''; }
+  }
+
+  function paint(d) {
+    var sub = d.subscription || null;
+    var plan = d.plan || {};
+    document.getElementById('subPlan').textContent = NAMES[plan.code] || plan.code || '—';
+    if (sub && sub.status === 'active') {
+      document.getElementById('subPeriod').textContent = 'Оплачен до ' + fmt(sub.period_end);
+      document.getElementById('subState').textContent = sub.cancel_at_period_end
+        ? 'Отменена — доступ сохранится до конца периода'
+        : (sub.provider && sub.provider !== 'manual' ? 'Продлится автоматически' : 'Действует');
+      var btn = document.getElementById('subCancel');
+      btn.style.display = (sub.cancel_at_period_end ? 'none' : 'inline-block');
+    } else {
+      document.getElementById('subPeriod').textContent = 'Платный тариф не подключён';
+      document.getElementById('subState').textContent = '';
+    }
+    load.hidden = true;
+    body.hidden = false;
+  }
+
+  function fetchSub() {
+    fetch('/api/payments/subscription', { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d) paint(d); else load.textContent = 'Войди, чтобы увидеть подписку.'; })
+      .catch(function () { load.textContent = 'Не удалось загрузить подписку.'; });
+  }
+
+  document.getElementById('subCancel').addEventListener('click', function () {
+    var b = this;
+    b.disabled = true;
+    fetch('/api/payments/cancel', { method: 'POST', credentials: 'same-origin' })
+      .then(function (r) { return r.json().then(function (j) { return { s: r.status, j: j }; }); })
+      .then(function (res) {
+        b.disabled = false;
+        if (res.s === 200) { say.textContent = 'Отменено — доступ до конца периода.'; fetchSub(); }
+        else { say.textContent = (res.j && res.j.error) || 'Не получилось отменить.'; }
+      })
+      .catch(function () { b.disabled = false; say.textContent = 'Сервер не ответил.'; });
+  });
+
+  fetchSub();
+})();
+</script>
+
 <div class="bill-grid">
   <section class="bill-card" id="billNow">
     <p class="bill-lbl">твой тариф</p>

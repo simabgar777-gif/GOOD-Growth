@@ -277,13 +277,7 @@
   });
   recalc();
 
-  document.querySelectorAll('[data-pick]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      var code = b.getAttribute('data-pick');
-      if (code === 'start') { location.href = '/app'; return; }
-      location.href = '/app/billing?plan=' + encodeURIComponent(code) + '&cur=' + CUR;
-    });
-  });
+  /* клик по тарифу обрабатывает блок оплаты в конце страницы */
 })();
 </script>
 </div>
@@ -292,5 +286,50 @@
 <script src="/topline.js" defer></script>
 <script src="/rail.js" defer></script>
 <script src="/legal.js" defer></script>
+
+<script>
+/* Оплата тарифа: создаём платёж и уходим на страницу провайдера */
+(function () {
+  var say = document.createElement('p');
+  say.id = 'paySay';
+  say.style.cssText = 'margin:18px 0 0;font-size:13.5px;color:#F3C583;min-height:20px';
+  var grid = document.querySelector('.pl-grid');
+  if (grid && grid.parentNode) grid.parentNode.insertBefore(say, grid.nextSibling);
+
+  function note(t, bad) {
+    say.textContent = t || '';
+    say.style.color = bad ? '#E07A6A' : '#F3C583';
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-pick]');
+    if (!b) return;
+    var code = b.getAttribute('data-pick');
+    if (code === 'start') { location.href = '/app'; return; }
+    b.disabled = true;
+    var old = b.textContent;
+    b.textContent = 'Готовлю оплату…';
+    note('');
+    fetch('/api/payments/create', {
+      method: 'POST', credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ plan_code: code })
+    }).then(function (r) { return r.json().then(function (j) { return { s: r.status, j: j }; }); })
+      .then(function (res) {
+        if (res.s === 401) { location.href = '/login?next=/pricing'; return; }
+        var d = res.j || {};
+        if (d.pay_url) { location.href = d.pay_url; return; }
+        if (d.fake) { location.href = '/payment/success?fake=1'; return; }
+        b.disabled = false; b.textContent = old;
+        note(d.error || 'Оплата пока не подключена — мы как раз её включаем.', true);
+      })
+      .catch(function () {
+        b.disabled = false; b.textContent = old;
+        note('Сервер не ответил. Попробуй ещё раз.', true);
+      });
+  });
+})();
+</script>
+
 </body>
 </html>
