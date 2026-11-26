@@ -690,7 +690,17 @@ function markActive() {
     window.addEventListener('popstate', function () { ggNavTo(location.pathname + location.search, false); });
   }
 
-  function boot() { markActive(); wire(); }
+  function boot() {
+    markActive();
+    wire();
+    /* «Партнёрам» ведёт сразу в партнёрский кабинет:
+       публичная страница — уже оттуда, одной ссылкой */
+    var pa = document.querySelector('.gg-rail-nav a[data-k="partners"], .gg-rail a[data-k="partners"]');
+    if (pa) {
+      pa.setAttribute('href', '/partner/cabinet');
+      pa.setAttribute('title', 'Партнёрский кабинет: ссылка, уровень и начисления');
+    }
+  }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
