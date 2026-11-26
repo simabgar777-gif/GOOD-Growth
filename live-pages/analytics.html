@@ -83,11 +83,51 @@
   .an-partner a{margin-left:auto;color:var(--an-copper-lt);text-decoration:none;font-size:13px;border-bottom:1px solid rgba(232,169,79,.4)}
 
   .an-col-left{display:flex;flex-direction:column;gap:16px;min-width:0}
+
+  .fc-title{margin:20px 0 0;font:500 9.5px/1 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#6F6A61}
+  .fc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+  .fc-cell{border:1px solid var(--an-line);border-radius:12px;background:var(--an-panel2);padding:12px 12px 10px}
+  .fc-l{margin:0 0 6px;font:500 8.5px/1 'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#6F6A61}
+  .fc-v{margin:0 0 4px;font-size:19px;color:var(--an-ink);font-family:'Playfair Display',Georgia,serif}
+  .fc-h{margin:0;font-size:10.5px;color:var(--an-mut);line-height:1.35}
+  @media (max-width:1080px){ .fc-grid{grid-template-columns:1fr} }
   .an-pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:end}
   .an-gauge, .an-ring{display:flex;flex-direction:column;align-items:center;gap:6px}
   .an-cap{margin:4px 0 0;font-size:11.5px;color:var(--an-mut);text-align:center}
   .an-cols-right{display:flex;flex-direction:column;gap:16px}
   .an-donut .rows small{font-size:10px}
+
+  /* ближайший шаг */
+  .ns-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(236,226,206,.06)}
+  .ns-row:last-child{border-bottom:0}
+  .ns-bd{font-size:10.5px;color:var(--an-copper);border:1px solid rgba(232,165,79,.28);border-radius:999px;padding:2px 9px;flex:none}
+  .ns-t{flex:1;min-width:0;font-size:13px;color:#CFC9BD;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ns-btn{border:1px solid rgba(232,165,79,.45);background:rgba(232,165,79,.10);color:var(--an-copper-lt);
+    border-radius:9px;padding:6px 12px;font:inherit;font-size:12px;cursor:pointer;flex:none;transition:.15s}
+  .ns-btn:hover{background:rgba(232,165,79,.2)}
+  .ns-btn:disabled{opacity:.5;cursor:default}
+  .ns-btn.plain{background:transparent;border-color:rgba(236,226,206,.14);color:#A19B90}
+  .ns-say{margin:10px 0 0;font-size:12px;color:var(--an-mut)}
+
+  /* скелетон загрузки */
+  .sk{position:relative;overflow:hidden;border-radius:12px;
+      background:linear-gradient(180deg,rgba(236,226,206,.055),rgba(236,226,206,.03));
+      border:1px solid rgba(236,226,206,.06)}
+  .sk::after{content:"";position:absolute;inset:0;
+      background:linear-gradient(100deg,transparent 20%,rgba(232,165,79,.10) 45%,transparent 70%);
+      transform:translateX(-100%);animation:an-sweep 2.6s cubic-bezier(.4,0,.6,1) infinite}
+  @keyframes an-sweep{0%{transform:translateX(-100%)}55%{transform:translateX(100%)}100%{transform:translateX(100%)}}
+  .sk-line{display:block;height:10px;border-radius:6px;margin:8px 0;
+      background:linear-gradient(180deg,rgba(236,226,206,.07),rgba(236,226,206,.04))}
+  .sk-tile{height:96px;padding:14px 16px}
+  .sk-tile .sk-line{margin:0 0 10px}
+  .sk-tile .sk-line.w1{width:38%;height:8px}
+  .sk-tile .sk-line.w2{width:52%;height:18px;border-radius:8px}
+  .sk-block{padding:18px 20px}
+  .sk-block .sk-line{margin:10px 0}
+  .sk-block .sk-line.w1{width:34%;height:9px}
+  .sk-block .sk-line.w2{width:60%}
+  @media(prefers-reduced-motion:reduce){.sk::after{animation:none;opacity:.35}}
   .an-empty{padding:26px;text-align:center;color:var(--an-mut);font-size:13px}
   @media (max-width:1080px){ .an-tiles{grid-template-columns:repeat(3,1fr)} .an-grid{grid-template-columns:1fr} .an-ins{grid-template-columns:1fr} }
   @media (max-width:640px){ .an-tiles{grid-template-columns:repeat(2,1fr)} }
@@ -101,7 +141,29 @@
   <p class="an-kick">GOOD Growth · аналитика</p>
   <h1 class="an-h1">Аналитика</h1>
   <p class="an-sub">где всё хорошо, где споткнулись и чего не хватает — по твоим цифрам</p>
-  <div id="anRoot"><p class="an-empty">Собираю цифры…</p></div>
+  <div id="anRoot"><div class="an-tiles">
+  <div class="an-tile sk sk-tile"><span class="sk-line w1"></span><span class="sk-line w2"></span></div>
+  <div class="an-tile sk sk-tile"><span class="sk-line w1"></span><span class="sk-line w2"></span></div>
+  <div class="an-tile sk sk-tile"><span class="sk-line w1"></span><span class="sk-line w2"></span></div>
+  <div class="an-tile sk sk-tile"><span class="sk-line w1"></span><span class="sk-line w2"></span></div>
+  <div class="an-tile sk sk-tile"><span class="sk-line w1"></span><span class="sk-line w2"></span></div>
+</div>
+<div class="an-grid">
+  <div class="an-col-left">
+    <div class="an-card sk sk-block" style="height:292px"><span class="sk-line w1"></span><span class="sk-line w2"></span></div>
+    <div class="an-card sk sk-block" style="height:224px"><span class="sk-line w1"></span><span class="sk-line w2"></span></div>
+    <div class="an-card sk sk-block" style="height:132px"><span class="sk-line w1"></span><span class="sk-line w2"></span></div>
+  </div>
+  <div class="an-cols-right">
+    <div class="an-card sk sk-block" style="height:186px"><span class="sk-line w1"></span><span class="sk-line w2"></span></div>
+    <div class="an-card sk sk-block" style="height:186px"><span class="sk-line w1"></span><span class="sk-line w2"></span></div>
+    <div class="an-card sk sk-block" style="height:216px"><span class="sk-line w1"></span><span class="sk-line w2"></span></div>
+  </div>
+</div>
+<div class="an-grid" style="margin-top:16px">
+  <div class="an-card sk sk-block" style="height:150px"></div>
+  <div class="an-card sk sk-block" style="height:150px"></div>
+</div></div>
 </div>
 
 <script>
@@ -304,6 +366,43 @@
     ], 'ПОСТОВ');
   }
 
+/* прогноз месяца, серия дней и сильный день недели */
+  function forecast(daily) {
+    var last7 = daily.slice(-7);
+    var sum7 = last7.reduce(function (a, x) { return a + x.n; }, 0);
+    var perMonth = Math.round(sum7 * 30 / 7);
+
+    /* серия: сколько дней подряд (с сегодня) есть публикации */
+    var streak = 0;
+    for (var i = daily.length - 1; i >= 0; i--) {
+      if (daily[i].n > 0) streak++;
+      else break;
+    }
+
+    /* сильный день недели по всем 30 дням */
+    var DAYS = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
+    var byDow = [0, 0, 0, 0, 0, 0, 0];
+    daily.forEach(function (x) {
+      var d = new Date(x.d + 'T00:00:00');
+      if (!isNaN(d.getTime())) byDow[d.getDay()] += x.n;
+    });
+    var best = 0;
+    for (var k = 1; k < 7; k++) if (byDow[k] > byDow[best]) best = k;
+    var bestName = byDow[best] > 0 ? DAYS[best] : null;
+
+    function cell(label, value, hint) {
+      return '<div class="fc-cell"><p class="fc-l">' + label + '</p>' +
+        '<p class="fc-v">' + value + '</p>' +
+        '<p class="fc-h">' + hint + '</p></div>';
+    }
+
+    return '<div class="fc-grid">' +
+      cell('прогноз за 30 дней', perMonth, 'если темп сохранится') +
+      cell('серия', streak + ' ' + (streak === 1 ? 'день' : (streak < 5 && streak > 1 ? 'дня' : 'дней')), 'подряд с публикациями') +
+      cell('сильный день', bestName ? bestName : '—', bestName ? 'чаще всего выходит' : 'пока нет данных') +
+    '</div>';
+  }
+
   /* дуга ритма: публикации за 7 дней против цели 3 в неделю */
   function gauge(last7) {
     var target = 3;
@@ -386,6 +485,27 @@
     '</div>';
   }
 
+/* ближайший шаг: три черновика, которые можно выпустить сразу */
+  function nextStep(d) {
+    var rows = d.drafts_next || [];
+    if (!rows.length) {
+      return '<div class="an-card"><h2>Ближайший шаг</h2><p class="cap">одно действие, которое сдвинет цифры</p>' +
+        '<p style="margin:6px 0 0;font-size:13px;color:#CFC9BD">Черновиков нет — стол чист. ' +
+        'Самое полезное сейчас: привяжи бренд к каналу, чтобы публикации шли сами.</p>' +
+        '<p style="margin:10px 0 0"><a class="ns-btn plain" style="text-decoration:none;display:inline-block" href="/partner/channels">Открыть каналы</a></p></div>';
+    }
+    var list = rows.map(function (r) {
+      return '<div class="ns-row" data-post="' + r.id + '">' +
+        (r.brand ? '<span class="ns-bd">' + esc(r.brand) + '</span>' : '') +
+        '<span class="ns-t">' + esc(r.title || 'Без заголовка') + '</span>' +
+        '<button type="button" class="ns-btn" data-publish="' + r.id + '">Опубликовать</button>' +
+        '<a class="ns-btn plain" style="text-decoration:none" href="/app/posts">Открыть</a>' +
+      '</div>';
+    }).join('');
+    return '<div class="an-card"><h2>Ближайший шаг</h2><p class="cap">три свежих черновика · выпусти один — и ритм сдвинется</p>' +
+      list + '<p class="ns-say" id="nsSay"></p></div>';
+  }
+
   function partnerStrip(p) {
     if (!p) return '';
     return '<div class="an-partner">' +
@@ -415,12 +535,14 @@
         '<div class="an-col-left">' +
           '<div class="an-card"><h2>Публикации за 30 дней</h2><p class="cap">что вышло в люди</p>' + bigChart(d.daily) + '</div>' +
           '<div class="an-card"><h2>Последние 7 дней</h2><p class="cap">по дням · и как было неделю назад</p>' + bars7(d.daily) + '</div>' +
+          nextStep(d) +
         '</div>' +
         '<div class="an-cols-right">' +
           '<div class="an-card"><h2>По брендам</h2><p class="cap">у кого что выходит</p>' + donut(d.brands, d.totals.published) + '</div>' +
           '<div class="an-card"><h2>Стол и улица</h2><p class="cap">что вышло, что ещё в столе</p>' + deskStreet(d.totals) + '</div>' +
           '<div class="an-card"><h2>Ритм и план</h2><p class="cap">последние 7 дней · норма 3 публикации</p>' +
             '<div class="an-pair">' + gauge(d.counts.last7) + ring(Math.min(3, d.counts.last7), 3) + '</div>' +
+            '<h3 class="fc-title">Что это значит</h3>' + forecast(d.daily) +
           '</div>' +
         '</div>' +
       '</div>' +
@@ -445,6 +567,37 @@
           '<td style="color:' + (b.channels ? '#8ED08A' : '#8A857C') + '">' + b.channels + '</td></tr>';
       }).join('') + '</table>';
   }
+
+/* публикация прямо из аналитики */
+  function wirePublish() {
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-publish]');
+      if (!b) return;
+      var id = b.getAttribute('data-publish');
+      var row = b.closest('.ns-row');
+      var title = row ? (row.querySelector('.ns-t') || {}).textContent : 'этот пост';
+      if (!confirm('Опубликовать «' + String(title).slice(0, 60) + '» в канал?')) return;
+      b.disabled = true;
+      b.textContent = 'Публикую…';
+      fetch('/api/posts/' + id + '/publish', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: '{}' })
+        .then(function (r) { return r.json().then(function (j) { return { s: r.status, j: j }; }); })
+        .then(function (res) {
+          var say = document.getElementById('nsSay');
+          if (res.s === 200) {
+            if (row) row.style.opacity = '.45';
+            b.textContent = 'Вышло ✓';
+            if (say) say.textContent = 'Опубликовано. Обнови страницу — цифры уже сдвинулись.';
+            setTimeout(function () { load(); }, 1200);
+          } else {
+            b.disabled = false; b.textContent = 'Опубликовать';
+            if (say) say.textContent = (res.j && res.j.error) || 'Не получилось опубликовать.';
+          }
+        })
+        .catch(function () { b.disabled = false; b.textContent = 'Опубликовать'; });
+    });
+  }
+
+  wirePublish();
 
   fetch('/api/analytics/deep', { credentials: 'same-origin' })
     .then(function (r) { return r.ok ? r.json() : null; })
