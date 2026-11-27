@@ -128,6 +128,15 @@
   .sk-block .sk-line.w1{width:34%;height:9px}
   .sk-block .sk-line.w2{width:60%}
   @media(prefers-reduced-motion:reduce){.sk::after{animation:none;opacity:.35}}
+
+  /* колонки заканчиваются на одной линии */
+  .an-grid{align-items:stretch}
+  .an-col-left, .an-cols-right{display:flex;flex-direction:column;gap:16px;height:100%;min-width:0}
+  .an-col-left > .an-card:last-child,
+  .an-cols-right > .an-card:last-child{flex:1 1 auto;display:flex;flex-direction:column}
+  .an-col-left > .an-card:last-child .ns-say{margin-top:auto}
+  .an-cols-right > .an-card:last-child .fc-grid{margin-top:auto}
+  .an-note{margin:10px 0 0;font-size:10.5px;color:#6F6A61;line-height:1.4}
   .an-empty{padding:26px;text-align:center;color:var(--an-mut);font-size:13px}
   @media (max-width:1080px){ .an-tiles{grid-template-columns:repeat(3,1fr)} .an-grid{grid-template-columns:1fr} .an-ins{grid-template-columns:1fr} }
   @media (max-width:640px){ .an-tiles{grid-template-columns:repeat(2,1fr)} }
